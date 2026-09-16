@@ -361,7 +361,7 @@
   }
 
   /* ---------- Notebook grid backdrop ---------- */
-  body, #sobre-mi, #investigacion, #cursos, #blog{
+  body, #sobre-mi, #investigacion, #cursos, #blog, #solving-problems{
     background-image: radial-gradient(circle, var(--rule) 1px, transparent 1px);
     background-size: 24px 24px;
   }
@@ -371,7 +371,7 @@
   .section-head-row .section-head{ margin-bottom:0; flex:1 1 380px; }
   .figure{ flex:0 0 250px; max-width:250px; }
   .figure svg{ width:100%; height:auto; display:block; }
-  .figure svg path{ fill:none; stroke:var(--accent-3); stroke-width:1; opacity:0.85; }
+  .figure svg path, .figure svg circle{ fill:none; stroke:var(--accent-3); stroke-width:1; opacity:0.85; }
   .figure figcaption{
     font-family:'IBM Plex Mono',monospace; font-size:0.68rem; color:var(--subtext);
     text-align:center; margin-top:8px; letter-spacing:0.02em;
@@ -427,6 +427,28 @@
     color:var(--subtext); display:block; margin-top:3px; text-align:inherit;
   }
   .formula .katex, .formula-display .katex{ font-size:1.08em; color:inherit; }
+
+  /* ---------- Solving Problems ---------- */
+  .sp-personal{
+    margin-top:12px; font-family:'Fraunces', serif; font-style:italic;
+    color:var(--subtext); font-size:0.98rem;
+  }
+  .sp-stats{ display:flex; gap:18px; flex-wrap:wrap; margin:34px 0 30px; }
+  .sp-stat{
+    flex:1 1 220px; border:1px solid var(--rule); border-radius:6px;
+    padding:20px 22px; background:var(--card);
+  }
+  .sp-stat-amount{ font-family:'Fraunces', serif; font-weight:700; font-size:1.8rem; color:var(--accent); }
+  .sp-stat-label{
+    font-family:'IBM Plex Mono',monospace; font-size:0.7rem; letter-spacing:0.03em;
+    color:var(--subtext); margin-top:5px; text-transform:uppercase;
+  }
+  .sp-judges{ margin:6px 0 32px; padding-top:20px; border-top:1px solid var(--rule); }
+  .sp-judges-label{
+    font-family:'IBM Plex Mono',monospace; font-size:0.7rem; letter-spacing:0.04em;
+    text-transform:uppercase; color:var(--subtext); margin-bottom:9px;
+  }
+  .sp-judges-list{ font-size:0.94rem; color:var(--ink-soft); line-height:1.75; }
   .mini-icon{ display:inline-flex; vertical-align:-6px; margin-right:6px; flex-shrink:0; }
   .def-row dt{ display:flex; align-items:center; }
   .post-card .formula{ font-size:0.9rem; margin-top:6px; }
@@ -481,6 +503,7 @@
       <a class="navlink" href="#sobre-mi" data-i18n="nav.about">Sobre mí</a>
       <a class="navlink" href="#cursos" data-i18n="nav.courses">Cursos</a>
       <a class="navlink" href="#investigacion" data-i18n="nav.research">Investigación</a>
+      <a class="navlink" href="#solving-problems">Solving Problems</a>
       <a class="navlink" href="#blog">Blog</a>
       <a class="navlink" href="#contacto" data-i18n="nav.contact">Contacto</a>
       <div class="lang-switch" role="group" aria-label="Idioma / Language">
@@ -949,6 +972,48 @@
     </div>
   </section>
 
+  <!-- ================= SOLVING PROBLEMS ================= -->
+  <section id="solving-problems">
+    <div class="wrap">
+      <div class="section-head-row">
+        <div class="section-head">
+          <div class="eyebrow" data-i18n="sp.eyebrow">Iniciativa estudiantil</div>
+          <h2>Solving Problems en la UdeA</h2>
+          <p data-i18n="sp.intro">Una iniciativa para que los estudiantes de pregrado y posgrado empiecen a acercarse al mundo de la investigación en matemáticas resolviendo problemas propuestos en revistas académicas de alto impacto — con la posibilidad de aplicar al Premio de Investigación Gilberto García Pulgarín, inspirado por los profesores egresados de la Universidad de Antioquia Dr. Rigoberto Flórez, Dr. Leandro Junes y Dr. Fernando Guzmán.</p>
+          <p class="sp-personal" data-i18n="sp.personal">Yo empecé exactamente así — resolviendo problemas publicados en revistas como las que ves en la sección de Investigación.</p>
+        </div>
+        <figure class="figure">
+          <svg viewBox="0 0 320 260" aria-hidden="true">
+            <circle cx="160" cy="100" r="58"></circle>
+            <circle cx="160" cy="100" r="44"></circle>
+            <path d="M 160.0,66.0 167.6,89.5 192.3,89.5 172.4,104.0 180.0,127.5 160.0,113.0 140.0,127.5 147.6,104.0 127.7,89.5 152.4,89.5 Z"></path>
+            <path d="M 138,150 L 118,232 L 132,232 L 148,150 Z"></path>
+            <path d="M 182,150 L 202,232 L 188,232 L 172,150 Z"></path>
+          </svg>
+          <figcaption data-i18n="sp.fig">Premio Gilberto García Pulgarín — investigación temprana en matemáticas</figcaption>
+        </figure>
+      </div>
+
+      <div class="sp-stats">
+        <div class="sp-stat">
+          <div class="sp-stat-amount">USD 500</div>
+          <div class="sp-stat-label" data-i18n="sp.stat1">Publicación de artículo</div>
+        </div>
+        <div class="sp-stat">
+          <div class="sp-stat-amount">USD 100</div>
+          <div class="sp-stat-label" data-i18n="sp.stat2">Solución de problemas</div>
+        </div>
+      </div>
+
+      <div class="sp-judges">
+        <div class="sp-judges-label" data-i18n="sp.judgeslabel">Jurado del premio</div>
+        <div class="sp-judges-list">Dr. Rigoberto Flórez (The Citadel) · Dr. Fernando Guzmán (Binghamton University) · Dr. Leandro Junes (PennWest California) · Dr. Robinson Higuita (Universidad de Antioquia)</div>
+      </div>
+
+      <a class="btn btn-solid" href="https://www.rigoflorez.com/mathawards" target="_blank" rel="noopener" data-i18n="sp.cta">Ver más detalles →</a>
+    </div>
+  </section>
+
   <!-- ================= BLOG ================= -->
   <section id="blog">
     <div class="wrap">
@@ -1217,7 +1282,7 @@
     if (!window.IntersectionObserver) return;
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    var selector = '.section-head, .figure, .id-card, .about-sub, .course-row, .post-card, .tl-item';
+    var selector = '.section-head, .figure, .id-card, .about-sub, .course-row, .post-card, .tl-item, .sp-stat, .sp-judges';
     var targets = Array.prototype.slice.call(document.querySelectorAll(selector));
     if (!targets.length) return;
 
@@ -1398,6 +1463,15 @@
   "research.talks.h3": "Talks and presentations",
   "research.talk2.venue": "Mathematics Seminar, Institute of Mathematics, Universidad de Antioquia",
   "research.talk3.venue": "Fifth Meeting on Algebra and Topology, Universidad de Antioquia",
+
+  "sp.eyebrow": "Student initiative",
+  "sp.intro": "An initiative for undergraduate and graduate students to take their first steps into mathematical research by solving problems proposed in high-impact academic journals — with the chance to apply for the Gilberto García Pulgarín Research Award, inspired by Universidad de Antioquia alumni professors Dr. Rigoberto Flórez, Dr. Leandro Junes, and Dr. Fernando Guzmán.",
+  "sp.personal": "I started exactly that way — solving problems published in journals like the ones you see in the Research section.",
+  "sp.fig": "Gilberto García Pulgarín Award — early research in mathematics",
+  "sp.stat1": "Article publication",
+  "sp.stat2": "Problem solutions",
+  "sp.judgeslabel": "Award judges",
+  "sp.cta": "See full details →",
   "blog.h2": "Notes and updates",
   "blog.note": "Short notes on whatever I'm teaching, researching, or simply turning over in my head this season.",
   "blog.tag1": "Teaching",
