@@ -1,8 +1,8 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Santiago Alzate</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500&family=Literata:ital,opsz,wght@0,18..144,400;0,18..144,500;0,18..144,600;1,18..144,400&family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
@@ -423,9 +423,14 @@
     font-family:'IBM Plex Mono', monospace; font-size:0.68rem; letter-spacing:0.06em;
     border:none; background:transparent; color:var(--subtext); cursor:pointer;
     padding:5px 11px; border-radius:16px; line-height:1; transition:background .15s ease, color .15s ease;
+    display:inline-flex; align-items:center; gap:6px;
   }
   .lang-btn:hover{ color:var(--ink); }
   .lang-btn[aria-pressed="true"]{ background:var(--accent); color:#fff9ef; }
+  .flag-icon{
+    width:16px; height:11px; flex-shrink:0; display:block; border-radius:2px;
+    box-shadow:0 0 0 1px rgba(0,0,0,0.12) inset;
+  }
   @media (max-width:760px){
     .lang-switch{ margin:6px 0 2px; align-self:flex-start; }
   }
@@ -454,8 +459,33 @@
       <a class="navlink" href="#blog">Blog</a>
       <a class="navlink" href="#contacto" data-i18n="nav.contact">Contacto</a>
       <div class="lang-switch" role="group" aria-label="Idioma / Language">
-        <button type="button" class="lang-btn" data-lang-btn="es" aria-pressed="true">ES</button>
-        <button type="button" class="lang-btn" data-lang-btn="en" aria-pressed="false">EN</button>
+        <button type="button" class="lang-btn" data-lang-btn="es" aria-pressed="true">
+          <svg class="flag-icon" viewBox="0 0 20 14" aria-hidden="true">
+            <defs><clipPath id="flagClipCO"><rect width="20" height="14" rx="2"/></clipPath></defs>
+            <g clip-path="url(#flagClipCO)">
+              <rect width="20" height="7" y="0" fill="#FCD116"/>
+              <rect width="20" height="3.5" y="7" fill="#003893"/>
+              <rect width="20" height="3.5" y="10.5" fill="#CE1126"/>
+            </g>
+          </svg>
+          ES
+        </button>
+        <button type="button" class="lang-btn" data-lang-btn="en" aria-pressed="false">
+          <svg class="flag-icon" viewBox="0 0 20 14" aria-hidden="true">
+            <defs><clipPath id="flagClipUS"><rect width="20" height="14" rx="2"/></clipPath></defs>
+            <g clip-path="url(#flagClipUS)">
+              <rect width="20" height="14" fill="#B22234"/>
+              <rect y="1.077" width="20" height="1.077" fill="#fff"/>
+              <rect y="3.231" width="20" height="1.077" fill="#fff"/>
+              <rect y="5.385" width="20" height="1.077" fill="#fff"/>
+              <rect y="7.538" width="20" height="1.077" fill="#fff"/>
+              <rect y="9.692" width="20" height="1.077" fill="#fff"/>
+              <rect y="11.846" width="20" height="1.077" fill="#fff"/>
+              <rect width="8" height="7.538" fill="#3C3B6E"/>
+            </g>
+          </svg>
+          EN
+        </button>
       </div>
     </nav>
   </div>
