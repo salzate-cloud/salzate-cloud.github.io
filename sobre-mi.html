@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sobre mí — Santiago Alzate</title>
+<meta name="description" content="Santiago Alzate — matemático y profesor de matemáticas.">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<header class="site-nav">
+  <input type="checkbox" id="nav-toggle">
+  <div class="nav-row">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">SA</span>
+      Santiago Alzate
+    </a>
+    <label class="burger" for="nav-toggle" aria-label="Abrir menú"><span></span></label>
+    <nav class="links">
+      <a class="navlink" href="index.html" data-i18n="nav.home">Inicio</a>
+      <a class="navlink" href="sobre-mi.html" data-i18n="nav.about">Sobre mí</a>
+      <a class="navlink" href="cursos.html" data-i18n="nav.courses">Cursos</a>
+      <a class="navlink" href="investigacion.html" data-i18n="nav.research">Investigación</a>
+      <a class="navlink" href="solving-problems.html" data-i18n="nav.sp">Solving Problems</a>
+      <a class="navlink" href="blog.html" data-i18n="nav.blog">Blog</a>
+      <a class="navlink" href="cv.html" data-i18n="nav.cv">CV</a>
+      <a class="navlink" href="contacto.html" data-i18n="nav.contact">Contacto</a>
+      <div class="lang-switch" role="group" aria-label="Idioma / Language">
+        <button type="button" class="lang-btn" data-lang-btn="es" aria-pressed="true">
+          <svg class="flag-icon" viewBox="0 0 20 14" aria-hidden="true">
+            <defs><clipPath id="flagClipCO"><rect width="20" height="14" rx="2"/></clipPath></defs>
+            <g clip-path="url(#flagClipCO)">
+              <rect width="20" height="7" y="0" fill="#FCD116"/>
+              <rect width="20" height="3.5" y="7" fill="#003893"/>
+              <rect width="20" height="3.5" y="10.5" fill="#CE1126"/>
+            </g>
+          </svg>
+          ES
+        </button>
+        <button type="button" class="lang-btn" data-lang-btn="en" aria-pressed="false">
+          <svg class="flag-icon" viewBox="0 0 20 14" aria-hidden="true">
+            <defs><clipPath id="flagClipUS"><rect width="20" height="14" rx="2"/></clipPath></defs>
+            <g clip-path="url(#flagClipUS)">
+              <rect width="20" height="14" fill="#B22234"/>
+              <rect y="1.077" width="20" height="1.077" fill="#fff"/>
+              <rect y="3.231" width="20" height="1.077" fill="#fff"/>
+              <rect y="5.385" width="20" height="1.077" fill="#fff"/>
+              <rect y="7.538" width="20" height="1.077" fill="#fff"/>
+              <rect y="9.692" width="20" height="1.077" fill="#fff"/>
+              <rect y="11.846" width="20" height="1.077" fill="#fff"/>
+              <rect width="8" height="7.538" fill="#3C3B6E"/>
+            </g>
+          </svg>
+          EN
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+<main>
+<div class="page">
+  <div class="page-head">
+    <span class="eyebrow" data-i18n="about.eyebrow">Sobre mí</span>
+    <h1 data-i18n="about.h2">Matemático y profesor</h1>
+    <div class="rule-accent"></div>
+  </div>
+  <div class="wrap">
+    <div class="block body-text center" style="max-width:78ch;margin-inline:auto;">
+      <p data-i18n="about.bio1">Soy matemático colombiano. Me formé en la Universidad de Antioquia y luego en Binghamton University (Nueva York), donde pasé dos años detrás del teorema de Peter–Weyl y lo que tiene para decir sobre la estructura secreta de los grupos compactos. Desde 2023 reparto el tiempo entre el aula y la resolución de problemas — algunos de los cuales han terminado publicados en revistas como <i>Fibonacci Quarterly</i>, <i>The College Mathematics Journal</i> y <i>American Mathematical Monthly</i>.</p>
+      <p data-i18n="about.bio2">Hoy enseño cálculo, análisis, geometría y álgebra en la Universidad de Antioquia y en la Institución Universitaria de Envigado. Esta página es, un poco, mi cuaderno abierto: mis cursos, mis notas de clase tal como las llevo al tablero, y algunas ideas sueltas sobre las matemáticas que enseño e investigo.</p>
+    </div>
+
+    <div class="block">
+      <h2 class="section-title" data-i18n="about.areas.h3">Áreas de interés e investigación</h2>
+      <div class="def-list">
+        <div class="def-row">
+          <dt data-i18n="about.analysis.term">Análisis</dt>
+          <dd><span data-i18n="about.analysis.desc">Análisis real y complejo, teoría de la integración, análisis fraccionario.</span>
+            <span class="formula formula-display">$\forall\,\varepsilon>0\ \exists\,\delta>0 : |x-a|<\delta \Rightarrow |f(x)-f(a)|<\varepsilon$</span>
+            <span class="formula-cap" data-i18n="about.analysis.cap">continuidad, en el lenguaje de siempre</span>
+          </dd>
+        </div>
+        <div class="def-row">
+          <dt data-i18n="about.functional.term">Análisis funcional</dt>
+          <dd><span data-i18n="about.functional.desc">Teoría espectral y teoría de operadores.</span>
+            <span class="formula formula-display">$\exists\, F\in X^{*} : F|_{Y}=f,\ \|F\|=\|f\|$</span>
+            <span class="formula-cap" data-i18n="about.hahnbanach.cap">teorema de Hahn–Banach: toda f ∈ Y<sup>*</sup> se extiende a X sin aumentar su norma</span>
+          </dd>
+        </div>
+        <div class="def-row">
+          <dt data-i18n="about.topology.term">Álgebra y topología</dt>
+          <dd><span data-i18n="about.topology.desc">Teoría de categorías, análisis funtorial y álgebra no asociativa.</span>
+            <span class="formula">$\pi_1(S^1)\cong\mathbb{Z}$</span>
+            <span class="formula-cap" data-i18n="about.pi1.cap">el grupo fundamental de una circunferencia</span>
+          </dd>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2 class="section-title" data-i18n="about.edu.h3">Educación</h2>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="period">2024–2026</div>
+          <div>
+            <div class="what" data-i18n="about.edu1.what">Maestría (M.A.) en Matemáticas</div>
+            <div class="where" data-i18n="about.edu1.where">Binghamton University, Nueva York, EE. UU.</div>
+            <div class="desc" data-i18n="about.edu1.desc">Tesis: <i>The Peter–Weyl Theorem and Its Applications</i>.</div>
+            <span class="formula formula-display">$L^2(G)\cong\displaystyle\bigoplus_{\pi\in\hat G}(\dim\pi)\,V_\pi\otimes V_\pi^{*}$</span>
+            <span class="formula-cap" data-i18n="about.pw1.cap">descomposición de Peter–Weyl para un grupo compacto G</span>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="period">2017–2023</div>
+          <div>
+            <div class="what" data-i18n="about.edu2.what">Pregrado en Matemáticas</div>
+            <div class="where">Universidad de Antioquia, Medellín, Colombia</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2 class="section-title" data-i18n="about.awards.h3">Premios y becas</h2>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="period">2025</div>
+          <div><div class="what">Mian Scholarship in Mathematics</div><div class="where">Binghamton University</div><div class="desc" data-i18n="about.award1.desc">Distinción a estudiantes destacados en matemáticas durante el año académico.</div></div>
+        </div>
+        <div class="tl-item">
+          <div class="period">2022</div>
+          <div><div class="what">Premio Gilberto García Pulgarín</div><div class="where">Universidad de Antioquia</div><div class="desc" data-i18n="about.award2.desc">Por trabajo de investigación de pregrado, con el apoyo de los profesores Rigoberto Flórez, Fernando Guzmán y Leandro Junes.</div></div>
+        </div>
+        <div class="tl-item">
+          <div class="period">2019</div>
+          <div><div class="what">Premio Gilberto García Pulgarín</div><div class="where">Universidad de Antioquia</div><div class="desc" data-i18n="about.award3.desc">Por desempeño académico e investigativo sobresaliente.</div></div>
+        </div>
+        <div class="tl-item">
+          <div class="period">2017–2023</div>
+          <div><div class="what" data-i18n="about.award4.what">Becas por excelente desempeño académico</div><div class="where">Universidad de Antioquia</div><div class="desc" data-i18n="about.award4.desc">Otorgadas en cuatro semestres por obtener el promedio más alto.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2 class="section-title" data-i18n="about.tools.h3">Herramientas</h2>
+      <div class="chip-row" style="justify-content:center;">
+        <span class="chip" data-i18n="about.chip1">LaTeX — avanzado</span>
+        <span class="chip" data-i18n="about.chip2">Wolfram Mathematica — intermedio</span>
+        <span class="chip" data-i18n="about.chip3">Python — básico</span>
+        <span class="chip" data-i18n="about.chip4">MATLAB — básico</span>
+      </div>
+    </div>
+  </div>
+</div>
+</main>
+<footer class="site-foot">
+  <div class="foot-bottom">
+    <span>© 2026 Santiago Alzate</span>
+    <span data-i18n="footer.tagline">Hecho con LaTeX en el corazón, HTML en la página.</span>
+  </div>
+</footer>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>

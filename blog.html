@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Inicio — Santiago Alzate</title>
+<title>Blog — Santiago Alzate</title>
 <meta name="description" content="Santiago Alzate — matemático y profesor de matemáticas.">
 <link rel="stylesheet" href="assets/styles.css">
 </head>
@@ -58,40 +58,40 @@
   </div>
 </header>
 <main>
-<div class="page home-page">
-  <div class="wrap home-hero">
-    <div class="home-grid">
-      <div class="home-info">
-        <span class="eyebrow" data-i18n="home.eyebrow">Matemático · Profesor de Matemáticas</span>
-        <h1>Santiago Alzate</h1>
-        <div class="home-affil">
-          <div data-i18n="home.affil1">Instituto de Matemáticas, Universidad de Antioquia</div>
-          <div data-i18n="home.affil2">Institución Universitaria de Envigado</div>
-          <div>Medellín, Colombia</div>
-        </div>
-        <div class="home-links">
-          <div class="row"><dt data-i18n="about.email.label">Correo</dt><dd><a href="mailto:santiago.alzate9@udea.edu.co">santiago.alzate9@udea.edu.co</a></dd></div>
-          <div class="row"><dt data-i18n="about.email2.label">Correo alterno</dt><dd><a href="mailto:alzates.santiago@yahoo.com">alzates.santiago@yahoo.com</a></dd></div>
-          <div class="row"><dt>ORCID</dt><dd><a href="https://orcid.org/0000-0001-5976-1021" target="_blank" rel="noopener">0000-0001-5976-1021</a></dd></div>
-          <div class="row"><dt>ResearchGate</dt><dd><a href="https://www.researchgate.net/profile/Santiago-Alzate-5" target="_blank" rel="noopener">Santiago-Alzate-5</a></dd></div>
-          <div class="row"><dt data-i18n="about.langs.label">Idiomas</dt><dd data-i18n="about.langs.value">Español (nativo), inglés (avanzado)</dd></div>
-          <div class="row"><dt data-i18n="nav.cv">CV</dt><dd><a href="cv.html">Ver curriculum vitae</a></dd></div>
-        </div>
-        <blockquote class="home-quote">
-          <span data-i18n="home.quote">“La esencia de las matemáticas radica en su libertad.”</span>
-          <cite>— Georg Cantor (1845–1918)</cite>
-        </blockquote>
-      </div>
-      <div class="home-photo">
-        <div class="halo" aria-hidden="true"></div>
-        <img class="home-avatar" src="assets/avatar.jpg" alt="Foto de Santiago Alzate en el páramo">
-      </div>
-    </div>
+<div class="page">
+  <div class="page-head">
+    <span class="eyebrow">Blog</span>
+    <h1 data-i18n="blog.h2">Notas y actualizaciones</h1>
+    <div class="rule-accent"></div>
+    <p class="lead blog-note" data-i18n="blog.note">Apuntes cortos sobre lo que estoy enseñando, investigando o simplemente rumiando esta temporada.</p>
   </div>
-
-  <div class="wrap home-intro">
-    <h2 class="section-title" data-i18n="home.research.h2">Intereses de investigación</h2>
-    <p class="body-text center" data-i18n="home.research.p">Trabajo en análisis, álgebra y topología, y mantengo el hábito de resolver problemas propuestos en revistas de alto impacto — varios de los cuales han terminado en notas y artículos publicados. Entre la investigación y el aula, me interesa especialmente cómo se alimentan mutuamente.</p>
+  <div class="wrap">
+    <div class="post-grid">
+      <article class="post-card">
+        <span class="ptag" data-i18n="blog.tag1">Docencia</span>
+        <time datetime="2026-09-15" data-i18n="blog.date1">15 de septiembre, 2026</time>
+        <h3 data-i18n="blog.h3.1">Empezando el semestre 2026-2</h3>
+        <p data-i18n="blog.p1">Este semestre en la Universidad de Antioquia estoy dictando Análisis Numérico, Análisis II y Geometría Básica: tres cursos avanzados que exigen ritmos distintos. Aquí iré dejando comentarios sobre cómo va el semestre y qué material estoy usando en cada uno.</p>
+        <span class="formula formula-display">$x_{n+1}=x_n-\dfrac{f(x_n)}{f'(x_n)}$</span>
+        <span class="formula-cap" data-i18n="blog.newton.cap">el método de Newton, protagonista de Análisis Numérico</span>
+      </article>
+      <article class="post-card">
+        <span class="ptag" data-i18n="blog.tag2">Investigación</span>
+        <time datetime="2026-09-10" data-i18n="blog.date2">10 de septiembre, 2026</time>
+        <h3 data-i18n="blog.h3.2">El teorema de Peter–Weyl, revisitado</h3>
+        <p data-i18n="blog.p2">Mi tesis de maestría giró en torno a este resultado sobre representaciones de grupos compactos. Quiero usar este espacio para volver sobre esas ideas con calma, en un lenguaje más cercano al de mis estudiantes de pregrado.</p>
+        <span class="formula formula-display">$L^2(G)\cong\displaystyle\bigoplus_{\pi\in\hat G}(\dim\pi)\,V_\pi\otimes V_\pi^{*}$</span>
+        <span class="formula-cap" data-i18n="blog.pw2.cap">la descomposición que da título a mi tesis</span>
+      </article>
+      <article class="post-card">
+        <span class="ptag" data-i18n="blog.tag3">Problemas</span>
+        <time datetime="2026-09-03" data-i18n="blog.date3">3 de septiembre, 2026</time>
+        <h3 data-i18n="blog.h3.3">Un límite de radicales anidados</h3>
+        <p data-i18n="blog.p3">Sobre el problema 12063 publicado en el American Mathematical Monthly: un límite de radicales anidados con una solución más elegante de lo que parece a primera vista. Pronto escribiré la solución completa, paso a paso.</p>
+        <span class="formula formula-display">$x=\sqrt{a_1+\sqrt{a_2+\sqrt{a_3+\cdots}}}$</span>
+        <span class="formula-cap" data-i18n="blog.radical2.cap">la forma típica de un radical anidado</span>
+      </article>
+    </div>
   </div>
 </div>
 </main>
@@ -102,6 +102,9 @@
   </div>
 </footer>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 <script src="assets/site.js"></script>
 </body>
 </html>

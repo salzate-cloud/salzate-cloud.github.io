@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cursos — Santiago Alzate</title>
+<meta name="description" content="Santiago Alzate — matemático y profesor de matemáticas.">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<header class="site-nav">
+  <input type="checkbox" id="nav-toggle">
+  <div class="nav-row">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">SA</span>
+      Santiago Alzate
+    </a>
+    <label class="burger" for="nav-toggle" aria-label="Abrir menú"><span></span></label>
+    <nav class="links">
+      <a class="navlink" href="index.html" data-i18n="nav.home">Inicio</a>
+      <a class="navlink" href="sobre-mi.html" data-i18n="nav.about">Sobre mí</a>
+      <a class="navlink" href="cursos.html" data-i18n="nav.courses">Cursos</a>
+      <a class="navlink" href="investigacion.html" data-i18n="nav.research">Investigación</a>
+      <a class="navlink" href="solving-problems.html" data-i18n="nav.sp">Solving Problems</a>
+      <a class="navlink" href="blog.html" data-i18n="nav.blog">Blog</a>
+      <a class="navlink" href="cv.html" data-i18n="nav.cv">CV</a>
+      <a class="navlink" href="contacto.html" data-i18n="nav.contact">Contacto</a>
+      <div class="lang-switch" role="group" aria-label="Idioma / Language">
+        <button type="button" class="lang-btn" data-lang-btn="es" aria-pressed="true">
+          <svg class="flag-icon" viewBox="0 0 20 14" aria-hidden="true">
+            <defs><clipPath id="flagClipCO"><rect width="20" height="14" rx="2"/></clipPath></defs>
+            <g clip-path="url(#flagClipCO)">
+              <rect width="20" height="7" y="0" fill="#FCD116"/>
+              <rect width="20" height="3.5" y="7" fill="#003893"/>
+              <rect width="20" height="3.5" y="10.5" fill="#CE1126"/>
+            </g>
+          </svg>
+          ES
+        </button>
+        <button type="button" class="lang-btn" data-lang-btn="en" aria-pressed="false">
+          <svg class="flag-icon" viewBox="0 0 20 14" aria-hidden="true">
+            <defs><clipPath id="flagClipUS"><rect width="20" height="14" rx="2"/></clipPath></defs>
+            <g clip-path="url(#flagClipUS)">
+              <rect width="20" height="14" fill="#B22234"/>
+              <rect y="1.077" width="20" height="1.077" fill="#fff"/>
+              <rect y="3.231" width="20" height="1.077" fill="#fff"/>
+              <rect y="5.385" width="20" height="1.077" fill="#fff"/>
+              <rect y="7.538" width="20" height="1.077" fill="#fff"/>
+              <rect y="9.692" width="20" height="1.077" fill="#fff"/>
+              <rect y="11.846" width="20" height="1.077" fill="#fff"/>
+              <rect width="8" height="7.538" fill="#3C3B6E"/>
+            </g>
+          </svg>
+          EN
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+<main>
+<div class="page">
+  <div class="page-head">
+    <span class="eyebrow" data-i18n="courses.eyebrow">Docencia</span>
+    <h1 data-i18n="courses.h2">Cursos y notas de clase</h1>
+    <div class="rule-accent"></div>
+    <p class="lead" data-i18n="courses.intro">Los cursos que dicto ahora y los que he dictado hace poco — con las notas de clase reales de cada uno, tal como las uso en el salón, no una versión pulida después de los hechos.</p>
+  </div>
+  <div class="wrap">
+    <div class="course-grid">
+      <div class="course-card">
+        <div>
+          <div class="inst">Institución Universitaria de Envigado</div>
+          <div class="place">Envigado, Colombia</div>
+        </div>
+        <span class="period-badge" data-i18n="courses.iue.badge">2026 — presente · Instructor</span>
+        <div class="course-list">
+          <div class="course-row">
+            <div class="cname" data-i18n="courses.calc1">Cálculo I</div>
+            <span class="notes-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg><span data-i18n="courses.notes1">Notas próximamente</span></span>
+          </div>
+          <div class="course-row">
+            <div class="cname" data-i18n="courses.discrete">Matemáticas Discretas</div>
+            <span class="notes-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg><span data-i18n="courses.notes2">Notas próximamente</span></span>
+          </div>
+          <div class="course-row">
+            <div class="cname" data-i18n="courses.logic">Razonamiento Lógico</div>
+            <span class="notes-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg><span data-i18n="courses.notes3">Notas próximamente</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card">
+        <div>
+          <div class="inst">Universidad de Antioquia</div>
+          <div class="place">Instituto de Matemáticas, Medellín</div>
+        </div>
+        <span class="period-badge" data-i18n="courses.udea.badge">2023 — presente · Docente de cátedra</span>
+        <div class="course-list">
+          <div class="course-row">
+            <div class="cname" data-i18n="courses.numerical">Análisis Numérico</div>
+            <div class="cwhen" data-i18n="courses.current1">Semestre actual (2026-2)</div>
+            <div class="notes-links">
+        <a href="notas/analisis-numerico-clase-1.pdf" target="_blank" rel="noopener" title="Repaso de Análisis I: continuidad, diferenciabilidad, teorema de Rolle y del valor medio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.clase1">Clase 1</span></a>
+        <a href="notas/analisis-numerico-clase-2.pdf" target="_blank" rel="noopener" title="Principio de contracción de Banach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.clase2">Clase 2</span></a>
+        <a href="notas/analisis-numerico-clase-3.pdf" target="_blank" rel="noopener" title="Interpolación de Hermite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.clase3">Clase 3</span></a>
+        <a href="notas/analisis-numerico-clase-4.pdf" target="_blank" rel="noopener" title="Teorema del punto fijo e iteración de punto fijo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.clase4">Clase 4</span></a>
+        <a href="notas/analisis-numerico-clase-5.pdf" target="_blank" rel="noopener" title="Métodos directos para sistemas de ecuaciones lineales"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.clase5">Clase 5</span></a>
+      </div>
+          </div>
+          <div class="course-row">
+            <div class="cname" data-i18n="courses.analysis2">Análisis II</div>
+            <div class="cwhen" data-i18n="courses.current2">Semestre actual (2026-2)</div>
+            <span class="notes-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg>Notas próximamente</span>
+          </div>
+          <div class="course-row">
+            <div class="cname" data-i18n="courses.geometry">Geometría Básica</div>
+            <div class="cwhen" data-i18n="courses.current3">Semestre actual (2026-2)</div>
+            <span class="notes-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg>Notas próximamente</span>
+          </div>
+          <div class="course-row">
+            <div class="cname" data-i18n="courses.calc-combo">Cálculo Diferencial · Integral · Multivariado</div>
+            <div class="cnote" data-i18n="courses.cnote1">Geometría Vectorial y Álgebra Lineal — dictados en semestres anteriores.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card">
+        <div>
+          <div class="inst">Binghamton University</div>
+          <div class="place">Nueva York, EE. UU.</div>
+        </div>
+        <span class="period-badge">2024 — 2026 · Teaching Assistant</span>
+        <div class="course-list">
+          <div class="course-row">
+            <div class="cname" data-i18n="courses.math226">Math 226 · Técnicas de Integración y Ecuaciones Paramétricas</div>
+            <div class="cwhen" data-i18n="courses.spring2026">Primavera 2026</div>
+            <div class="notes-links">
+        <a href="notas/math226-clase-01.pdf" target="_blank" rel="noopener" title="Funciones inversas y sus derivadas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase1">Clase 1</span></a>
+        <a href="notas/math226-clase-02.pdf" target="_blank" rel="noopener" title="Derivada de la función inversa en un punto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase2">Clase 2</span></a>
+        <a href="notas/math226-clase-03.pdf" target="_blank" rel="noopener" title="La función exponencial natural: propiedades y límites"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase3">Clase 3</span></a>
+        <a href="notas/math226-clase-04.pdf" target="_blank" rel="noopener" title="Derivada de la función logaritmo natural"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase4">Clase 4</span></a>
+        <a href="notas/math226-clase-05.pdf" target="_blank" rel="noopener" title="Funciones exponenciales y logarítmicas de base b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase5">Clase 5</span></a>
+        <a href="notas/math226-clase-06.pdf" target="_blank" rel="noopener" title="Crecimiento y decrecimiento exponencial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase6">Clase 6</span></a>
+        <a href="notas/math226-clase-07.pdf" target="_blank" rel="noopener" title="La función coseno inverso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase7">Clase 7</span></a>
+        <a href="notas/math226-clase-08.pdf" target="_blank" rel="noopener" title="Identidad arctan(x) + arccot(x) = π/2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase8">Clase 8</span></a>
+        <a href="notas/math226-clase-09.pdf" target="_blank" rel="noopener" title="Formas indeterminadas: productos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase9">Clase 9</span></a>
+        <a href="notas/math226-clase-10.pdf" target="_blank" rel="noopener" title="Integración por partes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase10">Clase 10</span></a>
+        <a href="notas/math226-clase-11.pdf" target="_blank" rel="noopener" title="Integrales trigonométricas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase11">Clase 11</span></a>
+        <a href="notas/math226-clase-12.pdf" target="_blank" rel="noopener" title="Sustitución trigonométrica"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase12">Clase 12</span></a>
+        <a href="notas/math226-clase-13.pdf" target="_blank" rel="noopener" title="Fracciones parciales para funciones racionales"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase13">Clase 13</span></a>
+        <a href="notas/math226-clase-15.pdf" target="_blank" rel="noopener" title="Integración por sustitución racionalizante"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase15">Clase 15</span></a>
+        <a href="notas/math226-clase-16.pdf" target="_blank" rel="noopener" title="Criterio de comparación para integrales impropias"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase16">Clase 16</span></a>
+        <a href="notas/math226-clase-17.pdf" target="_blank" rel="noopener" title="Ecuaciones paramétricas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase17">Clase 17</span></a>
+        <a href="notas/math226-clase-18.pdf" target="_blank" rel="noopener" title="Curvas paramétricas: rectas tangentes a la cicloide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase18">Clase 18</span></a>
+      </div>
+          </div>
+          <div class="course-row">
+            <div class="cname" data-i18n="courses.math227">Math 227 · Coordenadas Polares, Sucesiones y Series</div>
+            <div class="cwhen" data-i18n="courses.spring2026b">Primavera 2026</div>
+            <div class="notes-links">
+        <a href="notas/math227-clase-01.pdf" target="_blank" rel="noopener" title="Coordenadas polares y curvas paramétricas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase1">Clase 1</span></a>
+        <a href="notas/math227-clase-02.pdf" target="_blank" rel="noopener" title="Área en coordenadas polares"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase2">Clase 2</span></a>
+        <a href="notas/math227-clase-03.pdf" target="_blank" rel="noopener" title="Longitud de arco en coordenadas polares"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase3">Clase 3</span></a>
+        <a href="notas/math227-clase-04.pdf" target="_blank" rel="noopener" title="Sucesiones: definición"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase4">Clase 4</span></a>
+        <a href="notas/math227-clase-05.pdf" target="_blank" rel="noopener" title="Convergencia de sucesiones"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase5">Clase 5</span></a>
+        <a href="notas/math227-clase-08.pdf" target="_blank" rel="noopener" title="Criterio de la integral para series"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase8">Clase 8</span></a>
+        <a href="notas/math227-clase-09.pdf" target="_blank" rel="noopener" title="Estimación de la suma de una serie"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase9">Clase 9</span></a>
+        <a href="notas/math227-clase-10.pdf" target="_blank" rel="noopener" title="Series alternantes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase10">Clase 10</span></a>
+        <a href="notas/math227-clase-11.pdf" target="_blank" rel="noopener" title="Criterio de la razón y de la raíz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase11">Clase 11</span></a>
+        <a href="notas/math227-clase-13.pdf" target="_blank" rel="noopener" title="Series de potencias: representación de funciones"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase13">Clase 13</span></a>
+        <a href="notas/math227-clase-14.pdf" target="_blank" rel="noopener" title="Series de potencias: la función de Bessel de orden 0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase14">Clase 14</span></a>
+        <a href="notas/math227-clase-16.pdf" target="_blank" rel="noopener" title="Series de Taylor: modelos clásicos de Maclaurin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase16">Clase 16</span></a>
+        <a href="notas/math227-clase-17.pdf" target="_blank" rel="noopener" title="Aplicaciones de los polinomios de Taylor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase17">Clase 17</span></a>
+      </div>
+          </div>
+          <div class="course-row">
+            <div class="cname" data-i18n="courses.math224">Math 224–225 · Cálculo Diferencial e Integral</div>
+            <div class="cwhen" data-i18n="courses.terms1">Otoño 2025 · Invierno 2026 · Verano 2026 (en línea)</div>
+            <div class="notes-links">
+        <a href="notas/math225-clase-01.pdf" target="_blank" rel="noopener" title="Repaso de Cálculo I: puntos críticos, criterio de la primera derivada, máximos/mínimos locales y puntos de inflexión"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase1">Clase 1</span></a>
+        <a href="notas/math225-clase-02.pdf" target="_blank" rel="noopener" title="Problemas de optimización usando los criterios de la primera y segunda derivada"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase2">Clase 2</span></a>
+        <a href="notas/math225-clase-03.pdf" target="_blank" rel="noopener" title="Optimización aplicada: el punto de la parábola más cercano a un punto dado"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase3">Clase 3</span></a>
+        <a href="notas/math225-clase-04.pdf" target="_blank" rel="noopener" title="Teorema de Rolle y teorema del valor medio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase4">Clase 4</span></a>
+        <a href="notas/math225-clase-05.pdf" target="_blank" rel="noopener" title="Antiderivadas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase5">Clase 5</span></a>
+        <a href="notas/math225-clase-06.pdf" target="_blank" rel="noopener" title="Sumas de Riemann y aproximación del área bajo una curva"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase6">Clase 6</span></a>
+        <a href="notas/math225-clase-07.pdf" target="_blank" rel="noopener" title="La integral definida como límite de sumas de Riemann"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase7">Clase 7</span></a>
+        <a href="notas/math225-clase-08.pdf" target="_blank" rel="noopener" title="Teorema del cambio neto y segunda parte del teorema fundamental del cálculo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase8">Clase 8</span></a>
+        <a href="notas/math225-clase-09.pdf" target="_blank" rel="noopener" title="Derivación de integrales con límites variables (regla de Leibniz)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase9">Clase 9</span></a>
+        <a href="notas/math225-clase-10.pdf" target="_blank" rel="noopener" title="Regla de sustitución para integrales"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase10">Clase 10</span></a>
+        <a href="notas/math225-clase-11.pdf" target="_blank" rel="noopener" title="Áreas entre curvas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase11">Clase 11</span></a>
+        <a href="notas/math225-clase-12.pdf" target="_blank" rel="noopener" title="Problema de áreas entre curvas: integrando respecto a x y respecto a y"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase12">Clase 12</span></a>
+        <a href="notas/math225-clase-13.pdf" target="_blank" rel="noopener" title="Volúmenes por secciones transversales"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase13">Clase 13</span></a>
+        <a href="notas/math225-clase-14.pdf" target="_blank" rel="noopener" title="Volúmenes por el método de capas (rotación alrededor del eje y)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase14">Clase 14</span></a>
+        <a href="notas/math225-clase-15.pdf" target="_blank" rel="noopener" title="Valor promedio de una función"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase15">Clase 15</span></a>
+      </div>
+          </div>
+          <div class="course-row">
+            <div class="cname" data-i18n="courses.math147">Math 147 · Estadística Elemental</div>
+            <div class="cwhen" data-i18n="courses.terms2">Otoño 2024 · Primavera 2025 · Verano 2025 (en línea)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</main>
+<footer class="site-foot">
+  <div class="foot-bottom">
+    <span>© 2026 Santiago Alzate</span>
+    <span data-i18n="footer.tagline">Hecho con LaTeX en el corazón, HTML en la página.</span>
+  </div>
+</footer>
+
+<script src="assets/site.js"></script>
+</body>
+</html>
