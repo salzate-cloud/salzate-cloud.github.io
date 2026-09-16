@@ -108,6 +108,7 @@
     "courses.notes.math227.clase11": "Class 11", "courses.notes.math227.clase13": "Class 13",
     "courses.notes.math227.clase14": "Class 14", "courses.notes.math227.clase16": "Class 16",
     "courses.notes.math227.clase17": "Class 17",
+    "courses.notes.geo.u1": "Unit 1 summary (Midterm 1)",
 
     "research.eyebrow": "Research",
     "research.h2": "Publications and research",
