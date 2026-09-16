@@ -396,6 +396,14 @@
     font-family:'IBM Plex Mono',monospace; font-size:0.68rem; color:var(--subtext);
     text-align:center; margin-top:8px; letter-spacing:0.02em;
   }
+  .figure-canvas{
+    width:100%; height:auto; display:block; border-radius:4px;
+    background:var(--card); box-shadow:0 0 0 1px var(--rule) inset;
+  }
+  #domain-coloring{ background:conic-gradient(from 0deg, #bd4a2b, #c98f22, #3f7e73, #bd4a2b); }
+  .research-block-figure{ display:flex; gap:30px; align-items:flex-start; flex-wrap:wrap; }
+  .research-block-figure > div:first-child{ flex:1 1 380px; }
+  .figure-sm{ flex:0 0 150px; max-width:150px; }
   @media (max-width:760px){ .figure{ display:none; } }
 
   #sobre-mi .bg-contours{
@@ -598,31 +606,8 @@
           <h2 data-i18n="about.h2">Matemático y profesor</h2>
         </div>
         <figure class="figure">
-          <canvas id="fig3d-mobius" class="figure-3d" aria-hidden="true" title="Banda de Möbius interactiva — arrastra para rotar"></canvas>
-          <svg viewBox="0 0 320 260" aria-hidden="true">
-            <path d="M 215.0 130.0 L 214.9 131.7 L 214.6 133.4 L 214.0 135.1 L 213.2 136.7 L 212.3 138.4 L 211.0 140.0 L 209.6 141.6 L 208.0 143.2 L 206.1 144.7 L 204.0 146.2 L 201.7 147.7 L 199.1 149.0 L 196.4 150.4 L 193.4 151.6 L 190.2 152.8 L 186.8 153.9 L 183.2 154.9 L 179.4 155.8 L 175.4 156.6 L 171.2 157.2 L 166.8 157.7 L 162.3 158.1 L 157.7 158.4 L 152.9 158.5 L 148.0 158.4 L 143.0 158.2 L 137.9 157.8 L 132.8 157.2 L 127.6 156.4 L 122.5 155.5 L 117.4 154.3 L 112.3 153.0 L 107.3 151.4 L 102.4 149.6 L 97.7 147.7 L 93.1 145.5 L 88.8 143.2 L 84.7 140.6 L 80.8 137.9 L 77.3 135.0 L 74.0 132.0 L 71.2 128.8 L 68.7 125.4 L 66.6 121.9 L 65.0 118.4 L 63.8 114.7 L 63.2 110.9 L 63.0 107.1 L 63.3 103.3 L 64.2 99.4 L 65.6 95.6 L 67.6 91.8 L 70.1 88.1 L 73.1 84.4 L 76.7 80.8 L 80.9 77.4 L 85.5 74.1 L 90.7 71.0 L 96.4 68.1 L 102.5 65.4 L 109.1 63.0 L 116.0 60.8 L 123.4 58.9 L 131.1 57.3 L 139.0 56.0 L 147.3 55.1 L 155.7 54.4 L 164.3 54.2 L 173.0 54.3 L 181.8 54.8 L 190.6 55.6 L 199.4 56.8 L 208.0 58.4 L 216.5 60.4 L 224.8 62.7 L 232.9 65.4 L 240.6 68.4 L 248.0 71.8 L 255.0 75.4 L 261.6 79.4 L 267.6 83.6 L 273.2 88.1 L 278.1 92.8 L 282.5 97.7 L 286.3 102.8 L 289.4 108.1 L 291.8 113.4 L 293.6 118.9 L 294.6 124.4 L 295.0 130.0"></path>
-            <path d="M 235.0 130.0 L 234.8 132.7 L 234.3 135.3 L 233.5 137.9 L 232.3 140.5 L 230.8 143.1 L 228.9 145.6 L 226.7 148.0 L 224.3 150.4 L 221.5 152.6 L 218.4 154.8 L 215.0 156.9 L 211.3 158.8 L 207.4 160.7 L 203.2 162.4 L 198.8 163.9 L 194.2 165.3 L 189.4 166.5 L 184.4 167.6 L 179.2 168.5 L 173.8 169.2 L 168.4 169.7 L 162.8 170.1 L 157.2 170.2 L 151.5 170.1 L 145.7 169.8 L 140.0 169.3 L 134.3 168.6 L 128.6 167.7 L 123.0 166.6 L 117.5 165.3 L 112.1 163.7 L 106.9 162.0 L 101.9 160.0 L 97.1 157.9 L 92.5 155.6 L 88.1 153.0 L 84.1 150.4 L 80.4 147.5 L 77.0 144.5 L 74.0 141.4 L 71.4 138.1 L 69.1 134.8 L 67.3 131.3 L 65.9 127.8 L 65.0 124.2 L 64.5 120.5 L 64.5 116.8 L 65.0 113.2 L 66.0 109.5 L 67.5 105.8 L 69.4 102.2 L 71.8 98.7 L 74.8 95.2 L 78.1 91.9 L 82.0 88.7 L 86.3 85.6 L 91.0 82.7 L 96.1 80.0 L 101.6 77.5 L 107.5 75.2 L 113.7 73.1 L 120.2 71.3 L 127.0 69.7 L 134.0 68.4 L 141.3 67.4 L 148.7 66.7 L 156.2 66.2 L 163.8 66.1 L 171.5 66.3 L 179.2 66.8 L 186.8 67.6 L 194.4 68.7 L 201.8 70.1 L 209.1 71.8 L 216.2 73.8 L 223.0 76.1 L 229.6 78.7 L 235.8 81.6 L 241.7 84.6 L 247.2 88.0 L 252.2 91.5 L 256.9 95.3 L 261.0 99.2 L 264.7 103.3 L 267.8 107.5 L 270.4 111.9 L 272.4 116.3 L 273.8 120.8 L 274.7 125.4 L 275.0 130.0"></path>
-            <path d="M 255.0 130.0 L 254.8 133.6 L 254.1 137.2 L 252.9 140.8 L 251.3 144.3 L 249.3 147.8 L 246.8 151.2 L 243.9 154.4 L 240.6 157.6 L 236.9 160.6 L 232.8 163.4 L 228.3 166.1 L 223.6 168.6 L 218.5 171.0 L 213.1 173.1 L 207.5 175.0 L 201.6 176.7 L 195.6 178.2 L 189.4 179.5 L 183.0 180.5 L 176.5 181.2 L 169.9 181.7 L 163.3 182.0 L 156.7 182.0 L 150.1 181.7 L 143.5 181.2 L 137.0 180.5 L 130.6 179.5 L 124.4 178.2 L 118.4 176.7 L 112.5 175.0 L 106.9 173.1 L 101.5 171.0 L 96.4 168.6 L 91.7 166.1 L 87.2 163.4 L 83.1 160.6 L 79.4 157.6 L 76.1 154.4 L 73.2 151.2 L 70.7 147.8 L 68.7 144.3 L 67.1 140.8 L 65.9 137.2 L 65.2 133.6 L 65.0 130.0 L 65.2 126.4 L 65.9 122.8 L 67.1 119.2 L 68.7 115.7 L 70.7 112.2 L 73.2 108.8 L 76.1 105.6 L 79.4 102.4 L 83.1 99.4 L 87.2 96.6 L 91.7 93.9 L 96.4 91.4 L 101.5 89.0 L 106.9 86.9 L 112.5 85.0 L 118.4 83.3 L 124.4 81.8 L 130.6 80.5 L 137.0 79.5 L 143.5 78.8 L 150.1 78.3 L 156.7 78.0 L 163.3 78.0 L 169.9 78.3 L 176.5 78.8 L 183.0 79.5 L 189.4 80.5 L 195.6 81.8 L 201.6 83.3 L 207.5 85.0 L 213.1 86.9 L 218.5 89.0 L 223.6 91.4 L 228.3 93.9 L 232.8 96.6 L 236.9 99.4 L 240.6 102.4 L 243.9 105.6 L 246.8 108.8 L 249.3 112.2 L 251.3 115.7 L 252.9 119.2 L 254.1 122.8 L 254.8 126.4 L 255.0 130.0"></path>
-            <path d="M 275.0 130.0 L 274.7 134.6 L 273.8 139.2 L 272.4 143.7 L 270.4 148.1 L 267.8 152.5 L 264.7 156.7 L 261.0 160.8 L 256.9 164.7 L 252.2 168.5 L 247.2 172.0 L 241.7 175.4 L 235.8 178.4 L 229.6 181.3 L 223.0 183.9 L 216.2 186.2 L 209.1 188.2 L 201.8 189.9 L 194.4 191.3 L 186.8 192.4 L 179.2 193.2 L 171.5 193.7 L 163.8 193.9 L 156.2 193.8 L 148.7 193.3 L 141.3 192.6 L 134.0 191.6 L 127.0 190.3 L 120.2 188.7 L 113.7 186.9 L 107.5 184.8 L 101.6 182.5 L 96.1 180.0 L 91.0 177.3 L 86.3 174.4 L 82.0 171.3 L 78.1 168.1 L 74.8 164.8 L 71.8 161.3 L 69.4 157.8 L 67.5 154.2 L 66.0 150.5 L 65.0 146.8 L 64.5 143.2 L 64.5 139.5 L 65.0 135.8 L 65.9 132.2 L 67.3 128.7 L 69.1 125.2 L 71.4 121.9 L 74.0 118.6 L 77.0 115.5 L 80.4 112.5 L 84.1 109.6 L 88.1 107.0 L 92.5 104.4 L 97.1 102.1 L 101.9 100.0 L 106.9 98.0 L 112.1 96.3 L 117.5 94.7 L 123.0 93.4 L 128.6 92.3 L 134.3 91.4 L 140.0 90.7 L 145.7 90.2 L 151.5 89.9 L 157.2 89.8 L 162.8 89.9 L 168.4 90.3 L 173.8 90.8 L 179.2 91.5 L 184.4 92.4 L 189.4 93.5 L 194.2 94.7 L 198.8 96.1 L 203.2 97.6 L 207.4 99.3 L 211.3 101.2 L 215.0 103.1 L 218.4 105.2 L 221.5 107.4 L 224.3 109.6 L 226.7 112.0 L 228.9 114.4 L 230.8 116.9 L 232.3 119.5 L 233.5 122.1 L 234.3 124.7 L 234.8 127.3 L 235.0 130.0"></path>
-            <path d="M 295.0 130.0 L 294.6 135.6 L 293.6 141.1 L 291.8 146.6 L 289.4 151.9 L 286.3 157.2 L 282.5 162.3 L 278.1 167.2 L 273.2 171.9 L 267.6 176.4 L 261.6 180.6 L 255.0 184.6 L 248.0 188.2 L 240.6 191.6 L 232.9 194.6 L 224.8 197.3 L 216.5 199.6 L 208.0 201.6 L 199.4 203.2 L 190.6 204.4 L 181.8 205.2 L 173.0 205.7 L 164.3 205.8 L 155.7 205.6 L 147.3 204.9 L 139.0 204.0 L 131.1 202.7 L 123.4 201.1 L 116.0 199.2 L 109.1 197.0 L 102.5 194.6 L 96.4 191.9 L 90.7 189.0 L 85.5 185.9 L 80.9 182.6 L 76.7 179.2 L 73.1 175.6 L 70.1 171.9 L 67.6 168.2 L 65.6 164.4 L 64.2 160.6 L 63.3 156.7 L 63.0 152.9 L 63.2 149.1 L 63.8 145.3 L 65.0 141.6 L 66.6 138.1 L 68.7 134.6 L 71.2 131.2 L 74.0 128.0 L 77.3 125.0 L 80.8 122.1 L 84.7 119.4 L 88.8 116.8 L 93.1 114.5 L 97.7 112.3 L 102.4 110.4 L 107.3 108.6 L 112.3 107.0 L 117.4 105.7 L 122.5 104.5 L 127.6 103.6 L 132.8 102.8 L 137.9 102.2 L 143.0 101.8 L 148.0 101.6 L 152.9 101.5 L 157.7 101.6 L 162.3 101.9 L 166.8 102.3 L 171.2 102.8 L 175.4 103.4 L 179.4 104.2 L 183.2 105.1 L 186.8 106.1 L 190.2 107.2 L 193.4 108.4 L 196.4 109.6 L 199.1 111.0 L 201.7 112.3 L 204.0 113.8 L 206.1 115.3 L 208.0 116.8 L 209.6 118.4 L 211.0 120.0 L 212.3 121.6 L 213.2 123.3 L 214.0 124.9 L 214.6 126.6 L 214.9 128.3 L 215.0 130.0"></path>
-            <path d="M 215.0 130.0 L 225.0 130.0 L 235.0 130.0 L 245.0 130.0 L 255.0 130.0 L 265.0 130.0 L 275.0 130.0 L 285.0 130.0 L 295.0 130.0"></path>
-            <path d="M 211.5 139.4 L 220.6 142.0 L 229.6 144.7 L 238.7 147.3 L 247.8 149.9 L 256.8 152.5 L 265.9 155.1 L 275.0 157.8 L 284.0 160.4"></path>
-            <path d="M 201.0 148.0 L 207.6 152.7 L 214.1 157.4 L 220.6 162.1 L 227.2 166.8 L 233.7 171.5 L 240.2 176.2 L 246.8 180.8 L 253.3 185.5"></path>
-            <path d="M 183.6 154.8 L 186.8 160.6 L 190.0 166.4 L 193.2 172.2 L 196.4 178.0 L 199.5 183.9 L 202.7 189.7 L 205.9 195.5 L 209.1 201.3"></path>
-            <path d="M 160.0 158.3 L 160.0 164.2 L 160.0 170.1 L 160.0 176.1 L 160.0 182.0 L 160.0 187.9 L 160.0 193.9 L 160.0 199.8 L 160.0 205.7"></path>
-            <path d="M 132.1 157.1 L 130.0 162.4 L 127.9 167.6 L 125.8 172.8 L 123.6 178.0 L 121.5 183.3 L 119.4 188.5 L 117.3 193.7 L 115.1 199.0"></path>
-            <path d="M 103.6 150.1 L 100.9 154.3 L 98.2 158.4 L 95.5 162.6 L 92.8 166.8 L 90.1 170.9 L 87.4 175.1 L 84.7 179.3 L 82.0 183.5"></path>
-            <path d="M 79.4 136.8 L 77.6 140.1 L 75.8 143.4 L 74.0 146.6 L 72.2 149.9 L 70.4 153.2 L 68.6 156.4 L 66.8 159.7 L 65.0 163.0"></path>
-            <path d="M 65.0 118.4 L 65.0 121.3 L 65.0 124.2 L 65.0 127.1 L 65.0 130.0 L 65.0 132.9 L 65.0 135.8 L 65.0 138.7 L 65.0 141.6"></path>
-            <path d="M 65.0 97.0 L 66.8 100.3 L 68.6 103.6 L 70.4 106.8 L 72.2 110.1 L 74.0 113.4 L 75.8 116.6 L 77.6 119.9 L 79.4 123.2"></path>
-            <path d="M 82.0 76.5 L 84.7 80.7 L 87.4 84.9 L 90.1 89.1 L 92.8 93.2 L 95.5 97.4 L 98.2 101.6 L 100.9 105.7 L 103.6 109.9"></path>
-            <path d="M 115.1 61.0 L 117.3 66.3 L 119.4 71.5 L 121.5 76.7 L 123.6 82.0 L 125.8 87.2 L 127.9 92.4 L 130.0 97.6 L 132.1 102.9"></path>
-            <path d="M 160.0 54.3 L 160.0 60.2 L 160.0 66.1 L 160.0 72.1 L 160.0 78.0 L 160.0 83.9 L 160.0 89.9 L 160.0 95.8 L 160.0 101.7"></path>
-            <path d="M 209.1 58.7 L 205.9 64.5 L 202.7 70.3 L 199.5 76.1 L 196.4 82.0 L 193.2 87.8 L 190.0 93.6 L 186.8 99.4 L 183.6 105.2"></path>
-            <path d="M 253.3 74.5 L 246.8 79.2 L 240.2 83.8 L 233.7 88.5 L 227.2 93.2 L 220.6 97.9 L 214.1 102.6 L 207.6 107.3 L 201.0 112.0"></path>
-            <path d="M 284.0 99.6 L 275.0 102.2 L 265.9 104.9 L 256.8 107.5 L 247.8 110.1 L 238.7 112.7 L 229.6 115.3 L 220.6 118.0 L 211.5 120.6"></path>
-          </svg>
-          <figcaption data-i18n="about.fig">banda de Möbius — una sola cara, un solo borde</figcaption>
+          <canvas id="domain-coloring" class="figure-canvas" width="300" height="300" aria-hidden="true"></canvas>
+          <figcaption data-i18n="about.fig">retrato de fase de f(z) = z³ − 1 — el color indica el argumento, los anillos el módulo</figcaption>
         </figure>
       </div>
 
@@ -942,13 +927,19 @@
         <p data-i18n="research.exp.p">Entre 2021 y 2022 fui joven investigador en el Grupo de Investigación en Álgebra de la Universidad de Antioquia, dentro de mi proyecto de tesis de pregrado sobre álgebra no asociativa y teoría de categorías. De ese trabajo resultó un artículo publicado en una revista arbitrada y contribuciones a la solución de trece problemas matemáticos publicados en revistas internacionales.</p>
       </div>
 
-      <div class="research-block">
-        <h3 data-i18n="research.articles.h3">Artículos arbitrados</h3>
-        <ol class="biblio">
-          <li><span><b>S. Alzate, O. Correa, R. Flórez</b>, <i>Fibonacci Identities From Jordan Identities</i>, Fibonacci Quarterly, Vol. 58, No. 5 (2020), pp. 2–20.</span></li>
-        </ol>
-        <span class="formula formula-display">$F_{n-1}F_{n+1}-F_n^{2}=(-1)^{n}$</span>
-        <span class="formula-cap" data-i18n="research.cassini.cap">identidad de Cassini, un clásico del mundo Fibonacci</span>
+      <div class="research-block research-block-figure">
+        <div>
+          <h3 data-i18n="research.articles.h3">Artículos arbitrados</h3>
+          <ol class="biblio">
+            <li><span><b>S. Alzate, O. Correa, R. Flórez</b>, <i>Fibonacci Identities From Jordan Identities</i>, Fibonacci Quarterly, Vol. 58, No. 5 (2020), pp. 2–20.</span></li>
+          </ol>
+          <span class="formula formula-display">$F_{n-1}F_{n+1}-F_n^{2}=(-1)^{n}$</span>
+          <span class="formula-cap" data-i18n="research.cassini.cap">identidad de Cassini, un clásico del mundo Fibonacci</span>
+        </div>
+        <figure class="figure figure-sm">
+          <canvas id="fib-spiral" class="figure-canvas" width="180" height="280" aria-hidden="true"></canvas>
+          <figcaption data-i18n="research.fib.cap">espiral áurea — construida con los cuadrados de Fibonacci 1,1,2,3,5,8,13</figcaption>
+        </figure>
       </div>
 
       <div class="research-block">
@@ -1342,13 +1333,136 @@
       initScene(heroCanvas, buildMobius, { dark: true, stars: true, distance: 5.6, rotX: 0.55, rotY: 0.35 });
     }
 
-    /* the three inline figures are small and cheap: safe on mobile too */
+    /* the two remaining inline WebGL figures are small and cheap: safe on mobile too */
     document.documentElement.classList.add('has-3d');
-    initScene(document.getElementById('fig3d-mobius'), buildMobius, { distance: 5.0, rotX: 0.5, rotY: 0.5, spinSpeed: 0.0022 });
     initScene(document.getElementById('fig3d-paraboloid'), buildParaboloid, { distance: 4.6, rotX: 0.55, rotY: 0.7, spinSpeed: 0.002 });
     initScene(document.getElementById('fig3d-torus'), buildTorus, { distance: 5.2, rotX: 0.6, rotY: 0.3, spinSpeed: 0.0022 });
   } catch(err) {
     /* if WebGL/Three.js is unavailable for any reason, the flat SVG figures remain visible */
+  }
+})();
+</script>
+
+<script>
+(function(){
+  /* Pure canvas-2D figures — no external library, no network request, so these
+     render even when Three.js/CDN fails. Isolated in their own try/catch so a
+     problem here never affects the WebGL figures (or vice versa). */
+  try {
+    function hslToRgb(h, s, l){
+      var r, g, b;
+      if (s === 0) { r = g = b = l; }
+      else {
+        var hue2rgb = function(p, q, t){
+          if (t < 0) t += 1;
+          if (t > 1) t -= 1;
+          if (t < 1/6) return p + (q - p) * 6 * t;
+          if (t < 1/2) return q;
+          if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+          return p;
+        };
+        var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        var p = 2 * l - q;
+        r = hue2rgb(p, q, h + 1/3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1/3);
+      }
+      return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+    }
+
+    /* Domain-coloring / phase portrait of f(z) = z^3 - 1: hue = arg(f(z)), and
+       banding = |f(z)| on a log scale, so the picture reads like contour rings. */
+    function drawPhasePortrait(canvas){
+      if (!canvas || !canvas.getContext) return;
+      var w = canvas.width, h = canvas.height;
+      var ctx = canvas.getContext('2d');
+      var img = ctx.createImageData(w, h);
+      var data = img.data;
+      var scale = 2.05; /* complex-plane half-extent shown: [-scale, scale] */
+      for (var j = 0; j < h; j++) {
+        var y = scale - (2 * scale * j) / h;
+        for (var i = 0; i < w; i++) {
+          var x = -scale + (2 * scale * i) / w;
+          var zr = x, zi = y;
+          var z2r = zr * zr - zi * zi, z2i = 2 * zr * zi;         /* z^2 */
+          var z3r = z2r * zr - z2i * zi, z3i = z2r * zi + z2i * zr; /* z^3 */
+          var fr = z3r - 1, fi = z3i;                                /* z^3 - 1 */
+          var mag = Math.sqrt(fr * fr + fi * fi);
+          var arg = Math.atan2(fi, fr);
+          var hue = (arg + Math.PI) / (2 * Math.PI);
+          var logm = Math.log(mag + 1e-6);
+          var frac = logm - Math.floor(logm);
+          var light = 0.36 + frac * 0.26;
+          var rgb = hslToRgb(hue, 0.70, light);
+          var idx = (j * w + i) * 4;
+          data[idx] = rgb[0]; data[idx + 1] = rgb[1]; data[idx + 2] = rgb[2]; data[idx + 3] = 255;
+        }
+      }
+      ctx.putImageData(img, 0, 0);
+    }
+
+    /* Golden spiral built from the Fibonacci squares 1,1,2,3,5,8,13 (verified by
+       hand: the bounding box grows 1x1 -> 2x1 -> 2x3 -> 5x3 -> 5x8 -> 13x8 -> 13x21,
+       consecutive Fibonacci numbers at every step), plus the smooth logarithmic
+       spiral r(theta) = r0 * phi^(2*theta/pi) sharing the same pole. */
+    function drawFibonacciSpiral(canvas){
+      if (!canvas || !canvas.getContext) return;
+      var w = canvas.width, h = canvas.height;
+      var ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, w, h);
+
+      var sizes = [1, 1, 2, 3, 5, 8, 13];
+      var squares = [{ x: 0, y: 0, s: sizes[0] }];
+      var bx0 = 0, bx1 = sizes[0], by0 = 0, by1 = sizes[0];
+      for (var k = 1; k < sizes.length; k++) {
+        var s = sizes[k], dir = (k - 1) % 4, sq;
+        if (dir === 0) { sq = { x: bx1, y: by0, s: s }; bx1 += s; }
+        else if (dir === 1) { sq = { x: bx0, y: by1, s: s }; by1 += s; }
+        else if (dir === 2) { bx0 -= s; sq = { x: bx0, y: by0, s: s }; }
+        else { by0 -= s; sq = { x: bx0, y: by0, s: s }; }
+        squares.push(sq);
+      }
+      var bboxW = bx1 - bx0, bboxH = by1 - by0;
+      var u = Math.min(w / bboxW, h / bboxH) * 0.86;
+      var cxMid = (bx0 + bx1) / 2, cyMid = (by0 + by1) / 2;
+      var ox = w / 2 - cxMid * u, oy = h / 2 + cyMid * u;
+      function toCanvas(X, Y){ return [ox + X * u, oy - Y * u]; }
+
+      var accent = '#3f7e73', gold = 'rgba(201,143,34,0.85)';
+      try {
+        var cssAccent = getComputedStyle(document.documentElement).getPropertyValue('--accent-3').trim();
+        if (cssAccent) accent = cssAccent;
+      } catch (e) {}
+
+      ctx.lineWidth = 1.3;
+      ctx.strokeStyle = gold;
+      for (var qi = 0; qi < squares.length; qi++) {
+        var sqr = squares[qi];
+        var p0 = toCanvas(sqr.x, sqr.y), p1 = toCanvas(sqr.x + sqr.s, sqr.y + sqr.s);
+        ctx.strokeRect(Math.min(p0[0], p1[0]), Math.min(p0[1], p1[1]), Math.abs(p1[0] - p0[0]), Math.abs(p1[1] - p0[1]));
+      }
+
+      var phi = (1 + Math.sqrt(5)) / 2;
+      var b = Math.log(phi) / (Math.PI / 2);
+      var r0 = Math.sqrt(2), theta0 = Math.PI / 4, thetaMax = 6 * (Math.PI / 2);
+      ctx.lineWidth = 2.4;
+      ctx.strokeStyle = accent;
+      ctx.beginPath();
+      var steps = 260;
+      for (var i = 0; i <= steps; i++) {
+        var t = (i / steps) * thetaMax;
+        var r = r0 * Math.exp(b * t);
+        var ang = theta0 + t;
+        var pt = toCanvas(r * Math.cos(ang), r * Math.sin(ang));
+        if (i === 0) ctx.moveTo(pt[0], pt[1]); else ctx.lineTo(pt[0], pt[1]);
+      }
+      ctx.stroke();
+    }
+
+    drawPhasePortrait(document.getElementById('domain-coloring'));
+    drawFibonacciSpiral(document.getElementById('fib-spiral'));
+  } catch (err) {
+    /* CSS gradient/background on the canvas elements is the fallback if this fails */
   }
 })();
 </script>
@@ -1400,7 +1514,7 @@
   "hero.scroll": "Scroll",
   "about.eyebrow": "About me",
   "about.h2": "Mathematician and professor",
-  "about.fig": "Möbius strip — one side, one edge",
+  "about.fig": "phase portrait of f(z) = z³ − 1 — color shows the argument, the rings show the modulus",
   "about.loc.label": "Location",
   "about.email.label": "Email",
   "about.email2.label": "Alternate email",
@@ -1521,6 +1635,7 @@
   "research.exp.p": "Between 2021 and 2022 I was a young researcher in the Algebra Research Group at the Universidad de Antioquia, as part of my undergraduate thesis project on non-associative algebra and category theory. That work resulted in an article published in a peer-reviewed journal and contributions to the solution of thirteen mathematical problems published in international journals.",
   "research.articles.h3": "Peer-reviewed articles",
   "research.cassini.cap": "Cassini's identity, a classic of the Fibonacci world",
+  "research.fib.cap": "golden spiral — built from the Fibonacci squares 1, 1, 2, 3, 5, 8, 13",
   "research.problems.h3": "Problems solved in international journals",
   "research.p1": " Vol. 25, No. 2 (2022), Problem 419",
   "research.p2": " Vol. 24, No. 3 (2021), Problem 408",
