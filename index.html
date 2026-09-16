@@ -339,6 +339,26 @@
   .post-card h3{ font-size:1.12rem; margin-top:2px; }
   .post-card p{ color:var(--ink-soft); font-size:0.92rem; margin:0; }
 
+  /* ---------- CV ---------- */
+  #cv{ background:var(--paper-2); border-block:1px solid var(--rule); }
+  .cv-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:22px; margin-top:8px; }
+  @media (max-width:700px){ .cv-grid{ grid-template-columns:1fr; } }
+  .cv-card{
+    background:var(--card); border:1px solid var(--rule); border-radius:6px; padding:26px;
+    display:flex; flex-direction:column; gap:14px; box-shadow:0 10px 24px -18px var(--shadow);
+  }
+  .cv-card-top{ display:flex; align-items:center; gap:10px; }
+  .cv-card-top .flag-icon{ width:22px; height:15px; flex-shrink:0; }
+  .cv-badge{
+    font-family:'IBM Plex Mono',monospace; font-size:0.68rem; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--accent-3); border:1px solid var(--accent-3); border-radius:20px; padding:3px 10px;
+  }
+  .cv-title{ font-family:'Fraunces',serif; font-weight:700; font-size:1.15rem; }
+  .cv-meta{ color:var(--subtext); font-size:0.88rem; margin:0; }
+  .cv-actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:4px; }
+  .btn-ghost{ border-color:var(--rule); color:var(--ink); background:var(--card); }
+  .btn-ghost:hover{ border-color:var(--accent-3); color:var(--accent); background:var(--card); }
+
   /* ---------- Footer / Contacto ---------- */
   footer{
     background:var(--board); color:var(--chalk); position:relative; overflow:hidden;
@@ -361,7 +381,7 @@
   }
 
   /* ---------- Notebook grid backdrop ---------- */
-  body, #sobre-mi, #investigacion, #cursos, #blog, #solving-problems{
+  body, #sobre-mi, #investigacion, #cursos, #blog, #solving-problems, #cv{
     background-image: radial-gradient(circle, var(--rule) 1px, transparent 1px);
     background-size: 24px 24px;
   }
@@ -505,6 +525,7 @@
       <a class="navlink" href="#investigacion" data-i18n="nav.research">Investigación</a>
       <a class="navlink" href="#solving-problems">Solving Problems</a>
       <a class="navlink" href="#blog">Blog</a>
+      <a class="navlink" href="#cv" data-i18n="nav.cv">CV</a>
       <a class="navlink" href="#contacto" data-i18n="nav.contact">Contacto</a>
       <div class="lang-switch" role="group" aria-label="Idioma / Language">
         <button type="button" class="lang-btn" data-lang-btn="es" aria-pressed="true">
@@ -1052,6 +1073,64 @@
     </div>
   </section>
 
+  <!-- ================= CV ================= -->
+  <section id="cv">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow" data-i18n="cv.eyebrow">Curriculum Vitae</div>
+        <h2 data-i18n="cv.h2">Mi CV completo</h2>
+        <p data-i18n="cv.intro">Formación académica, docencia, investigación, publicaciones y reconocimientos — en un solo documento, disponible en español y en inglés.</p>
+      </div>
+
+      <div class="cv-grid">
+        <div class="cv-card">
+          <div class="cv-card-top">
+            <svg class="flag-icon" viewBox="0 0 20 14" aria-hidden="true">
+              <defs><clipPath id="cvFlagCO"><rect width="20" height="14" rx="2"/></clipPath></defs>
+              <g clip-path="url(#cvFlagCO)">
+                <rect width="20" height="7" y="0" fill="#FCD116"/>
+                <rect width="20" height="3.5" y="7" fill="#003893"/>
+                <rect width="20" height="3.5" y="10.5" fill="#CE1126"/>
+              </g>
+            </svg>
+            <span class="cv-badge">PDF · Español</span>
+          </div>
+          <div class="cv-title">Curriculum Vitae</div>
+          <p class="cv-meta" data-i18n="cv.updated">Actualizado — septiembre de 2026</p>
+          <div class="cv-actions">
+            <a class="btn btn-solid" href="cv/santiago-alzate-cv-es.pdf" target="_blank" rel="noopener" data-i18n="cv.view">Ver PDF</a>
+            <a class="btn btn-ghost" href="cv/santiago-alzate-cv-es.pdf" download data-i18n="cv.download">Descargar</a>
+          </div>
+        </div>
+
+        <div class="cv-card">
+          <div class="cv-card-top">
+            <svg class="flag-icon" viewBox="0 0 20 14" aria-hidden="true">
+              <defs><clipPath id="cvFlagUS"><rect width="20" height="14" rx="2"/></clipPath></defs>
+              <g clip-path="url(#cvFlagUS)">
+                <rect width="20" height="14" fill="#B22234"/>
+                <rect y="1.077" width="20" height="1.077" fill="#fff"/>
+                <rect y="3.231" width="20" height="1.077" fill="#fff"/>
+                <rect y="5.385" width="20" height="1.077" fill="#fff"/>
+                <rect y="7.538" width="20" height="1.077" fill="#fff"/>
+                <rect y="9.692" width="20" height="1.077" fill="#fff"/>
+                <rect y="11.846" width="20" height="1.077" fill="#fff"/>
+                <rect width="8" height="7.538" fill="#3C3B6E"/>
+              </g>
+            </svg>
+            <span class="cv-badge">PDF · English</span>
+          </div>
+          <div class="cv-title">Curriculum Vitae</div>
+          <p class="cv-meta" data-i18n="cv.updated">Actualizado — septiembre de 2026</p>
+          <div class="cv-actions">
+            <a class="btn btn-solid" href="cv/santiago-alzate-cv-en.pdf" target="_blank" rel="noopener" data-i18n="cv.view">Ver PDF</a>
+            <a class="btn btn-ghost" href="cv/santiago-alzate-cv-en.pdf" download data-i18n="cv.download">Descargar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ================= CONTACTO / FOOTER ================= -->
   <footer id="contacto">
     <svg class="curve2" viewBox="0 0 200 200" aria-hidden="true">
@@ -1282,7 +1361,7 @@
     if (!window.IntersectionObserver) return;
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    var selector = '.section-head, .figure, .id-card, .about-sub, .course-row, .post-card, .tl-item, .sp-stat, .sp-judges';
+    var selector = '.section-head, .figure, .id-card, .about-sub, .course-row, .post-card, .tl-item, .sp-stat, .sp-judges, .cv-card';
     var targets = Array.prototype.slice.call(document.querySelectorAll(selector));
     if (!targets.length) return;
 
@@ -1489,6 +1568,13 @@
   "blog.h3.3": "A limit of nested radicals",
   "blog.p3": "On problem 12063 published in the American Mathematical Monthly: a limit of nested radicals with a solution more elegant than it first appears. I'll soon write up the full solution, step by step.",
   "blog.radical2.cap": "the typical form of a nested radical",
+  "nav.cv": "CV",
+  "cv.eyebrow": "Curriculum Vitae",
+  "cv.h2": "My Full CV",
+  "cv.intro": "Education, teaching, research, publications, and awards — all in one document, available in both Spanish and English.",
+  "cv.updated": "Updated — September 2026",
+  "cv.view": "View PDF",
+  "cv.download": "Download",
   "footer.eyebrow": "Contact",
   "footer.h2": "Let's talk math",
   "footer.lead": "If you're a student, a colleague, or someone who ran into a math question that won't leave you alone — write to me. I'm happy to talk about courses, collaborations, or problems worth chasing.",
