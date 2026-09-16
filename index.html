@@ -154,8 +154,14 @@
     z-index:0; touch-action:none; cursor:grab; display:block;
   }
   .hero-3d:active{ cursor:grabbing; }
-  .has-3d-hero .hero .curve{ display:none; }
+  .has-3d .hero .curve{ display:none; }
   @media (max-width:640px){ .hero-3d{ display:none; } }
+  .figure-3d{
+    width:100%; aspect-ratio:320/260; display:none; touch-action:none; cursor:grab;
+  }
+  .figure-3d:active{ cursor:grabbing; }
+  .has-3d .figure-3d{ display:block; }
+  .has-3d .figure svg{ display:none; }
   .hero-inner{ position:relative; z-index:1; max-width:680px; }
   .hero .eyebrow{ color:var(--accent-2); }
   .hero h1{
@@ -221,6 +227,10 @@
   .id-card dd{ margin:0; font-size:0.92rem; word-break:break-word; }
 
   .bio p{ font-size:1.06rem; color:var(--ink-soft); }
+  .bio p:first-of-type::first-letter{
+    font-family:'Fraunces', serif; font-weight:700; font-style:normal; font-size:2.7em;
+    float:left; line-height:0.82; padding:2px 9px 0 0; color:var(--accent);
+  }
   .about-sub{ margin-top:38px; }
   .about-sub h3{ font-size:1.05rem; display:flex; align-items:center; gap:10px; }
   .about-sub h3::before{ content:""; width:22px; height:1px; background:var(--accent); display:inline-block; }
@@ -442,6 +452,13 @@
   @media (max-width:760px){
     .lang-switch{ margin:6px 0 2px; align-self:flex-start; }
   }
+
+  /* ---------- Scroll reveal (progressive enhancement: only applied by JS, never in markup) ---------- */
+  .reveal{ opacity:0; transform:translateY(22px); transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+  .reveal.is-visible{ opacity:1; transform:none; }
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity:1; transform:none; transition:none; }
+  }
 </style>
 </head>
 <body>
@@ -510,7 +527,7 @@
     <div class="wrap hero-inner">
       <div class="eyebrow" data-i18n="hero.eyebrow">Matemático · Profesor de Matemáticas</div>
       <h1>Santiago Alzate</h1>
-      <p class="tagline" data-i18n="hero.tagline">M.A. en Matemáticas — análisis, álgebra y topología, entre la docencia, la investigación y los problemas por resolver.</p>
+      <p class="tagline" data-i18n="hero.tagline">Análisis, álgebra y topología — entre el aula, la investigación y la certeza tranquila de una demostración que por fin cierra.</p>
       <blockquote class="quote">
         <span data-i18n="hero.quote">“La esencia de las matemáticas radica en su libertad.”</span>
         <cite>— Georg Cantor (1845–1918)</cite>
@@ -537,6 +554,7 @@
           <h2 data-i18n="about.h2">Matemático y profesor</h2>
         </div>
         <figure class="figure">
+          <canvas id="fig3d-mobius" class="figure-3d" aria-hidden="true" title="Banda de Möbius interactiva — arrastra para rotar"></canvas>
           <svg viewBox="0 0 320 260" aria-hidden="true">
             <path d="M 215.0 130.0 L 214.9 131.7 L 214.6 133.4 L 214.0 135.1 L 213.2 136.7 L 212.3 138.4 L 211.0 140.0 L 209.6 141.6 L 208.0 143.2 L 206.1 144.7 L 204.0 146.2 L 201.7 147.7 L 199.1 149.0 L 196.4 150.4 L 193.4 151.6 L 190.2 152.8 L 186.8 153.9 L 183.2 154.9 L 179.4 155.8 L 175.4 156.6 L 171.2 157.2 L 166.8 157.7 L 162.3 158.1 L 157.7 158.4 L 152.9 158.5 L 148.0 158.4 L 143.0 158.2 L 137.9 157.8 L 132.8 157.2 L 127.6 156.4 L 122.5 155.5 L 117.4 154.3 L 112.3 153.0 L 107.3 151.4 L 102.4 149.6 L 97.7 147.7 L 93.1 145.5 L 88.8 143.2 L 84.7 140.6 L 80.8 137.9 L 77.3 135.0 L 74.0 132.0 L 71.2 128.8 L 68.7 125.4 L 66.6 121.9 L 65.0 118.4 L 63.8 114.7 L 63.2 110.9 L 63.0 107.1 L 63.3 103.3 L 64.2 99.4 L 65.6 95.6 L 67.6 91.8 L 70.1 88.1 L 73.1 84.4 L 76.7 80.8 L 80.9 77.4 L 85.5 74.1 L 90.7 71.0 L 96.4 68.1 L 102.5 65.4 L 109.1 63.0 L 116.0 60.8 L 123.4 58.9 L 131.1 57.3 L 139.0 56.0 L 147.3 55.1 L 155.7 54.4 L 164.3 54.2 L 173.0 54.3 L 181.8 54.8 L 190.6 55.6 L 199.4 56.8 L 208.0 58.4 L 216.5 60.4 L 224.8 62.7 L 232.9 65.4 L 240.6 68.4 L 248.0 71.8 L 255.0 75.4 L 261.6 79.4 L 267.6 83.6 L 273.2 88.1 L 278.1 92.8 L 282.5 97.7 L 286.3 102.8 L 289.4 108.1 L 291.8 113.4 L 293.6 118.9 L 294.6 124.4 L 295.0 130.0"></path>
             <path d="M 235.0 130.0 L 234.8 132.7 L 234.3 135.3 L 233.5 137.9 L 232.3 140.5 L 230.8 143.1 L 228.9 145.6 L 226.7 148.0 L 224.3 150.4 L 221.5 152.6 L 218.4 154.8 L 215.0 156.9 L 211.3 158.8 L 207.4 160.7 L 203.2 162.4 L 198.8 163.9 L 194.2 165.3 L 189.4 166.5 L 184.4 167.6 L 179.2 168.5 L 173.8 169.2 L 168.4 169.7 L 162.8 170.1 L 157.2 170.2 L 151.5 170.1 L 145.7 169.8 L 140.0 169.3 L 134.3 168.6 L 128.6 167.7 L 123.0 166.6 L 117.5 165.3 L 112.1 163.7 L 106.9 162.0 L 101.9 160.0 L 97.1 157.9 L 92.5 155.6 L 88.1 153.0 L 84.1 150.4 L 80.4 147.5 L 77.0 144.5 L 74.0 141.4 L 71.4 138.1 L 69.1 134.8 L 67.3 131.3 L 65.9 127.8 L 65.0 124.2 L 64.5 120.5 L 64.5 116.8 L 65.0 113.2 L 66.0 109.5 L 67.5 105.8 L 69.4 102.2 L 71.8 98.7 L 74.8 95.2 L 78.1 91.9 L 82.0 88.7 L 86.3 85.6 L 91.0 82.7 L 96.1 80.0 L 101.6 77.5 L 107.5 75.2 L 113.7 73.1 L 120.2 71.3 L 127.0 69.7 L 134.0 68.4 L 141.3 67.4 L 148.7 66.7 L 156.2 66.2 L 163.8 66.1 L 171.5 66.3 L 179.2 66.8 L 186.8 67.6 L 194.4 68.7 L 201.8 70.1 L 209.1 71.8 L 216.2 73.8 L 223.0 76.1 L 229.6 78.7 L 235.8 81.6 L 241.7 84.6 L 247.2 88.0 L 252.2 91.5 L 256.9 95.3 L 261.0 99.2 L 264.7 103.3 L 267.8 107.5 L 270.4 111.9 L 272.4 116.3 L 273.8 120.8 L 274.7 125.4 L 275.0 130.0"></path>
@@ -582,8 +600,8 @@
 
         <div>
           <div class="bio">
-            <p data-i18n="about.bio1">Soy matemático colombiano, egresado de la Universidad de Antioquia y magíster en Matemáticas por Binghamton University (Nueva York), donde investigué el teorema de Peter–Weyl y sus aplicaciones. Desde 2023 combino la docencia universitaria con la resolución de problemas matemáticos publicados en revistas como <i>Fibonacci Quarterly</i>, <i>The College Mathematics Journal</i> y <i>American Mathematical Monthly</i>.</p>
-            <p data-i18n="about.bio2">Actualmente enseño cálculo, análisis, geometría y álgebra en la Universidad de Antioquia y en la Institución Universitaria de Envigado. Este espacio reúne mis cursos, mis notas de clase y algunas reflexiones sobre las matemáticas que enseño e investigo.</p>
+            <p data-i18n="about.bio1">Soy matemático colombiano. Me formé en la Universidad de Antioquia y luego en Binghamton University (Nueva York), donde pasé dos años detrás del teorema de Peter–Weyl y lo que tiene para decir sobre la estructura secreta de los grupos compactos. Desde 2023 reparto el tiempo entre el aula y la resolución de problemas — algunos de los cuales han terminado publicados en revistas como <i>Fibonacci Quarterly</i>, <i>The College Mathematics Journal</i> y <i>American Mathematical Monthly</i>.</p>
+            <p data-i18n="about.bio2">Hoy enseño cálculo, análisis, geometría y álgebra en la Universidad de Antioquia y en la Institución Universitaria de Envigado. Esta página es, un poco, mi cuaderno abierto: mis cursos, mis notas de clase tal como las llevo al tablero, y algunas ideas sueltas sobre las matemáticas que enseño e investigo.</p>
           </div>
 
           <div class="about-sub">
@@ -679,9 +697,10 @@
         <div class="section-head">
           <div class="eyebrow" data-i18n="courses.eyebrow">Docencia</div>
           <h2 data-i18n="courses.h2">Cursos y notas de clase</h2>
-          <p data-i18n="courses.intro">Los cursos que dicto actualmente y los que he dictado recientemente. Iré agregando aquí las notas y el material de cada uno a medida que estén listos.</p>
+          <p data-i18n="courses.intro">Los cursos que dicto ahora y los que he dictado hace poco — con las notas de clase reales de cada uno, tal como las uso en el salón, no una versión pulida después de los hechos.</p>
         </div>
         <figure class="figure">
+          <canvas id="fig3d-paraboloid" class="figure-3d" aria-hidden="true" title="Paraboloide hiperbólico interactivo — arrastra para rotar"></canvas>
           <svg viewBox="0 0 320 260" aria-hidden="true">
             <path d="M 160.0 114.0 L 159.3 110.7 L 158.6 107.5 L 157.9 104.5 L 157.2 101.8 L 156.6 99.2 L 155.9 96.8 L 155.2 94.6 L 154.5 92.6 L 153.8 90.8 L 153.1 89.2 L 152.4 87.8 L 151.7 86.5 L 151.1 85.5 L 150.4 84.7 L 149.7 84.0 L 149.0 83.5 L 148.3 83.3 L 147.6 83.2 L 146.9 83.3 L 146.2 83.6 L 145.6 84.1 L 144.9 84.8 L 144.2 85.7 L 143.5 86.7 L 142.8 88.0 L 142.1 89.5 L 141.4 91.1 L 140.7 92.9 L 140.0 95.0 L 139.4 97.2 L 138.7 99.6 L 138.0 102.2 L 137.3 105.0 L 136.6 108.0 L 135.9 111.2 L 135.2 114.6 L 134.5 118.1 L 133.9 121.9 L 133.2 125.9 L 132.5 130.0"></path>
             <path d="M 163.4 132.8 L 162.8 129.5 L 162.1 126.3 L 161.4 123.3 L 160.7 120.6 L 160.0 118.0 L 159.3 115.6 L 158.6 113.4 L 157.9 111.4 L 157.2 109.6 L 156.6 108.0 L 155.9 106.6 L 155.2 105.3 L 154.5 104.3 L 153.8 103.5 L 153.1 102.8 L 152.4 102.3 L 151.7 102.1 L 151.1 102.0 L 150.4 102.1 L 149.7 102.4 L 149.0 102.9 L 148.3 103.6 L 147.6 104.5 L 146.9 105.5 L 146.2 106.8 L 145.6 108.3 L 144.9 109.9 L 144.2 111.7 L 143.5 113.8 L 142.8 116.0 L 142.1 118.4 L 141.4 121.0 L 140.7 123.8 L 140.0 126.8 L 139.4 130.0 L 138.7 133.4 L 138.0 136.9 L 137.3 140.7 L 136.6 144.7 L 135.9 148.8"></path>
@@ -851,8 +870,10 @@
         <div class="section-head">
           <div class="eyebrow" data-i18n="research.eyebrow">Investigación</div>
           <h2 data-i18n="research.h2">Publicaciones e investigación</h2>
+          <p data-i18n="research.intro">Trece problemas resueltos en revistas internacionales, un artículo arbitrado y una tesis que no he terminado de entender del todo — en el buen sentido: la que sigue enseñándome algo nuevo cada vez que vuelvo a ella.</p>
         </div>
         <figure class="figure">
+          <canvas id="fig3d-torus" class="figure-3d" aria-hidden="true" title="Toro interactivo — arrastra para rotar"></canvas>
           <svg viewBox="0 0 320 260" aria-hidden="true">
             <path d="M 288.0 130.0 L 287.4 132.2 L 285.7 134.3 L 282.9 136.2 L 279.1 138.0 L 274.4 139.6 L 269.0 140.8 L 263.0 141.7 L 256.6 142.3 L 250.0 142.5 L 243.4 142.3 L 237.0 141.7 L 231.0 140.8 L 225.6 139.6 L 220.9 138.0 L 217.1 136.2 L 214.3 134.3 L 212.6 132.2 L 212.0 130.0 L 212.6 127.8 L 214.3 125.7 L 217.1 123.8 L 220.9 122.0 L 225.6 120.4 L 231.0 119.2 L 237.0 118.3 L 243.4 117.7 L 250.0 117.5 L 256.6 117.7 L 263.0 118.3 L 269.0 119.2 L 274.4 120.4 L 279.1 122.0 L 282.9 123.8 L 285.7 125.7 L 287.4 127.8 L 288.0 130.0"></path>
             <path d="M 258.1 173.3 L 257.6 175.2 L 256.3 176.8 L 254.2 177.8 L 251.2 178.3 L 247.7 178.2 L 243.5 177.7 L 238.9 176.5 L 234.0 174.9 L 228.9 172.9 L 223.9 170.5 L 219.0 167.8 L 214.4 164.8 L 210.2 161.7 L 206.6 158.6 L 203.7 155.5 L 201.6 152.6 L 200.3 149.9 L 199.8 147.6 L 200.3 145.6 L 201.6 144.1 L 203.7 143.1 L 206.6 142.6 L 210.2 142.6 L 214.4 143.2 L 219.0 144.3 L 223.9 145.9 L 228.9 147.9 L 234.0 150.4 L 238.9 153.1 L 243.5 156.0 L 247.7 159.1 L 251.2 162.2 L 254.2 165.3 L 256.3 168.2 L 257.6 170.9 L 258.1 173.3"></path>
@@ -935,11 +956,11 @@
         <div class="eyebrow">Blog</div>
         <h2 data-i18n="blog.h2">Notas y actualizaciones</h2>
       </div>
-      <p class="blog-note" data-i18n="blog.note">Estas son entradas iniciales para arrancar el blog — puedo ayudarte a editarlas o reemplazarlas por tus propias publicaciones cuando quieras.</p>
+      <p class="blog-note" data-i18n="blog.note">Apuntes cortos sobre lo que estoy enseñando, investigando o simplemente rumiando esta temporada.</p>
 
       <div class="post-grid">
         <article class="post-card">
-          <span class="ptag" data-i18n="blog.tag1">Entrada inicial</span>
+          <span class="ptag" data-i18n="blog.tag1">Docencia</span>
           <time datetime="2026-09-15" data-i18n="blog.date1">15 de septiembre, 2026</time>
           <h3 data-i18n="blog.h3.1">Empezando el semestre 2026-2</h3>
           <p data-i18n="blog.p1">Este semestre en la Universidad de Antioquia estoy dictando Análisis Numérico, Análisis II y Geometría Básica: tres cursos avanzados que exigen ritmos distintos. Aquí iré dejando comentarios sobre cómo va el semestre y qué material estoy usando en cada uno.</p>
@@ -947,7 +968,7 @@
           <span class="formula-cap" data-i18n="blog.newton.cap">el método de Newton, protagonista de Análisis Numérico</span>
         </article>
         <article class="post-card">
-          <span class="ptag" data-i18n="blog.tag2">Entrada inicial</span>
+          <span class="ptag" data-i18n="blog.tag2">Investigación</span>
           <time datetime="2026-09-10" data-i18n="blog.date2">10 de septiembre, 2026</time>
           <h3 data-i18n="blog.h3.2">El teorema de Peter–Weyl, revisitado</h3>
           <p data-i18n="blog.p2">Mi tesis de maestría giró en torno a este resultado sobre representaciones de grupos compactos. Quiero usar este espacio para volver sobre esas ideas con calma, en un lenguaje más cercano al de mis estudiantes de pregrado.</p>
@@ -955,7 +976,7 @@
           <span class="formula-cap" data-i18n="blog.pw2.cap">la descomposición que da título a mi tesis</span>
         </article>
         <article class="post-card">
-          <span class="ptag" data-i18n="blog.tag3">Entrada inicial</span>
+          <span class="ptag" data-i18n="blog.tag3">Problemas</span>
           <time datetime="2026-09-03" data-i18n="blog.date3">3 de septiembre, 2026</time>
           <h3 data-i18n="blog.h3.3">Un límite de radicales anidados</h3>
           <p data-i18n="blog.p3">Sobre el problema 12063 publicado en el American Mathematical Monthly: un límite de radicales anidados con una solución más elegante de lo que parece a primera vista. Pronto escribiré la solución completa, paso a paso.</p>
@@ -974,7 +995,7 @@
     <div class="wrap" style="padding-block:80px 40px;">
       <div class="eyebrow" style="color:var(--accent-2);" data-i18n="footer.eyebrow">Contacto</div>
       <h2 data-i18n="footer.h2">Hablemos de matemáticas</h2>
-      <p class="lead" data-i18n="footer.lead">Si eres estudiante, colega o simplemente alguien con una pregunta matemática interesante, escríbeme. Con gusto hablo de cursos, colaboraciones o problemas por resolver.</p>
+      <p class="lead" data-i18n="footer.lead">Si eres estudiante, colega, o alguien que se topó con una pregunta matemática que no lo deja en paz — escríbeme. Con gusto hablo de cursos, colaboraciones o problemas que valga la pena perseguir.</p>
 
       <dl class="contact-grid">
         <div><dt data-i18n="footer.email.label">Correo</dt><dd><a href="mailto:santiago.alzate9@udea.edu.co">santiago.alzate9@udea.edu.co</a></dd></div>
@@ -1003,127 +1024,219 @@
 (function(){
   try {
     if (!window.THREE) return;
-    var canvas = document.getElementById('hero3d');
-    if (!canvas) return;
-    if (window.innerWidth < 640) return; /* keep the flat SVG curve on small screens */
-
-    document.documentElement.classList.add('has-3d-hero');
-
-    var prefersReduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
     function cssVar(name, fallback){
       var v = getComputedStyle(document.documentElement).getPropertyValue(name);
       return (v && v.trim()) || fallback;
     }
-    var accentGold = cssVar('--accent-2', '#c98f22');
-    var accentTeal = cssVar('--accent-3', '#3f7e73');
+    var prefersReduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
-    var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-
-    var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-    camera.position.set(0, 0.3, 5.6);
+    /* ---- reusable geometry builders: real parametric surfaces, not decoration ---- */
 
     /* Möbius strip: (u,v) -> ( (R + v/2 cos(u/2)) cos u, (R + v/2 cos(u/2)) sin u, v/2 sin(u/2) ) */
-    var uSegments = 140, vSegments = 14, halfWidth = 0.85, R = 1.6;
-    var positions = [];
-    for (var i = 0; i <= uSegments; i++) {
-      var u = (i / uSegments) * Math.PI * 2;
-      for (var j = 0; j <= vSegments; j++) {
-        var v = (j / vSegments - 0.5) * 2 * halfWidth;
-        var x = (R + (v / 2) * Math.cos(u / 2)) * Math.cos(u);
-        var y = (R + (v / 2) * Math.cos(u / 2)) * Math.sin(u);
-        var z = (v / 2) * Math.sin(u / 2);
-        positions.push(x, y, z);
+    function buildMobius(){
+      var uSegments = 140, vSegments = 14, halfWidth = 0.85, R = 1.6;
+      var positions = [];
+      for (var i = 0; i <= uSegments; i++) {
+        var u = (i / uSegments) * Math.PI * 2;
+        for (var j = 0; j <= vSegments; j++) {
+          var v = (j / vSegments - 0.5) * 2 * halfWidth;
+          positions.push(
+            (R + (v / 2) * Math.cos(u / 2)) * Math.cos(u),
+            (R + (v / 2) * Math.cos(u / 2)) * Math.sin(u),
+            (v / 2) * Math.sin(u / 2)
+          );
+        }
       }
-    }
-    var indices = [];
-    for (var ii = 0; ii < uSegments; ii++) {
-      for (var jj = 0; jj < vSegments; jj++) {
-        var a = ii * (vSegments + 1) + jj;
-        var b = (ii + 1) * (vSegments + 1) + jj;
-        var c = (ii + 1) * (vSegments + 1) + jj + 1;
-        var d = ii * (vSegments + 1) + jj + 1;
-        indices.push(a, b, d, b, c, d);
+      var indices = [];
+      for (var ii = 0; ii < uSegments; ii++) {
+        for (var jj = 0; jj < vSegments; jj++) {
+          var a = ii * (vSegments + 1) + jj, b = (ii + 1) * (vSegments + 1) + jj;
+          var c = (ii + 1) * (vSegments + 1) + jj + 1, d = ii * (vSegments + 1) + jj + 1;
+          indices.push(a, b, d, b, c, d);
+        }
       }
+      var geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      geo.setIndex(indices);
+      geo.computeVertexNormals();
+      return geo;
     }
-    var geometry = new THREE.BufferGeometry();
-    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-    geometry.setIndex(indices);
-    geometry.computeVertexNormals();
 
-    var group = new THREE.Group();
-
-    var surfaceMat = new THREE.MeshBasicMaterial({ color: accentTeal, transparent: true, opacity: 0.10, side: THREE.DoubleSide });
-    group.add(new THREE.Mesh(geometry, surfaceMat));
-
-    var wireMat = new THREE.LineBasicMaterial({ color: accentGold, transparent: true, opacity: 0.6 });
-    group.add(new THREE.LineSegments(new THREE.WireframeGeometry(geometry), wireMat));
-
-    group.rotation.x = 0.55;
-    group.rotation.y = 0.35;
-    scene.add(group);
-
-    /* faint starfield, purely decorative, for the chalkboard "cosmos" feel */
-    var starPositions = [];
-    for (var s = 0; s < 130; s++) {
-      starPositions.push((Math.random() - 0.5) * 15, (Math.random() - 0.5) * 11, -Math.random() * 6 - 2.5);
-    }
-    var starGeo = new THREE.BufferGeometry();
-    starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starPositions, 3));
-    var stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ color: accentGold, size: 0.045, transparent: true, opacity: 0.5 }));
-    scene.add(stars);
-
-    function resize(){
-      var rect = canvas.getBoundingClientRect();
-      if (!rect.width || !rect.height) return;
-      renderer.setSize(rect.width, rect.height, false);
-      camera.aspect = rect.width / rect.height;
-      camera.updateProjectionMatrix();
-    }
-    resize();
-    window.addEventListener('resize', resize);
-
-    var autoRotate = !prefersReduced;
-    var dragging = false, lastX = 0, lastY = 0, resumeTimer = null;
-
-    function pointerDown(x, y){
-      dragging = true; autoRotate = false;
-      lastX = x; lastY = y;
-      if (resumeTimer) clearTimeout(resumeTimer);
-    }
-    function pointerMove(x, y){
-      if (!dragging) return;
-      group.rotation.y += (x - lastX) * 0.006;
-      group.rotation.x += (y - lastY) * 0.006;
-      lastX = x; lastY = y;
-    }
-    function pointerUp(){
-      dragging = false;
-      if (!prefersReduced) {
-        resumeTimer = setTimeout(function(){ autoRotate = true; }, 1400);
+    /* hyperbolic paraboloid: z = a(x^2 - y^2), the saddle surface of Multivariable Calculus */
+    function buildParaboloid(){
+      var seg = 34, extent = 1.35, a = 0.55;
+      var positions = [];
+      for (var i = 0; i <= seg; i++) {
+        var x = (i / seg - 0.5) * 2 * extent;
+        for (var j = 0; j <= seg; j++) {
+          var y = (j / seg - 0.5) * 2 * extent;
+          positions.push(x, y, a * (x * x - y * y));
+        }
       }
+      var indices = [];
+      for (var ii = 0; ii < seg; ii++) {
+        for (var jj = 0; jj < seg; jj++) {
+          var p = ii * (seg + 1) + jj, q = (ii + 1) * (seg + 1) + jj;
+          var r = (ii + 1) * (seg + 1) + jj + 1, s = ii * (seg + 1) + jj + 1;
+          indices.push(p, q, s, q, r, s);
+        }
+      }
+      var geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      geo.setIndex(indices);
+      geo.computeVertexNormals();
+      return geo;
     }
-    canvas.addEventListener('pointerdown', function(e){ pointerDown(e.clientX, e.clientY); });
-    window.addEventListener('pointermove', function(e){ pointerMove(e.clientX, e.clientY); });
-    window.addEventListener('pointerup', pointerUp);
 
-    var visible = true;
-    if (window.IntersectionObserver) {
-      new IntersectionObserver(function(entries){ visible = entries[0].isIntersecting; }, { threshold: 0.05 }).observe(canvas);
+    /* torus of revolution: the classic compact Lie group picture behind Peter–Weyl */
+    function buildTorus(){
+      return new THREE.TorusGeometry(1.35, 0.5, 22, 84);
     }
 
-    function animate(){
-      requestAnimationFrame(animate);
-      if (!visible) return;
-      if (autoRotate) group.rotation.y += 0.0018;
-      stars.rotation.y += 0.0002;
-      renderer.render(scene, camera);
+    /* ---- generic scene wired to one canvas: lighting, drag-to-rotate, visibility pause ---- */
+    function initScene(canvas, buildGeometry, opts){
+      if (!canvas) return;
+      opts = opts || {};
+      var accentGold = cssVar('--accent-2', '#c98f22');
+      var accentTeal = cssVar('--accent-3', '#3f7e73');
+
+      var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+
+      var scene = new THREE.Scene();
+      var camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+      camera.position.set(0, 0.3, opts.distance || 5.4);
+
+      scene.add(new THREE.AmbientLight(0xffffff, opts.dark ? 0.55 : 0.85));
+      var keyLight = new THREE.DirectionalLight(0xffffff, opts.dark ? 1.1 : 0.9);
+      keyLight.position.set(3, 4, 5);
+      scene.add(keyLight);
+      var fillLight = new THREE.DirectionalLight(accentTeal, 0.6);
+      fillLight.position.set(-4, -2, 2);
+      scene.add(fillLight);
+
+      var geometry = buildGeometry();
+      var group = new THREE.Group();
+
+      var surfaceMat = new THREE.MeshStandardMaterial({
+        color: accentTeal, transparent: true, opacity: opts.dark ? 0.16 : 0.32,
+        side: THREE.DoubleSide, roughness: 0.55, metalness: 0.15
+      });
+      group.add(new THREE.Mesh(geometry, surfaceMat));
+
+      var wireMat = new THREE.LineBasicMaterial({ color: accentGold, transparent: true, opacity: opts.dark ? 0.65 : 0.55 });
+      group.add(new THREE.LineSegments(new THREE.WireframeGeometry(geometry), wireMat));
+
+      group.rotation.x = opts.rotX != null ? opts.rotX : 0.5;
+      group.rotation.y = opts.rotY != null ? opts.rotY : 0.4;
+      scene.add(group);
+
+      var stars = null;
+      if (opts.stars) {
+        var starPositions = [];
+        for (var s = 0; s < 130; s++) {
+          starPositions.push((Math.random() - 0.5) * 15, (Math.random() - 0.5) * 11, -Math.random() * 6 - 2.5);
+        }
+        var starGeo = new THREE.BufferGeometry();
+        starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starPositions, 3));
+        stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ color: accentGold, size: 0.045, transparent: true, opacity: 0.5 }));
+        scene.add(stars);
+      }
+
+      function resize(){
+        var rect = canvas.getBoundingClientRect();
+        if (!rect.width || !rect.height) return;
+        renderer.setSize(rect.width, rect.height, false);
+        camera.aspect = rect.width / rect.height;
+        camera.updateProjectionMatrix();
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      var autoRotate = !prefersReduced;
+      var dragging = false, lastX = 0, lastY = 0, resumeTimer = null;
+
+      function pointerDown(x, y){
+        dragging = true; autoRotate = false;
+        lastX = x; lastY = y;
+        if (resumeTimer) clearTimeout(resumeTimer);
+      }
+      function pointerMove(x, y){
+        if (!dragging) return;
+        group.rotation.y += (x - lastX) * 0.006;
+        group.rotation.x += (y - lastY) * 0.006;
+        lastX = x; lastY = y;
+      }
+      function pointerUp(){
+        dragging = false;
+        if (!prefersReduced) resumeTimer = setTimeout(function(){ autoRotate = true; }, 1400);
+      }
+      canvas.addEventListener('pointerdown', function(e){ pointerDown(e.clientX, e.clientY); });
+      window.addEventListener('pointermove', function(e){ pointerMove(e.clientX, e.clientY); });
+      window.addEventListener('pointerup', pointerUp);
+
+      var visible = true;
+      if (window.IntersectionObserver) {
+        new IntersectionObserver(function(entries){ visible = entries[0].isIntersecting; }, { threshold: 0.05 }).observe(canvas);
+      }
+
+      var spinSpeed = opts.spinSpeed != null ? opts.spinSpeed : 0.0018;
+      function animate(){
+        requestAnimationFrame(animate);
+        if (!visible) return;
+        if (autoRotate) group.rotation.y += spinSpeed;
+        if (stars) stars.rotation.y += 0.0002;
+        renderer.render(scene, camera);
+      }
+      animate();
     }
-    animate();
+
+    var heroCanvas = document.getElementById('hero3d');
+    var heroOk = heroCanvas && window.innerWidth >= 640; /* keep the flat SVG curve on small screens */
+
+    if (heroOk) {
+      document.documentElement.classList.add('has-3d');
+      initScene(heroCanvas, buildMobius, { dark: true, stars: true, distance: 5.6, rotX: 0.55, rotY: 0.35 });
+    }
+
+    /* the three inline figures are small and cheap: safe on mobile too */
+    document.documentElement.classList.add('has-3d');
+    initScene(document.getElementById('fig3d-mobius'), buildMobius, { distance: 5.0, rotX: 0.5, rotY: 0.5, spinSpeed: 0.0022 });
+    initScene(document.getElementById('fig3d-paraboloid'), buildParaboloid, { distance: 4.6, rotX: 0.55, rotY: 0.7, spinSpeed: 0.002 });
+    initScene(document.getElementById('fig3d-torus'), buildTorus, { distance: 5.2, rotX: 0.6, rotY: 0.3, spinSpeed: 0.0022 });
   } catch(err) {
-    /* if WebGL/Three.js is unavailable for any reason, the flat SVG curve remains visible */
+    /* if WebGL/Three.js is unavailable for any reason, the flat SVG figures remain visible */
+  }
+})();
+</script>
+
+<script>
+(function(){
+  try {
+    if (!window.IntersectionObserver) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var selector = '.section-head, .figure, .id-card, .about-sub, .course-row, .post-card, .tl-item';
+    var targets = Array.prototype.slice.call(document.querySelectorAll(selector));
+    if (!targets.length) return;
+
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    targets.forEach(function(el, i){
+      el.classList.add('reveal');
+      el.style.transitionDelay = (Math.min(i % 6, 5) * 60) + 'ms';
+      io.observe(el);
+    });
+  } catch(err) {
+    /* if anything goes wrong, all content simply stays visible (no class ever hides it by default) */
   }
 })();
 </script>
@@ -1138,7 +1251,7 @@
   "nav.research": "Research",
   "nav.contact": "Contact",
   "hero.eyebrow": "Mathematician · Mathematics Professor",
-  "hero.tagline": "M.A. in Mathematics — analysis, algebra, and topology, between teaching, research, and problems waiting to be solved.",
+  "hero.tagline": "Analysis, algebra, and topology — between the classroom, research, and the quiet certainty of a proof that finally closes.",
   "hero.quote": "“The essence of mathematics lies in its freedom.”",
   "hero.cta1": "See my courses",
   "hero.cta2": "Get in touch",
@@ -1152,8 +1265,8 @@
   "about.phone.label": "Phone",
   "about.langs.label": "Languages",
   "about.langs.value": "Spanish (native), English (advanced)",
-  "about.bio1": "I'm a Colombian mathematician, a graduate of the Universidad de Antioquia and holder of a Master's in Mathematics from Binghamton University (New York), where I researched the Peter–Weyl theorem and its applications. Since 2023 I've combined university teaching with solving mathematical problems published in journals such as <i>Fibonacci Quarterly</i>, <i>The College Mathematics Journal</i>, and <i>American Mathematical Monthly</i>.",
-  "about.bio2": "I currently teach calculus, analysis, geometry, and algebra at the Universidad de Antioquia and at the Institución Universitaria de Envigado. This space brings together my courses, my class notes, and some reflections on the mathematics I teach and research.",
+  "about.bio1": "I'm a Colombian mathematician. I trained at Universidad de Antioquia and later at Binghamton University (New York), where I spent two years chasing the Peter–Weyl theorem and what it has to say about the hidden structure of compact groups. Since 2023 I've split my time between the classroom and solving problems — some of which have found their way into journals like <i>Fibonacci Quarterly</i>, <i>The College Mathematics Journal</i>, and <i>American Mathematical Monthly</i>.",
+  "about.bio2": "Today I teach calculus, analysis, geometry, and algebra at Universidad de Antioquia and at Institución Universitaria de Envigado. This page is, in a way, my notebook held open: my courses, my class notes just as I bring them to the board, and a few loose thoughts on the mathematics I teach and research.",
   "about.areas.h3": "Areas of interest and research",
   "about.analysis.term": "Analysis",
   "about.analysis.desc": "Real and complex analysis, integration theory, fractional analysis.",
@@ -1183,7 +1296,7 @@
   "about.chip4": "MATLAB — basic",
   "courses.eyebrow": "Teaching",
   "courses.h2": "Courses and class notes",
-  "courses.intro": "The courses I currently teach and those I've taught recently. I'll keep adding notes and materials for each as they're ready.",
+  "courses.intro": "The courses I teach now and the ones I've taught recently — with the actual class notes from each, just as I use them at the board, not a version polished after the fact.",
   "courses.fig": "z = x² − y², a hyperbolic paraboloid — material from Multivariable Calculus",
   "courses.iue.badge": "2026 — present · Instructor",
   "courses.calc1": "Calculus I",
@@ -1261,6 +1374,7 @@
   "courses.notes.math227.clase17": "Class 17",
   "research.eyebrow": "Research",
   "research.h2": "Publications and research",
+  "research.intro": "Thirteen problems solved in international journals, one peer-reviewed article, and a thesis I still haven't entirely finished understanding — in the good sense: the kind that keeps teaching me something new every time I return to it.",
   "research.fig": "T² — a torus, the classic example of a compact Lie group",
   "research.exp.h3": "Research experience",
   "research.exp.p": "Between 2021 and 2022 I was a young researcher in the Algebra Research Group at the Universidad de Antioquia, as part of my undergraduate thesis project on non-associative algebra and category theory. That work resulted in an article published in a peer-reviewed journal and contributions to the solution of thirteen mathematical problems published in international journals.",
@@ -1285,10 +1399,10 @@
   "research.talk2.venue": "Mathematics Seminar, Institute of Mathematics, Universidad de Antioquia",
   "research.talk3.venue": "Fifth Meeting on Algebra and Topology, Universidad de Antioquia",
   "blog.h2": "Notes and updates",
-  "blog.note": "These are starter entries to get the blog going — I can help edit them or replace them with your own posts whenever you like.",
-  "blog.tag1": "Starter post",
-  "blog.tag2": "Starter post",
-  "blog.tag3": "Starter post",
+  "blog.note": "Short notes on whatever I'm teaching, researching, or simply turning over in my head this season.",
+  "blog.tag1": "Teaching",
+  "blog.tag2": "Research",
+  "blog.tag3": "Problem solving",
   "blog.date1": "September 15, 2026",
   "blog.date2": "September 10, 2026",
   "blog.date3": "September 3, 2026",
@@ -1303,7 +1417,7 @@
   "blog.radical2.cap": "the typical form of a nested radical",
   "footer.eyebrow": "Contact",
   "footer.h2": "Let's talk math",
-  "footer.lead": "If you're a student, a colleague, or simply someone with an interesting math question, write to me. I'm happy to talk about courses, collaborations, or problems worth solving.",
+  "footer.lead": "If you're a student, a colleague, or someone who ran into a math question that won't leave you alone — write to me. I'm happy to talk about courses, collaborations, or problems worth chasing.",
   "footer.email.label": "Email",
   "footer.email2.label": "Alternate email",
   "footer.phone.label": "Phone",
