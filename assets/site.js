@@ -174,6 +174,7 @@
     "sp.poster7.p3": "Moubinool Ormajee (Paris, France) — continuous functions and integrals.",
     "sp.poster7.p4": "Ovidiu Furdui and Alina Sîntămărian (Technical University of Cluj-Napoca, Romania) — evaluating a series.",
     "sp.viewpdf": "View poster (PDF) →",
+    "sp.clicktoenlarge": "Click to view the full poster →",
     "sp.cta": "See full details →",
 
     "blog.h2": "Notes and updates",
