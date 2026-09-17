@@ -21,7 +21,7 @@
     "about.langs.label": "Languages",
     "about.langs.value": "Spanish (native), English (advanced)",
     "home.research.h2": "Research interest",
-    "home.research.p": "I work in analysis, algebra, and topology, and I keep a standing habit of solving problems posed in high-impact journals — several of which have led to published notes and articles. Between research and the classroom, I'm especially interested in how the two feed each other.",
+    "home.research.p": "I work in analysis, geometry, and topology, and I keep a standing habit of solving problems posed in high-impact journals — several of which have led to published notes and articles. Between research and the classroom, I'm especially interested in how the two feed each other.",
 
     "about.eyebrow": "About me",
     "about.h2": "Mathematician and professor",
