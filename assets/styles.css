@@ -287,6 +287,17 @@ p{ color:var(--ink-soft); }
 .sp-judges-label{ font-weight:600; color:var(--ink); margin-bottom:6px; }
 .sp-judges-list{ color:var(--ink-soft); font-size:0.94rem; }
 .sp-personal{ font-style:italic; }
+.sp-archive-label{ font-weight:600; color:var(--ink); margin-bottom:6px; text-align:center; }
+.sp-archive-intro{ max-width:68ch; margin:0 auto 26px; color:var(--ink-soft); font-size:0.94rem; text-align:center; }
+.sp-poster-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:28px; }
+@media (max-width:820px){ .sp-poster-grid{ grid-template-columns:1fr; } }
+.sp-poster-card{ border:1px solid var(--rule); border-radius:6px; padding:22px 24px; display:flex; flex-direction:column; gap:10px; }
+.sp-poster-date{ display:inline-block; font-size:0.74rem; font-weight:600; color:var(--accent-ink); letter-spacing:0.02em; }
+.sp-poster-title{ font-family:'Archivo', sans-serif; font-weight:700; font-size:1.04rem; color:var(--ink); }
+.sp-poster-problems{ margin:0; padding-left:18px; color:var(--ink-soft); font-size:0.88rem; line-height:1.55; }
+.sp-poster-problems li + li{ margin-top:5px; }
+.sp-poster-link{ align-self:flex-start; margin-top:4px; font-size:0.86rem; padding:7px 14px; display:inline-flex; align-items:center; gap:6px; }
+.sp-poster-link svg{ width:14px; height:14px; }
 .center-block{ text-align:center; }
 
 /* ---------- Blog ---------- */
