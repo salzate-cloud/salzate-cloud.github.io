@@ -197,6 +197,7 @@
     "cv.updated": "Updated — September 2026",
     "cv.view": "View PDF",
     "cv.download": "Download",
+    "cv.clicktoenlarge": "Click to view the full CV →",
 
     "footer.eyebrow": "Contact",
     "footer.h2": "Let's talk math",
