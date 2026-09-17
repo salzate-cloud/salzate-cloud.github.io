@@ -115,6 +115,7 @@
     "courses.notes.geo.u1": "Unit 1 summary (Midterm 1)",
     "courses.notes.an2.clase1": "Class 1",
     "courses.notes.calc1.clases134": "Classes 1, 3 & 4",
+    "courses.notes.logic.clases14": "Classes 1 to 4",
 
     "research.eyebrow": "Research",
     "research.h2": "Publications and research",
