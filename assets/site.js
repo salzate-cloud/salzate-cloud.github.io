@@ -69,6 +69,7 @@
     "courses.notes3": "Notes coming soon",
     "courses.notes4": "Notes coming soon",
     "courses.notes5": "Notes coming soon",
+    "courses.notes.discrete1.clase1": "Discrete Mathematics · Class 1 and Proof Methods",
     "courses.udea.badge": "2023 — present · Adjunct instructor",
     "courses.numerical": "Numerical Analysis",
     "courses.analysis2": "Analysis II",
