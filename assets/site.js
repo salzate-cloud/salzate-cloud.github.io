@@ -297,3 +297,210 @@
     } catch(e) {}
   });
 })();
+
+/* ============================================================
+   Visor de PDF en la página (solo lectura, sin descarga)
+   Intercepta los enlaces con data-pdf y los abre en un modal
+   que renderiza las páginas con PDF.js sobre un <canvas>.
+   ============================================================ */
+(function(){
+  var PDFJS_SRC = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+  var PDFJS_WORKER = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+  var T = {
+    es: { page:"Página", of:"de", prev:"Página anterior", next:"Página siguiente",
+          zoomin:"Acercar", zoomout:"Alejar", close:"Cerrar",
+          loading:"Cargando documento…",
+          error:"No se pudo cargar el visor en este momento. Revisa tu conexión e inténtalo de nuevo.",
+          foot:"Documento en modo lectura." },
+    en: { page:"Page", of:"of", prev:"Previous page", next:"Next page",
+          zoomin:"Zoom in", zoomout:"Zoom out", close:"Close",
+          loading:"Loading document…",
+          error:"The viewer could not be loaded right now. Check your connection and try again.",
+          foot:"Read-only document." }
+  };
+  function txt(){
+    var l = "es";
+    try { if (localStorage.getItem("santiago-site-lang") === "en") l = "en"; } catch(e){}
+    if (document.documentElement.getAttribute("lang") === "en") l = "en";
+    return T[l] || T.es;
+  }
+
+  var pdfjsPromise = null;
+  function loadPdfJs(){
+    if (pdfjsPromise) return pdfjsPromise;
+    pdfjsPromise = new Promise(function(resolve, reject){
+      if (window.pdfjsLib) { resolve(window.pdfjsLib); return; }
+      var s = document.createElement("script");
+      s.src = PDFJS_SRC;
+      s.onload = function(){
+        if (window.pdfjsLib) {
+          window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
+          resolve(window.pdfjsLib);
+        } else { reject(new Error("pdfjsLib no disponible")); }
+      };
+      s.onerror = function(){ reject(new Error("no se pudo cargar PDF.js")); };
+      document.head.appendChild(s);
+    });
+    return pdfjsPromise;
+  }
+
+  var ui = null, doc = null, pageNum = 1, zoom = 1, rendering = false, pending = null, lastFocus = null;
+
+  function buildUI(){
+    if (ui) return ui;
+    var t = txt();
+    var ov = document.createElement("div");
+    ov.className = "pdfv-overlay";
+    ov.setAttribute("role","dialog");
+    ov.setAttribute("aria-modal","true");
+    ov.innerHTML =
+      '<div class="pdfv-panel">' +
+        '<div class="pdfv-bar">' +
+          '<div class="pdfv-title"></div>' +
+          '<div class="pdfv-tools">' +
+            '<button type="button" class="pdfv-btn pdfv-prev">&#8249;</button>' +
+            '<span class="pdfv-count"></span>' +
+            '<button type="button" class="pdfv-btn pdfv-next">&#8250;</button>' +
+            '<button type="button" class="pdfv-btn pdfv-zout">&minus;</button>' +
+            '<button type="button" class="pdfv-btn pdfv-zin">+</button>' +
+            '<button type="button" class="pdfv-btn pdfv-close">&times;</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="pdfv-stage"><div class="pdfv-msg"></div></div>' +
+        '<div class="pdfv-foot"></div>' +
+      '</div>';
+    document.body.appendChild(ov);
+    ui = {
+      overlay: ov,
+      panel: ov.querySelector(".pdfv-panel"),
+      title: ov.querySelector(".pdfv-title"),
+      count: ov.querySelector(".pdfv-count"),
+      stage: ov.querySelector(".pdfv-stage"),
+      msg: ov.querySelector(".pdfv-msg"),
+      foot: ov.querySelector(".pdfv-foot"),
+      prev: ov.querySelector(".pdfv-prev"),
+      next: ov.querySelector(".pdfv-next"),
+      zin: ov.querySelector(".pdfv-zin"),
+      zout: ov.querySelector(".pdfv-zout"),
+      close: ov.querySelector(".pdfv-close")
+    };
+    ui.prev.title = t.prev; ui.next.title = t.next;
+    ui.zin.title = t.zoomin; ui.zout.title = t.zoomout;
+    ui.close.title = t.close; ui.close.setAttribute("aria-label", t.close);
+    ui.foot.textContent = t.foot;
+
+    ui.prev.addEventListener("click", function(){ go(pageNum - 1); });
+    ui.next.addEventListener("click", function(){ go(pageNum + 1); });
+    ui.zin.addEventListener("click", function(){ zoom = Math.min(zoom + 0.25, 3); render(); });
+    ui.zout.addEventListener("click", function(){ zoom = Math.max(zoom - 0.25, 0.5); render(); });
+    ui.close.addEventListener("click", close);
+    ov.addEventListener("click", function(e){ if (e.target === ov) close(); });
+    ov.addEventListener("contextmenu", function(e){ e.preventDefault(); });
+    document.addEventListener("keydown", function(e){
+      if (!ov.classList.contains("open")) return;
+      if (e.key === "Escape") { close(); }
+      else if (e.key === "ArrowRight" || e.key === "PageDown") { go(pageNum + 1); }
+      else if (e.key === "ArrowLeft" || e.key === "PageUp") { go(pageNum - 1); }
+    });
+    return ui;
+  }
+
+  function setControls(){
+    var t = txt();
+    if (!doc) { ui.count.textContent = ""; ui.prev.disabled = ui.next.disabled = true; return; }
+    ui.count.textContent = t.page + " " + pageNum + " " + t.of + " " + doc.numPages;
+    ui.prev.disabled = (pageNum <= 1);
+    ui.next.disabled = (pageNum >= doc.numPages);
+  }
+
+  function go(n){
+    if (!doc) return;
+    n = Math.min(Math.max(n, 1), doc.numPages);
+    if (n === pageNum) return;
+    pageNum = n;
+    render();
+  }
+
+  function render(){
+    if (!doc) return;
+    if (rendering) { pending = pageNum; return; }
+    rendering = true;
+    setControls();
+    doc.getPage(pageNum).then(function(page){
+      var base = page.getViewport({ scale: 1 });
+      var avail = Math.max(ui.stage.clientWidth - 36, 260);
+      var fit = Math.min(avail / base.width, 1.9);
+      var viewport = page.getViewport({ scale: fit * zoom });
+      var ratio = window.devicePixelRatio || 1;
+      var canvas = document.createElement("canvas");
+      canvas.width = Math.floor(viewport.width * ratio);
+      canvas.height = Math.floor(viewport.height * ratio);
+      canvas.style.width = Math.floor(viewport.width) + "px";
+      canvas.style.height = Math.floor(viewport.height) + "px";
+      var ctx = canvas.getContext("2d");
+      ctx.scale(ratio, ratio);
+      return page.render({ canvasContext: ctx, viewport: viewport }).promise.then(function(){
+        ui.stage.innerHTML = "";
+        ui.stage.appendChild(canvas);
+        ui.stage.scrollTop = 0;
+      });
+    }).catch(function(){
+      ui.stage.innerHTML = '<div class="pdfv-msg">' + txt().error + '</div>';
+    }).then(function(){
+      rendering = false;
+      if (pending !== null) { var p = pending; pending = null; if (p !== pageNum) { pageNum = p; } render(); }
+    });
+  }
+
+  function open(url, title){
+    buildUI();
+    var t = txt();
+    lastFocus = document.activeElement;
+    doc = null; pageNum = 1; zoom = 1;
+    ui.title.textContent = title || "";
+    ui.foot.textContent = t.foot;
+    ui.close.title = t.close; ui.close.setAttribute("aria-label", t.close);
+    ui.stage.innerHTML = '<div class="pdfv-msg">' + t.loading + '</div>';
+    setControls();
+    ui.overlay.classList.add("open");
+    document.body.classList.add("pdfv-lock");
+    ui.close.focus();
+    loadPdfJs().then(function(lib){
+      return lib.getDocument({ url: url }).promise;
+    }).then(function(d){
+      doc = d;
+      render();
+    }).catch(function(){
+      ui.stage.innerHTML = '<div class="pdfv-msg">' + txt().error + '</div>';
+      setControls();
+    });
+  }
+
+  function close(){
+    if (!ui) return;
+    ui.overlay.classList.remove("open");
+    document.body.classList.remove("pdfv-lock");
+    ui.stage.innerHTML = "";
+    if (doc && doc.destroy) { try { doc.destroy(); } catch(e){} }
+    doc = null;
+    if (lastFocus && lastFocus.focus) { try { lastFocus.focus(); } catch(e){} }
+  }
+
+  document.addEventListener("click", function(e){
+    var a = e.target.closest ? e.target.closest("a[data-pdf]") : null;
+    if (!a) return;
+    e.preventDefault();
+    var span = a.querySelector("span");
+    open(a.getAttribute("data-pdf"), span ? span.textContent.trim() : "");
+  });
+
+  document.addEventListener("keydown", function(e){
+    if (e.key !== "Enter" && e.key !== " ") return;
+    var a = document.activeElement;
+    if (!a || !a.hasAttribute || !a.hasAttribute("data-pdf")) return;
+    e.preventDefault();
+    var span = a.querySelector("span");
+    open(a.getAttribute("data-pdf"), span ? span.textContent.trim() : "");
+  });
+})();

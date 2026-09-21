@@ -362,3 +362,36 @@ footer.site-foot{ border-top:1px solid var(--rule); padding-block:40px; margin-t
 .formula-cap{ display:block; font-size:0.78rem; color:var(--subtext); margin-top:4px; }
 
 .reveal{ opacity:1; }
+
+/* ===== Visor de PDF (solo lectura, sin descarga) ===== */
+.pdfv-overlay{position:fixed;inset:0;z-index:9999;display:none;background:rgba(17,20,28,.82);
+  -webkit-backdrop-filter:saturate(120%) blur(2px);backdrop-filter:saturate(120%) blur(2px)}
+.pdfv-overlay.open{display:flex;align-items:center;justify-content:center;padding:24px}
+.pdfv-panel{background:#fff;border-radius:12px;box-shadow:0 24px 60px rgba(0,0,0,.35);
+  width:min(1040px,100%);height:min(94vh,100%);display:flex;flex-direction:column;overflow:hidden}
+.pdfv-bar{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid #e6e8ef;
+  background:#fbfbfd;flex-wrap:wrap}
+.pdfv-title{font-weight:700;font-size:.95rem;color:#1f2430;flex:1 1 220px;min-width:0;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pdfv-tools{display:flex;align-items:center;gap:6px}
+.pdfv-btn{appearance:none;border:1px solid #d9dce6;background:#fff;color:#2b3040;border-radius:7px;
+  min-width:32px;height:32px;padding:0 9px;font:inherit;font-size:.9rem;line-height:1;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s}
+.pdfv-btn:hover:not(:disabled){background:#f1f3f8;border-color:#c3c8d6}
+.pdfv-btn:disabled{opacity:.4;cursor:default}
+.pdfv-btn.pdfv-close{border-color:transparent;font-size:1.15rem;color:#555}
+.pdfv-count{font-size:.85rem;color:#555;min-width:92px;text-align:center;font-variant-numeric:tabular-nums}
+.pdfv-stage{flex:1;overflow:auto;background:#eef0f5;padding:18px;display:flex;justify-content:center;
+  align-items:flex-start;-webkit-user-select:none;user-select:none}
+.pdfv-stage canvas{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.18);max-width:100%;height:auto;
+  pointer-events:none;-webkit-user-drag:none;user-drag:none}
+.pdfv-msg{margin:auto;color:#4a4f5c;font-size:.95rem;text-align:center;line-height:1.6;padding:24px}
+.pdfv-foot{padding:7px 14px;border-top:1px solid #e6e8ef;background:#fbfbfd;font-size:.78rem;color:#7a8091;
+  text-align:center}
+body.pdfv-lock{overflow:hidden}
+@media (max-width:640px){
+  .pdfv-overlay.open{padding:0}
+  .pdfv-panel{height:100%;width:100%;border-radius:0}
+  .pdfv-title{flex-basis:100%;font-size:.88rem}
+  .pdfv-stage{padding:10px}
+}
