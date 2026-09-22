@@ -116,7 +116,7 @@
     "courses.notes.math227.clase11": "Math 227 · Class 11", "courses.notes.math227.clase13": "Math 227 · Class 13",
     "courses.notes.math227.clase14": "Math 227 · Class 14", "courses.notes.math227.clase16": "Math 227 · Class 16",
     "courses.notes.math227.clase17": "Math 227 · Class 17",
-    "courses.notes.geo.u1": "Basic Geometry · Unit 1 summary (Midterm 1)",
+    "courses.notes.geo.libro": "Basic Geometry · Full course book",
     "courses.notes.an2.clase1": "Analysis II · Class 1",
     "courses.notes.calcdif.p1": "Differential Calculus · Midterm 1 summary",
     "courses.notes.calcdif.p2": "Differential Calculus · Midterm 2 summary",
