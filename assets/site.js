@@ -91,7 +91,7 @@
     "courses.math147": "Math 147 · Elementary Statistics",
     "courses.terms2": "Fall 2024 · Spring 2025 · Summer 2025 (online)",
     "courses.notes.clase1": "Numerical Analysis · Class 1", "courses.notes.clase2": "Numerical Analysis · Class 2", "courses.notes.clase3": "Numerical Analysis · Class 3",
-    "courses.notes.clase4": "Numerical Analysis · Class 4", "courses.notes.clase5": "Numerical Analysis · Class 5", "courses.notes.clase6": "Numerical Analysis · Class 6",
+    "courses.notes.clase4": "Numerical Analysis · Class 4", "courses.notes.clase5": "Numerical Analysis · Class 5", "courses.notes.clase6": "Numerical Analysis · Class 6", "courses.notes.clase7": "Numerical Analysis · Class 7",
     "courses.notes.math225.clase1": "Math 225 · Class 1", "courses.notes.math225.clase2": "Math 225 · Class 2",
     "courses.notes.math225.clase3": "Math 225 · Class 3", "courses.notes.math225.clase4": "Math 225 · Class 4",
     "courses.notes.math225.clase5": "Math 225 · Class 5", "courses.notes.math225.clase6": "Math 225 · Class 6",
