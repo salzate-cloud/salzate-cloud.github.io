@@ -67,6 +67,7 @@
     "courses.notes1": "Notes coming soon",
     "courses.notes2": "Notes coming soon",
     "courses.notes3": "Notes coming soon",
+    "courses.notes.discrete.libro": "Discrete Mathematics · Full course book",
     "courses.notes.discrete1.clase1": "Discrete Mathematics · Class 1 and Proof Methods",
     "courses.notes.discrete2.clase1": "Discrete Mathematics · Class 1 and Proof Methods",
     "courses.notes.discrete3.clase1": "Discrete Mathematics · Class 1 and Proof Methods",
