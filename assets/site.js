@@ -124,6 +124,7 @@
     "courses.notes.geo.p1sol": "Midterm 1 · Solutions",
     "courses.notes.geo.sup1sol": "Make-up Midterm 1 · Solutions",
     "courses.notes.an2.clase1": "Analysis II · Class 1",
+    "courses.notes.an2.parcial2": "Analysis II · Midterm 2 notes",
     "courses.notes.calcdif.p1": "Differential Calculus · Midterm 1 summary",
     "courses.notes.calcdif.p2": "Differential Calculus · Midterm 2 summary",
     "courses.notes.calcdif.p3": "Differential Calculus · Midterm 3 summary",
