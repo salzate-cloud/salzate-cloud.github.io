@@ -127,6 +127,7 @@
     "courses.notes.an2.parcial1": "Analysis II · Midterm 1 notes",
     "courses.notes.an2.parcial2": "Analysis II · Midterm 2 notes",
     "courses.notes.an2.parcial3": "Analysis II · Midterm 3 notes",
+    "courses.notes.an2.parcial4": "Analysis II · Midterm 4 (final) notes",
     "courses.notes.calcdif.p1": "Differential Calculus · Midterm 1 summary",
     "courses.notes.calcdif.p2": "Differential Calculus · Midterm 2 summary",
     "courses.notes.calcdif.p3": "Differential Calculus · Midterm 3 summary",
