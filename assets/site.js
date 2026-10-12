@@ -136,7 +136,7 @@
     "courses.notes.geovec.p2": "Vector & Analytic Geometry · Midterm 2 summary",
     "courses.notes.geovec.p3": "Vector & Analytic Geometry · Midterm 3 summary",
     "courses.notes.calcint.resumen": "Integral Calculus · Full course summary",
-    "courses.notes.calc1.clases134": "Calculus I · Classes 1, 3 & 4",
+    "courses.notes.calc1.clases14taller": "Calculus I · Classes 1-4 and workshop",
     "courses.notes.logic.clases14": "Logical Reasoning · Classes 1 to 4",
     "courses.notes.math224.clase1": "Math 224 · Class 1",
     "courses.notes.math224.clase2": "Math 224 · Class 2",
