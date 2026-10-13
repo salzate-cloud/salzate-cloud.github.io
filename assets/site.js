@@ -138,6 +138,7 @@
     "courses.notes.calcint.resumen": "Integral Calculus · Full course summary",
     "courses.notes.calc1.clases14taller": "Calculus I · Classes 1-4 and workshop",
     "courses.notes.logic.clases14": "Logical Reasoning · Classes 1 to 4",
+    "courses.notes.logic.u3": "Unit 3 · Proportionality and the rule of three",
     "courses.notes.math224.clase1": "Math 224 · Class 1",
     "courses.notes.math224.clase2": "Math 224 · Class 2",
     "courses.notes.math224.clase3": "Math 224 · Class 3",
