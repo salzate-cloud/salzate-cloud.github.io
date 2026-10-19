@@ -67,7 +67,7 @@
     "courses.notes1": "Notes coming soon",
     "courses.notes2": "Notes coming soon",
     "courses.notes3": "Notes coming soon",
-    "courses.notes.discrete.libro": "Discrete Mathematics · Full course book",
+    "courses.notes.discrete.libro": "Discrete Mathematics · Course book",
     "courses.notes.discrete1.notas": "Discrete Mathematics · Full course notes",
     "courses.notes.discrete2.notas": "Discrete Mathematics · Full course notes",
     "courses.notes.discrete3.notas": "Discrete Mathematics · Full course notes",
