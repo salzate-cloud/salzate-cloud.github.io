@@ -98,6 +98,7 @@
     "courses.notes.clase8": "Numerical Analysis · Class 8",
     "courses.notes.clase9": "Numerical Analysis · Class 9",
     "courses.notes.clase10": "Numerical Analysis · Class 10",
+    "courses.notes.an.p2sol": "Midterm 2 · Solutions",
     "courses.notes.clase11": "Numerical Analysis · Class 11",
     "courses.notes.math225.clase1": "Math 225 · Class 1", "courses.notes.math225.clase2": "Math 225 · Class 2",
     "courses.notes.math225.clase3": "Math 225 · Class 3", "courses.notes.math225.clase4": "Math 225 · Class 4",
