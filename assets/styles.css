@@ -246,10 +246,39 @@ p{ color:var(--ink-soft); }
   display:inline-block; font-size:0.74rem; font-weight:600; color:var(--accent-ink);
   background:var(--accent-wash); padding:4px 10px; border-radius:12px; width:fit-content;
 }
-.course-list{ display:flex; flex-direction:column; }
-.course-row{ padding-block:12px; border-top:1px solid var(--rule); }
-.course-row:first-child{ border-top:none; }
-.cname{ font-weight:600; color:var(--ink); font-size:0.94rem; }
+.course-list{ display:flex; flex-direction:column; gap:14px; }
+.course-row{
+  --tono:var(--accent);
+  --tono-ink:var(--tono);
+  --tono-wash:color-mix(in srgb, var(--tono) 7%, var(--paper));
+  --tono-rule:color-mix(in srgb, var(--tono) 26%, var(--rule));
+  padding:14px 16px 15px;
+  border:1px solid var(--tono-rule);
+  border-left:3px solid var(--tono-ink);
+  border-radius:10px;
+  background:var(--tono-wash);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .course-row{
+    --tono-ink:color-mix(in srgb, var(--tono) 55%, #ffffff);
+    --tono-wash:color-mix(in srgb, var(--tono) 12%, var(--paper));
+    --tono-rule:color-mix(in srgb, var(--tono) 34%, var(--rule));
+  }
+}
+:root[data-theme="dark"] .course-row{
+  --tono-ink:color-mix(in srgb, var(--tono) 55%, #ffffff);
+  --tono-wash:color-mix(in srgb, var(--tono) 12%, var(--paper));
+  --tono-rule:color-mix(in srgb, var(--tono) 34%, var(--rule));
+}
+.cname{ font-weight:700; color:var(--tono-ink); font-size:0.95rem; letter-spacing:-0.01em; }
+
+/* grupos de PDF dentro de cada materia */
+.notes-group{ margin-top:11px; }
+.ng-title{
+  display:block; font-size:0.68rem; font-weight:700; text-transform:uppercase;
+  letter-spacing:0.08em; color:var(--tono-ink); opacity:0.85;
+}
+.notes-group .notes-links{ margin-top:5px; }
 .cwhen{ color:var(--subtext); font-size:0.82rem; margin-top:2px; }
 .cnote{ color:var(--subtext); font-size:0.82rem; margin-top:2px; }
 .notes-badge{
@@ -260,8 +289,14 @@ p{ color:var(--ink-soft); }
 .notes-links a{
   display:inline-flex; align-items:center; gap:5px; font-size:0.76rem; font-weight:500;
   color:var(--ink-soft); border:1px solid var(--rule); border-radius:12px; padding:4px 10px; text-decoration:none;
+  background:var(--paper);
 }
 .notes-links a:hover{ border-color:var(--accent); color:var(--accent-ink); }
+.course-row .notes-links a{ border-color:var(--tono-rule); }
+.course-row .notes-links a:hover{
+  border-color:var(--tono-ink); color:var(--tono-ink);
+  background:color-mix(in srgb, var(--tono) 10%, var(--paper));
+}
 .notes-links svg{ width:12px; height:12px; }
 
 /* ---------- Investigación ---------- */
