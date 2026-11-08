@@ -692,3 +692,39 @@ main > .page.home-page{ padding-bottom:16px; }
 
 /* una fórmula suelta dentro de un párrafo no lleva caja */
 p .formula, dd > .formula:not(.formula-display){ padding:0; border:none; background:none; }
+
+/* ============================================================
+   Distinción destacada (premio docente)
+   ============================================================ */
+.award-note{
+  display:flex; align-items:center; gap:14px;
+  margin-top:22px; padding:13px 18px 13px 16px;
+  width:fit-content; max-width:100%;
+  background:linear-gradient(135deg,
+    color-mix(in srgb, var(--accent) 11%, var(--raised)),
+    color-mix(in srgb, var(--accent) 4%, var(--raised)));
+  border:1px solid color-mix(in srgb, var(--accent) 26%, var(--rule));
+  border-radius:12px;
+  box-shadow:var(--shadow-s);
+}
+.award-note-icon{
+  width:26px; height:26px; flex:none; color:var(--accent-ink);
+}
+.award-note-body{ display:flex; flex-direction:column; min-width:0; }
+.award-note-label{
+  font-family:var(--ui); font-size:0.63rem; font-weight:700;
+  letter-spacing:0.12em; text-transform:uppercase; color:var(--accent-ink);
+}
+.award-note-name{
+  font-family:var(--display); font-weight:600; font-size:1rem;
+  color:var(--ink); line-height:1.25; margin-top:3px;
+}
+.award-note-meta{
+  font-family:var(--ui); font-size:0.75rem; color:var(--subtext); margin-top:3px;
+}
+.award-note.award-note-center{ margin:28px auto 0; text-align:left; }
+
+@media (max-width:520px){
+  .award-note{ gap:11px; padding:12px 14px; }
+  .award-note-name{ font-size:0.92rem; }
+}
