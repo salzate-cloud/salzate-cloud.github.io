@@ -105,6 +105,7 @@
     "courses.notes.an.p1sol": "Midterm 1 · Solutions",
     "courses.notes.an.sup1sol": "Make-up Midterm 1 · Solutions",
     "courses.notes.an.p2sol": "Midterm 2 · Solutions",
+    "courses.notes.an.sup2sol": "Make-up Midterm 2 · Solutions",
     "courses.notes.clase11": "Class 11",
     "courses.notes.clase12": "Class 12",
     "courses.notes.math225.clase1": "Class 1", "courses.notes.math225.clase2": "Class 2",
