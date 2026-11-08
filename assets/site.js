@@ -53,6 +53,8 @@
     "about.award3.desc": "For outstanding academic and research performance.",
     "about.award4.what": "Scholarships for outstanding academic performance",
     "about.award4.desc": "Awarded in four semesters for achieving the highest average.",
+    "about.award5.what": "Best Graduate Scholarship",
+    "about.award5.desc": "Awarded to the top graduate of the program to pursue any postgraduate degree at the University.",
     "about.tools.h3": "Tools",
     "about.chip1": "LaTeX — advanced",
     "about.chip2": "Wolfram Mathematica — intermediate",
