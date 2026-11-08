@@ -539,3 +539,83 @@
     open(a.getAttribute("data-pdf"), span ? span.textContent.trim() : "");
   });
 })();
+
+/* ============================================================
+   Aparición al desplazar
+   Marca bloques con .reveal y los hace aparecer cuando entran
+   en pantalla. Si el navegador no lo soporta, o si el sistema
+   pide menos movimiento, no se toca nada y todo se ve de una.
+   ============================================================ */
+(function(){
+  var SELECTORES = [
+    ".home-grid > *",
+    ".home-intro",
+    ".page-head .eyebrow",
+    ".page-head h1",
+    ".page-head .rule-accent",
+    ".page-head p.lead",
+    "h2.section-title",
+    ".page > .wrap > .block",
+    ".course-card",
+    ".cv-card",
+    ".sp-poster-card",
+    ".post-card",
+    ".tl-item",
+    ".talk",
+    ".def-row",
+    ".body-text"
+  ];
+
+  function arranca(){
+    try {
+      if (!("IntersectionObserver" in window)) return;
+      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      var vistos = [];
+      SELECTORES.forEach(function(sel){
+        Array.prototype.forEach.call(document.querySelectorAll(sel), function(el){
+          if (vistos.indexOf(el) === -1 && !el.closest(".pdfv-overlay")) vistos.push(el);
+        });
+      });
+      if (!vistos.length) return;
+
+      /* un elemento dentro de otro ya marcado no se marca: evita dobles animaciones */
+      vistos = vistos.filter(function(el){
+        return !vistos.some(function(otro){ return otro !== el && otro.contains(el); });
+      });
+
+      var porPadre = new Map();
+      vistos.forEach(function(el){
+        el.classList.add("reveal");
+        var n = porPadre.get(el.parentNode) || 0;
+        porPadre.set(el.parentNode, n + 1);
+        el.style.transitionDelay = (Math.min(n, 6) * 65) + "ms";
+      });
+
+      var obs = new IntersectionObserver(function(entradas){
+        entradas.forEach(function(e){
+          if (e.isIntersecting){
+            e.target.classList.add("is-in");
+            obs.unobserve(e.target);
+          }
+        });
+      }, { rootMargin: "0px 0px -8% 0px", threshold: 0.04 });
+
+      vistos.forEach(function(el){ obs.observe(el); });
+
+      /* red de seguridad: si algo falla, a los 3 s todo queda visible */
+      setTimeout(function(){
+        vistos.forEach(function(el){ el.classList.add("is-in"); });
+      }, 3000);
+    } catch(e){
+      try {
+        Array.prototype.forEach.call(document.querySelectorAll(".reveal"), function(el){
+          el.classList.add("is-in");
+        });
+      } catch(e2){}
+    }
+  }
+
+  if (document.readyState !== "loading") arranca();
+  else document.addEventListener("DOMContentLoaded", arranca);
+})();

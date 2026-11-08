@@ -1,39 +1,51 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap');
 
 :root{
-  --paper:#ffffff;
-  --ink:#1a1a1a;
-  --ink-soft:#4a4a4a;
-  --subtext:#6b6b6b;
-  --rule:#e2e2e2;
-  --rule-strong:#c9c9c9;
+  --paper:#fdfcfa;
+  --raised:#ffffff;
+  --ink:#16181a;
+  --ink-soft:#43474b;
+  --subtext:#71757a;
+  --rule:#e6e3dd;
+  --rule-strong:#cdc8c0;
   --accent:#3f7e73;
   --accent-ink:#2c5850;
   --accent-wash:#eaf2f0;
+  --shadow-s:0 1px 2px rgba(22,24,26,.04), 0 2px 8px rgba(22,24,26,.04);
+  --shadow-m:0 2px 4px rgba(22,24,26,.05), 0 12px 28px rgba(22,24,26,.09);
+  --ui:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+  --display:'Fraunces', 'Source Serif 4', Georgia, serif;
+  --text:'Source Serif 4', Georgia, 'Times New Roman', serif;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --paper:#14171a;
-    --ink:#edecea;
-    --ink-soft:#c7c5c0;
-    --subtext:#9a9a96;
-    --rule:#2b2f33;
+    --paper:#121416;
+    --raised:#191c1f;
+    --ink:#f0eeea;
+    --ink-soft:#c9c6c0;
+    --subtext:#989692;
+    --rule:#272b2e;
     --rule-strong:#3a3f43;
     --accent:#6fb3a4;
     --accent-ink:#8ecabc;
-    --accent-wash:#1a2422;
+    --accent-wash:#18211f;
+    --shadow-s:0 1px 2px rgba(0,0,0,.3), 0 2px 8px rgba(0,0,0,.25);
+    --shadow-m:0 2px 6px rgba(0,0,0,.35), 0 14px 32px rgba(0,0,0,.45);
   }
 }
 :root[data-theme="dark"]{
-  --paper:#14171a;
-  --ink:#edecea;
-  --ink-soft:#c7c5c0;
-  --subtext:#9a9a96;
-  --rule:#2b2f33;
+  --paper:#121416;
+  --raised:#191c1f;
+  --ink:#f0eeea;
+  --ink-soft:#c9c6c0;
+  --subtext:#989692;
+  --rule:#272b2e;
   --rule-strong:#3a3f43;
   --accent:#6fb3a4;
   --accent-ink:#8ecabc;
-  --accent-wash:#1a2422;
+  --accent-wash:#18211f;
+  --shadow-s:0 1px 2px rgba(0,0,0,.3), 0 2px 8px rgba(0,0,0,.25);
+  --shadow-m:0 2px 6px rgba(0,0,0,.35), 0 14px 32px rgba(0,0,0,.45);
 }
 
 *{ box-sizing:border-box; }
@@ -42,10 +54,12 @@ body{
   margin:0;
   background:var(--paper);
   color:var(--ink);
-  font-family:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-  font-size:16px;
-  line-height:1.65;
+  font-family:var(--text);
+  font-size:17px;
+  line-height:1.72;
   -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  font-variant-numeric:oldstyle-nums proportional-nums;
 }
 ::selection{ background:var(--accent); color:#fff; }
 
@@ -55,7 +69,7 @@ a:focus-visible, button:focus-visible, .navlink:focus-visible{
   outline:2px solid var(--accent); outline-offset:3px; border-radius:2px;
 }
 
-h1,h2,h3{ font-family:'Archivo', system-ui, sans-serif; font-weight:800; text-wrap:balance; margin:0; color:var(--ink); }
+h1,h2,h3{ font-family:var(--display); font-weight:600; text-wrap:balance; margin:0; color:var(--ink); }
 
 .eyebrow{
   font-family:'Inter', sans-serif;
@@ -430,3 +444,251 @@ body.pdfv-lock{overflow:hidden}
   .pdfv-title{flex-basis:100%;font-size:.88rem}
   .pdfv-stage{padding:10px}
 }
+
+/* ============================================================
+   CAPA EDITORIAL
+   Tipografía de revista científica, jerarquía más clara,
+   movimiento discreto al desplazar. Añadida en noviembre de 2026.
+   ============================================================ */
+
+/* --- El cuerpo es serif; la interfaz sigue siendo sans --- */
+.navlink, .brand, .brand-mark, .lang-btn, .eyebrow, .btn, .chip,
+.notes-links a, .ng-title, .cname, .period-badge, .notes-badge,
+.foot-bottom, .ptag, .cv-badge, .sp-stat-label, .sp-stat-amount,
+.sp-poster-date, .post-card time, .tl-item .period, .talk .year,
+.pdfv-bar, .pdfv-btn, .pdfv-count, .pdfv-foot, .pdfv-title{
+  font-family:var(--ui);
+  font-variant-numeric:normal;
+}
+
+/* --- Titulares --- */
+h1{ letter-spacing:-0.018em; }
+h2, h3{ letter-spacing:-0.01em; }
+
+.eyebrow{
+  font-size:0.72rem; letter-spacing:0.14em; font-weight:600;
+  color:var(--accent-ink);
+}
+
+h2.section-title{
+  font-family:var(--display);
+  font-weight:600; font-size:clamp(1.35rem, 2.4vw, 1.75rem);
+  text-transform:none; letter-spacing:-0.012em;
+  border-bottom:none; padding-bottom:0; margin-bottom:34px;
+  position:relative; padding-top:26px;
+}
+h2.section-title::before{
+  content:""; position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:38px; height:2px; border-radius:2px; background:var(--accent);
+}
+h3.sub-title{ font-family:var(--display); font-weight:600; font-size:1.16rem; }
+
+/* --- Barra de navegación --- */
+header.site-nav{
+  background:color-mix(in srgb, var(--paper) 82%, transparent);
+  -webkit-backdrop-filter:saturate(180%) blur(12px);
+  backdrop-filter:saturate(180%) blur(12px);
+}
+.navlink{ transition:background .18s ease, color .18s ease; }
+.navlink.active{ background:var(--accent-ink); color:#fff; }
+.navlink.active:hover{ background:var(--accent-ink); color:#fff; }
+.brand-mark{
+  background:var(--accent-ink); color:#fff;
+  box-shadow:0 0 0 3px var(--accent-wash);
+}
+
+/* --- Portada --- */
+.home-hero{ padding-block:84px 68px; }
+.home-info h1{
+  font-size:clamp(2.5rem, 6vw, 4.1rem);
+  line-height:1.0; text-transform:none; letter-spacing:-0.025em;
+  font-weight:600; margin-top:10px;
+}
+.home-affil{
+  font-family:var(--text); font-size:1.02rem; margin-top:22px;
+  padding-left:16px; border-left:1px solid var(--rule-strong);
+}
+.home-links{ margin-top:24px; gap:0; }
+.home-links .row{
+  display:grid; grid-template-columns:150px 1fr; gap:14px;
+  padding-block:9px; border-top:1px solid var(--rule); align-items:baseline;
+}
+.home-links .row:first-child{ border-top:none; }
+.home-links .row dt{
+  font-family:var(--ui); font-size:0.76rem; font-weight:600;
+  letter-spacing:0.07em; text-transform:uppercase; color:var(--subtext);
+}
+.home-links .row dd{ margin:0; }
+@media (max-width:520px){
+  .home-links .row{ grid-template-columns:1fr; gap:1px; }
+}
+.home-quote{
+  margin-top:34px; padding-left:0; border-left:none;
+  font-family:var(--display); font-style:italic; font-size:1.18rem;
+  line-height:1.5; color:var(--ink-soft); position:relative; padding-top:14px;
+}
+.home-quote::before{
+  content:"\201C"; position:absolute; top:-14px; left:-6px;
+  font-family:var(--display); font-size:3.4rem; line-height:1;
+  color:var(--accent); opacity:0.3;
+}
+.home-quote cite{ font-family:var(--ui); margin-top:10px; }
+
+.home-photo{ width:360px; height:360px; }
+.home-photo .halo{
+  transform:none; inset:-10px;
+  background:radial-gradient(circle at 32% 28%,
+    color-mix(in srgb, var(--accent) 26%, transparent), transparent 68%);
+}
+.home-avatar{
+  box-shadow:var(--shadow-m);
+  outline:1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  outline-offset:10px;
+  transition:transform .5s cubic-bezier(.2,.7,.3,1);
+}
+.home-photo:hover .home-avatar{ transform:scale(1.015); }
+@media (max-width:900px){ .home-photo{ width:250px; height:250px; } }
+
+/* --- Cabecera de las páginas internas --- */
+.page-head{ padding-block:72px 48px; }
+.page-head h1{
+  font-size:clamp(2rem, 5vw, 3.1rem); text-transform:none;
+  letter-spacing:-0.022em; font-weight:600; margin-top:14px;
+}
+.page-head .rule-accent{ width:54px; height:2px; margin-top:24px; }
+.page-head p.lead{ font-size:1.08rem; max-width:62ch; }
+
+/* --- Texto de lectura --- */
+.body-text{ max-width:68ch; font-size:1.04rem; }
+.body-text.center{ max-width:64ch; }
+p{ color:var(--ink-soft); }
+
+/* --- Enlaces: subrayado que crece --- */
+.body-text a, .home-links a, .biblio a, .contact-grid a{
+  text-decoration:none;
+  background-image:linear-gradient(currentColor, currentColor);
+  background-size:0% 1px; background-repeat:no-repeat;
+  background-position:0 calc(100% - 1px);
+  transition:background-size .28s cubic-bezier(.2,.7,.3,1), color .18s ease;
+}
+.body-text a:hover, .home-links a:hover, .biblio a:hover, .contact-grid a:hover{
+  background-size:100% 1px;
+}
+
+/* --- Botones --- */
+.btn{ border-radius:6px; transition:transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease; }
+.btn-solid{ box-shadow:var(--shadow-s); }
+.btn:hover{ transform:translateY(-1px); }
+.btn-solid:hover{ box-shadow:var(--shadow-m); }
+
+/* --- Tarjetas con relieve --- */
+.cv-card, .sp-poster-card{
+  background:var(--raised); box-shadow:var(--shadow-s); border-radius:10px;
+  transition:transform .25s cubic-bezier(.2,.7,.3,1), box-shadow .25s ease;
+}
+.cv-card:hover, .sp-poster-card:hover{ transform:translateY(-3px); box-shadow:var(--shadow-m); }
+.cv-thumb, .sp-poster-thumb{ border-radius:10px 10px 0 0; }
+.cv-title, .sp-poster-title, .post-card h3{ font-family:var(--display); font-weight:600; }
+
+.course-row{ transition:transform .22s cubic-bezier(.2,.7,.3,1), box-shadow .22s ease; }
+.course-row:hover{ transform:translateY(-2px); box-shadow:var(--shadow-s); }
+.notes-links a{ transition:border-color .16s ease, color .16s ease, background .16s ease; }
+.course-card .inst{ font-family:var(--display); font-weight:600; font-size:1.08rem; }
+
+.post-card{ border-top-width:2px; }
+.chip{ font-family:var(--ui); transition:border-color .16s ease, color .16s ease; }
+.chip:hover{ border-color:var(--accent); color:var(--accent-ink); }
+
+/* --- Aparición al desplazar --- */
+.reveal{
+  opacity:0;
+  transform:translateY(16px);
+  transition:opacity .7s cubic-bezier(.2,.7,.3,1), transform .7s cubic-bezier(.2,.7,.3,1);
+  will-change:opacity, transform;
+}
+.reveal.is-in{ opacity:1; transform:none; }
+html.no-js .reveal, .no-reveal .reveal{ opacity:1; transform:none; }
+
+@media (prefers-reduced-motion: reduce){
+  .reveal, .reveal.is-in{ opacity:1 !important; transform:none !important; transition:none !important; }
+  *{ animation-duration:.001ms !important; transition-duration:.001ms !important; }
+}
+
+/* --- Fórmulas --- */
+.katex{ font-size:1.045em; }
+.katex-display{
+  margin:22px 0; padding:4px 0;
+  overflow-x:auto; overflow-y:hidden;
+}
+.katex-display > .katex{ color:var(--ink); }
+
+/* --- Pie --- */
+footer.site-foot{ margin-top:48px; padding-block:46px; }
+
+/* --- Detalles --- */
+::selection{ background:color-mix(in srgb, var(--accent) 28%, transparent); color:var(--ink); }
+hr.rule{ border-top-color:var(--rule); }
+.def-row dt, .tl-item .what{ font-family:var(--text); font-weight:600; }
+
+/* --- Columnas de lectura más contenidas --- */
+.biblio, .problem-grid, .talks, .timeline, .def-list,
+.sp-judges, .blog-note, .contact-grid{
+  max-width:880px; margin-inline:auto;
+}
+.prow{ padding-block:12px; }
+.prow span:first-child{ font-family:var(--text); }
+
+/* --- Halo de la foto, un poco más presente --- */
+.home-photo .halo{
+  inset:-14px;
+  background:
+    radial-gradient(circle at 30% 26%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 62%),
+    radial-gradient(circle at 74% 80%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 58%);
+  filter:blur(2px);
+}
+
+/* --- La portada respira sin dejar un hueco enorme antes del pie --- */
+.home-intro{ margin-top:34px; padding-bottom:8px; }
+.home-page + footer.site-foot, .home-page ~ footer.site-foot{ margin-top:24px; }
+
+/* --- Contraste correcto del enlace activo en los dos temas --- */
+.navlink.active, .navlink.active:hover{ background:var(--accent-ink); color:var(--paper); }
+.brand-mark{ color:var(--paper); }
+
+/* --- La portada no deja un hueco enorme antes del pie --- */
+main > .page.home-page{ padding-bottom:16px; }
+
+/* ============================================================
+   Fórmulas: puestas como en un artículo, no como texto suelto
+   ============================================================ */
+.formula{ color:var(--ink); }
+.formula .katex, .formula-display .katex{ font-style:normal; color:var(--ink); }
+
+.formula-display{
+  display:block;
+  margin:18px 0 0;
+  padding:18px 22px 16px;
+  font-size:1rem;
+  background:
+    linear-gradient(color-mix(in srgb, var(--accent) 4%, var(--raised)),
+                    color-mix(in srgb, var(--accent) 4%, var(--raised)));
+  border:1px solid color-mix(in srgb, var(--accent) 16%, var(--rule));
+  border-left:2px solid var(--accent);
+  border-radius:8px;
+  overflow-x:auto; overflow-y:hidden;
+}
+.formula-display .katex-display{ margin:0; }
+.formula-display .katex{ font-size:1.18em; }
+
+.formula-cap{
+  display:block;
+  margin-top:9px;
+  font-family:var(--ui);
+  font-size:0.7rem; font-weight:600;
+  letter-spacing:0.07em; text-transform:uppercase;
+  color:var(--subtext);
+}
+.formula-cap sup{ text-transform:none; letter-spacing:0; }
+
+/* una fórmula suelta dentro de un párrafo no lleva caja */
+p .formula, dd > .formula:not(.formula-display){ padding:0; border:none; background:none; }
