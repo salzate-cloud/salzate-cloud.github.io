@@ -51,6 +51,7 @@
     "about.pw1.cap": "the Peter–Weyl decomposition for a compact group G",
     "about.edu2.what": "Undergraduate degree in Mathematics",
     "about.awards.h3": "Awards and scholarships",
+    "award.label": "Teaching excellence award",
     "about.award6.desc": "Teaching excellence award, given for the first time in 2026, based on student surveys and the recommendation of the department awards committee.",
     "about.award1.desc": "Distinction awarded to outstanding mathematics students during the academic year.",
     "about.award2.desc": "For undergraduate research work, supported by professors Rigoberto Flórez, Fernando Guzmán, and Leandro Junes.",
