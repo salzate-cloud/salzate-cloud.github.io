@@ -26,6 +26,8 @@
     "about.langs.label": "Languages",
     "about.langs.value": "Spanish (native), English (advanced)",
     "home.research.h2": "Research interest",
+    "home.visitas.label": "visits to this site",
+    "home.visitas.pie": "Thanks for stopping by.",
     "home.research.p": "I work in analysis, geometry, and topology, and I keep a standing habit of solving problems posed in high-impact journals — several of which have led to published notes and articles. Between research and the classroom, I'm especially interested in how the two feed each other.",
 
     "about.eyebrow": "About me",
@@ -622,6 +624,69 @@
         });
       } catch(e2){}
     }
+  }
+
+  if (document.readyState !== "loading") arranca();
+  else document.addEventListener("DOMContentLoaded", arranca);
+})();
+
+/* ------------------------------------------------ contador de visitas
+ * Pide el total al Worker de Cloudflare y lo muestra en la portada.
+ * Mientras ENDPOINT este vacio, o si la peticion falla, el bloque
+ * sigue oculto y la pagina se ve exactamente igual que antes.
+ */
+(function(){
+  var ENDPOINT = "";          /* <-- aqui va la direccion del Worker */
+
+  function conPuntos(n){
+    try { return n.toLocaleString("es-CO"); }
+    catch(e){ return String(n); }
+  }
+
+  function anima(el, hasta){
+    var reducido = false;
+    try {
+      reducido = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    } catch(e){}
+    if (reducido || hasta <= 0){ el.textContent = conPuntos(hasta); return; }
+
+    var inicio = null, dura = 1100;
+    function paso(t){
+      if (inicio === null) inicio = t;
+      var k = Math.min((t - inicio) / dura, 1);
+      k = 1 - Math.pow(1 - k, 3);                 /* desacelera al final */
+      el.textContent = conPuntos(Math.round(hasta * k));
+      if (k < 1) requestAnimationFrame(paso);
+    }
+    requestAnimationFrame(paso);
+  }
+
+  function arranca(){
+    var bloque = document.getElementById("bloque-visitas");
+    var numero = document.getElementById("visitas-numero");
+    if (!bloque || !numero || !ENDPOINT) return;
+
+    /* una visita por sesion: recargar la pagina no infla la cuenta */
+    var nueva = true;
+    try {
+      if (sessionStorage.getItem("visita-contada")) nueva = false;
+      else sessionStorage.setItem("visita-contada", "1");
+    } catch(e){}
+
+    var opciones = nueva
+      ? { method: "POST", cache: "no-store" }
+      : { method: "GET",  cache: "no-store" };
+
+    fetch(ENDPOINT.replace(/\/+$/, "") + (nueva ? "/visita" : "/"), opciones)
+      .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function(d){
+        var n = parseInt(d && d.total, 10);
+        if (!isFinite(n) || n < 0) return;
+        bloque.hidden = false;
+        bloque.classList.add("is-in");
+        anima(numero, n);
+      })
+      .catch(function(){ /* sin contador, pero la pagina intacta */ });
   }
 
   if (document.readyState !== "loading") arranca();
