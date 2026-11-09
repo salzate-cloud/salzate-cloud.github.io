@@ -4,6 +4,7 @@
   var dictEn = {
     "courses.group.libro": "Course book",
     "courses.group.notas": "Class notes",
+    "courses.notes.math147.notas": "Course notes",
     "courses.group.resumenes": "Summaries",
     "courses.group.soluciones": "Midterm solutions",
     "nav.home": "Home",
