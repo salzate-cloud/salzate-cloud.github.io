@@ -627,3 +627,85 @@
   if (document.readyState !== "loading") arranca();
   else document.addEventListener("DOMContentLoaded", arranca);
 })();
+
+/* ============================================================
+   Contador de visitas
+   Suma una visita por sesión y por página en un contador
+   público (sin cuentas, sin cookies, sin rastrear a nadie).
+   El número NO se muestra a los visitantes: aparece solo si
+   se abre cualquier página añadiendo ?stats a la dirección.
+   Si el servicio no responde, no se dibuja nada y la página
+   queda exactamente igual.
+   ============================================================ */
+(function(){
+  var API = "https://countapi.mileshilliard.com/api/v1";
+  var NS  = "santiagoalzates-2026";
+  var PAGINAS = [
+    ["index",            "Inicio"],
+    ["sobre-mi",         "Sobre mí"],
+    ["cursos",           "Cursos"],
+    ["investigacion",    "Investigación"],
+    ["solving-problems", "Solving Problems"],
+    ["blog",             "Blog"],
+    ["cv",               "CV"],
+    ["contacto",         "Contacto"]
+  ];
+
+  function actual(){
+    var p = (location.pathname.split("/").pop() || "index.html");
+    if (p === "") p = "index.html";
+    p = p.replace(/\.html$/, "");
+    return p || "index";
+  }
+
+  function clave(p){ return NS + "-" + p; }
+
+  function numero(n){
+    try { return n.toLocaleString("es-CO"); } catch(e){ return String(n); }
+  }
+
+  /* --- 1. contar esta visita, una sola vez por sesión --- */
+  function contar(){
+    var p = actual(), marca = "sa-visita-" + p;
+    try { if (sessionStorage.getItem(marca)) return; sessionStorage.setItem(marca, "1"); } catch(e){}
+    try {
+      fetch(API + "/hit/" + encodeURIComponent(clave(p)), { mode: "cors" })
+        .catch(function(){});
+    } catch(e){}
+  }
+
+  /* --- 2. panel privado, solo con ?stats --- */
+  function panel(){
+    if (!/[?&]stats\b/.test(location.search)) return;
+
+    var caja = document.createElement("div");
+    caja.className = "stats-panel";
+    caja.innerHTML = '<div class="stats-title">Visitas</div>' +
+                     '<div class="stats-body">cargando…</div>';
+    document.body.appendChild(caja);
+    var cuerpo = caja.querySelector(".stats-body");
+
+    var peticiones = PAGINAS.map(function(par){
+      return fetch(API + "/get/" + encodeURIComponent(clave(par[0])), { mode: "cors" })
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .then(function(j){ return j && typeof j.value === "number" ? j.value : 0; })
+        .catch(function(){ return null; });
+    });
+
+    Promise.all(peticiones).then(function(valores){
+      if (valores.every(function(v){ return v === null; })) { caja.remove(); return; }
+      var total = 0, filas = "";
+      PAGINAS.forEach(function(par, i){
+        var v = valores[i] === null ? 0 : valores[i];
+        total += v;
+        filas += '<div class="stats-row"><span>' + par[1] + '</span><b>' + numero(v) + '</b></div>';
+      });
+      cuerpo.innerHTML = '<div class="stats-row stats-total"><span>Total</span><b>' +
+                         numero(total) + '</b></div>' + filas;
+    }).catch(function(){ caja.remove(); });
+  }
+
+  function arranca(){ contar(); panel(); }
+  if (document.readyState !== "loading") arranca();
+  else document.addEventListener("DOMContentLoaded", arranca);
+})();
