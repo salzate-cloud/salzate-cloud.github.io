@@ -636,7 +636,7 @@
  * sigue oculto y la pagina se ve exactamente igual que antes.
  */
 (function(){
-  var ENDPOINT = "";          /* <-- aqui va la direccion del Worker */
+  var ENDPOINT = "https://contador.alzattesantiago.workers.dev";
 
   function conPuntos(n){
     try { return n.toLocaleString("es-CO"); }
