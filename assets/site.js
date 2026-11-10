@@ -631,9 +631,9 @@
 })();
 
 /* ------------------------------------------------ contador de visitas
- * Pide el total al Worker de Cloudflare y lo muestra en la portada.
- * Mientras ENDPOINT este vacio, o si la peticion falla, el bloque
- * sigue oculto y la pagina se ve exactamente igual que antes.
+ * Pide el total al Worker de Cloudflare y lo muestra donde haya un
+ * bloque .bloque-visitas (portada grande, cursos pequeno). Si la
+ * peticion falla, los bloques siguen ocultos y la pagina se ve igual.
  */
 (function(){
   var ENDPOINT = "https://contador.alzattesantiago.workers.dev";
@@ -662,29 +662,32 @@
   }
 
   function arranca(){
-    var bloque = document.getElementById("bloque-visitas");
-    var numero = document.getElementById("visitas-numero");
-    if (!bloque || !numero || !ENDPOINT) return;
+    var bloques = document.querySelectorAll(".bloque-visitas");
+    if (!bloques.length || !ENDPOINT) return;
 
-    /* una visita por sesion: recargar la pagina no infla la cuenta */
+    /* una visita por sesion: recargar o cambiar de pagina no infla la cuenta */
     var nueva = true;
     try {
       if (sessionStorage.getItem("visita-contada")) nueva = false;
       else sessionStorage.setItem("visita-contada", "1");
     } catch(e){}
 
-    var opciones = nueva
-      ? { method: "POST", cache: "no-store" }
-      : { method: "GET",  cache: "no-store" };
+    var destino = ENDPOINT.replace(/\/+$/, "") + (nueva ? "/visita" : "/");
+    var opciones = { method: nueva ? "POST" : "GET", cache: "no-store" };
 
-    fetch(ENDPOINT.replace(/\/+$/, "") + (nueva ? "/visita" : "/"), opciones)
+    fetch(destino, opciones)
       .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function(d){
         var n = parseInt(d && d.total, 10);
         if (!isFinite(n) || n < 0) return;
-        bloque.hidden = false;
-        bloque.classList.add("is-in");
-        anima(numero, n);
+        Array.prototype.forEach.call(bloques, function(bloque){
+          bloque.hidden = false;
+          bloque.classList.add("is-in");
+          Array.prototype.forEach.call(
+            bloque.querySelectorAll(".visitas-numero"),
+            function(el){ anima(el, n); }
+          );
+        });
       })
       .catch(function(){ /* sin contador, pero la pagina intacta */ });
   }
