@@ -725,7 +725,15 @@
           );
         });
       })
-      .catch(function(){ /* sin contador, pero la pagina intacta */ });
+      .catch(function(){
+        /* Mantiene visible el bloque y no muestra un cero si el servicio falla. */
+        Array.prototype.forEach.call(bloques, function(bloque){
+          Array.prototype.forEach.call(
+            bloque.querySelectorAll(".visitas-numero, .visitas-mini-num"),
+            function(el){ el.textContent = "—"; }
+          );
+        });
+      });
   }
 
   if (document.readyState !== "loading") arranca();
