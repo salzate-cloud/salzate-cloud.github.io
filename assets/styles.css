@@ -335,6 +335,7 @@ p{ color:var(--ink-soft); }
   background:color-mix(in srgb, var(--tono) 10%, var(--paper));
 }
 .notes-links svg{ width:12px; height:12px; }
+.course-row .notes-empty{display:inline-flex;align-items:center;color:var(--subtext);font-size:.74rem;border:1px dashed var(--tono-rule);border-radius:999px;padding:4px 10px;background:var(--tono-wash);}
 
 /* ---------- Investigación ---------- */
 .biblio{ margin:0; padding-left:22px; color:var(--ink-soft); }
