@@ -1149,3 +1149,28 @@ h2.section-title::before{display:none}
   background:color-mix(in srgb,#a33b3b 13%,var(--paper));
   color:color-mix(in srgb,#8f2e2e 86%,var(--ink));
 }
+
+
+/* Course cards: clearer metadata and comfortable mobile controls */
+.course-meta{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-top:7px}
+.course-status,.course-period{display:inline-flex;align-items:center;min-height:25px;padding:4px 9px;border:1px solid var(--tono-rule);border-radius:999px;background:var(--paper);color:var(--tono-ink);font-family:var(--ui);font-size:.69rem;line-height:1.2;font-weight:600}
+.course-status.is-current{background:var(--tono-wash)}
+.course-status.is-archive{color:var(--subtext);border-color:var(--rule);background:var(--paper)}
+.course-period{color:var(--ink-soft);font-weight:500;max-width:100%;white-space:normal}
+.course-updated{display:inline-flex;align-items:baseline;flex-wrap:wrap;gap:4px;color:var(--subtext);font-size:.68rem;line-height:1.35;font-variant-numeric:tabular-nums}
+.course-updated time{color:var(--ink-soft);font-weight:600}
+.course-row .course-info{min-width:0}
+@media(max-width:720px){
+  .course-row{padding:14px 13px}
+  .course-meta{gap:6px 7px}
+  .course-updated{flex-basis:100%;padding-left:2px}
+  .course-row .notes-group{justify-self:stretch}
+  .course-row .ng-title{min-height:42px;padding:9px 13px;border-radius:13px;font-size:.78rem;line-height:1.25}
+  .course-row .notes-links a{min-height:40px;padding:8px 11px;font-size:.8rem}
+}
+@media(max-width:420px){
+  .course-row{padding:13px 11px}
+  .course-meta{gap:5px}
+  .course-status,.course-period{min-height:28px;padding-inline:9px}
+  .course-row .notes-group .ng-title{justify-content:space-between}
+}
