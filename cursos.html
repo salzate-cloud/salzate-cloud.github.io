@@ -84,6 +84,13 @@
         <a class="course-index-feedback" href="#feedback-courses" data-i18n="feedback.quickLink">Dejar un comentario</a>
       </div>
     </nav>
+    <div class="course-search">
+      <label for="course-search" data-i18n="courses.search.label">Buscar un curso o tema</label>
+      <input id="course-search" type="search" autocomplete="off" aria-describedby="course-search-status"
+        data-i18n-placeholder="courses.search.placeholder" placeholder="Prueba: Banach, Fourier, Geometría…">
+      <p id="course-search-status" class="course-search-status" role="status" aria-live="polite"
+        data-course-search-status data-i18n="courses.search.description">Busca por institución, curso o tema. Los materiales se filtran mientras escribes.</p>
+    </div>
     <div class="course-grid">
       <div id="course-iue" class="course-card">
         <div>
