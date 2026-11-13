@@ -974,3 +974,20 @@ p .formula, dd > .formula:not(.formula-display){ padding:0; border:none; backgro
 @media (prefers-reduced-motion:reduce){
   .home-action-primary,.home-action-secondary,.course-index a{ transition:none; }
 }
+
+
+/* Buscador accesible del catalogo */
+.course-search{
+  max-width:1180px; margin:0 auto 22px; padding:15px 17px;
+  border:1px solid var(--rule); border-radius:14px; background:var(--raised);
+}
+.course-search label{ display:block; margin-bottom:7px; color:var(--ink); font:700 .76rem var(--ui); }
+.course-search input{
+  display:block; width:100%; min-height:42px; padding:9px 12px;
+  border:1px solid var(--rule-strong); border-radius:9px;
+  background:var(--paper); color:var(--ink); font:400 .88rem var(--ui);
+}
+.course-search input:focus{ outline:2px solid color-mix(in srgb,var(--accent) 60%,transparent); outline-offset:1px; }
+.course-search-status{ margin:7px 0 0; color:var(--subtext); font:400 .74rem/1.4 var(--ui); }
+.course-card[hidden],.course-row[hidden],.notes-group[hidden],.notes-links a[hidden],.notes-links button[hidden],.course-index a[hidden]{ display:none!important; }
+@media (max-width:640px){ .course-search{ padding:13px; } }
