@@ -2,11 +2,13 @@
   "use strict";
 
   var dictEn = {
-    "courses.group.libro": "Course book",
-    "courses.group.notas": "Class notes",
+    "courses.group.libro": "Book",
+    "courses.group.notas": "Notes",
     "courses.notes.math147.notas": "Course notes",
     "courses.group.resumenes": "Summaries",
-    "courses.group.soluciones": "Midterm solutions",
+    "courses.group.soluciones": "Midterms",
+    "courses.notes.an2.p3sol": "Midterm 3 · Solution",
+    "courses.notes.geovec.p3sol": "Midterm 3 · Solution",
     "courses.index.title": "Explore by university",
     "courses.index.iue": "Institución Universitaria de Envigado",
     "courses.index.udea": "Universidad de Antioquia",
@@ -839,6 +841,7 @@
               if(matches){groupHasMatch=true;visibleMaterials++;}
             });
             group.hidden=!!query&&!groupHasMatch;
+            if(group.tagName==="DETAILS") group.open=!!query&&groupHasMatch;
             if(groupHasMatch) rowHasMatch=true;
           });
           row.hidden=!!query&&!rowHasMatch;
