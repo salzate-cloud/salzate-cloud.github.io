@@ -787,7 +787,10 @@
 /* ---------- Busqueda de cursos y materiales ---------- */
 (function(){
   function normaliza(valor){
-    return String(valor||"").normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").toLowerCase();
+    return String(valor||"").normalize("NFD").split("").filter(function(caracter){
+      var codigo=caracter.charCodeAt(0);
+      return codigo<768||codigo>879;
+    }).join("").toLowerCase();
   }
   function inicia(){
     var input=document.getElementById("course-search");
