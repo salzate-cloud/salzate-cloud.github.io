@@ -157,6 +157,8 @@
     "courses.notes.iue.calc1Colab1sol": "Collaborative workshop 1 · Solution",
     "courses.notes.iue.prepDiscrete": "Preparation workshop",
     "courses.notes.iue.discreteP1sol": "Midterm 1 · Solution",
+    "courses.notes.iue.calc1P1sol": "Midterm 1 · Solution",
+    "courses.notes.iue.logicP1sol": "Midterm 1 · Solution",
     "courses.notes.iue.grafos": "Unit 3 · Graphs",
     "courses.notes.iue.prepLogic": "Preparation workshop",
     "courses.notes.iue.logicColab1sol": "Collaborative workshop 1 · Solution",
