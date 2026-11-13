@@ -148,6 +148,7 @@
     "courses.notes.an.sup2sol": "Make-up Midterm 2 · Solutions",
     "courses.notes.clase11": "Class 11",
     "courses.notes.clase12": "Class 12",
+    "courses.notes.clase13": "Class 13",
     "courses.notes.math225.clase1": "Class 1", "courses.notes.math225.clase2": "Class 2",
     "courses.notes.math225.clase3": "Class 3", "courses.notes.math225.clase4": "Class 4",
     "courses.notes.math225.clase5": "Class 5", "courses.notes.math225.clase6": "Class 6",
