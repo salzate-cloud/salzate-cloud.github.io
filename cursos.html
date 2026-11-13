@@ -81,6 +81,7 @@
         <a href="#course-iue"><span data-i18n="courses.index.iue">Institución Universitaria de Envigado</span><span class="course-index-status" data-i18n="courses.index.current">Actual</span></a>
         <a href="#course-udea"><span data-i18n="courses.index.udea">Universidad de Antioquia</span><span class="course-index-status" data-i18n="courses.index.current">Actual</span></a>
         <a href="#course-binghamton"><span data-i18n="courses.index.binghamton">Binghamton University</span><span class="course-index-status" data-i18n="courses.index.archive">Anteriores</span></a>
+        <a class="course-index-feedback" href="#feedback-courses" data-i18n="feedback.quickLink">Dejar un comentario</a>
       </div>
     </nav>
     <div class="course-grid">
@@ -415,6 +416,34 @@
       <span class="visitas-mini-label" data-i18n="home.visitas.label">visitas a este sitio</span>
     </p>
   </div>
+  <section class="feedback-section" id="feedback-courses" aria-labelledby="feedback-title-courses">
+    <div class="feedback-intro">
+      <span class="eyebrow" data-i18n="feedback.eyebrow">Un mensaje para Santiago</span>
+      <h2 id="feedback-title-courses" data-i18n="feedback.title">¿Qué te gustaría compartir?</h2>
+      <p data-i18n="feedback.description">Puedes sugerir una mejora, señalar un error o contarme qué te ayudó a aprender.</p>
+      <p class="feedback-note" data-i18n="feedback.privacy">El comentario no se publica en el sitio. Puedes enviarlo sin nombre ni correo; si quieres una respuesta, puedes dejar tus datos de contacto.</p>
+    </div>
+    <form class="feedback-form" data-feedback-form data-feedback-endpoint="">
+      <label class="feedback-label" for="feedback-message-courses" data-i18n="feedback.message">Tu comentario</label>
+      <textarea id="feedback-message-courses" name="message" rows="5" maxlength="3000" required data-i18n-placeholder="feedback.placeholder" placeholder="Escribe tu comentario aquí…"></textarea>
+      <label class="feedback-anonymous">
+        <input type="checkbox" name="anonymous" value="yes" checked data-anonymous-toggle>
+        <span data-i18n="feedback.anonymous">Prefiero dejarlo anónimo</span>
+      </label>
+      <div class="feedback-identifying" data-anonymous-fields hidden>
+        <label class="feedback-label" for="feedback-name-courses" data-i18n="feedback.name">Nombre (opcional)</label>
+        <input id="feedback-name-courses" type="text" name="name" autocomplete="name" data-i18n-placeholder="feedback.namePlaceholder" placeholder="Cómo te llamas">
+        <label class="feedback-label" for="feedback-email-courses" data-i18n="feedback.email">Correo (opcional, si quieres respuesta)</label>
+        <input id="feedback-email-courses" type="email" name="email" autocomplete="email" data-i18n-placeholder="feedback.emailPlaceholder" placeholder="tunombre@correo.com">
+      </div>
+      <div class="feedback-honeypot" aria-hidden="true">
+        <label for="feedback-website-courses">Deja este campo vacío</label>
+        <input id="feedback-website-courses" type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+      </div>
+      <button class="feedback-submit" type="submit" disabled data-i18n="feedback.submit">Enviar comentario</button>
+      <p class="feedback-status" data-feedback-status role="status" aria-live="polite" data-i18n="feedback.pending">Buzón por conectar: activaremos el envío cuando configuremos el correo de destino.</p>
+    </form>
+  </section>
 </div>
 </main>
 <footer class="site-foot">
