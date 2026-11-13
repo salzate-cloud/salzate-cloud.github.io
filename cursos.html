@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cursos — Santiago Alzate</title>
 <meta name="description" content="Santiago Alzate — matemático y profesor de matemáticas.">
-<link rel="stylesheet" href="assets/styles.css?v=20261110b">
+<link rel="stylesheet" href="assets/styles.css?v=20261113site">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
@@ -75,8 +75,32 @@
     <div class="award-note award-note-center"><svg class="award-note-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="5.2"/><path d="M8.6 13.4 7 22l5-2.6 5 2.6-1.6-8.6"/></svg><span class="award-note-body"><span class="award-note-label" data-i18n="award.label">Premio a la excelencia docente</span><span class="award-note-name">Teaching Excellence Award for Student Success</span><span class="award-note-meta">Binghamton University · 2026</span></span></div>
   </div>
   <div class="wrap">
+    <nav class="course-index" aria-labelledby="course-index-title">
+      <h2 id="course-index-title" data-i18n="courses.index.title">Explora por universidad</h2>
+      <div class="course-index-links" role="tablist" aria-label="Explora los cursos por universidad">
+        <a id="course-tab-iue" href="#course-iue" role="tab" aria-controls="course-iue" aria-selected="true" tabindex="0">
+          <span class="course-index-logo"><img src="https://pbs.twimg.com/profile_images/1971903177239797760/baPKdMCT.jpg" alt="Escudo de la Institución Universitaria de Envigado" loading="eager" referrerpolicy="no-referrer"></span>
+          <span><span class="course-index-name" data-i18n="courses.index.iue">Institución Universitaria de Envigado</span><span class="course-index-status" data-i18n="courses.index.current">Actual</span></span>
+        </a>
+        <a id="course-tab-udea" href="#course-udea" role="tab" aria-controls="course-udea" aria-selected="false" tabindex="-1">
+          <span class="course-index-logo"><img src="https://www.udea.edu.co/wps/wcm/connect/udea/99fc43e7-7a64-45bd-97fc-96639b70813d/logosimbolo-vertical.png?CVID=ljeLvHr&amp;MOD=AJPERES" alt="Escudo de la Universidad de Antioquia" loading="eager" referrerpolicy="no-referrer"></span>
+          <span><span class="course-index-name" data-i18n="courses.index.udea">Universidad de Antioquia</span><span class="course-index-status" data-i18n="courses.index.current">Actual</span></span>
+        </a>
+        <a id="course-tab-binghamton" href="#course-binghamton" role="tab" aria-controls="course-binghamton" aria-selected="false" tabindex="-1">
+          <span class="course-index-logo"><img src="https://www.binghamton.edu/communications-and-marketing/img/logos/B-symbol-2c.jpg" alt="Marca B de Binghamton University" loading="eager" referrerpolicy="no-referrer"></span>
+          <span><span class="course-index-name" data-i18n="courses.index.binghamton">Binghamton University</span><span class="course-index-status" data-i18n="courses.index.archive">Anteriores</span></span>
+        </a>
+      </div>
+      <a class="course-index-feedback" href="#feedback-courses" data-i18n="feedback.quickLink">Dejar un comentario</a>
+    </nav>    <div class="course-search">
+      <label for="course-search" data-i18n="courses.search.label">Buscar un curso o tema</label>
+      <input id="course-search" type="search" autocomplete="off" aria-describedby="course-search-status"
+        data-i18n-placeholder="courses.search.placeholder" placeholder="Prueba: Banach, Fourier, Geometría…">
+      <p id="course-search-status" class="course-search-status" role="status" aria-live="polite"
+        data-course-search-status data-i18n="courses.search.description">Busca por institución, curso o tema. Los materiales se filtran mientras escribes.</p>
+    </div>
     <div class="course-grid">
-      <div class="course-card">
+      <div id="course-iue" class="course-card" role="tabpanel" aria-labelledby="course-tab-iue">
         <div>
           <div class="inst">Institución Universitaria de Envigado</div>
           <div class="place">Envigado, Colombia</div>
@@ -150,7 +174,7 @@
         </div>
       </div>
 
-      <div class="course-card">
+      <div id="course-udea" class="course-card" role="tabpanel" aria-labelledby="course-tab-udea">
         <div>
           <div class="inst">Universidad de Antioquia</div>
           <div class="place">Instituto de Matemáticas, Medellín</div>
@@ -290,7 +314,7 @@
         </div>
       </div>
 
-      <div class="course-card">
+      <div id="course-binghamton" class="course-card" role="tabpanel" aria-labelledby="course-tab-binghamton">
         <div>
           <div class="inst">Binghamton University</div>
           <div class="place">Nueva York, EE. UU.</div>
@@ -400,13 +424,41 @@
     </div>
   </div>
 
-  <div class="wrap visitas-wrap-mini bloque-visitas reveal" hidden>
+  <div class="wrap visitas-wrap-mini bloque-visitas reveal">
     <p class="visitas-mini">
       <svg class="visitas-mini-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.6 12S5.5 5 12 5s10.4 7 10.4 7-3.9 7-10.4 7S1.6 12 1.6 12Z"/><circle cx="12" cy="12" r="3.1"/></svg>
-      <span class="visitas-mini-num visitas-numero">0</span>
+      <span class="visitas-mini-num visitas-numero">—</span>
       <span class="visitas-mini-label" data-i18n="home.visitas.label">visitas a este sitio</span>
     </p>
   </div>
+  <section class="feedback-section" id="feedback-courses" aria-labelledby="feedback-title-courses">
+    <div class="feedback-intro">
+      <span class="eyebrow" data-i18n="feedback.eyebrow">Un mensaje para Santiago</span>
+      <h2 id="feedback-title-courses" data-i18n="feedback.title">¿Qué te gustaría compartir?</h2>
+      <p data-i18n="feedback.description">Puedes sugerir una mejora, señalar un error o contarme qué te ayudó a aprender.</p>
+      <p class="feedback-note" data-i18n="feedback.privacy">El comentario no se publica en el sitio. Nombre y correo son opcionales. Formspree procesa y guarda los envíos en su panel; evita incluir datos sensibles de otros estudiantes. <a href="https://formspree.io/legal/privacy-policy/" target="_blank" rel="noopener">Lee su política de privacidad.</a></p>
+    </div>
+    <form class="feedback-form" data-feedback-form data-feedback-endpoint="https://formspree.io/f/mzerzkoj">
+      <label class="feedback-label" for="feedback-message-courses" data-i18n="feedback.message">Tu comentario</label>
+      <textarea id="feedback-message-courses" name="message" rows="5" maxlength="3000" required data-i18n-placeholder="feedback.placeholder" placeholder="Escribe tu comentario aquí…"></textarea>
+      <label class="feedback-anonymous">
+        <input type="checkbox" name="anonymous" value="yes" checked data-anonymous-toggle>
+        <span data-i18n="feedback.anonymous">Prefiero dejarlo anónimo</span>
+      </label>
+      <div class="feedback-identifying" data-anonymous-fields hidden>
+        <label class="feedback-label" for="feedback-name-courses" data-i18n="feedback.name">Nombre (opcional)</label>
+        <input id="feedback-name-courses" type="text" name="name" autocomplete="name" data-i18n-placeholder="feedback.namePlaceholder" placeholder="Cómo te llamas">
+        <label class="feedback-label" for="feedback-email-courses" data-i18n="feedback.email">Correo (opcional, si quieres respuesta)</label>
+        <input id="feedback-email-courses" type="email" name="email" autocomplete="email" data-i18n-placeholder="feedback.emailPlaceholder" placeholder="tunombre@correo.com">
+      </div>
+      <div class="feedback-honeypot" aria-hidden="true">
+        <label for="feedback-website-courses">Deja este campo vacío</label>
+        <input id="feedback-website-courses" type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+      </div>
+      <button class="feedback-submit" type="submit" data-i18n="feedback.submit">Enviar comentario</button>
+      <p class="feedback-status" data-feedback-status role="status" aria-live="polite" data-i18n="feedback.ready">Tu comentario llegará al correo de Santiago. Puedes enviarlo anónimamente.</p>
+    </form>
+  </section>
 </div>
 </main>
 <footer class="site-foot">
@@ -416,7 +468,7 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261110b"></script>
+<script src="assets/site.js?v=20261113site"></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "4f01a8ad63b2411f813977c2b179aa71"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>

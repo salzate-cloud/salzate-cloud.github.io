@@ -7,6 +7,32 @@
     "courses.notes.math147.notas": "Course notes",
     "courses.group.resumenes": "Summaries",
     "courses.group.soluciones": "Midterm solutions",
+    "courses.index.title": "Explore by university",
+    "courses.index.iue": "Institución Universitaria de Envigado",
+    "courses.index.udea": "Universidad de Antioquia",
+    "courses.index.binghamton": "Binghamton University",
+    "courses.index.current": "Current",
+    "courses.index.archive": "Past courses",
+    "home.cta.courses": "Explore courses",
+    "home.cta.feedback": "Leave a comment",
+    "feedback.eyebrow": "A note for Santiago",
+    "feedback.title": "What would you like to share?",
+    "feedback.description": "Suggest an improvement, point out an error, or tell me what helped you learn.",
+    "feedback.privacy": "Comments are not published on the site. Name and email are optional. Formspree processes and stores submissions in its dashboard; avoid including sensitive information about other students. <a href=\"https://formspree.io/legal/privacy-policy/\" target=\"_blank\" rel=\"noopener\">Read its privacy policy.</a>",
+    "feedback.message": "Your comment",
+    "feedback.placeholder": "Write your comment here…",
+    "feedback.anonymous": "I prefer to leave this anonymously",
+    "feedback.name": "Name (optional)",
+    "feedback.namePlaceholder": "Your name",
+    "feedback.email": "Email (optional, if you would like a reply)",
+    "feedback.emailPlaceholder": "you@example.com",
+    "feedback.submit": "Send comment",
+    "feedback.pending": "Mailbox not connected yet: we will enable sending when the destination email is configured.",
+    "feedback.ready": "Your comment will be emailed to Santiago. You can send it anonymously.",
+    "courses.search.label": "Find a course or topic",
+    "courses.search.placeholder": "Try: Banach, Fourier, Geometry…",
+    "courses.search.description": "Search by institution, course, or topic. Materials filter as you type.",
+    "feedback.quickLink": "Leave a comment",
     "nav.home": "Home",
     "nav.about": "About",
     "nav.courses": "Courses",
@@ -15,6 +41,8 @@
     "nav.blog": "Blog",
     "nav.cv": "CV",
     "nav.contact": "Contact",
+    "contact.feedback": "Would you rather suggest an improvement or leave an anonymous comment?",
+    "contact.feedback.link": "Go to comments →",
 
     "home.eyebrow": "Mathematician · Mathematics Professor",
     "home.affil1": "Institute of Mathematics, Universidad de Antioquia",
@@ -273,6 +301,10 @@
     try {
       var elements = Array.prototype.slice.call(document.querySelectorAll("[data-i18n]"));
       var esCache = {};
+      var placeholderCache = {};
+      document.querySelectorAll("[data-i18n-placeholder]").forEach(function(el){
+        placeholderCache[el.getAttribute("data-i18n-placeholder")] = el.getAttribute("placeholder") || "";
+      });
       elements.forEach(function(el){
         esCache[el.getAttribute("data-i18n")] = el.innerHTML;
       });
@@ -299,6 +331,12 @@
           } else if (Object.prototype.hasOwnProperty.call(esCache, key)) {
             el.innerHTML = esCache[key];
           }
+        });
+        document.querySelectorAll("[data-i18n-placeholder]").forEach(function(el){
+          var key = el.getAttribute("data-i18n-placeholder");
+          var value = lang === "en" && Object.prototype.hasOwnProperty.call(dictEn, key)
+            ? dictEn[key] : placeholderCache[key];
+          if (value) el.setAttribute("placeholder", value);
         });
         try { document.documentElement.setAttribute("lang", lang); } catch(e) {}
         var btns = document.querySelectorAll("[data-lang-btn]");
@@ -689,9 +727,180 @@
           );
         });
       })
-      .catch(function(){ /* sin contador, pero la pagina intacta */ });
+      .catch(function(){
+        /* Mantiene visible el bloque y no muestra un cero si el servicio falla. */
+        Array.prototype.forEach.call(bloques, function(bloque){
+          Array.prototype.forEach.call(
+            bloque.querySelectorAll(".visitas-numero, .visitas-mini-num"),
+            function(el){ el.textContent = "—"; }
+          );
+        });
+      });
   }
 
   if (document.readyState !== "loading") arranca();
   else document.addEventListener("DOMContentLoaded", arranca);
+})();
+
+
+/* ---------- Buzon de comentarios ---------- */
+(function(){
+  function arranca(){
+    Array.prototype.forEach.call(document.querySelectorAll("[data-feedback-form]"),function(form){
+      var toggle=form.querySelector("[data-anonymous-toggle]");
+      var fields=form.querySelector("[data-anonymous-fields]");
+      var submit=form.querySelector('[type="submit"]');
+      var status=form.querySelector("[data-feedback-status]");
+      var endpoint=(form.getAttribute("data-feedback-endpoint")||"").trim();
+      var english=document.documentElement.getAttribute("lang")==="en";
+      function syncAnonymous(){
+        if(!toggle||!fields) return;
+        fields.hidden=toggle.checked;
+        Array.prototype.forEach.call(fields.querySelectorAll("input"),function(input){input.disabled=toggle.checked;});
+      }
+      syncAnonymous();
+      if(submit) submit.disabled=!endpoint;
+      if(!endpoint&&status){status.setAttribute("data-state","pending");}
+      if(toggle) toggle.addEventListener("change",syncAnonymous);
+      form.addEventListener("submit",function(event){
+        event.preventDefault();
+        if(!endpoint){
+          if(status) status.textContent=english
+            ?"The mailbox is not connected yet. No comment has been sent."
+            :"El buzón todavía no está conectado. No se ha enviado ningún comentario.";
+          return;
+        }
+        if(submit) submit.disabled=true;
+        if(status){status.removeAttribute("data-state");status.textContent=english?"Sending…":"Enviando…";}
+        fetch(endpoint,{method:"POST",body:new FormData(form),headers:{Accept:"application/json"}})
+          .then(function(response){if(!response.ok) throw new Error("Submission failed");return response.json();})
+          .then(function(){
+            form.reset();syncAnonymous();
+            if(status){status.setAttribute("data-state","success");status.textContent=english
+              ?"Thank you. Your comment has been sent to Santiago."
+              :"Gracias. Tu comentario fue enviado a Santiago.";}
+          })
+          .catch(function(){
+            if(status){status.setAttribute("data-state","error");status.textContent=english
+              ?"We could not send the comment. Please try again later."
+              :"No pudimos enviar el comentario. Inténtalo de nuevo más tarde.";}
+          })
+          .finally(function(){if(submit) submit.disabled=false;});
+      });
+    });
+  }
+  if(document.readyState!=="loading") arranca();
+  else document.addEventListener("DOMContentLoaded",arranca);
+})();
+
+
+/* ---------- Pestañas de universidad y busqueda de materiales ---------- */
+(function(){
+  function normaliza(valor){
+    return String(valor||"").normalize("NFD").split("").filter(function(caracter){
+      var codigo=caracter.charCodeAt(0);
+      return codigo<768||codigo>879;
+    }).join("").toLowerCase();
+  }
+  function inicia(){
+    var input=document.getElementById("course-search");
+    var tabs=Array.prototype.slice.call(document.querySelectorAll(".course-index a[role='tab'][href^='#course-']"));
+    var cards=Array.prototype.slice.call(document.querySelectorAll(".course-card[id^='course-']"));
+    if(!tabs.length||!cards.length) return;
+    var status=document.querySelector("[data-course-search-status]");
+    var indexLinks=document.querySelectorAll(".course-index a[href^='#course-']");
+    var activeId="course-iue";
+    if(location.hash){
+      var hashId=location.hash.slice(1);
+      if(cards.some(function(card){return card.id===hashId;})) activeId=hashId;
+    }
+    function filtra(){
+      var query=normaliza(input?input.value.trim():"");
+      var english=document.documentElement.getAttribute("lang")==="en";
+      var visibleMaterials=0;
+      cards.forEach(function(card){
+        var rows=card.querySelectorAll(".course-row");
+        var visibleRows=0;
+        Array.prototype.forEach.call(rows,function(row){
+          var name=normaliza((row.querySelector(".cname")||{}).textContent);
+          var time=normaliza((row.querySelector(".cwhen")||{}).textContent);
+          var headingMatch=!query||name.indexOf(query)!==-1||time.indexOf(query)!==-1;
+          var rowHasMatch=headingMatch;
+          var groups=row.querySelectorAll(".notes-group");
+          Array.prototype.forEach.call(groups,function(group){
+            var title=normaliza((group.querySelector(".ng-title")||{}).textContent);
+            var groupMatch=headingMatch||!query||title.indexOf(query)!==-1;
+            var resources=group.querySelectorAll(".notes-links a,.notes-links button");
+            var groupHasMatch=false;
+            Array.prototype.forEach.call(resources,function(resource){
+              var text=normaliza((resource.textContent||"")+" "+(resource.getAttribute("title")||"")+" "+(resource.getAttribute("aria-label")||""));
+              var matches=groupMatch||text.indexOf(query)!==-1;
+              resource.hidden=!matches;
+              if(matches){groupHasMatch=true;visibleMaterials++;}
+            });
+            group.hidden=!!query&&!groupHasMatch;
+            if(groupHasMatch) rowHasMatch=true;
+          });
+          row.hidden=!!query&&!rowHasMatch;
+          if(rowHasMatch) visibleRows++;
+        });
+        card.hidden=query?!visibleRows:card.id!==activeId;
+      });
+      Array.prototype.forEach.call(indexLinks,function(link){
+        var target=document.querySelector(link.getAttribute("href"));
+        link.hidden=!!query&&(!target||target.hidden);
+      });
+      if(status){
+        if(!query) status.textContent=english
+          ?"Search by institution, course, or topic. Materials filter as you type."
+          :"Busca por institución, curso o tema. Los materiales se filtran mientras escribes.";
+        else if(visibleMaterials) status.textContent=english
+          ?"Found "+visibleMaterials+" materials."
+          :"Se encontraron "+visibleMaterials+" materiales.";
+        else status.textContent=english
+          ?"No materials match that search."
+          :"No encontramos materiales con esa búsqueda.";
+      }
+    }
+    function activar(tab,focus,scroll){
+      activeId=tab.getAttribute("href").slice(1);
+      if(input) input.value="";
+      tabs.forEach(function(item){
+        var selected=item===tab;
+        item.setAttribute("aria-selected",String(selected));
+        item.tabIndex=selected?0:-1;
+      });
+      filtra();
+      try{history.replaceState(null,"","#"+activeId);}catch(e){}
+      if(focus) tab.focus();
+      if(scroll){
+        var target=document.getElementById(activeId);
+        if(target) target.scrollIntoView({behavior:"smooth",block:"start"});
+      }
+    }
+    tabs.forEach(function(tab,index){
+      tab.addEventListener("click",function(event){
+        event.preventDefault();
+        activar(tab,false,true);
+      });
+      tab.addEventListener("keydown",function(event){
+        var next=index;
+        if(event.key==="ArrowRight") next=(index+1)%tabs.length;
+        else if(event.key==="ArrowLeft") next=(index+tabs.length-1)%tabs.length;
+        else if(event.key==="Home") next=0;
+        else if(event.key==="End") next=tabs.length-1;
+        else return;
+        event.preventDefault();
+        activar(tabs[next],true,false);
+      });
+    });
+    if(input) input.addEventListener("input",filtra);
+    document.querySelectorAll("[data-lang-btn]").forEach(function(button){button.addEventListener("click",filtra);});
+    var activeTab=tabs.find(function(tab){return tab.getAttribute("href")==="#"+activeId;})||tabs[0];
+    tabs.forEach(function(tab){var selected=tab===activeTab;tab.setAttribute("aria-selected",String(selected));tab.tabIndex=selected?0:-1;});
+    activeId=activeTab.getAttribute("href").slice(1);
+    filtra();
+  }
+  if(document.readyState!=="loading") inicia();
+  else document.addEventListener("DOMContentLoaded",inicia);
 })();

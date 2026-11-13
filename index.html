@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Inicio — Santiago Alzate</title>
 <meta name="description" content="Santiago Alzate — matemático y profesor de matemáticas.">
-<link rel="stylesheet" href="assets/styles.css?v=20261110b">
+<link rel="stylesheet" href="assets/styles.css?v=20261113site">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
@@ -78,6 +78,10 @@
           <div>Medellín, Colombia</div>
         </div>
         <div class="award-note"><svg class="award-note-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="5.2"/><path d="M8.6 13.4 7 22l5-2.6 5 2.6-1.6-8.6"/></svg><span class="award-note-body"><span class="award-note-label" data-i18n="award.label">Premio a la excelencia docente</span><span class="award-note-name">Teaching Excellence Award for Student Success</span><span class="award-note-meta">Binghamton University · 2026</span></span></div>
+        <div class="home-actions">
+          <a class="home-action-primary" href="cursos.html" data-i18n="home.cta.courses">Explorar cursos</a>
+          <a class="home-action-secondary" href="#feedback-home" data-i18n="home.cta.feedback">Dejar un comentario</a>
+        </div>
         <div class="home-links">
           <div class="row"><dt data-i18n="about.email.label">Correo</dt><dd><a href="mailto:santiago.alzate9@udea.edu.co">santiago.alzate9@udea.edu.co</a></dd></div>
           <div class="row"><dt data-i18n="about.email2.label">Correo alterno</dt><dd><a href="mailto:alzates.santiago@yahoo.com">alzates.santiago@yahoo.com</a></dd></div>
@@ -98,10 +102,10 @@
     </div>
   </div>
 
-  <div class="wrap home-visitas bloque-visitas reveal" hidden>
+  <div class="wrap home-visitas bloque-visitas reveal">
     <div class="visitas-card">
       <svg class="visitas-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.6 12S5.5 5 12 5s10.4 7 10.4 7-3.9 7-10.4 7S1.6 12 1.6 12Z"/><circle cx="12" cy="12" r="3.1"/></svg>
-      <div class="visitas-numero">0</div>
+      <div class="visitas-numero">—</div>
       <div class="visitas-label" data-i18n="home.visitas.label">visitas a este sitio</div>
       <div class="visitas-pie" data-i18n="home.visitas.pie">Gracias por pasar por aquí.</div>
     </div>
@@ -111,6 +115,34 @@
     <h2 class="section-title" data-i18n="home.research.h2">Intereses de investigación</h2>
     <p class="body-text center" data-i18n="home.research.p">Trabajo en análisis, geometría y topología, y mantengo el hábito de resolver problemas propuestos en revistas de alto impacto — varios de los cuales han terminado en notas y artículos publicados. Entre la investigación y el aula, me interesa especialmente cómo se alimentan mutuamente.</p>
   </div>
+  <section class="feedback-section" id="feedback-home" aria-labelledby="feedback-title-home">
+    <div class="feedback-intro">
+      <span class="eyebrow" data-i18n="feedback.eyebrow">Un mensaje para Santiago</span>
+      <h2 id="feedback-title-home" data-i18n="feedback.title">¿Qué te gustaría compartir?</h2>
+      <p data-i18n="feedback.description">Puedes sugerir una mejora, señalar un error o contarme qué te ayudó a aprender.</p>
+      <p class="feedback-note" data-i18n="feedback.privacy">El comentario no se publica en el sitio. Nombre y correo son opcionales. Formspree procesa y guarda los envíos en su panel; evita incluir datos sensibles de otros estudiantes. <a href="https://formspree.io/legal/privacy-policy/" target="_blank" rel="noopener">Lee su política de privacidad.</a></p>
+    </div>
+    <form class="feedback-form" data-feedback-form data-feedback-endpoint="https://formspree.io/f/mzerzkoj">
+      <label class="feedback-label" for="feedback-message-home" data-i18n="feedback.message">Tu comentario</label>
+      <textarea id="feedback-message-home" name="message" rows="5" maxlength="3000" required data-i18n-placeholder="feedback.placeholder" placeholder="Escribe tu comentario aquí…"></textarea>
+      <label class="feedback-anonymous">
+        <input type="checkbox" name="anonymous" value="yes" checked data-anonymous-toggle>
+        <span data-i18n="feedback.anonymous">Prefiero dejarlo anónimo</span>
+      </label>
+      <div class="feedback-identifying" data-anonymous-fields hidden>
+        <label class="feedback-label" for="feedback-name-home" data-i18n="feedback.name">Nombre (opcional)</label>
+        <input id="feedback-name-home" type="text" name="name" autocomplete="name" data-i18n-placeholder="feedback.namePlaceholder" placeholder="Cómo te llamas">
+        <label class="feedback-label" for="feedback-email-home" data-i18n="feedback.email">Correo (opcional, si quieres respuesta)</label>
+        <input id="feedback-email-home" type="email" name="email" autocomplete="email" data-i18n-placeholder="feedback.emailPlaceholder" placeholder="tunombre@correo.com">
+      </div>
+      <div class="feedback-honeypot" aria-hidden="true">
+        <label for="feedback-website-home">Deja este campo vacío</label>
+        <input id="feedback-website-home" type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+      </div>
+      <button class="feedback-submit" type="submit" data-i18n="feedback.submit">Enviar comentario</button>
+      <p class="feedback-status" data-feedback-status role="status" aria-live="polite" data-i18n="feedback.ready">Tu comentario llegará al correo de Santiago. Puedes enviarlo anónimamente.</p>
+    </form>
+  </section>
 </div>
 </main>
 <footer class="site-foot">
@@ -120,7 +152,7 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261110b"></script>
+<script src="assets/site.js?v=20261113site"></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "4f01a8ad63b2411f813977c2b179aa71"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
