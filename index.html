@@ -120,9 +120,9 @@
       <span class="eyebrow" data-i18n="feedback.eyebrow">Un mensaje para Santiago</span>
       <h2 id="feedback-title-home" data-i18n="feedback.title">¿Qué te gustaría compartir?</h2>
       <p data-i18n="feedback.description">Puedes sugerir una mejora, señalar un error o contarme qué te ayudó a aprender.</p>
-      <p class="feedback-note" data-i18n="feedback.privacy">El comentario no se publica en el sitio. Puedes enviarlo sin nombre ni correo; si quieres una respuesta, puedes dejar tus datos de contacto. Al activarlo, el envío se procesará mediante un servicio externo de formularios.</p>
+      <p class="feedback-note" data-i18n="feedback.privacy">El comentario no se publica en el sitio. Nombre y correo son opcionales. Formspree procesa y guarda los envíos en su panel; evita incluir datos sensibles de otros estudiantes. <a href="https://formspree.io/legal/privacy-policy/" target="_blank" rel="noopener">Lee su política de privacidad.</a></p>
     </div>
-    <form class="feedback-form" data-feedback-form data-feedback-endpoint="">
+    <form class="feedback-form" data-feedback-form data-feedback-endpoint="https://formspree.io/f/mzerzkoj">
       <label class="feedback-label" for="feedback-message-home" data-i18n="feedback.message">Tu comentario</label>
       <textarea id="feedback-message-home" name="message" rows="5" maxlength="3000" required data-i18n-placeholder="feedback.placeholder" placeholder="Escribe tu comentario aquí…"></textarea>
       <label class="feedback-anonymous">
@@ -139,8 +139,8 @@
         <label for="feedback-website-home">Deja este campo vacío</label>
         <input id="feedback-website-home" type="text" name="_gotcha" tabindex="-1" autocomplete="off">
       </div>
-      <button class="feedback-submit" type="submit" disabled data-i18n="feedback.submit">Enviar comentario</button>
-      <p class="feedback-status" data-feedback-status role="status" aria-live="polite" data-i18n="feedback.pending">Buzón por conectar: activaremos el envío cuando configuremos el correo de destino.</p>
+      <button class="feedback-submit" type="submit" data-i18n="feedback.submit">Enviar comentario</button>
+      <p class="feedback-status" data-feedback-status role="status" aria-live="polite" data-i18n="feedback.ready">Tu comentario llegará al correo de Santiago. Puedes enviarlo anónimamente.</p>
     </form>
   </section>
 </div>
