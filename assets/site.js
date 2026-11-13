@@ -18,7 +18,7 @@
     "feedback.eyebrow": "A note for Santiago",
     "feedback.title": "What would you like to share?",
     "feedback.description": "Suggest an improvement, point out an error, or tell me what helped you learn.",
-    "feedback.privacy": "Comments are not published on the site. You can send one without a name or email; if you would like a reply, you may leave contact details.",
+    "feedback.privacy": "Comments are not published on the site. You can send one without a name or email; if you would like a reply, you may leave contact details. When activated, the form will be processed by an external form service.",
     "feedback.message": "Your comment",
     "feedback.placeholder": "Write your comment here…",
     "feedback.anonymous": "I prefer to leave this anonymously",
@@ -295,6 +295,10 @@
     try {
       var elements = Array.prototype.slice.call(document.querySelectorAll("[data-i18n]"));
       var esCache = {};
+      var placeholderCache = {};
+      document.querySelectorAll("[data-i18n-placeholder]").forEach(function(el){
+        placeholderCache[el.getAttribute("data-i18n-placeholder")] = el.getAttribute("placeholder") || "";
+      });
       elements.forEach(function(el){
         esCache[el.getAttribute("data-i18n")] = el.innerHTML;
       });
@@ -321,6 +325,12 @@
           } else if (Object.prototype.hasOwnProperty.call(esCache, key)) {
             el.innerHTML = esCache[key];
           }
+        });
+        document.querySelectorAll("[data-i18n-placeholder]").forEach(function(el){
+          var key = el.getAttribute("data-i18n-placeholder");
+          var value = lang === "en" && Object.prototype.hasOwnProperty.call(dictEn, key)
+            ? dictEn[key] : placeholderCache[key];
+          if (value) el.setAttribute("placeholder", value);
         });
         try { document.documentElement.setAttribute("lang", lang); } catch(e) {}
         var btns = document.querySelectorAll("[data-lang-btn]");
