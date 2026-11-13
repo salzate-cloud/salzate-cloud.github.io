@@ -1109,3 +1109,8 @@ footer.site-foot{margin-top:14px;padding-block:28px}
 .contact-feedback-callout strong{color:var(--accent-ink);white-space:nowrap}
 .contact-feedback-callout:hover{border-color:var(--accent);box-shadow:var(--shadow-s)}
 @media(max-width:640px){.contact-feedback-callout{align-items:flex-start;flex-direction:column;gap:9px}}
+
+
+h2.section-title::before{display:none}
+.page:not(.home-page) .body-text.center{text-align:left}
+.course-index-feedback{width:fit-content!important}
