@@ -1102,3 +1102,10 @@ footer.site-foot{margin-top:14px;padding-block:28px}
   .cv-grid{grid-template-columns:1fr}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+
+.page-head>.award-note{margin:24px 0 0}
+.contact-feedback-callout{display:flex;align-items:center;justify-content:space-between;gap:18px;max-width:940px;margin:20px 0 0;padding:18px 21px;border:1px solid color-mix(in srgb,var(--accent) 28%,var(--rule));border-radius:13px;background:linear-gradient(115deg,var(--accent-wash),var(--raised));color:var(--ink);font-size:.92rem;text-decoration:none}
+.contact-feedback-callout strong{color:var(--accent-ink);white-space:nowrap}
+.contact-feedback-callout:hover{border-color:var(--accent);box-shadow:var(--shadow-s)}
+@media(max-width:640px){.contact-feedback-callout{align-items:flex-start;flex-direction:column;gap:9px}}
