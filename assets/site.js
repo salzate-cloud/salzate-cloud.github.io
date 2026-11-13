@@ -29,6 +29,9 @@
     "feedback.submit": "Send comment",
     "feedback.pending": "Mailbox not connected yet: we will enable sending when the destination email is configured.",
     "feedback.ready": "Your comment will be emailed to Santiago. You can send it anonymously.",
+    "courses.search.label": "Find a course or topic",
+    "courses.search.placeholder": "Try: Banach, Fourier, Geometry…",
+    "courses.search.description": "Search by institution, course, or topic. Materials filter as you type.",
     "feedback.quickLink": "Leave a comment",
     "nav.home": "Home",
     "nav.about": "About",
@@ -778,4 +781,71 @@
   }
   if(document.readyState!=="loading") arranca();
   else document.addEventListener("DOMContentLoaded",arranca);
+})();
+
+
+/* ---------- Busqueda de cursos y materiales ---------- */
+(function(){
+  function normaliza(valor){
+    return String(valor||"").normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").toLowerCase();
+  }
+  function inicia(){
+    var input=document.getElementById("course-search");
+    if(!input) return;
+    var status=document.querySelector("[data-course-search-status]");
+    var indexLinks=document.querySelectorAll(".course-index a[href^='#course-']");
+    var cards=document.querySelectorAll(".course-card[id^='course-']");
+    function filtra(){
+      var query=normaliza(input.value.trim());
+      var english=document.documentElement.getAttribute("lang")==="en";
+      var visibleMaterials=0;
+      Array.prototype.forEach.call(cards,function(card){
+        var rows=card.querySelectorAll(".course-row");
+        var visibleRows=0;
+        Array.prototype.forEach.call(rows,function(row){
+          var name=normaliza((row.querySelector(".cname")||{}).textContent);
+          var time=normaliza((row.querySelector(".cwhen")||{}).textContent);
+          var headingMatch=!query||name.indexOf(query)!==-1||time.indexOf(query)!==-1;
+          var rowHasMatch=headingMatch;
+          var groups=row.querySelectorAll(".notes-group");
+          Array.prototype.forEach.call(groups,function(group){
+            var title=normaliza((group.querySelector(".ng-title")||{}).textContent);
+            var groupMatch=headingMatch||!query||title.indexOf(query)!==-1;
+            var resources=group.querySelectorAll(".notes-links a,.notes-links button");
+            var groupHasMatch=false;
+            Array.prototype.forEach.call(resources,function(resource){
+              var text=normaliza((resource.textContent||"")+" "+(resource.getAttribute("title")||"")+" "+(resource.getAttribute("aria-label")||""));
+              var matches=groupMatch||text.indexOf(query)!==-1;
+              resource.hidden=!matches;
+              if(matches){groupHasMatch=true;visibleMaterials++;}
+            });
+            group.hidden=!!query&&!groupHasMatch;
+            if(groupHasMatch) rowHasMatch=true;
+          });
+          row.hidden=!!query&&!rowHasMatch;
+          if(rowHasMatch) visibleRows++;
+        });
+        card.hidden=!!query&&!visibleRows;
+      });
+      Array.prototype.forEach.call(indexLinks,function(link){
+        var target=document.querySelector(link.getAttribute("href"));
+        link.hidden=!!query&&(!target||target.hidden);
+      });
+      if(status){
+        if(!query) status.textContent=english
+          ?"Search by institution, course, or topic. Materials filter as you type."
+          :"Busca por institución, curso o tema. Los materiales se filtran mientras escribes.";
+        else if(visibleMaterials) status.textContent=english
+          ?"Found "+visibleMaterials+" materials."
+          :"Se encontraron "+visibleMaterials+" materiales.";
+        else status.textContent=english
+          ?"No materials match that search."
+          :"No encontramos materiales con esa búsqueda.";
+      }
+    }
+    input.addEventListener("input",filtra);
+    document.querySelectorAll("[data-lang-btn]").forEach(function(button){button.addEventListener("click",filtra);});
+  }
+  if(document.readyState!=="loading") inicia();
+  else document.addEventListener("DOMContentLoaded",inicia);
 })();
