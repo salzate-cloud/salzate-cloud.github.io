@@ -574,16 +574,8 @@
 
   document.addEventListener("click", function(e){
     var a = e.target.closest ? e.target.closest("a[data-pdf]") : null;
-    if (!a) return;
-    e.preventDefault();
-    var span = a.querySelector("span");
-    open(a.getAttribute("data-pdf"), span ? span.textContent.trim() : "");
-  });
-
-  document.addEventListener("keydown", function(e){
-    if (e.key !== "Enter" && e.key !== " ") return;
-    var a = document.activeElement;
-    if (!a || !a.hasAttribute || !a.hasAttribute("data-pdf")) return;
+    if (!a || e.defaultPrevented) return;
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     e.preventDefault();
     var span = a.querySelector("span");
     open(a.getAttribute("data-pdf"), span ? span.textContent.trim() : "");
