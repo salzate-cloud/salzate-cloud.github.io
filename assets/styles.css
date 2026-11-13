@@ -1063,7 +1063,7 @@ footer.site-foot{margin-top:14px;padding-block:28px}
 .course-index-links a[href^="#course-"]{position:relative;display:flex;align-items:center;gap:14px;min-height:116px;padding:17px 16px;background:var(--raised);border:1px solid var(--rule);border-radius:14px;color:var(--ink);text-decoration:none;box-shadow:var(--shadow-s);transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
 .course-index-links a[href^="#course-"]:hover,.course-index-links a[href^="#course-"]:focus-visible{transform:translateY(-2px);border-color:var(--accent);box-shadow:var(--shadow-m);outline:none}
 .course-index-links a[aria-selected="true"]{background:linear-gradient(135deg,var(--raised),var(--accent-wash));border-color:var(--accent)}
-.course-index-logo{width:64px;height:64px;flex:none;display:grid;place-items:center;padding:3px;background:#fff;border-radius:10px}
+.course-index-logo{width:68px;height:68px;flex:none;display:grid;place-items:center;padding:9px;background:#fff;border:1px solid color-mix(in srgb,var(--accent) 24%,var(--rule));border-radius:50%;box-shadow:inset 0 0 0 3px #fff,inset 0 0 0 4px var(--rule),var(--shadow-s)}
 .course-index-logo img{display:block;max-width:100%;max-height:100%;object-fit:contain}
 .course-index-name{display:block;font-family:var(--display);font-size:1rem;font-weight:600;line-height:1.25}
 .course-index-status{position:absolute;right:10px;top:10px;border-radius:999px;padding:4px 8px;font-size:.64rem;background:var(--accent-wash);color:var(--accent-ink)}
@@ -1114,3 +1114,30 @@ footer.site-foot{margin-top:14px;padding-block:28px}
 h2.section-title::before{display:none}
 .page:not(.home-page) .body-text.center{text-align:left}
 .course-index-feedback{width:fit-content!important}
+
+
+/* Course resources: compact disclosure controls */
+.course-row{display:grid;grid-template-columns:minmax(0,1fr) repeat(3,max-content);align-items:center;gap:5px 9px}
+.course-info{grid-column:1;grid-row:1;min-width:0;align-self:center}
+.course-categories{display:contents}
+.course-row .notes-group{margin:0}
+.course-row .ng-title{display:flex;align-items:center;gap:9px;cursor:pointer;user-select:none;border:1px solid var(--tono-rule);border-radius:999px;background:var(--paper);padding:6px 10px;color:var(--tono-ink);font-family:var(--ui);font-size:.72rem;font-weight:600;letter-spacing:.01em;text-transform:none;opacity:1;transition:border-color .15s ease,background .15s ease}
+.course-row .ng-title::-webkit-details-marker{display:none}
+.course-row .ng-title::after{content:"+";font-size:1rem;line-height:1;font-weight:500;color:var(--subtext)}
+.course-row .ng-title:hover{border-color:var(--tono-ink);background:var(--tono-wash)}
+.course-row .notes-group[open]{grid-column:1/-1;grid-row:auto;margin-top:5px;padding-top:11px;border-top:1px solid var(--tono-rule)}
+.course-row .notes-group[open] .ng-title::after{content:"−"}
+.course-row .notes-group .notes-links{margin-top:9px}
+@media(max-width:720px){.course-row{grid-template-columns:minmax(0,1fr);gap:8px}.course-info{grid-column:1;grid-row:auto}.course-row .notes-group{grid-column:1;grid-row:auto;justify-self:start}.course-row .notes-group[open]{justify-self:stretch}}
+
+
+/* Consistent award highlight on public pages */
+:root{--award-gold:#9f742b;--award-green:#52705d}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--award-gold:#e0bd71;--award-green:#b3cbb9}}
+:root[data-theme="dark"]{--award-gold:#e0bd71;--award-green:#b3cbb9}
+.award-note{width:min(100%,760px);min-height:100px;padding:16px 26px;background:linear-gradient(105deg,color-mix(in srgb,#5f8068 11%,var(--raised)),color-mix(in srgb,#5f8068 5%,var(--raised)));border:1px solid color-mix(in srgb,#78937c 34%,var(--rule));border-left:5px solid #c69b46;border-radius:14px;box-shadow:var(--shadow-s)}
+.award-note-icon{width:30px;height:30px;color:var(--award-gold)}
+.award-note-label{color:var(--award-green)}
+.award-note-name{font-size:1.05rem}
+.award-note-meta{color:var(--subtext)}
+@media(max-width:520px){.award-note{min-height:88px;padding:13px 16px}.award-note-name{font-size:.94rem}}
