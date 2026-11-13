@@ -13,6 +13,22 @@
     "courses.index.binghamton": "Binghamton University",
     "courses.index.current": "Current",
     "courses.index.archive": "Past courses",
+    "home.cta.courses": "Explore courses",
+    "home.cta.feedback": "Leave a comment",
+    "feedback.eyebrow": "A note for Santiago",
+    "feedback.title": "What would you like to share?",
+    "feedback.description": "Suggest an improvement, point out an error, or tell me what helped you learn.",
+    "feedback.privacy": "Comments are not published on the site. You can send one without a name or email; if you would like a reply, you may leave contact details.",
+    "feedback.message": "Your comment",
+    "feedback.placeholder": "Write your comment here…",
+    "feedback.anonymous": "I prefer to leave this anonymously",
+    "feedback.name": "Name (optional)",
+    "feedback.namePlaceholder": "Your name",
+    "feedback.email": "Email (optional, if you would like a reply)",
+    "feedback.emailPlaceholder": "you@example.com",
+    "feedback.submit": "Send comment",
+    "feedback.pending": "Mailbox not connected yet: we will enable sending when the destination email is configured.",
+    "feedback.quickLink": "Leave a comment",
     "nav.home": "Home",
     "nav.about": "About",
     "nav.courses": "Courses",
@@ -700,4 +716,55 @@
 
   if (document.readyState !== "loading") arranca();
   else document.addEventListener("DOMContentLoaded", arranca);
+})();
+
+
+/* ---------- Buzon de comentarios ---------- */
+(function(){
+  function arranca(){
+    Array.prototype.forEach.call(document.querySelectorAll("[data-feedback-form]"),function(form){
+      var toggle=form.querySelector("[data-anonymous-toggle]");
+      var fields=form.querySelector("[data-anonymous-fields]");
+      var submit=form.querySelector('[type="submit"]');
+      var status=form.querySelector("[data-feedback-status]");
+      var endpoint=(form.getAttribute("data-feedback-endpoint")||"").trim();
+      var english=document.documentElement.getAttribute("lang")==="en";
+      function syncAnonymous(){
+        if(!toggle||!fields) return;
+        fields.hidden=toggle.checked;
+        Array.prototype.forEach.call(fields.querySelectorAll("input"),function(input){input.disabled=toggle.checked;});
+      }
+      syncAnonymous();
+      if(submit) submit.disabled=!endpoint;
+      if(!endpoint&&status){status.setAttribute("data-state","pending");}
+      if(toggle) toggle.addEventListener("change",syncAnonymous);
+      form.addEventListener("submit",function(event){
+        event.preventDefault();
+        if(!endpoint){
+          if(status) status.textContent=english
+            ?"The mailbox is not connected yet. No comment has been sent."
+            :"El buzón todavía no está conectado. No se ha enviado ningún comentario.";
+          return;
+        }
+        if(submit) submit.disabled=true;
+        if(status){status.removeAttribute("data-state");status.textContent=english?"Sending…":"Enviando…";}
+        fetch(endpoint,{method:"POST",body:new FormData(form),headers:{Accept:"application/json"}})
+          .then(function(response){if(!response.ok) throw new Error("Submission failed");return response.json();})
+          .then(function(){
+            form.reset();syncAnonymous();
+            if(status){status.setAttribute("data-state","success");status.textContent=english
+              ?"Thank you. Your comment has been sent to Santiago."
+              :"Gracias. Tu comentario fue enviado a Santiago.";}
+          })
+          .catch(function(){
+            if(status){status.setAttribute("data-state","error");status.textContent=english
+              ?"We could not send the comment. Please try again later."
+              :"No pudimos enviar el comentario. Inténtalo de nuevo más tarde.";}
+          })
+          .finally(function(){if(submit) submit.disabled=false;});
+      });
+    });
+  }
+  if(document.readyState!=="loading") arranca();
+  else document.addEventListener("DOMContentLoaded",arranca);
 })();
