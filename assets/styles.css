@@ -1141,3 +1141,10 @@ h2.section-title::before{display:none}
 .award-note-name{font-size:1.05rem}
 .award-note-meta{color:var(--subtext)}
 @media(max-width:520px){.award-note{min-height:88px;padding:13px 16px}.award-note-name{font-size:.94rem}}
+
+
+/* Identificación clara de cursos anteriores */
+.course-index-status.is-archive{
+  background:color-mix(in srgb,#a33b3b 13%,var(--paper));
+  color:color-mix(in srgb,#8f2e2e 86%,var(--ink));
+}
