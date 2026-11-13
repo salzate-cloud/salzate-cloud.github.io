@@ -7,7 +7,7 @@
     "courses.notes.math147.notas": "Course notes",
     "courses.group.resumenes": "Summaries",
     "courses.group.soluciones": "Midterm solutions",
-    "courses.index.title": "Jump to a course",
+    "courses.index.title": "Explore by university",
     "courses.index.iue": "Institución Universitaria de Envigado",
     "courses.index.udea": "Universidad de Antioquia",
     "courses.index.binghamton": "Binghamton University",
@@ -41,6 +41,8 @@
     "nav.blog": "Blog",
     "nav.cv": "CV",
     "nav.contact": "Contact",
+    "contact.feedback": "Would you rather suggest an improvement or leave an anonymous comment?",
+    "contact.feedback.link": "Go to comments →",
 
     "home.eyebrow": "Mathematician · Mathematics Professor",
     "home.affil1": "Institute of Mathematics, Universidad de Antioquia",
@@ -792,7 +794,7 @@
 })();
 
 
-/* ---------- Busqueda de cursos y materiales ---------- */
+/* ---------- Pestañas de universidad y busqueda de materiales ---------- */
 (function(){
   function normaliza(valor){
     return String(valor||"").normalize("NFD").split("").filter(function(caracter){
@@ -802,15 +804,21 @@
   }
   function inicia(){
     var input=document.getElementById("course-search");
-    if(!input) return;
+    var tabs=Array.prototype.slice.call(document.querySelectorAll(".course-index a[role='tab'][href^='#course-']"));
+    var cards=Array.prototype.slice.call(document.querySelectorAll(".course-card[id^='course-']"));
+    if(!tabs.length||!cards.length) return;
     var status=document.querySelector("[data-course-search-status]");
     var indexLinks=document.querySelectorAll(".course-index a[href^='#course-']");
-    var cards=document.querySelectorAll(".course-card[id^='course-']");
+    var activeId="course-iue";
+    if(location.hash){
+      var hashId=location.hash.slice(1);
+      if(cards.some(function(card){return card.id===hashId;})) activeId=hashId;
+    }
     function filtra(){
-      var query=normaliza(input.value.trim());
+      var query=normaliza(input?input.value.trim():"");
       var english=document.documentElement.getAttribute("lang")==="en";
       var visibleMaterials=0;
-      Array.prototype.forEach.call(cards,function(card){
+      cards.forEach(function(card){
         var rows=card.querySelectorAll(".course-row");
         var visibleRows=0;
         Array.prototype.forEach.call(rows,function(row){
@@ -836,7 +844,7 @@
           row.hidden=!!query&&!rowHasMatch;
           if(rowHasMatch) visibleRows++;
         });
-        card.hidden=!!query&&!visibleRows;
+        card.hidden=query?!visibleRows:card.id!==activeId;
       });
       Array.prototype.forEach.call(indexLinks,function(link){
         var target=document.querySelector(link.getAttribute("href"));
@@ -854,8 +862,44 @@
           :"No encontramos materiales con esa búsqueda.";
       }
     }
-    input.addEventListener("input",filtra);
+    function activar(tab,focus,scroll){
+      activeId=tab.getAttribute("href").slice(1);
+      if(input) input.value="";
+      tabs.forEach(function(item){
+        var selected=item===tab;
+        item.setAttribute("aria-selected",String(selected));
+        item.tabIndex=selected?0:-1;
+      });
+      filtra();
+      try{history.replaceState(null,"","#"+activeId);}catch(e){}
+      if(focus) tab.focus();
+      if(scroll){
+        var target=document.getElementById(activeId);
+        if(target) target.scrollIntoView({behavior:"smooth",block:"start"});
+      }
+    }
+    tabs.forEach(function(tab,index){
+      tab.addEventListener("click",function(event){
+        event.preventDefault();
+        activar(tab,false,true);
+      });
+      tab.addEventListener("keydown",function(event){
+        var next=index;
+        if(event.key==="ArrowRight") next=(index+1)%tabs.length;
+        else if(event.key==="ArrowLeft") next=(index+tabs.length-1)%tabs.length;
+        else if(event.key==="Home") next=0;
+        else if(event.key==="End") next=tabs.length-1;
+        else return;
+        event.preventDefault();
+        activar(tabs[next],true,false);
+      });
+    });
+    if(input) input.addEventListener("input",filtra);
     document.querySelectorAll("[data-lang-btn]").forEach(function(button){button.addEventListener("click",filtra);});
+    var activeTab=tabs.find(function(tab){return tab.getAttribute("href")==="#"+activeId;})||tabs[0];
+    tabs.forEach(function(tab){var selected=tab===activeTab;tab.setAttribute("aria-selected",String(selected));tab.tabIndex=selected?0:-1;});
+    activeId=activeTab.getAttribute("href").slice(1);
+    filtra();
   }
   if(document.readyState!=="loading") inicia();
   else document.addEventListener("DOMContentLoaded",inicia);
