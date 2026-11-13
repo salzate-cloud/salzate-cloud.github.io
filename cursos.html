@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cursos — Santiago Alzate</title>
 <meta name="description" content="Santiago Alzate — matemático y profesor de matemáticas.">
-<link rel="stylesheet" href="assets/styles.css?v=20261110b">
+<link rel="stylesheet" href="assets/styles.css?v=20261113site">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
@@ -76,15 +76,23 @@
   </div>
   <div class="wrap">
     <nav class="course-index" aria-labelledby="course-index-title">
-      <h2 id="course-index-title" data-i18n="courses.index.title">Saltar a un curso</h2>
-      <div class="course-index-links">
-        <a href="#course-iue"><span data-i18n="courses.index.iue">Institución Universitaria de Envigado</span><span class="course-index-status" data-i18n="courses.index.current">Actual</span></a>
-        <a href="#course-udea"><span data-i18n="courses.index.udea">Universidad de Antioquia</span><span class="course-index-status" data-i18n="courses.index.current">Actual</span></a>
-        <a href="#course-binghamton"><span data-i18n="courses.index.binghamton">Binghamton University</span><span class="course-index-status" data-i18n="courses.index.archive">Anteriores</span></a>
-        <a class="course-index-feedback" href="#feedback-courses" data-i18n="feedback.quickLink">Dejar un comentario</a>
+      <h2 id="course-index-title" data-i18n="courses.index.title">Explora por universidad</h2>
+      <div class="course-index-links" role="tablist" aria-label="Explora los cursos por universidad">
+        <a id="course-tab-iue" href="#course-iue" role="tab" aria-controls="course-iue" aria-selected="true" tabindex="0">
+          <span class="course-index-logo"><img src="https://pbs.twimg.com/profile_images/1971903177239797760/baPKdMCT.jpg" alt="" loading="eager"></span>
+          <span><span class="course-index-name" data-i18n="courses.index.iue">Institución Universitaria de Envigado</span><span class="course-index-status" data-i18n="courses.index.current">Actual</span></span>
+        </a>
+        <a id="course-tab-udea" href="#course-udea" role="tab" aria-controls="course-udea" aria-selected="false" tabindex="-1">
+          <span class="course-index-logo"><img src="https://www.udea.edu.co/wps/wcm/connect/udea/99fc43e7-7a64-45bd-97fc-96639b70813d/logosimbolo-vertical.png?CVID=ljeLvHr&amp;MOD=AJPERES" alt="" loading="eager"></span>
+          <span><span class="course-index-name" data-i18n="courses.index.udea">Universidad de Antioquia</span><span class="course-index-status" data-i18n="courses.index.current">Actual</span></span>
+        </a>
+        <a id="course-tab-binghamton" href="#course-binghamton" role="tab" aria-controls="course-binghamton" aria-selected="false" tabindex="-1">
+          <span class="course-index-logo"><img src="https://www.binghamton.edu/communications-and-marketing/img/logos/B-symbol-2c.jpg" alt="" loading="eager"></span>
+          <span><span class="course-index-name" data-i18n="courses.index.binghamton">Binghamton University</span><span class="course-index-status" data-i18n="courses.index.archive">Anteriores</span></span>
+        </a>
       </div>
-    </nav>
-    <div class="course-search">
+      <a class="course-index-feedback" href="#feedback-courses" data-i18n="feedback.quickLink">Dejar un comentario</a>
+    </nav>    <div class="course-search">
       <label for="course-search" data-i18n="courses.search.label">Buscar un curso o tema</label>
       <input id="course-search" type="search" autocomplete="off" aria-describedby="course-search-status"
         data-i18n-placeholder="courses.search.placeholder" placeholder="Prueba: Banach, Fourier, Geometría…">
@@ -92,7 +100,7 @@
         data-course-search-status data-i18n="courses.search.description">Busca por institución, curso o tema. Los materiales se filtran mientras escribes.</p>
     </div>
     <div class="course-grid">
-      <div id="course-iue" class="course-card">
+      <div id="course-iue" class="course-card" role="tabpanel" aria-labelledby="course-tab-iue">
         <div>
           <div class="inst">Institución Universitaria de Envigado</div>
           <div class="place">Envigado, Colombia</div>
@@ -166,7 +174,7 @@
         </div>
       </div>
 
-      <div id="course-udea" class="course-card">
+      <div id="course-udea" class="course-card" role="tabpanel" aria-labelledby="course-tab-udea">
         <div>
           <div class="inst">Universidad de Antioquia</div>
           <div class="place">Instituto de Matemáticas, Medellín</div>
@@ -306,7 +314,7 @@
         </div>
       </div>
 
-      <div id="course-binghamton" class="course-card">
+      <div id="course-binghamton" class="course-card" role="tabpanel" aria-labelledby="course-tab-binghamton">
         <div>
           <div class="inst">Binghamton University</div>
           <div class="place">Nueva York, EE. UU.</div>
@@ -460,7 +468,7 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261110b"></script>
+<script src="assets/site.js?v=20261113site"></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "4f01a8ad63b2411f813977c2b179aa71"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
