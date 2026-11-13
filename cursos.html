@@ -75,8 +75,16 @@
     <div class="award-note award-note-center"><svg class="award-note-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="5.2"/><path d="M8.6 13.4 7 22l5-2.6 5 2.6-1.6-8.6"/></svg><span class="award-note-body"><span class="award-note-label" data-i18n="award.label">Premio a la excelencia docente</span><span class="award-note-name">Teaching Excellence Award for Student Success</span><span class="award-note-meta">Binghamton University · 2026</span></span></div>
   </div>
   <div class="wrap">
+    <nav class="course-index" aria-labelledby="course-index-title">
+      <h2 id="course-index-title" data-i18n="courses.index.title">Saltar a un curso</h2>
+      <div class="course-index-links">
+        <a href="#course-iue"><span data-i18n="courses.index.iue">Institución Universitaria de Envigado</span><span class="course-index-status" data-i18n="courses.index.current">Actual</span></a>
+        <a href="#course-udea"><span data-i18n="courses.index.udea">Universidad de Antioquia</span><span class="course-index-status" data-i18n="courses.index.current">Actual</span></a>
+        <a href="#course-binghamton"><span data-i18n="courses.index.binghamton">Binghamton University</span><span class="course-index-status" data-i18n="courses.index.archive">Anteriores</span></a>
+      </div>
+    </nav>
     <div class="course-grid">
-      <div class="course-card">
+      <div id="course-iue" class="course-card">
         <div>
           <div class="inst">Institución Universitaria de Envigado</div>
           <div class="place">Envigado, Colombia</div>
@@ -150,7 +158,7 @@
         </div>
       </div>
 
-      <div class="course-card">
+      <div id="course-udea" class="course-card">
         <div>
           <div class="inst">Universidad de Antioquia</div>
           <div class="place">Instituto de Matemáticas, Medellín</div>
@@ -290,7 +298,7 @@
         </div>
       </div>
 
-      <div class="course-card">
+      <div id="course-binghamton" class="course-card">
         <div>
           <div class="inst">Binghamton University</div>
           <div class="place">Nueva York, EE. UU.</div>
