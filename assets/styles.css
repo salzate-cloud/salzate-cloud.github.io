@@ -907,7 +907,7 @@ p .formula, dd > .formula:not(.formula-display){ padding:0; border:none; backgro
   background:linear-gradient(130deg,var(--raised),color-mix(in srgb,var(--accent-wash) 48%,var(--paper)));
 }
 .home-intro h2.section-title{ text-transform:none; letter-spacing:0; font-size:clamp(1.45rem,3vw,1.8rem); }
-.course-grid{ grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; align-items:start; }
+.course-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px; align-items:start; }
 .course-card{
   padding:20px; border:1px solid var(--rule); border-top:3px solid var(--accent);
   border-radius:16px; background:var(--raised); box-shadow:var(--shadow-s);
