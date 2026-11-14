@@ -1233,13 +1233,14 @@ h2.section-title::before{display:none}
   max-height:none;
   object-fit:cover;
   object-position:center top;
-  transform:scale(1.1);
-  transform-origin:center top;
+  transform:scale(1.3);
+  transform-origin:center 38%;
   filter:contrast(1.45) saturate(1.4) brightness(.86) drop-shadow(0 2px 2px rgba(31,72,51,.24));
 }
 #course-tab-udea:hover .course-index-crest-window img,
 #course-tab-udea:focus-visible .course-index-crest-window img{
-  transform:scale(1.14);
+  transform:scale(1.35);
+  transform-origin:center 38%;
   filter:contrast(1.45) saturate(1.4) brightness(.86) drop-shadow(0 5px 3px rgba(31,72,51,.32));
 }
 @media(max-width:800px){
