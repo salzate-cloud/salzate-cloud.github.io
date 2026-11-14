@@ -1187,6 +1187,7 @@ h2.section-title::before{display:none}
   content:"";
   position:absolute;
   inset:4px;
+  z-index:3;
   border:1px solid rgba(154,140,111,.28);
   border-radius:50%;
   box-shadow:inset 0 1px 1px rgba(255,255,255,.9);
@@ -1215,19 +1216,32 @@ h2.section-title::before{display:none}
   inset:4px;
   border-color:rgba(143,45,48,.22);
 }
-#course-tab-udea .course-index-logo img{
+#course-tab-udea .course-index-crest-window{
+  position:relative;
+  display:block;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  border-radius:50%;
+}
+#course-tab-udea .course-index-crest-window img{
+  position:absolute;
+  top:0;
+  left:0;
   width:100%;
   height:100%;
   max-width:none;
   max-height:none;
-  object-fit:contain;
-  transform:translateY(-1px) scale(1.03);
-  filter:drop-shadow(0 3px 2px rgba(70,45,24,.22));
+  object-fit:cover;
+  object-position:center top;
+  transform:scale(1.14);
+  transform-origin:center top;
+  filter:drop-shadow(0 3px 2px rgba(70,45,24,.24));
 }
-#course-tab-udea:hover .course-index-logo img,
-#course-tab-udea:focus-visible .course-index-logo img{
-  transform:translateY(-3px) scale(1.07);
-  filter:drop-shadow(0 5px 3px rgba(70,45,24,.26));
+#course-tab-udea:hover .course-index-crest-window img,
+#course-tab-udea:focus-visible .course-index-crest-window img{
+  transform:scale(1.18);
+  filter:drop-shadow(0 5px 3px rgba(70,45,24,.3));
 }
 @media(max-width:800px){
   #course-tab-udea .course-index-logo{
