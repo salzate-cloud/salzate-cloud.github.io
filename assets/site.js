@@ -38,6 +38,7 @@
     "courses.search.label": "Find a course or topic",
     "courses.search.placeholder": "Try: Banach, Fourier, Geometry…",
     "courses.search.description": "Search by institution, course, or topic. Materials filter as you type.",
+    "courses.downloadNote": "PDFs open in a new tab. To save one on your computer, use the PDF viewer’s download button.",
     "feedback.quickLink": "Leave a comment",
     "nav.home": "Home",
     "nav.about": "About",
