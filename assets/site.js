@@ -47,7 +47,7 @@
     "nav.blog": "Blog",
     "nav.cv": "CV",
     "nav.contact": "Contact",
-    "nav.agenda": "Agenda",
+    "nav.agenda": "Create your agenda",
     "home.cta.agenda": "My teaching agenda",
     "agenda.addButton": "Add to schedule",
     "agenda.addDescription": "Choose where, when, and what you will teach.",
