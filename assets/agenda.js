@@ -48,6 +48,16 @@
       overlap:"Ese bloque se cruza con ",overlapEnd:". Ajusta el día o la hora antes de guardarlo.",
       timeError:"La hora debe estar entre 06:00 y 22:00 y la clase debe tener duración.",
       required:"Escribe una institución y una asignatura.",
+      teacherHint:"Elige la universidad y registra tus clases.",
+      studentHint:"Registra tus materias sin elegir una universidad.",
+      teacherIntro:"Elige dónde, cuándo y qué vas a enseñar.",
+      studentIntro:"Añade tus materias y horarios; no necesitas escoger universidad.",
+      teacherTitle:"Añade una clase",studentTitle:"Añade una materia",
+      teacherCourse:"Asignatura",studentCourse:"Materia",
+      teacherCoursePlaceholder:"Ej. Análisis Numérico",studentCoursePlaceholder:"Ej. Cálculo I",
+      requiredStudent:"Escribe una materia.",
+      clearConfirmStudent:"¿Borrar todas las materias de la agenda de estudiante?",
+      clearDoneStudent:"Materias borradas de la agenda de estudiante.",
       clearConfirm:"¿Borrar todas las clases de esta agenda? Las instituciones seguirán guardadas.",
       clearDone:"Clases borradas. El directorio de instituciones se conservó.",
       exportDone:"Copia de respaldo descargada.",
@@ -69,7 +79,17 @@
       saved:"Saved in this browser",savedOk:"Changes saved in this browser",
       overlap:"This block overlaps with ",overlapEnd:". Adjust the day or time before saving.",
       timeError:"Use a time between 06:00 and 22:00 and give the class a duration.",
-      required:"Enter an institution and a course.",
+      required:"Enter a university and a course.",
+      teacherHint:"Choose your university, then add your classes.",
+      studentHint:"Add your subjects without choosing a university.",
+      teacherIntro:"Choose where, when, and what you will teach.",
+      studentIntro:"Add your subjects and schedules; there is no need to choose a university.",
+      teacherTitle:"Add a class",studentTitle:"Add a subject",
+      teacherCourse:"Course",studentCourse:"Subject",
+      teacherCoursePlaceholder:"e.g., Numerical Analysis",studentCoursePlaceholder:"e.g., Calculus I",
+      requiredStudent:"Enter a subject.",
+      clearConfirmStudent:"Remove all subjects from the student agenda?",
+      clearDoneStudent:"Student subjects removed.",
       clearConfirm:"Remove all classes from this schedule? Your institutions will stay saved.",
       clearDone:"Classes removed. Your institution directory is still saved.",
       exportDone:"Backup downloaded.",
@@ -85,7 +105,7 @@
       untitled:"Course"
     }
   };
-  var state = {institutions:[],classes:[]};
+  var state = {institutions:[],classes:[],mode:"teacher"};
   var editingId = null;
   var language = "es";
   function $(id){return document.getElementById(id);}
@@ -100,22 +120,26 @@
     return parts.slice(0,3).map(function(x){return x.slice(0,1);}).join("").toUpperCase()||"IES";
   }
   function defaultState(){
-    return {institutions:[],classes:[]};
+    return {institutions:[],classes:[],mode:"teacher"};
   }
   function cleanInstitution(item){
     if(!item||typeof item.name!=="string"||!item.name.trim())return null;
     return {name:item.name.trim().slice(0,100),code:String(item.code||"").slice(0,16),abbr:String(item.abbr||initials(item.name)).slice(0,18),color:/^#[0-9a-f]{6}$/i.test(item.color||"")?item.color:"#3f7e73",logo:typeof item.logo==="string"&&item.logo.indexOf("data:image/")===0?item.logo:""};
   }
   function cleanMeeting(item){
-    if(!item||typeof item.course!=="string"||typeof item.institution!=="string")return null;
+    if(!item||typeof item.course!=="string")return null;
+    var institution=typeof item.institution==="string"?item.institution.trim().slice(0,100):"";
+    var audience=item.audience==="student"||(!item.audience&&!institution)?"student":"teacher";
+    if(audience==="teacher"&&!institution)return null;
     var day=Number(item.day),start=fmtTime(item.start),end=fmtTime(item.end);
     var sm=timeMinutes(start),em=timeMinutes(end);
     if(day<0||day>5||sm<HOUR_START*60||em>HOUR_END*60||em<=sm)return null;
-    return {id:String(item.id||makeId()).slice(0,80),institution:item.institution.trim().slice(0,100),course:item.course.trim().slice(0,90),day:day,start:start,end:end,room:String(item.room||"").slice(0,70),color:/^#[0-9a-f]{6}$/i.test(item.color||"")?item.color:"#3f7e73"};
+    return {id:String(item.id||makeId()).slice(0,80),audience:audience,institution:audience==="student"?"":institution,course:item.course.trim().slice(0,90),day:day,start:start,end:end,room:String(item.room||"").slice(0,70),color:/^#[0-9a-f]{6}$/i.test(item.color||"")?item.color:"#3f7e73"};
   }
   function loadState(){
     var raw=null;
     try{raw=JSON.parse(localStorage.getItem(STORAGE_KEY)||"null");}catch(e){}
+    state.mode=raw&&raw.mode==="student"?"student":"teacher";
     if(raw&&raw.version===1){
       state.institutions=(Array.isArray(raw.institutions)?raw.institutions:[]).map(cleanInstitution).filter(Boolean);
       state.classes=(Array.isArray(raw.classes)?raw.classes:[]).map(cleanMeeting).filter(Boolean);
@@ -129,7 +153,7 @@
   function persist(){
     var saveStatus=$("save-status");
     try{
-      localStorage.setItem(STORAGE_KEY,JSON.stringify({version:1,institutions:state.institutions,classes:state.classes}));
+      localStorage.setItem(STORAGE_KEY,JSON.stringify({version:1,mode:state.mode,institutions:state.institutions,classes:state.classes}));
       if(saveStatus)saveStatus.textContent=t("savedOk");
     }catch(e){
       if(saveStatus)saveStatus.textContent=language==="es"?"No se pudo guardar en este navegador":"Could not save in this browser";
@@ -146,10 +170,34 @@
   function findInstitution(name){
     return state.institutions.find(function(item){return norm(item.name)===norm(name);})||null;
   }
+  function applyModeUI(){
+    var student=state.mode==="student";
+    $("institution-field").hidden=student;
+    $("institution-directory").hidden=student;
+    $("institution-input").disabled=student;
+    $("institution-input").required=!student;
+    if(student)$("institution-input").value="";
+    $("mode-teacher").setAttribute("aria-pressed",student?"false":"true");
+    $("mode-student").setAttribute("aria-pressed",student?"true":"false");
+    $("agenda-mode-hint").textContent=t(student?"studentHint":"teacherHint");
+    $("agenda-workspace-title").textContent=t(student?"studentTitle":"teacherTitle");
+    $("agenda-panel-intro").textContent=t(student?"studentIntro":"teacherIntro");
+    $("course-label").textContent=t(student?"studentCourse":"teacherCourse");
+    $("course-input").placeholder=t(student?"studentCoursePlaceholder":"teacherCoursePlaceholder");
+    $("agenda-layout").classList.toggle("is-student",student);
+  }
+  function setMode(mode){
+    if(mode!=="teacher"&&mode!=="student")return;
+    if(editingId)resetForm();
+    state.mode=mode;
+    applyModeUI();
+    persistAndRender();
+  }
   function setLanguage(){
     language=document.documentElement.lang==="en"?"en":"es";
     $("save-status").textContent=t("saved");
     populateDays();
+    applyModeUI();
     renderAll();
   }
   function populateDays(){
@@ -185,7 +233,7 @@
     var list=$("directory-list"),empty=$("directory-empty");
     list.innerHTML="";
     var used={};
-    state.classes.forEach(function(item){var inst=findInstitution(item.institution);if(inst)used[norm(inst.name)]=inst;});
+    state.classes.filter(function(item){return item.audience==="teacher";}).forEach(function(item){var inst=findInstitution(item.institution);if(inst)used[norm(inst.name)]=inst;});
     state.institutions.filter(function(item){return !item.code&&item.logo;}).forEach(function(item){used[norm(item.name)]=item;});
     var entries=Object.keys(used).map(function(key){return used[key];}).sort(function(a,b){return a.name.localeCompare(b.name);});
     empty.hidden=entries.length>0;
@@ -199,7 +247,7 @@
     populateInstitutions();
   }
   function sortedClasses(){
-    return state.classes.slice().sort(function(a,b){return a.day-b.day||timeMinutes(a.start)-timeMinutes(b.start)||a.course.localeCompare(b.course);});
+    return state.classes.filter(function(item){return item.audience===state.mode;}).slice().sort(function(a,b){return a.day-b.day||timeMinutes(a.start)-timeMinutes(b.start)||a.course.localeCompare(b.course);});
   }
   function meetingDetail(item){
     var day=DAYS[item.day][language];
@@ -220,7 +268,8 @@
     if(duration<60)event.classList.add("compact");
     var title=document.createElement("strong");title.className="agenda-event-title";title.textContent=item.course;event.appendChild(title);
     var inst=findInstitution(item.institution),meta=document.createElement("span");meta.className="agenda-event-meta";
-    meta.textContent=(inst?inst.abbr:item.institution)+" · "+fmtTime(item.start)+"–"+fmtTime(item.end)+(item.room?" · "+item.room:"");event.appendChild(meta);
+    var institutionLabel=state.mode==="teacher"?(inst?inst.abbr:item.institution):"";
+    meta.textContent=(institutionLabel?institutionLabel+" · ":"")+fmtTime(item.start)+"–"+fmtTime(item.end)+(item.room?" · "+item.room:"");event.appendChild(meta);
     var actions=document.createElement("div");actions.className="agenda-event-actions";actions.appendChild(actionButton(t("edit"),"edit",item));actions.appendChild(actionButton(t("remove"),"delete",item));event.appendChild(actions);
     return event;
   }
@@ -238,7 +287,7 @@
       var lane=document.createElement("div");lane.className="agenda-day-lane";lane.dataset.day=String(day.id);root.appendChild(lane);lanes.push(lane);
     });
     DAYS.forEach(function(day){
-      var entries=state.classes.filter(function(item){return item.day===day.id;}).sort(function(a,b){return timeMinutes(a.start)-timeMinutes(b.start);});
+      var entries=state.classes.filter(function(item){return item.audience===state.mode&&item.day===day.id;}).sort(function(a,b){return timeMinutes(a.start)-timeMinutes(b.start);});
       var laneEnds=[];
       entries.forEach(function(item){
         var laneIndex=laneEnds.findIndex(function(end){return end<=timeMinutes(item.start);});
@@ -248,7 +297,7 @@
       var laneCount=Math.max(1,laneEnds.length);
       entries.forEach(function(item){lanes[day.id].appendChild(makeEvent(item,item._laneIndex,laneCount));});
     });
-    $("calendar-empty").hidden=state.classes.length>0;
+    $("calendar-empty").hidden=sortedClasses().length>0;
   }
   function renderClassList(){
     var list=$("class-list"),count=$("class-count");list.innerHTML="";
@@ -260,7 +309,7 @@
       var color=document.createElement("span");color.className="agenda-class-color";card.appendChild(color);
       var body=document.createElement("div"),title=document.createElement("strong"),detail=document.createElement("div");
       body.className="agenda-class-copy";title.className="agenda-class-name";title.textContent=item.course;
-      detail.className="agenda-class-detail";detail.textContent=item.institution+" · "+meetingDetail(item);
+      detail.className="agenda-class-detail";detail.textContent=(item.institution?item.institution+" · ":"")+meetingDetail(item);
       body.appendChild(title);body.appendChild(detail);card.appendChild(body);
       var actions=document.createElement("div");actions.className="agenda-class-actions";actions.appendChild(actionButton(t("edit"),"edit",item));actions.appendChild(actionButton(t("remove"),"delete",item));card.appendChild(actions);
       list.appendChild(card);
@@ -290,17 +339,17 @@
   }
   function addMeeting(event){
     event.preventDefault();
-    var institution=$("institution-input").value.trim(),course=$("course-input").value.trim();
+    var institution=state.mode==="student"?"":$("institution-input").value.trim(),course=$("course-input").value.trim();
     var day=Number($("day-input").value),start=$("start-input").value,end=$("end-input").value,room=$("room-input").value.trim(),color=$("color-input").value;
-    if(!institution||!course){setMessage(t("required"),false);return;}
+    if((state.mode==="teacher"&&!institution)||!course){setMessage(t(state.mode==="student"?"requiredStudent":"required"),false);return;}
     var sm=timeMinutes(start),em=timeMinutes(end);
     if(sm<HOUR_START*60||em>HOUR_END*60||em<=sm){setMessage(t("timeError"),false);return;}
-    var clash=state.classes.find(function(item){return item.day===day&&item.id!==editingId&&sm<timeMinutes(item.end)&&em>timeMinutes(item.start);});
+    var clash=state.classes.find(function(item){return item.audience===state.mode&&item.day===day&&item.id!==editingId&&sm<timeMinutes(item.end)&&em>timeMinutes(item.start);});
     if(clash){setMessage(t("overlap")+clash.course+t("overlapEnd"),false);return;}
-    if(!findInstitution(institution)){
+    if(state.mode==="teacher"&&!findInstitution(institution)){
       state.institutions.push({name:institution,code:"",abbr:initials(institution),color:color,logo:""});
     }
-    var meeting=cleanMeeting({id:editingId||makeId(),institution:institution,course:course,day:day,start:start,end:end,room:room,color:color});
+    var meeting=cleanMeeting({id:editingId||makeId(),audience:state.mode,institution:institution,course:course,day:day,start:start,end:end,room:room,color:color});
     if(editingId)state.classes=state.classes.map(function(item){return item.id===editingId?meeting:item;});
     else state.classes.push(meeting);
     persistAndRender();resetForm();$("institution-input").value="";$("course-input").focus();
@@ -340,7 +389,7 @@
     }).catch(function(error){setInstitutionMessage(error.message||t("imageBad"),false);});
   }
   function exportBackup(){
-    var payload={app:"Mi Agenda Docente Colombia",version:1,exportedAt:new Date().toISOString(),institutions:state.institutions,classes:state.classes};
+    var payload={app:"Mi Agenda Docente Colombia",version:1,mode:state.mode,exportedAt:new Date().toISOString(),institutions:state.institutions,classes:state.classes};
     var blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
     var url=URL.createObjectURL(blob),a=document.createElement("a");
     a.href=url;a.download="mi-agenda-docente-respaldo.json";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
@@ -353,10 +402,11 @@
       try{
         var data=JSON.parse(String(reader.result||""));
         if(data.version!==1||!Array.isArray(data.classes)||!Array.isArray(data.institutions))throw new Error();
+        state.mode=data.mode==="student"?"student":"teacher";
         state.institutions=data.institutions.map(cleanInstitution).filter(Boolean);
         CATALOG.forEach(function(item){if(!state.institutions.some(function(x){return norm(x.name)===norm(item.name);}))state.institutions.push(cleanInstitution(item));});
         state.classes=data.classes.map(cleanMeeting).filter(Boolean);
-        persistAndRender();$("save-status").textContent=t("importOk");
+        applyModeUI();persistAndRender();$("save-status").textContent=t("importOk");
       }catch(error){$("save-status").textContent=t("importBad");}
       $("import-file").value="";
     };
@@ -364,12 +414,15 @@
     reader.readAsText(file);
   }
   function clearClasses(){
-    if(!state.classes.length)return;
-    if(!window.confirm(t("clearConfirm")))return;
-    state.classes=[];resetForm();persistAndRender();$("save-status").textContent=t("clearDone");
+    if(!sortedClasses().length)return;
+    if(!window.confirm(t(state.mode==="student"?"clearConfirmStudent":"clearConfirm")))return;
+    state.classes=state.classes.filter(function(item){return item.audience!==state.mode;});
+    resetForm();persistAndRender();$("save-status").textContent=t(state.mode==="student"?"clearDoneStudent":"clearDone");
   }
   function bind(){
     $("meeting-form").addEventListener("submit",addMeeting);
+    $("mode-teacher").addEventListener("click",function(){setMode("teacher");});
+    $("mode-student").addEventListener("click",function(){setMode("student");});
     $("cancel-edit").addEventListener("click",resetForm);
     $("institution-input").addEventListener("change",function(){var inst=findInstitution(this.value);if(inst)$("color-input").value=inst.color||"#3f7e73";});
     $("open-institution-dialog").addEventListener("click",openDialog);
@@ -386,6 +439,6 @@
   }
   function ready(fn){if(document.readyState!=="loading")fn();else document.addEventListener("DOMContentLoaded",fn);}
   ready(function(){
-    loadState();populateDays();populateInstitutions();bind();renderAll();setLanguage();
+    loadState();populateDays();populateInstitutions();bind();applyModeUI();renderAll();setLanguage();
   });
 })();
