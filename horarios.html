@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#3f7e73">
+<title data-i18n="agenda.pageTitle">Agenda docente — Santiago Alzate</title>
+<meta name="description" content="Agenda docente gratuita para organizar clases, instituciones y horarios semanales.">
+<link rel="stylesheet" href="assets/styles.css?v=20261115-crest-neutral-agenda">
+<link rel="stylesheet" href="assets/agenda.css?v=20261115-agenda-v1">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+</head>
+<body class="agenda-page">
+<header class="site-nav">
+  <input type="checkbox" id="nav-toggle">
+  <div class="nav-row">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">SA</span>
+      Santiago Alzate
+    </a>
+    <label class="burger" for="nav-toggle" aria-label="Abrir menú"><span></span></label>
+    <nav class="links">
+      <a class="navlink" href="index.html" data-i18n="nav.home">Inicio</a>
+      <a class="navlink" href="sobre-mi.html" data-i18n="nav.about">Sobre mí</a>
+      <a class="navlink" href="cursos.html" data-i18n="nav.courses">Cursos</a>
+      <a class="navlink active" href="horarios.html" data-i18n="nav.agenda">Agenda</a>
+      <a class="navlink" href="investigacion.html" data-i18n="nav.research">Investigación</a>
+      <a class="navlink" href="solving-problems.html" data-i18n="nav.sp">Solving Problems</a>
+      <a class="navlink" href="blog.html" data-i18n="nav.blog">Blog</a>
+      <a class="navlink" href="cv.html" data-i18n="nav.cv">CV</a>
+      <a class="navlink" href="contacto.html" data-i18n="nav.contact">Contacto</a>
+      <div class="lang-switch" role="group" aria-label="Idioma / Language">
+        <button type="button" class="lang-btn" data-lang-btn="es" aria-pressed="true">
+          <svg class="flag-icon" viewBox="0 0 20 14" aria-hidden="true">
+            <defs><clipPath id="flagClipCO"><rect width="20" height="14" rx="2"/></clipPath></defs>
+            <g clip-path="url(#flagClipCO)">
+              <rect width="20" height="7" y="0" fill="#FCD116"/>
+              <rect width="20" height="3.5" y="7" fill="#003893"/>
+              <rect width="20" height="3.5" y="10.5" fill="#CE1126"/>
+            </g>
+          </svg>
+          ES
+        </button>
+        <button type="button" class="lang-btn" data-lang-btn="en" aria-pressed="false">
+          <svg class="flag-icon" viewBox="0 0 20 14" aria-hidden="true">
+            <defs><clipPath id="flagClipUS"><rect width="20" height="14" rx="2"/></clipPath></defs>
+            <g clip-path="url(#flagClipUS)">
+              <rect width="20" height="14" fill="#B22234"/>
+              <rect y="1.077" width="20" height="1.077" fill="#fff"/>
+              <rect y="3.231" width="20" height="1.077" fill="#fff"/>
+              <rect y="5.385" width="20" height="1.077" fill="#fff"/>
+              <rect y="7.538" width="20" height="1.077" fill="#fff"/>
+              <rect y="9.692" width="20" height="1.077" fill="#fff"/>
+              <rect y="11.846" width="20" height="1.077" fill="#fff"/>
+              <rect width="8" height="7.538" fill="#3C3B6E"/>
+            </g>
+          </svg>
+          EN
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+<main class="agenda-main">
+  <section class="agenda-hero">
+    <div class="agenda-hero-copy">
+      <span class="eyebrow" data-i18n="agenda.eyebrow">Herramienta gratuita para docentes</span>
+      <h1 data-i18n="agenda.title">Tu semana, clara desde el primer día.</h1>
+      <p data-i18n="agenda.intro">Organiza tus clases por institución, asignatura, día y hora. Tu agenda se guarda en este navegador; nada se envía a un servidor.</p>
+      <div class="agenda-proof">
+        <span><strong>01</strong><span data-i18n="agenda.proof.free">Gratis y sin cuenta</span></span>
+        <span><strong>02</strong><span data-i18n="agenda.proof.local">Tus datos se quedan aquí</span></span>
+        <span><strong>03</strong><span data-i18n="agenda.proof.pdf">Lista para imprimir o guardar en PDF</span></span>
+      </div>
+    </div>
+    <div class="agenda-hero-art" aria-hidden="true">
+      <div class="agenda-art-card agenda-art-back"><span>MIÉ</span><i></i><i></i><i></i></div>
+      <div class="agenda-art-card agenda-art-front">
+        <div class="agenda-art-top"><span>SEMANA</span><b>06—22</b></div>
+        <div class="agenda-art-columns">
+          <div><i></i><i class="filled"></i><i></i><i class="filled second"></i></div>
+          <div><i class="filled third"></i><i></i><i class="filled"></i><i></i></div>
+          <div><i></i><i class="filled second"></i><i></i><i></i></div>
+          <div><i class="filled"></i><i></i><i class="filled third"></i><i></i></div>
+        </div>
+      </div>
+      <span class="agenda-art-seal">SA</span>
+    </div>
+  </section>
+
+  <section class="agenda-workspace" aria-labelledby="agenda-workspace-title">
+    <div class="agenda-workspace-top">
+      <div class="agenda-status"><span class="agenda-status-dot"></span><span id="save-status" role="status" aria-live="polite" data-i18n="agenda.saved">Guardado en este navegador</span></div>
+      <div class="agenda-tools">
+        <button class="agenda-button agenda-button-soft" type="button" id="export-button" data-i18n="agenda.backup">Guardar copia</button>
+        <label class="agenda-button agenda-button-soft agenda-import-label" for="import-file" data-i18n="agenda.restore">Restaurar copia</label>
+        <input class="visually-hidden" id="import-file" type="file" accept=".json,application/json">
+        <button class="agenda-button agenda-button-primary" type="button" id="print-button" data-i18n="agenda.print">Imprimir / PDF</button>
+      </div>
+    </div>
+
+    <div class="agenda-layout">
+      <aside class="agenda-sidebar">
+        <section class="agenda-panel agenda-editor-panel" aria-labelledby="agenda-workspace-title">
+          <div class="agenda-panel-kicker"><span>01</span><span data-i18n="agenda.step">PLANIFICA TU SEMANA</span></div>
+          <h2 id="agenda-workspace-title" data-i18n="agenda.addTitle">Añade una clase</h2>
+          <p class="agenda-panel-intro" data-i18n="agenda.addDescription">Elige dónde, cuándo y qué vas a enseñar.</p>
+          <form id="meeting-form">
+            <div class="agenda-field">
+              <label for="institution-input" data-i18n="agenda.institution">Institución</label>
+              <div class="agenda-input-combo">
+                <input id="institution-input" name="institution" type="text" list="institution-options" placeholder="Busca o escribe una institución" autocomplete="organization" required data-i18n-placeholder="agenda.institutionPlaceholder">
+                <button type="button" class="agenda-icon-button" id="open-institution-dialog" aria-label="Añadir institución" title="Añadir institución">+</button>
+              </div>
+              <datalist id="institution-options"></datalist>
+            </div>
+            <div class="agenda-field">
+              <label for="course-input" data-i18n="agenda.course">Asignatura</label>
+              <input id="course-input" name="course" type="text" maxlength="90" placeholder="Ej. Análisis Numérico" required data-i18n-placeholder="agenda.coursePlaceholder">
+            </div>
+            <div class="agenda-field">
+              <label for="day-input" data-i18n="agenda.day">Día</label>
+              <select id="day-input" name="day" required></select>
+            </div>
+            <div class="agenda-time-row">
+              <div class="agenda-field">
+                <label for="start-input" data-i18n="agenda.start">Empieza</label>
+                <input id="start-input" name="start" type="time" min="06:00" max="21:30" step="1800" value="08:00" required>
+              </div>
+              <div class="agenda-field">
+                <label for="end-input" data-i18n="agenda.end">Termina</label>
+                <input id="end-input" name="end" type="time" min="06:30" max="22:00" step="1800" value="09:00" required>
+              </div>
+            </div>
+            <div class="agenda-field">
+              <label for="room-input" data-i18n="agenda.location">Salón o lugar <span data-i18n="agenda.optional">(opcional)</span></label>
+              <input id="room-input" name="room" type="text" maxlength="70" placeholder="Ej. Bloque 12 · Aula 301" data-i18n-placeholder="agenda.locationPlaceholder">
+            </div>
+            <div class="agenda-field agenda-color-field">
+              <label for="color-input" data-i18n="agenda.color">Color de la clase</label>
+              <div class="agenda-color-control"><input id="color-input" name="color" type="color" value="#3f7e73"><span data-i18n="agenda.colorHint">Puedes cambiarlo cuando quieras.</span></div>
+            </div>
+            <div class="agenda-form-actions">
+              <button class="agenda-button agenda-button-primary agenda-add-button" id="submit-meeting" type="submit" data-i18n="agenda.addButton">Añadir al horario</button>
+              <button class="agenda-button agenda-button-text" id="cancel-edit" type="button" hidden data-i18n="agenda.cancel">Cancelar</button>
+            </div>
+            <p class="agenda-form-message" id="form-message" role="status" aria-live="polite"></p>
+          </form>
+        </section>
+
+        <section class="agenda-panel agenda-directory-panel" aria-labelledby="directory-heading">
+          <div class="agenda-directory-heading">
+            <div><div class="agenda-panel-kicker"><span>02</span><span data-i18n="agenda.stepInstitutions">TUS INSTITUCIONES</span></div>
+            <h2 id="directory-heading" data-i18n="agenda.directoryTitle">Instituciones</h2></div>
+            <button type="button" class="agenda-icon-button" id="open-institution-dialog-small" aria-label="Añadir institución">+</button>
+          </div>
+          <p class="agenda-directory-empty" id="directory-empty" data-i18n="agenda.directoryEmpty">Al añadir una clase, verás aquí las instituciones que usas.</p>
+          <ul class="agenda-directory-list" id="directory-list"></ul>
+          <div class="agenda-catalog-note">
+            <p data-i18n="agenda.catalogNote">Selección inicial basada en los perfiles públicos del SNIES (vigencia 2025). La lista no es completa; puedes escribir cualquier institución.</p>
+            <a href="https://snies.mineducacion.gov.co/portal/Informes-e-indicadores/Perfiles-de-las-Instituciones-de-Educacion-Superior/" target="_blank" rel="noopener" data-i18n="agenda.sniesLink">Consultar directorio oficial ↗</a>
+          </div>
+        </section>
+      </aside>
+
+      <section class="agenda-panel agenda-calendar-panel" aria-labelledby="week-heading">
+        <div class="agenda-calendar-header">
+          <div>
+            <div class="agenda-panel-kicker"><span>03</span><span data-i18n="agenda.stepCalendar">TU VISTA SEMANAL</span></div>
+            <h2 id="week-heading" data-i18n="agenda.weekTitle">Horario de clases</h2>
+            <p data-i18n="agenda.weekSub">Lunes a sábado · 6:00 a. m. – 10:00 p. m.</p>
+          </div>
+          <button type="button" class="agenda-button agenda-button-text agenda-clear" id="clear-button" data-i18n="agenda.clear">Borrar clases</button>
+        </div>
+        <div class="agenda-calendar-scroll" tabindex="0" aria-label="Horario semanal desplazable horizontalmente">
+          <div class="agenda-calendar-grid" id="calendar-grid"></div>
+        </div>
+        <div class="agenda-empty" id="calendar-empty">
+          <span class="agenda-empty-mark">+</span>
+          <div><strong data-i18n="agenda.emptyTitle">Tu semana está lista.</strong><p data-i18n="agenda.emptyText">Añade la primera clase con el formulario y aparecerá aquí.</p></div>
+        </div>
+        <div class="agenda-class-list-wrap">
+          <div class="agenda-class-list-heading"><h3 data-i18n="agenda.classesTitle">Clases en tu agenda</h3><span id="class-count">0</span></div>
+          <div class="agenda-class-list" id="class-list"></div>
+        </div>
+      </section>
+    </div>
+
+    <div class="agenda-local-note">
+      <span class="agenda-local-icon" aria-hidden="true">✓</span>
+      <div><strong data-i18n="agenda.privacyTitle">Privado en este dispositivo</strong><p data-i18n="agenda.privacyText">Tu agenda se guarda solo en este navegador. Puedes descargar una copia JSON para respaldarla o moverla a otro dispositivo. No escribas información privada de estudiantes.</p></div>
+    </div>
+  </section>
+
+  <div class="agenda-visits bloque-visitas">
+    <div class="visitas-card">
+      <svg class="visitas-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.6 12S5.5 5 12 5s10.4 7 10.4 7-3.9 7-10.4 7S1.6 12 1.6 12Z"/><circle cx="12" cy="12" r="3.1"/></svg>
+      <div class="visitas-numero">—</div>
+      <div class="visitas-label" data-i18n="home.visitas.label">visitas a este sitio</div>
+      <div class="visitas-pie" data-i18n="home.visitas.pie">Gracias por pasar por aquí.</div>
+    </div>
+  </div>
+</main>
+
+<dialog class="agenda-dialog" id="institution-dialog" aria-labelledby="dialog-title">
+  <form method="dialog" class="agenda-dialog-close-row"><button class="agenda-dialog-close" value="cancel" aria-label="Cerrar">×</button></form>
+  <span class="eyebrow" data-i18n="agenda.dialogEyebrow">PERSONALIZA TU DIRECTORIO</span>
+  <h2 id="dialog-title" data-i18n="agenda.dialogTitle">Añadir institución</h2>
+  <p data-i18n="agenda.dialogIntro">Guarda una institución para reutilizarla en tus clases. El escudo, si añades uno, se queda en este navegador.</p>
+  <form id="institution-form">
+    <div class="agenda-field"><label for="new-inst-name" data-i18n="agenda.newName">Nombre de la institución</label><input id="new-inst-name" maxlength="100" required></div>
+    <div class="agenda-field"><label for="new-inst-color" data-i18n="agenda.newColor">Color institucional</label><div class="agenda-color-control"><input id="new-inst-color" type="color" value="#3f7e73"><span data-i18n="agenda.newColorHint">Se usará como color sugerido.</span></div></div>
+    <div class="agenda-field"><label for="new-inst-logo" data-i18n="agenda.newLogo">Escudo o logotipo <span data-i18n="agenda.optional">(opcional)</span></label><input id="new-inst-logo" type="file" accept="image/*"></div>
+    <p class="agenda-form-message" id="institution-message" role="status" aria-live="polite"></p>
+    <button class="agenda-button agenda-button-primary" type="submit" data-i18n="agenda.saveInstitution">Guardar institución</button>
+  </form>
+</dialog>
+
+<footer class="site-foot">
+  <div class="foot-bottom">
+    <span>© 2026 Santiago Alzate</span>
+    <span data-i18n="footer.tagline">Hecho con LaTeX en el corazón, HTML en la página.</span>
+  </div>
+</footer>
+<script src="assets/site.js?v=20261115-agenda"></script>
+<script src="assets/agenda.js?v=20261115-agenda-v1"></script>
+</body>
+</html>
