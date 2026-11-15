@@ -7,7 +7,7 @@
 <title data-i18n="agenda.pageTitle">Agenda docente — Santiago Alzate</title>
 <meta name="description" content="Agenda docente gratuita para organizar clases, instituciones y horarios semanales.">
 <link rel="stylesheet" href="assets/styles.css?v=20261115-crest-neutral-agenda">
-<link rel="stylesheet" href="assets/agenda.css?v=20261115-agenda-ui-v2">
+<link rel="stylesheet" href="assets/agenda.css?v=20261115-agenda-student-v1">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 </head>
 <body class="agenda-page">
@@ -99,14 +99,26 @@
       </div>
     </div>
 
-    <div class="agenda-layout">
+    <section class="agenda-mode-panel" aria-labelledby="agenda-mode-label">
+      <div class="agenda-mode-copy">
+        <span class="agenda-panel-kicker" data-i18n="agenda.mode.kicker">PERFIL DE USO</span>
+        <span class="agenda-mode-label" id="agenda-mode-label" data-i18n="agenda.mode.label">¿Cómo usarás esta agenda?</span>
+        <p class="agenda-mode-hint" id="agenda-mode-hint" data-i18n="agenda.mode.teacherHint">Elige tu universidad y registra tus clases.</p>
+      </div>
+      <div class="agenda-mode-options" role="group" aria-labelledby="agenda-mode-label">
+        <button type="button" class="agenda-mode-button" id="mode-teacher" aria-pressed="true" data-i18n="agenda.mode.teacher">Docente</button>
+        <button type="button" class="agenda-mode-button" id="mode-student" aria-pressed="false" data-i18n="agenda.mode.student">Estudiante</button>
+      </div>
+    </section>
+
+    <div class="agenda-layout" id="agenda-layout">
       <aside class="agenda-sidebar">
         <section class="agenda-panel agenda-editor-panel" aria-labelledby="agenda-workspace-title">
           <div class="agenda-panel-kicker"><span>01</span><span data-i18n="agenda.step">PLANIFICA TU SEMANA</span></div>
           <h2 id="agenda-workspace-title" data-i18n="agenda.addTitle">Añade una clase</h2>
-          <p class="agenda-panel-intro" data-i18n="agenda.addDescription">Elige dónde, cuándo y qué vas a enseñar.</p>
+          <p class="agenda-panel-intro" id="agenda-panel-intro" data-i18n="agenda.addDescription">Elige dónde, cuándo y qué vas a enseñar.</p>
           <form id="meeting-form">
-            <div class="agenda-field">
+            <div class="agenda-field" id="institution-field">
               <label for="institution-input" data-i18n="agenda.institution">Institución</label>
               <div class="agenda-input-combo">
                 <input id="institution-input" name="institution" type="text" list="institution-options" placeholder="Busca o escribe una institución" autocomplete="organization" required data-i18n-placeholder="agenda.institutionPlaceholder">
@@ -115,7 +127,7 @@
               <datalist id="institution-options"></datalist>
             </div>
             <div class="agenda-field">
-              <label for="course-input" data-i18n="agenda.course">Asignatura</label>
+              <label id="course-label" for="course-input" data-i18n="agenda.course">Asignatura</label>
               <input id="course-input" name="course" type="text" maxlength="90" placeholder="Ej. Análisis Numérico" required data-i18n-placeholder="agenda.coursePlaceholder">
             </div>
             <div class="agenda-field">
@@ -148,7 +160,7 @@
           </form>
         </section>
 
-        <section class="agenda-panel agenda-directory-panel" aria-labelledby="directory-heading">
+        <section class="agenda-panel agenda-directory-panel" id="institution-directory" aria-labelledby="directory-heading">
           <div class="agenda-directory-heading">
             <div><div class="agenda-panel-kicker"><span>02</span><span data-i18n="agenda.stepInstitutions">TUS INSTITUCIONES</span></div>
             <h2 id="directory-heading" data-i18n="agenda.directoryTitle">Instituciones</h2></div>
@@ -222,7 +234,7 @@
     <span data-i18n="footer.tagline">Hecho con LaTeX en el corazón, HTML en la página.</span>
   </div>
 </footer>
-<script src="assets/site.js?v=20261115-agenda-audience"></script>
-<script src="assets/agenda.js?v=20261115-agenda-v1"></script>
+<script src="assets/site.js?v=20261115-agenda-student-v1"></script>
+<script src="assets/agenda.js?v=20261115-agenda-student-v1"></script>
 </body>
 </html>
