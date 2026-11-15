@@ -71,7 +71,7 @@
     "agenda.emptyText": "Add your first class with the form and it will appear here.",
     "agenda.emptyTitle": "Your week is ready.",
     "agenda.end": "Ends",
-    "agenda.eyebrow": "FREE TEACHER TOOL",
+    "agenda.eyebrow": "FREE TOOL FOR TEACHERS AND STUDENTS",
     "agenda.institution": "Institution",
     "agenda.institutionPlaceholder": "Search or type an institution",
     "agenda.intro": "Organize classes by institution, course, day, and time. Your schedule is saved in this browser; nothing is sent to a server.",
