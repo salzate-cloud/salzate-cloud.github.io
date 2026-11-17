@@ -231,6 +231,8 @@
     "courses.notes.iue.grafos": "Unit 3 · Graphs",
     "courses.notes.iue.prepLogic": "Preparation workshop",
     "courses.notes.iue.logicColab1sol": "Collaborative workshop 1 · Solution",
+    "courses.notes.iue.logicColab2sol": "Collaborative workshop 2 · Solution",
+    "courses.notes.iue.discreteColab1sol": "Collaborative workshop 1 · Solution",
     "courses.notes.iue.hamilton": "Unit 3 · Part 2: Hamilton, trees and traversals",
     "courses.notes.iue.noResources": "No files published yet.",
     "courses.notes.math225.clase1": "Class 1", "courses.notes.math225.clase2": "Class 2",
