@@ -235,6 +235,8 @@
     "courses.notes.iue.discreteColab2sol": "Collaborative workshop 2 · Solution",
     "courses.notes.iue.discreteColab1sol": "Collaborative workshop 1 · Solution",
     "courses.notes.iue.calc1Colab1sol": "Collaborative workshop 1 · Solution",
+    "courses.notes.iue.calc1Quiz1sol": "Quiz I · Solution",
+    "courses.notes.iue.discreteQuiz1sol": "Quiz I · Solution",
     "courses.notes.iue.hamilton": "Unit 3 · Part 2: Hamilton, trees and traversals",
     "courses.notes.iue.noResources": "No files published yet.",
     "courses.notes.math225.clase1": "Class 1", "courses.notes.math225.clase2": "Class 2",
