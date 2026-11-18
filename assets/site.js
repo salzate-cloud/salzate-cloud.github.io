@@ -272,6 +272,7 @@
     "courses.notes.geo.sup1sol": "Make-up Midterm 1 · Solutions",
     "courses.notes.geo.p2sol": "Midterm 2 · Solutions",
     "courses.notes.geo.sup2sol": "Make-up Midterm 2 · Solutions",
+    "courses.notes.geo.taller3": "Class workshop · Midterm 3 · Solutions",
     "courses.notes.an2.clase1": "Class 1",
     "courses.notes.an2.parcial1": "Midterm 1 notes",
     "courses.notes.an2.parcial2": "Midterm 2 notes",
