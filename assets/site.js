@@ -222,6 +222,7 @@
     "courses.notes.an.p2sol": "Midterm 2 · Solutions",
     "courses.notes.an.sup2sol": "Make-up Midterm 2 · Solutions",
     "courses.notes.an.exposicionesFinal": "Final Exam Presentation Topics",
+    "courses.notes.an.tallerp1": "Workshop for Midterm 1",
     "courses.notes.an.tallerp2sol": "Workshop for Midterm 2",
     "courses.notes.an.tallerp3parte1sol": "Workshop for Midterm 3 · Part 1",
     "courses.notes.an.tallerp3sol": "Workshop for Midterm 3",
