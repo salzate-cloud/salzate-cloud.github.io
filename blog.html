@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blog — Santiago Alzate</title>
+<meta name="description" content="Santiago Alzate — matemático y profesor de matemáticas.">
+<link rel="stylesheet" href="assets/styles.css?v=20261115-crest-neutral-agenda">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png?v=20261110b">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png?v=20261110b">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png?v=20261110b">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=20261110b">
+<link rel="icon" href="favicon.ico?v=20261110b">
+</head>
+<body>
+<header class="site-nav">
+  <input type="checkbox" id="nav-toggle">
+  <div class="nav-row">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">SA</span>
+      Santiago Alzate
+    </a>
+    <label class="burger" for="nav-toggle" aria-label="Abrir menú"><span></span></label>
+    <nav class="links">
+      <a class="navlink" href="index.html" data-i18n="nav.home">Inicio</a>
+      <a class="navlink" href="sobre-mi.html" data-i18n="nav.about">Sobre mí</a>
+      <a class="navlink" href="cursos.html" data-i18n="nav.courses">Cursos</a>
+      <a class="navlink" href="horarios.html" data-i18n="nav.agenda">Crea tu agenda</a>
+      <a class="navlink" href="investigacion.html" data-i18n="nav.research">Investigación</a>
+      <a class="navlink" href="solving-problems.html" data-i18n="nav.sp">Solving Problems</a>
+      <a class="navlink" href="blog.html" data-i18n="nav.blog">Blog</a>
+      <a class="navlink" href="cv.html" data-i18n="nav.cv">CV</a>
+      <a class="navlink" href="contacto.html" data-i18n="nav.contact">Contacto</a>
+      <div class="lang-switch" role="group" aria-label="Idioma / Language">
+        <button type="button" class="lang-btn" data-lang-btn="es" aria-pressed="true">
+          <svg class="flag-icon" viewBox="0 0 20 14" aria-hidden="true">
+            <defs><clipPath id="flagClipCO"><rect width="20" height="14" rx="2"/></clipPath></defs>
+            <g clip-path="url(#flagClipCO)">
+              <rect width="20" height="7" y="0" fill="#FCD116"/>
+              <rect width="20" height="3.5" y="7" fill="#003893"/>
+              <rect width="20" height="3.5" y="10.5" fill="#CE1126"/>
+            </g>
+          </svg>
+          ES
+        </button>
+        <button type="button" class="lang-btn" data-lang-btn="en" aria-pressed="false">
+          <svg class="flag-icon" viewBox="0 0 20 14" aria-hidden="true">
+            <defs><clipPath id="flagClipUS"><rect width="20" height="14" rx="2"/></clipPath></defs>
+            <g clip-path="url(#flagClipUS)">
+              <rect width="20" height="14" fill="#B22234"/>
+              <rect y="1.077" width="20" height="1.077" fill="#fff"/>
+              <rect y="3.231" width="20" height="1.077" fill="#fff"/>
+              <rect y="5.385" width="20" height="1.077" fill="#fff"/>
+              <rect y="7.538" width="20" height="1.077" fill="#fff"/>
+              <rect y="9.692" width="20" height="1.077" fill="#fff"/>
+              <rect y="11.846" width="20" height="1.077" fill="#fff"/>
+              <rect width="8" height="7.538" fill="#3C3B6E"/>
+            </g>
+          </svg>
+          EN
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+<main>
+<div class="page">
+  <div class="page-head">
+    <span class="eyebrow">Blog</span>
+    <h1 data-i18n="blog.h2">Notas y actualizaciones</h1>
+    <div class="rule-accent"></div>
+    <p class="lead blog-note" data-i18n="blog.note">Apuntes cortos sobre lo que estoy enseñando, investigando o simplemente rumiando esta temporada.</p>
+  </div>
+  <div class="wrap">
+    <div class="post-grid">
+      <article class="post-card">
+        <span class="ptag" data-i18n="blog.tag1">Docencia</span>
+        <time datetime="2026-09-15" data-i18n="blog.date1">15 de septiembre, 2026</time>
+        <h3 data-i18n="blog.h3.1">Empezando el semestre 2026-2</h3>
+        <p data-i18n="blog.p1">Este semestre en la Universidad de Antioquia estoy dictando Análisis Numérico, Análisis II y Geometría Básica: tres cursos avanzados que exigen ritmos distintos. Aquí iré dejando comentarios sobre cómo va el semestre y qué material estoy usando en cada uno.</p>
+        <span class="formula formula-display">$$x_{n+1}=x_n-\dfrac{f(x_n)}{f'(x_n)}$$</span>
+        <span class="formula-cap" data-i18n="blog.newton.cap">el método de Newton, protagonista de Análisis Numérico</span>
+      </article>
+      <article class="post-card">
+        <span class="ptag" data-i18n="blog.tag2">Investigación</span>
+        <time datetime="2026-09-10" data-i18n="blog.date2">10 de septiembre, 2026</time>
+        <h3 data-i18n="blog.h3.2">El teorema de Peter–Weyl, revisitado</h3>
+        <p data-i18n="blog.p2">Mi tesis de maestría giró en torno a este resultado sobre representaciones de grupos compactos. Quiero usar este espacio para volver sobre esas ideas con calma, en un lenguaje más cercano al de mis estudiantes de pregrado.</p>
+        <span class="formula formula-display">$$L^2(G)\cong\bigoplus_{\pi\in\hat G}(\dim\pi)\,V_\pi\otimes V_\pi^{*}$$</span>
+        <span class="formula-cap" data-i18n="blog.pw2.cap">la descomposición que da título a mi tesis</span>
+      </article>
+      <article class="post-card">
+        <span class="ptag" data-i18n="blog.tag3">Problemas</span>
+        <time datetime="2026-09-03" data-i18n="blog.date3">3 de septiembre, 2026</time>
+        <h3 data-i18n="blog.h3.3">Un límite de radicales anidados</h3>
+        <p data-i18n="blog.p3">Sobre el problema 12063 publicado en el American Mathematical Monthly: un límite de radicales anidados con una solución más elegante de lo que parece a primera vista. Pronto escribiré la solución completa, paso a paso.</p>
+        <span class="formula formula-display">$$x=\sqrt{a_1+\sqrt{a_2+\sqrt{a_3+\cdots}}}$$</span>
+        <span class="formula-cap" data-i18n="blog.radical2.cap">la forma típica de un radical anidado</span>
+      </article>
+    </div>
+  </div>
+</div>
+</main>
+<footer class="site-foot">
+  <div class="foot-bottom">
+    <span>© 2026 Santiago Alzate</span>
+    <span data-i18n="footer.tagline">Hecho con LaTeX en el corazón, HTML en la página.</span>
+  </div>
+</footer>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script src="assets/site.js?v=20261118-taller-gb-p3"></script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "4f01a8ad63b2411f813977c2b179aa71"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

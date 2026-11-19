@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cursos — Santiago Alzate</title>
+<meta name="description" content="Santiago Alzate — matemático y profesor de matemáticas.">
+<link rel="stylesheet" href="assets/styles.css?v=20261115-course-pdf-help">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png?v=20261110b">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png?v=20261110b">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png?v=20261110b">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=20261110b">
+<link rel="icon" href="favicon.ico?v=20261110b">
+</head>
+<body>
+<header class="site-nav">
+  <input type="checkbox" id="nav-toggle">
+  <div class="nav-row">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">SA</span>
+      Santiago Alzate
+    </a>
+    <label class="burger" for="nav-toggle" aria-label="Abrir menú"><span></span></label>
+    <nav class="links">
+      <a class="navlink" href="index.html" data-i18n="nav.home">Inicio</a>
+      <a class="navlink" href="sobre-mi.html" data-i18n="nav.about">Sobre mí</a>
+      <a class="navlink" href="cursos.html" data-i18n="nav.courses">Cursos</a>
+      <a class="navlink" href="horarios.html" data-i18n="nav.agenda">Crea tu agenda</a>
+      <a class="navlink" href="investigacion.html" data-i18n="nav.research">Investigación</a>
+      <a class="navlink" href="solving-problems.html" data-i18n="nav.sp">Solving Problems</a>
+      <a class="navlink" href="blog.html" data-i18n="nav.blog">Blog</a>
+      <a class="navlink" href="cv.html" data-i18n="nav.cv">CV</a>
+      <a class="navlink" href="contacto.html" data-i18n="nav.contact">Contacto</a>
+      <div class="lang-switch" role="group" aria-label="Idioma / Language">
+        <button type="button" class="lang-btn" data-lang-btn="es" aria-pressed="true">
+          <svg class="flag-icon" viewBox="0 0 20 14" aria-hidden="true">
+            <defs><clipPath id="flagClipCO"><rect width="20" height="14" rx="2"/></clipPath></defs>
+            <g clip-path="url(#flagClipCO)">
+              <rect width="20" height="7" y="0" fill="#FCD116"/>
+              <rect width="20" height="3.5" y="7" fill="#003893"/>
+              <rect width="20" height="3.5" y="10.5" fill="#CE1126"/>
+            </g>
+          </svg>
+          ES
+        </button>
+        <button type="button" class="lang-btn" data-lang-btn="en" aria-pressed="false">
+          <svg class="flag-icon" viewBox="0 0 20 14" aria-hidden="true">
+            <defs><clipPath id="flagClipUS"><rect width="20" height="14" rx="2"/></clipPath></defs>
+            <g clip-path="url(#flagClipUS)">
+              <rect width="20" height="14" fill="#B22234"/>
+              <rect y="1.077" width="20" height="1.077" fill="#fff"/>
+              <rect y="3.231" width="20" height="1.077" fill="#fff"/>
+              <rect y="5.385" width="20" height="1.077" fill="#fff"/>
+              <rect y="7.538" width="20" height="1.077" fill="#fff"/>
+              <rect y="9.692" width="20" height="1.077" fill="#fff"/>
+              <rect y="11.846" width="20" height="1.077" fill="#fff"/>
+              <rect width="8" height="7.538" fill="#3C3B6E"/>
+            </g>
+          </svg>
+          EN
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+<main>
+<div class="page">
+  <div class="page-head">
+    <span class="eyebrow" data-i18n="courses.eyebrow">Docencia</span>
+    <h1 data-i18n="courses.h2">Cursos y notas de clase</h1>
+    <div class="rule-accent"></div>
+    <p class="lead" data-i18n="courses.intro">Los cursos que dicto ahora y los que he dictado hace poco — con las notas de clase reales de cada uno, tal como las uso en el salón, no una versión pulida después de los hechos.</p>
+    <div class="award-note award-note-center"><svg class="award-note-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="5.2"/><path d="M8.6 13.4 7 22l5-2.6 5 2.6-1.6-8.6"/></svg><span class="award-note-body"><span class="award-note-label" data-i18n="award.label">Premio a la excelencia docente</span><span class="award-note-name">Teaching Excellence Award for Student Success</span><span class="award-note-meta">Binghamton University · 2026</span></span></div>
+  </div>
+  <div class="wrap">
+    <nav class="course-index" aria-labelledby="course-index-title">
+      <h2 id="course-index-title" data-i18n="courses.index.title">Explora por universidad</h2>
+      <div class="course-index-links" role="tablist" aria-label="Explora los cursos por universidad">
+        <a id="course-tab-iue" href="#course-iue" role="tab" aria-controls="course-iue" aria-selected="true" tabindex="0">
+          <span class="course-index-logo"><img src="https://pbs.twimg.com/profile_images/1971903177239797760/baPKdMCT.jpg" alt="Escudo de la Institución Universitaria de Envigado" loading="eager" referrerpolicy="no-referrer"></span>
+          <span><span class="course-index-name" data-i18n="courses.index.iue">Institución Universitaria de Envigado</span><span class="course-index-status" data-i18n="courses.index.current">Actual</span></span>
+        </a>
+        <a id="course-tab-udea" href="#course-udea" role="tab" aria-controls="course-udea" aria-selected="false" tabindex="-1">
+          <span class="course-index-logo"><img src="assets/udea-logo-vertical.png" alt="Escudo de la Universidad de Antioquia" loading="eager"></span>
+          <span><span class="course-index-name" data-i18n="courses.index.udea">Universidad de Antioquia</span><span class="course-index-status" data-i18n="courses.index.current">Actual</span></span>
+        </a>
+        <a id="course-tab-binghamton" href="#course-binghamton" role="tab" aria-controls="course-binghamton" aria-selected="false" tabindex="-1">
+          <span class="course-index-logo"><img src="https://www.binghamton.edu/communications-and-marketing/img/logos/B-symbol-2c.jpg" alt="Marca B de Binghamton University" loading="eager" referrerpolicy="no-referrer"></span>
+          <span><span class="course-index-name" data-i18n="courses.index.binghamton">Binghamton University</span><span class="course-index-status is-archive" data-i18n="courses.index.archive">Anteriores</span></span>
+        </a>
+      </div>
+      <a class="course-index-feedback" href="#feedback-courses" data-i18n="feedback.quickLink">Dejar un comentario</a>
+    </nav>    <div class="course-search">
+      <label for="course-search" data-i18n="courses.search.label">Buscar un curso o tema</label>
+      <input id="course-search" type="search" autocomplete="off" aria-describedby="course-search-status"
+        data-i18n-placeholder="courses.search.placeholder" placeholder="Prueba: Banach, Fourier, Geometría…">
+      <p id="course-search-status" class="course-search-status" role="status" aria-live="polite"
+        data-course-search-status data-i18n="courses.search.description">Busca por institución, curso o tema. Los materiales se filtran mientras escribes.</p>
+      <p class="course-download-note" data-i18n="courses.downloadNote">Los archivos PDF se abren en una pestaña nueva. Para guardarlos en tu computador, usa el ícono de descarga del visor PDF.</p>
+    </div>
+    <div class="course-grid">
+      <div id="course-iue" class="course-card" role="tabpanel" aria-labelledby="course-tab-iue">
+        <div>
+          <div class="inst">Institución Universitaria de Envigado</div>
+          <div class="place">Envigado, Colombia</div>
+        </div>
+        <span class="period-badge" data-i18n="courses.iue.badge">2026 — presente · Instructor</span>
+        <div class="course-list">
+          <div class="course-row" style="--tono:#3F7E73">
+            <div class="course-info"><div class="cname" data-i18n="courses.calc1">Cálculo I · Código 911</div><div class="course-meta"><span class="course-status is-current" data-i18n="courses.status.current">En curso</span> <span class="course-period" data-i18n="courses.period.2026-2">Semestre 2026-2</span> <span class="course-updated"><span class="course-updated-label" data-i18n="courses.material.updated">Último material:</span> <time datetime="2026-11-16" data-i18n="courses.material.date.20261116">16 nov 2026</time></span></div></div>
+            <div class="course-categories"><details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.notas">Notas de clase</summary>
+              <div class="notes-links">
+                  <a href="notas/calculo1-clases-1-4-y-taller.pdf" target="_blank" rel="noopener" title="Notas completas del curso al día (45 páginas). Clases manuscritas: concepto de función, dominio y rango, criterio de la recta vertical, transformaciones y desplazamientos de gráficas, funciones pares e impares, álgebra y composición de funciones, funciones uno a uno y función inversa, funciones exponencial y logarítmica; límites: laterales, propiedades, indeterminaciones y racionalización por el conjugado; continuidad, teorema del emparedado, límites al infinito y asíntotas, y el inicio de la derivada por definición. Incluye la solución comentada del Parcial 1, punto por punto y señalando dónde se pierde el punto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.calc1.clases14taller">Notas del curso</span></a>
+              </div>
+                        
+</details>
+            <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.iueTalleresPrep">Talleres de preparación</summary>
+              <div class="notes-links">
+                <a href="notas/taller-preparacion-calculo-i.pdf" target="_blank" rel="noopener" title="Taller de preparación para Cálculo I (PDF, 9 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.iue.prepCalc1">Taller de preparación</span></a>
+              </div>
+            </details>
+                        <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.iueColab">Solución de talleres colaborativos</summary>
+              <div class="notes-links">
+                <a href="notas/calculo-i-taller1-solucion.pdf" target="_blank" rel="noopener" title="Solución del Taller Colaborativo 1 de Cálculo I: definición, dominio y rango de funciones, función lineal, cuadrática y potencia, y análisis gráfico de funciones por tramos (PDF, 5 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.iue.calc1Colab1sol">Taller colaborativo 1 · Solución</span></a>
+                <a href="notas/solucion-taller-calculo1.pdf" target="_blank" rel="noopener" title="Solución del Taller Colaborativo 2 de Cálculo I (PDF, 9 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.iue.calc1Colab2sol">Taller colaborativo 2 · Solución</span></a>
+              </div>
+            </details>
+<details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.iueQuizzes">Solución de quizzes</summary>
+              <div class="notes-links">
+                <a href="notas/calculo-i-quiz1-solucion.pdf" target="_blank" rel="noopener" title="Solución del Quiz I de Cálculo I: dominios de funciones básicas, función por tramos, transformaciones, función inversa, arcoseno, dominio de una raíz, vértice de una parábola, composición, ecuación logarítmica y función lineal de costo (PDF, 7 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.iue.calc1Quiz1sol">Quiz I · Solución</span></a>
+              </div>
+            </details>
+            <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.iueSoluciones">Solución de exámenes parciales</summary>
+              <div class="notes-links">
+                <a href="notas/calculo-i-parcial1-solucion.pdf" target="_blank" rel="noopener" title="Solución del Parcial 1 de Cálculo I (PDF, 13 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.iue.calc1P1sol">Parcial 1 · Solución</span></a>
+              </div>
+            </details>
+            </div>
+          </div>
+          <div class="course-row" style="--tono:#1B5E86">
+            <div class="course-info"><div class="cname" data-i18n="courses.discrete1">Matemáticas Discretas · Código 920</div><div class="course-meta"><span class="course-status is-current" data-i18n="courses.status.current">En curso</span> <span class="course-period" data-i18n="courses.period.2026-2">Semestre 2026-2</span> <span class="course-updated"><span class="course-updated-label" data-i18n="courses.material.updated">Último material:</span> <time datetime="2026-11-16" data-i18n="courses.material.date.20261116">16 nov 2026</time></span></div></div>
+            <div class="course-categories"><details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.libro">Libro del curso</summary>
+              <div class="notes-links">
+                  <a href="notas/matematicas-discretas-aprender-haciendo.pdf" target="_blank" rel="noopener" title="Libro del curso (117 páginas), escrito para aprender haciendo: definiciones breves, 67 ejemplos resueltos paso a paso y 82 ejercicios con respuesta. Cubre las cuatro unidades: lógica proposicional, conectivos, tablas de verdad y leyes, reglas de inferencia y validez de un razonamiento, métodos de demostración e inducción matemática; álgebra de Boole, compuertas lógicas, funciones booleanas, formas normales y mapas de Karnaugh; sucesiones, progresiones y relaciones de recurrencia; grafos, matrices de adyacencia e incidencia, caminos y circuitos de Euler y Hamilton, árboles y recorridos de árboles binarios. Con figuras propias, una sección de aplicación a la carrera al cierre de cada unidad, formulario de repaso y solución completo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.discrete.libro">Libro del curso</span></a>
+              </div>
+            </details>
+            <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.notas">Notas de clase</summary>
+              <div class="notes-links">
+                  <a href="notas/matematicas-discretas-920-notas.pdf" target="_blank" rel="noopener" title="Notas completas del curso al día (54 páginas). Clases manuscritas de la Unidad 1: proposiciones simples y compuestas, conectivos y tablas de verdad, leyes del álgebra proposicional, reglas de inferencia, métodos de demostración directo, por contrarrecíproco y por reducción al absurdo, e inducción matemática con la suma de Gauss; la Actividad 1; el taller de preparación de la Unidad 1 con soluciones; la Unidad 2 manuscrita de sucesiones y progresiones aritméticas y geométricas con sus fórmulas recursiva y explícita; la solución comentada del Parcial 1, punto por punto y señalando dónde se pierde el punto; y el resumen de la Unidad 3, Introducción a la Teoría de Grafos, con ejemplos resueltos paso a paso, grados y lema del apretón de manos, matrices de adyacencia e incidencia, caminos y conexidad, circuitos de Euler y Hamilton, grafos bipartitos y planaridad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.discrete1.notas">Notas del curso</span></a>
+              
+                <a href="notas/matematicas-discretas-unidad3-grafos.pdf" target="_blank" rel="noopener" title="Guía de la Unidad 3: grafos (PDF, 18 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.iue.grafos">Unidad 3 · Grafos</span></a>
+              
+                <a href="notas/Unidad3_Parte2_Hamilton_Arboles_Recorridos.pdf" target="_blank" rel="noopener" title="Unidad 3 · Parte 2: Hamilton, árboles y recorridos (PDF, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.iue.hamilton">Unidad 3 · Parte 2: Hamilton, árboles y recorridos</span></a></div>
+                        
+            
+</details>
+            <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.iueTalleresPrep">Talleres de preparación</summary>
+              <div class="notes-links">
+                <a href="notas/taller-preparacion-matematicas-discretas.pdf" target="_blank" rel="noopener" title="Taller de preparación para Matemáticas Discretas (PDF, 9 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.iue.prepDiscrete">Taller de preparación</span></a>
+              </div>
+            </details>
+                        <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.iueColab">Solución de talleres colaborativos</summary>
+              <div class="notes-links">
+                <a href="notas/matematicas-discretas-taller1-solucion.pdf" target="_blank" rel="noopener" title="Solución del Taller Colaborativo 1 de Matemáticas Discretas: lógica proposicional, tablas de verdad, tautologías y contradicciones, simplificación con leyes del álgebra proposicional, equivalencias y deducción formal con reglas de inferencia (PDF, 7 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.iue.discreteColab1sol">Taller colaborativo 1 · Solución</span></a>
+                <a href="notas/matematicas-discretas-taller-grafos-solucion.pdf" target="_blank" rel="noopener" title="Solución del Taller Colaborativo 2 de Matemáticas Discretas: teoría de grafos, con clases de grafos, representación, isomorfismo, grafos planos y homeomorfos (PDF, 12 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.iue.discreteColab2sol">Taller colaborativo 2 · Solución</span></a>
+              </div>
+            </details>
+<details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.iueQuizzes">Solución de quizzes</summary>
+              <div class="notes-links">
+                <a href="notas/matematicas-discretas-quiz1-solucion.pdf" target="_blank" rel="noopener" title="Solución del Quiz I de Matemáticas Discretas: métodos de demostración, leyes lógicas, álgebra de Boole, mapas de Karnaugh, valor de verdad, clasificación, simplificación, validez de argumentos, deducción formal y formas normales (PDF, 7 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.iue.discreteQuiz1sol">Quiz I · Solución</span></a>
+              </div>
+            </details>
+            <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.iueSoluciones">Solución de exámenes parciales</summary>
+              <div class="notes-links">
+                <a href="notas/matematicas-discretas-parcial1-solucion.pdf" target="_blank" rel="noopener" title="Solución del Parcial 1 de Matemáticas Discretas (PDF, 14 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.iue.discreteP1sol">Parcial 1 · Solución</span></a>
+              </div>
+            </details>
+            </div>
+          </div>
+          <div class="course-row" style="--tono:#A0410A">
+            <div class="course-info"><div class="cname" data-i18n="courses.discrete2">Matemáticas Discretas · Código 922</div><div class="course-meta"><span class="course-status is-current" data-i18n="courses.status.current">En curso</span> <span class="course-period" data-i18n="courses.period.2026-2">Semestre 2026-2</span> <span class="course-updated"><span class="course-updated-label" data-i18n="courses.material.updated">Último material:</span> <time datetime="2026-11-16" data-i18n="courses.material.date.20261116">16 nov 2026</time></span></div></div>
+            <div class="course-categories"><details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.libro">Libro del curso</summary>
+              <div class="notes-links">
+                  <a href="notas/matematicas-discretas-aprender-haciendo.pdf" target="_blank" rel="noopener" title="Libro del curso (117 páginas), escrito para aprender haciendo: definiciones breves, 67 ejemplos resueltos paso a paso y 82 ejercicios con respuesta. Cubre las cuatro unidades: lógica proposicional, conectivos, tablas de verdad y leyes, reglas de inferencia y validez de un razonamiento, métodos de demostración e inducción matemática; álgebra de Boole, compuertas lógicas, funciones booleanas, formas normales y mapas de Karnaugh; sucesiones, progresiones y relaciones de recurrencia; grafos, matrices de adyacencia e incidencia, caminos y circuitos de Euler y Hamilton, árboles y recorridos de árboles binarios. Con figuras propias, una sección de aplicación a la carrera al cierre de cada unidad, formulario de repaso y solución completo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.discrete.libro">Libro del curso</span></a>
+              </div>
+            </details>
+            <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.notas">Notas de clase</summary>
+              <div class="notes-links">
+                  <a href="notas/matematicas-discretas-922-notas.pdf" target="_blank" rel="noopener" title="Notas completas del curso: Unidad 1 — proposiciones simples y compuestas, conectivos lógicos y tablas de verdad, leyes del álgebra proposicional (conmutativas, asociativas, distributivas, De Morgan, absorción, condicional-disyunción, bicondicional, contrarrecíproco), reglas de inferencia (Modus Ponendo Ponens, Modus Tollendo Tollens, Modus Tollendo Ponens) y regla de reducción al absurdo, con problemas resueltos y la Actividad 1; métodos de demostración directo y por contrarrecíproco e inducción matemática, con la fórmula de la suma de Gauss. Unidad 2 — sucesiones, términos y subíndices, fórmula explícita y fórmula recursiva, con ejercicios de hallar los primeros términos y el término general; progresiones aritméticas y geométricas, y el teorema de las progresiones aritméticas (fórmula recursiva, explícita, de la diferencia, en función de cualquier otro término y de la suma de los n primeros) Unidad 3 — grafos: grado de un vértice y el lema del apretón de manos, grafos conexos y el método para demostrar la conexidad, isomorfismo de grafos con la tabla de invariantes, y caminos y circuitos de Euler. 55 páginas."><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.discrete2.notas">Notas del curso</span></a>
+              
+                <a href="notas/matematicas-discretas-unidad3-grafos.pdf" target="_blank" rel="noopener" title="Guía de la Unidad 3: grafos (PDF, 18 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.iue.grafos">Unidad 3 · Grafos</span></a>
+              
+                <a href="notas/Unidad3_Parte2_Hamilton_Arboles_Recorridos.pdf" target="_blank" rel="noopener" title="Unidad 3 · Parte 2: Hamilton, árboles y recorridos (PDF, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.iue.hamilton">Unidad 3 · Parte 2: Hamilton, árboles y recorridos</span></a></div>
+                        
+            
+</details>
+            <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.iueTalleresPrep">Talleres de preparación</summary>
+              <div class="notes-links">
+                <a href="notas/taller-preparacion-matematicas-discretas.pdf" target="_blank" rel="noopener" title="Taller de preparación para Matemáticas Discretas (PDF, 9 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.iue.prepDiscrete">Taller de preparación</span></a>
+              </div>
+            </details>
+                        <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.iueColab">Solución de talleres colaborativos</summary>
+              <div class="notes-links">
+                <a href="notas/matematicas-discretas-taller1-solucion.pdf" target="_blank" rel="noopener" title="Solución del Taller Colaborativo 1 de Matemáticas Discretas: lógica proposicional, tablas de verdad, tautologías y contradicciones, simplificación con leyes del álgebra proposicional, equivalencias y deducción formal con reglas de inferencia (PDF, 7 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.iue.discreteColab1sol">Taller colaborativo 1 · Solución</span></a>
+                <a href="notas/matematicas-discretas-taller-grafos-solucion.pdf" target="_blank" rel="noopener" title="Solución del Taller Colaborativo 2 de Matemáticas Discretas: teoría de grafos, con clases de grafos, representación, isomorfismo, grafos planos y homeomorfos (PDF, 12 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.iue.discreteColab2sol">Taller colaborativo 2 · Solución</span></a>
+              </div>
+            </details>
+<details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.iueQuizzes">Solución de quizzes</summary>
+              <div class="notes-links">
+                <a href="notas/matematicas-discretas-quiz1-solucion.pdf" target="_blank" rel="noopener" title="Solución del Quiz I de Matemáticas Discretas: métodos de demostración, leyes lógicas, álgebra de Boole, mapas de Karnaugh, valor de verdad, clasificación, simplificación, validez de argumentos, deducción formal y formas normales (PDF, 7 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.iue.discreteQuiz1sol">Quiz I · Solución</span></a>
+              </div>
+            </details>
+            <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.iueSoluciones">Solución de exámenes parciales</summary>
+              <div class="notes-links">
+                <a href="notas/matematicas-discretas-parcial1-solucion.pdf" target="_blank" rel="noopener" title="Solución del Parcial 1 de Matemáticas Discretas (PDF, 14 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.iue.discreteP1sol">Parcial 1 · Solución</span></a>
+              </div>
+            </details>
+            </div>
+          </div>
+          <div class="course-row" style="--tono:#6E4A94">
+            <div class="course-info"><div class="cname" data-i18n="courses.discrete3">Matemáticas Discretas · Código 923</div><div class="course-meta"><span class="course-status is-current" data-i18n="courses.status.current">En curso</span> <span class="course-period" data-i18n="courses.period.2026-2">Semestre 2026-2</span> <span class="course-updated"><span class="course-updated-label" data-i18n="courses.material.updated">Último material:</span> <time datetime="2026-11-16" data-i18n="courses.material.date.20261116">16 nov 2026</time></span></div></div>
+            <div class="course-categories"><details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.libro">Libro del curso</summary>
+              <div class="notes-links">
+                  <a href="notas/matematicas-discretas-aprender-haciendo.pdf" target="_blank" rel="noopener" title="Libro del curso (117 páginas), escrito para aprender haciendo: definiciones breves, 67 ejemplos resueltos paso a paso y 82 ejercicios con respuesta. Cubre las cuatro unidades: lógica proposicional, conectivos, tablas de verdad y leyes, reglas de inferencia y validez de un razonamiento, métodos de demostración e inducción matemática; álgebra de Boole, compuertas lógicas, funciones booleanas, formas normales y mapas de Karnaugh; sucesiones, progresiones y relaciones de recurrencia; grafos, matrices de adyacencia e incidencia, caminos y circuitos de Euler y Hamilton, árboles y recorridos de árboles binarios. Con figuras propias, una sección de aplicación a la carrera al cierre de cada unidad, formulario de repaso y solución completo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.discrete.libro">Libro del curso</span></a>
+              </div>
+            </details>
+            <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.notas">Notas de clase</summary>
+              <div class="notes-links">
+                  <a href="notas/matematicas-discretas-923-notas.pdf" target="_blank" rel="noopener" title="Notas completas del curso: Unidad 1 — proposiciones simples y compuestas, conectivos lógicos y tablas de verdad, leyes del álgebra proposicional (conmutativas, asociativas, distributivas, De Morgan, absorción, condicional-disyunción, bicondicional, contrarrecíproco), reglas de inferencia (Modus Ponendo Ponens, Modus Tollendo Tollens, Modus Tollendo Ponens) y regla de reducción al absurdo, con problemas resueltos y la Actividad 1; métodos de demostración directo y por contrarrecíproco e inducción matemática, con la fórmula de la suma de Gauss. Unidad 2 — sucesiones, términos y subíndices, fórmula explícita y fórmula recursiva, con ejercicios de hallar los primeros términos y el término general; progresiones aritméticas y geométricas, y el teorema de las progresiones aritméticas (fórmula recursiva, explícita, de la diferencia, en función de cualquier otro término y de la suma de los n primeros)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.discrete3.notas">Notas del curso</span></a>
+              
+                <a href="notas/matematicas-discretas-unidad3-grafos.pdf" target="_blank" rel="noopener" title="Guía de la Unidad 3: grafos (PDF, 18 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.iue.grafos">Unidad 3 · Grafos</span></a>
+              
+                <a href="notas/Unidad3_Parte2_Hamilton_Arboles_Recorridos.pdf" target="_blank" rel="noopener" title="Unidad 3 · Parte 2: Hamilton, árboles y recorridos (PDF, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.iue.hamilton">Unidad 3 · Parte 2: Hamilton, árboles y recorridos</span></a></div>
+                        
+            
+</details>
+            <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.iueTalleresPrep">Talleres de preparación</summary>
+              <div class="notes-links">
+                <a href="notas/taller-preparacion-matematicas-discretas.pdf" target="_blank" rel="noopener" title="Taller de preparación para Matemáticas Discretas (PDF, 9 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.iue.prepDiscrete">Taller de preparación</span></a>
+              </div>
+            </details>
+                        <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.iueColab">Solución de talleres colaborativos</summary>
+              <div class="notes-links">
+                <a href="notas/matematicas-discretas-taller1-solucion.pdf" target="_blank" rel="noopener" title="Solución del Taller Colaborativo 1 de Matemáticas Discretas: lógica proposicional, tablas de verdad, tautologías y contradicciones, simplificación con leyes del álgebra proposicional, equivalencias y deducción formal con reglas de inferencia (PDF, 7 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.iue.discreteColab1sol">Taller colaborativo 1 · Solución</span></a>
+                <a href="notas/matematicas-discretas-taller-grafos-solucion.pdf" target="_blank" rel="noopener" title="Solución del Taller Colaborativo 2 de Matemáticas Discretas: teoría de grafos, con clases de grafos, representación, isomorfismo, grafos planos y homeomorfos (PDF, 12 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.iue.discreteColab2sol">Taller colaborativo 2 · Solución</span></a>
+              </div>
+            </details>
+<details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.iueQuizzes">Solución de quizzes</summary>
+              <div class="notes-links">
+                <a href="notas/matematicas-discretas-quiz1-solucion.pdf" target="_blank" rel="noopener" title="Solución del Quiz I de Matemáticas Discretas: métodos de demostración, leyes lógicas, álgebra de Boole, mapas de Karnaugh, valor de verdad, clasificación, simplificación, validez de argumentos, deducción formal y formas normales (PDF, 7 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.iue.discreteQuiz1sol">Quiz I · Solución</span></a>
+              </div>
+            </details>
+            <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.iueSoluciones">Solución de exámenes parciales</summary>
+              <div class="notes-links">
+                <a href="notas/matematicas-discretas-parcial1-solucion.pdf" target="_blank" rel="noopener" title="Solución del Parcial 1 de Matemáticas Discretas (PDF, 14 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.iue.discreteP1sol">Parcial 1 · Solución</span></a>
+              </div>
+            </details>
+            </div>
+          </div>
+          <div class="course-row" style="--tono:#2F7D4F">
+            <div class="course-info"><div class="cname" data-i18n="courses.logic">Razonamiento Lógico · Código 806</div><div class="course-meta"><span class="course-status is-current" data-i18n="courses.status.current">En curso</span> <span class="course-period" data-i18n="courses.period.2026-2">Semestre 2026-2</span> <span class="course-updated"><span class="course-updated-label" data-i18n="courses.material.updated">Último material:</span> <time datetime="2026-11-16" data-i18n="courses.material.date.20261116">16 nov 2026</time></span></div></div>
+            <div class="course-categories"><details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.notas">Notas de clase</summary>
+              <div class="notes-links">
+                  <a href="notas/razonamiento-logico-clases-1-4.pdf" target="_blank" rel="noopener" title="Notas completas del curso al día (37 páginas). Clases manuscritas: proposiciones y valores de verdad, conectivos y tablas de verdad, tautología, contradicción y contingencia, conjuntos numéricos, teoría de conjuntos con unión, intersección, diferencia, diferencia simétrica y complemento, diagramas de Venn y cardinalidad; el taller de preparación de la Unidad 1 con soluciones; la solución comentada del Parcial 1, punto por punto y señalando dónde se pierde el punto, con proporcionalidad directa e inversa, regla de tres simple y compuesta y problemas de aplicación; y las clases más recientes sobre polinomios, ecuaciones lineales, solución única, infinitas soluciones o ninguna, y problemas con ecuaciones"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.logic.clases14">Notas del curso</span></a>
+                  <a href="notas/razonamiento-logico-resumen-unidad3.pdf" target="_blank" rel="noopener" title="Resumen de la Unidad 3 (9 páginas, tipografiado): magnitudes directa e inversamente proporcionales frente a las solo correlacionadas, con la constante de proporcionalidad k; regla de tres simple directa e inversa; y regla de tres compuesta en sus tres casos (directa-directa, inversa-inversa y mixta), con nueve ejemplos resueltos paso a paso y un cuadro de repaso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.logic.u3">Unidad 3 · Proporcionalidad y regla de tres</span></a>
+              </div>
+                        
+</details>
+            <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.iueTalleresPrep">Talleres de preparación</summary>
+              <div class="notes-links">
+                <a href="notas/taller-preparacion-razonamiento-logico.pdf" target="_blank" rel="noopener" title="Taller de preparación de Razonamiento Lógico (PDF, 9 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.iue.prepLogic">Taller de preparación</span></a>
+                
+              </div>
+            </details>
+                        <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.iueColab">Solución de talleres colaborativos</summary>
+              <div class="notes-links">
+                <a href="notas/razonamiento-logico-taller1-solucion.pdf" target="_blank" rel="noopener" title="Solución del Taller Colaborativo 1 de Razonamiento Lógico (PDF, 6 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.iue.logicColab1sol">Taller colaborativo 1 · Solución</span></a>
+                <a href="notas/razonamiento-logico-taller2-solucion.pdf" target="_blank" rel="noopener" title="Solución del Taller Colaborativo 2 de Razonamiento Lógico: ecuaciones lineales y problemas de aplicación (PDF, 7 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.iue.logicColab2sol">Taller colaborativo 2 · Solución</span></a>
+              </div>
+            </details>
+<details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.iueQuizzes">Solución de quizzes</summary>
+              <div class="notes-links">
+                <span class="notes-empty" data-i18n="courses.notes.iue.noResources">No hay archivos publicados aún.</span>
+              </div>
+            </details>
+            <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.iueSoluciones">Solución de exámenes parciales</summary>
+              <div class="notes-links">
+                <a href="notas/razonamiento-logico-parcial1-solucion.pdf" target="_blank" rel="noopener" title="Solución del Parcial 1 de Razonamiento Lógico (PDF, 13 páginas, descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.iue.logicP1sol">Parcial 1 · Solución</span></a>
+              </div>
+            </details>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="course-udea" class="course-card" role="tabpanel" aria-labelledby="course-tab-udea">
+        <div>
+          <div class="inst">Universidad de Antioquia</div>
+          <div class="place">Instituto de Matemáticas, Medellín</div>
+        </div>
+        <span class="period-badge" data-i18n="courses.udea.badge">2023 — presente · Docente de cátedra</span>
+        <div class="course-list">
+          <div class="course-row" style="--tono:#B03A48">
+            <div class="course-info"><div class="cname" data-i18n="courses.numerical">Análisis Numérico</div><div class="course-meta"><span class="course-status is-current" data-i18n="courses.status.current">En curso</span> <span class="course-period" data-i18n="courses.current1">Semestre 2026-2</span> <span class="course-updated"><span class="course-updated-label" data-i18n="courses.material.updated">Último material:</span> <time datetime="2026-11-19" data-i18n="courses.material.date.20261119">19 nov 2026</time></span></div></div>
+            <div class="course-categories"><details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.notas">Notas de clase</summary>
+              <div class="notes-links">
+                  <a href="notas/analisis-numerico-clase-1.pdf" target="_blank" rel="noopener" title="Repaso de Análisis I: continuidad, diferenciabilidad, teorema de Rolle y del valor medio (PDF descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.clase1">Clase 1</span></a>
+                  <a href="notas/analisis-numerico-clase-2.pdf" target="_blank" rel="noopener" title="Principio de contracción de Banach (PDF descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.clase2">Clase 2</span></a>
+                  <a href="notas/analisis-numerico-clase-3.pdf" target="_blank" rel="noopener" title="Interpolación de Hermite (PDF descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.clase3">Clase 3</span></a>
+                  <a href="notas/analisis-numerico-clase-4.pdf" target="_blank" rel="noopener" title="Teorema del punto fijo e iteración de punto fijo (PDF descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.clase4">Clase 4</span></a>
+                  <a href="notas/analisis-numerico-clase-5.pdf" target="_blank" rel="noopener" title="Métodos directos para sistemas de ecuaciones lineales (PDF descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.clase5">Clase 5</span></a>
+                  <a href="notas/analisis-numerico-clase-6.pdf" target="_blank" rel="noopener" title="Teorema de aproximación de Weierstrass vía Hahn-Banach y funciones holomorfas, teorema del módulo máximo, y relación de recurrencia a tres términos para polinomios ortogonales (PDF descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.clase6">Clase 6</span></a>
+                  <a href="notas/analisis-numerico-clase-7.pdf" target="_blank" rel="noopener" title="Teorema de Taylor y error de interpolación de Lagrange; teorema del valor medio para integrales; diferenciación numérica: diferencias progresivas y regresivas con su error, fórmulas de (n+1), tres y cinco puntos, fórmula del punto medio para la segunda derivada; elementos de integración numérica y la regla del trapecio con su demostración (PDF descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.clase7">Clase 7</span></a>
+                  <a href="notas/analisis-numerico-clase-8.pdf" target="_blank" rel="noopener" title="Integración numérica: regla del trapecio y regla de Simpson con sus teoremas de error, demostradas de dos formas (por exactitud sobre los polinomios de grado ≤ 3 y por integración del error de interpolación de Hermite); fórmulas de Newton-Cotes cerradas y abiertas con su término de error (punto medio, Simpson 3/8, Boole); integración compuesta: trapecio, punto medio y Simpson compuestas, con el teorema del error y la elección del número de subintervalos para una tolerancia dada; lema de interpolación de Hermite y demostración del error de Simpson por el teorema de Rolle repetido (PDF descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.clase8">Clase 8</span></a>
+                  <a href="notas/analisis-numerico-clase-9.pdf" target="_blank" rel="noopener" title="Cuadratura adaptativa: estimación del error de Simpson al subdividir el intervalo, el factor 1/15 y el criterio de parada, con ejemplo; cuadratura gaussiana: grado de precisión de las fórmulas de Newton-Cotes cerradas y abiertas, polinomios de Legendre y sus raíces en (−1,1), teorema de Gauss-Legendre con los coeficientes dados por los polinomios de Lagrange, cambio de intervalo a [−1,1] y ejemplos con dos y tres nodos, con tabla comparativa frente a trapecio y Simpson; e integrales múltiples: integrales dobles sobre un rectángulo por Simpson en cada variable con su término de error, y cuadratura gaussiana en dos variables (PDF descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.clase9">Clase 9</span></a>
+                  <a href="notas/analisis-numerico-clase-10.pdf" target="_blank" rel="noopener" title="Integrales impropias: singularidad en un extremo y la técnica de restar el polinomio de Taylor, separando la parte exacta de la parte numérica que se calcula con Simpson compuesta; ejemplo con la integral de e^x/raíz(x) en [0,1]; el cambio z = -x cuando la singularidad está en el extremo derecho y la partición del intervalo cuando está en el interior; intervalos infinitos mediante el cambio t = 1/x, con el ejemplo de x^(-3/2) sen(1/x) en [1, infinito); tabla resumen de las fórmulas de diferenciación e integración numérica con sus términos de error; y el problema de funciones convexas que prueba M < integral de f < T y que (T+2M)/3 es exactamente la regla de Simpson (PDF descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.clase10">Clase 10</span></a>
+                  <a href="notas/analisis-numerico-clase-11.pdf" target="_blank" rel="noopener" title="Teoría de los problemas de valor inicial: condición de Lipschitz en la variable y y conjuntos convexos, con el criterio de Lipschitz a partir de la derivada parcial y su demostración por el teorema del valor medio; teorema de existencia y unicidad para el PVI, con ejemplo; problemas bien planteados, el problema perturbado y la cota obtenida con la desigualdad de Gronwall; el método de Euler deducido del teorema de Taylor, su algoritmo y el ejemplo de y' = y - t^2 + 1 con la tabla de valores, errores y cota teórica; y la cota del error de Euler, con el lema (1+x)^m &lt;= e^(mx) y el lema de Gronwall discreto (PDF descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.clase11">Clase 11</span></a>
+                  <a href="notas/analisis-numerico-clase-12.pdf" target="_blank" rel="noopener" title="Teorema del error del método de Euler, con el ejemplo de y' = y - t² + 1 y la cota construida a partir de M = max|y''|; métodos de Taylor de orden superior: definición de método de diferencias, error de truncamiento local, y el cálculo de T^(2) y T^(4) para el problema modelo con su tabla comparativa de errores; deducción de los métodos de Runge-Kutta igualando coeficientes con el desarrollo de Taylor en dos variables, de donde salen el método del punto medio, el de Euler modificado y el de Heun de orden 3, con los primeros pasos calculados a mano y la tabla de los tres; el método de Runge-Kutta de orden 4 con sus K1 a K4 y la observación de que se reduce a Simpson cuando f no depende de y; y los métodos multipaso: definición de método de m pasos, explícito frente a implícito, la advertencia sobre los valores iniciales (que se obtienen con RK4) y la deducción integrando un polinomio interpolante (PDF descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.clase12">Clase 12</span></a><a href="notas/Notas%20Clase%2013%20Analisis%20Numerico%20optimizado.pdf" target="_blank" rel="noopener" title="Notas de la clase 13 de Análisis Numérico (PDF, 14 páginas; abre en el visor y permite descargar)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.clase13">Clase 13</span></a>
+              </div>
+            </details>
+            <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.soluciones">Parciales</summary>
+              <div class="notes-links">
+                  <a href="notas/analisis-numerico-parcial1-solucion.pdf" target="_blank" rel="noopener" title="Clave de respuestas del Parcial 1 (6 páginas): intervalo de convergencia de la iteración de punto fijo para x = (e^x/3)^(1/2), con la verificación de las dos hipótesis y la estimación de 16 iteraciones para una precisión de 1e-5; el interpolante de f+q es la suma de los interpolantes, por unicidad del polinomio de interpolación; convergencia local cuando |g'(p)| < 1; la iteración p(n+1) = p(n)(2 - A p(n)) converge a 1/A, con el análisis del error e(n+1) = e(n)^2; el lema de acotación de |f| cerca de una raíz, con la corrección de una errata del enunciado; y el bonus con la demostración completa del teorema de punto fijo. (PDF descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.an.p1sol">Parcial 1 · Solución</span></a>
+                  <a href="notas/analisis-numerico-supletorio-parcial1-solucion.pdf" target="_blank" rel="noopener" title="Clave de respuestas del Supletorio del Parcial 1 (5 páginas): intervalo de convergencia de la iteración de punto fijo para x = (2 - e^x + x^2)/3, con la verificación de las dos hipótesis y la estimación de 11 iteraciones para una precisión de 1e-5; la identidad de los polinomios de Lagrange suma q(x_k) L_k(x) = q(x) y su caso particular con potencias, con la partición de la unidad; convergencia local cuando |g'(p)| < 1; la iteración de Newton para el recíproco; el teorema de punto fijo, existencia por el valor intermedio y unicidad por el valor medio; y el bonus, un ejemplo con punto fijo único en el que el teorema no es aplicable. (PDF descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.an.sup1sol">Supletorio Parcial 1 · Solución</span></a>
+                  <a href="notas/analisis-numerico-parcial2-solucion.pdf" target="_blank" rel="noopener" title="Clave de respuestas del Parcial 2 (7 páginas): error de redondeo en la fórmula de tres puntos para la segunda derivada, con la cota 4e/h^2 + (h^2/12)M y el h óptimo por minimización; demostración del teorema de la regla del trapecio compuesta, con la figura de la partición y el argumento de promedios para el término de error; estabilidad del trapecio y del punto medio compuestos frente a errores de redondeo; cuadratura gaussiana: los pesos cumplen c_i = integral de L_i^2 (luego son positivos) y suman 2; integral impropia de 1/(1+x^4) en [1, infinito) por el cambio t = 1/x y Simpson compuesta con n = 4; y el bonus de la regla del trapecio para funciones periódicas, con la suma geométrica de las raíces de la unidad y el cálculo exacto de la integral de cos^2 con T3 (PDF descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.an.p2sol">Parcial 2 · Solución</span></a>
+                  <a href="notas/analisis-numerico-supletorio-parcial2-solucion.pdf" target="_blank" rel="noopener" title="Clave de respuestas del Supletorio del Parcial 2 (6 páginas): error de redondeo en la fórmula de tres puntos en un extremo, con la cota 4e/h + (h^2/3)M y el h óptimo (6e/M)^(1/3); demostración de la regla del punto medio compuesta con la figura de la partición en bloques de longitud 2h; estabilidad de Simpson compuesta frente a errores de redondeo, con cota (b-a)e independiente de n; cuadratura gaussiana de dos nodos a partir del polinomio de Legendre x^2 - 1/3, con la prueba de que ninguna regla de n nodos es exacta en grado 2n; integral impropia de 1/(x^2(1+x^2)) en [1, infinito) por el cambio t = 1/x y Simpson compuesta con n = 4; y el bonus con la identidad S_2n = (4T_2n - T_n)/3 entre trapecio y Simpson compuestos (PDF descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.an.sup2sol">Supletorio Parcial 2 · Solución</span></a>
+                  <a href="notas/analisis-numerico-temas-exposicion-examen-final.pdf" target="_blank" rel="noopener" title="Temas de exposición del examen final de Análisis Numérico (PDF, 4 páginas)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.an.exposicionesFinal">Temas de exposición del examen final</span></a>
+              </div>
+            </details>
+            <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.talleres">Talleres</summary>
+              <div class="notes-links">
+                  <a href="notas/analisis-numerico-clase-taller-parcial2-solucion.pdf" target="_blank" rel="noopener" title="Taller de preparación del Parcial 2 de Análisis Numérico, resuelto (PDF, 19 páginas)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.an.tallerp2sol">Taller para el Parcial 2</span></a>
+                  <a href="notas/analisis-numerico-taller-parcial3-parte1-solucion.pdf" target="_blank" rel="noopener" title="Taller de preparación del Parcial 3 de Análisis Numérico, parte 1, resuelta (PDF, 13 páginas)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.an.tallerp3parte1sol">Taller para el Parcial 3 · Parte 1</span></a>
+                  <a href="notas/analisis-numerico-clase-taller-parcial3-solucion.pdf" target="_blank" rel="noopener" title="Taller de preparación del Parcial 3 de Análisis Numérico, resuelto (PDF, 14 páginas)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.an.tallerp3sol">Taller para el Parcial 3</span></a>
+              </div>
+            </details></div>
+          </div>
+          <div class="course-row" style="--tono:#37677E">
+            <div class="course-info"><div class="cname" data-i18n="courses.analysis2">Análisis II</div><div class="course-meta"><span class="course-status is-current" data-i18n="courses.status.current">En curso</span> <span class="course-period" data-i18n="courses.current2">Semestre 2026-2</span> <span class="course-updated"><span class="course-updated-label" data-i18n="courses.material.updated">Último material:</span> <time datetime="2026-11-13" data-i18n="courses.material.date.20261113">13 nov 2026</time></span></div></div>
+            <div class="course-categories"><details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.notas">Notas de clase</summary>
+              <div class="notes-links">
+                  <a href="notas/analisis-ii-clase-1.pdf" target="_blank" rel="noopener" title="Integrales impropias: definición, criterios de comparación y comparación al límite, convergencia absoluta, criterios de Abel y Dirichlet, valor principal de Cauchy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.an2.clase1">Clase 1</span></a>
+                  <a href="notas/analisis-ii-notas-parcial1.pdf" target="_blank" rel="noopener" title="Notas del Parcial 1: integral de Riemann–Stieltjes (sumas de Darboux, refinamientos, criterio de integrabilidad, integrabilidad de funciones continuas y monótonas, propiedades, integradores escalonados, integrador derivable, cambio de variable y teorema fundamental del cálculo), funciones de variación acotada y descomposición de Jordan, e integrales impropias (comparación, criterio de Cauchy, convergencia absoluta, segundo teorema del valor medio, criterios de Abel y Dirichlet, valor principal y ejemplos); con todas las demostraciones desarrolladas y figuras a color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.an2.parcial1">Notas Parcial 1</span></a>
+                  <a href="notas/analisis-ii-notas-parcial2.pdf" target="_blank" rel="noopener" title="Notas del Parcial 2 (47 páginas): sucesiones y series de funciones, convergencia uniforme y criterios de Cauchy, Weierstrass, Dirichlet y Abel; convergencia uniforme y continuidad (Dini), integración (Arzelà) y diferenciación; series de potencias, teorema de Abel, series y fórmula de Taylor; integrales propias e impropias dependientes de un parámetro (continuidad, diferenciabilidad, regla de Leibniz, Fubini, criterios de convergencia uniforme e intercambio de límites); con todas las demostraciones desarrolladas y figuras a color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.an2.parcial2">Notas Parcial 2</span></a>
+                  <a href="notas/analisis-ii-notas-parcial3.pdf" target="_blank" rel="noopener" title="Notas del Parcial 3: series de Fourier — funciones ortogonales y el espacio L2, sistema trigonométrico, coeficientes de Fourier, teorema de Riemann–Lebesgue, núcleo e integral de Dirichlet, principio de localización, criterio de Dini y convergencia puntual, prolongaciones periódicas, derivación término a término y velocidad de convergencia, desigualdad de Bessel e igualdad de Parseval, integración término a término, intervalo arbitrario y notación compleja; con todas las demostraciones desarrolladas y figuras a color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.an2.parcial3">Notas Parcial 3</span></a>
+                  <a href="notas/analisis-ii-notas-parcial4.pdf" target="_blank" rel="noopener" title="Notas del Parcial 4 (final): integral de Fourier y teorema de representación, criterio de Dini, valor principal, forma compleja, transformada de Fourier y su inversa, transformadas seno y coseno, transformada de derivadas y derivada de la transformada, convolución, espacio de Schwartz; con 27 problemas resueltos (integral de Dirichlet, integral de Gauss, gaussianas, Plancherel, sumación de Poisson, núcleo del calor, entre otros) y figuras a color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.an2.parcial4">Notas Parcial 4 (final)</span></a>
+              </div>
+            </details>
+            <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.soluciones">Soluciones de parciales</summary>
+              <div class="notes-links">
+                  <a href="notas/analisis-ii-parcial2-solucion.pdf" target="_blank" rel="noopener" title="Solución completa del Parcial 2: caracterización de la convergencia uniforme mediante el supremo M_n = sup|f_n - f|; criterio de Cauchy uniforme para series; derivabilidad de la suma de sen(nx)/n^3 por derivación término a término; convergencia absoluta y uniforme de la serie de arcotangentes 2x/(x^2+n^4) por el criterio M de Weierstrass; integración término a término de la serie de k e^(-kx) en [1,2]; y los dos problemas bonus, la suma de n/2^n y la integral de la función del problema 3 entre 0 y pi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.an2.p2sol">Parcial 2 · Solución</span></a>
+                  <a href="notas/analisis-ii-supletorio-parcial2-solucion.pdf" target="_blank" rel="noopener" title="Solución completa del Supletorio del Parcial 2 (4 páginas): el límite uniforme de funciones continuas es continuo, con el argumento de los tres epsilon tercios; demostración del criterio M de Weierstrass a partir del criterio de Cauchy uniforme; diferenciabilidad de la suma de arcotangentes de x/n² por derivación término a término, con el cálculo de f'(0); convergencia puntual y uniforme en R de la serie de x/(1+n⁴x²), acotando con la desigualdad entre las medias aritmética y geométrica; integración término a término de la serie de k e^(-kx) entre ln 2 y ln 3; y los dos problemas bonus, la suma de n/3^n y la integral de la serie de cos(nx)/n²"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.an2.sup2sol">Supletorio Parcial 2 · Solución</span></a>
+              
+                  <a href="notas/analisis-ii-parcial3-solucion.pdf" target="_blank" rel="noopener" title="Solución del Parcial 3 de Análisis II (4 páginas, 2026-2), con el desarrollo detallado de los ejercicios (PDF descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.an2.p3sol">Parcial 3 · Solución</span></a></div>
+              </div>
+            </details>
+            <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.talleres">Talleres</summary>
+              <div class="notes-links">
+                  <a href="notas/analisis-ii-taller-parcial1.pdf" target="_blank" rel="noopener" title="Taller de preparación del Parcial 1 de Análisis II (PDF, 1 página)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.a2.tallerp1">Taller para el Parcial 1</span></a>
+                  <a href="notas/analisis-ii-taller-parcial2.pdf" target="_blank" rel="noopener" title="Taller de preparación del Parcial 2 de Análisis II (PDF, 2 páginas)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.a2.tallerp2">Taller para el Parcial 2</span></a>
+                  <a href="notas/analisis-ii-taller-parcial3-solucion.pdf" target="_blank" rel="noopener" title="Taller de preparación del Parcial 3 de Análisis II, resuelto (PDF, 11 páginas)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.a2.tallerp3sol">Taller para el Parcial 3</span></a>
+                  <a href="notas/analisis-ii-taller-parcial4-solucion.pdf" target="_blank" rel="noopener" title="Taller de preparación del Parcial 4 de Análisis II, resuelto (PDF, 12 páginas)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.a2.tallerp4sol">Taller para el Parcial 4</span></a>
+              </div>
+            </details></div>
+          </div>
+          <div class="course-row" style="--tono:#8A6A1F">
+            <div class="course-info"><div class="cname" data-i18n="courses.geometry">Geometría Básica</div><div class="course-meta"><span class="course-status is-current" data-i18n="courses.status.current">En curso</span> <span class="course-period" data-i18n="courses.current3">Semestre 2026-2</span> <span class="course-updated"><span class="course-updated-label" data-i18n="courses.material.updated">Último material:</span> <time datetime="2026-11-16" data-i18n="courses.material.date.20261116">16 nov 2026</time></span></div></div>
+            <div class="course-categories"><details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.libro">Libro del curso</summary>
+              <div class="notes-links">
+                  <a href="notas/geometria-basica-libro-completo.pdf" target="_blank" rel="noopener" title="Libro completo del curso (291 páginas): postulados y nociones básicas, triángulos y congruencia, perpendicularidad y paralelismo, ángulos del triángulo, polígonos y cuadriláteros, base media, áreas, Thales y semejanza, Pitágoras y Herón, circunferencia, ángulos inscritos y cuadriláteros cíclicos; con todas las demostraciones desarrolladas y un formulario de repaso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.geo.libro">Libro completo del curso</span></a>
+              </div>
+            </details>
+            <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.notas">Notas de clase</summary>
+              <div class="notes-links">
+                  <a href="notas/geometria-basica-notas-parcial1.pdf" target="_blank" rel="noopener" title="Notas de clase del Parcial 1 (68 páginas, imprimible): métodos de demostración (directo, contrarrecíproco, absurdo, casos, existencia, unicidad y contraejemplo); incidencia, orden, separación del plano y teorema de Pasch; ángulos, bisectriz y postulados de congruencia; triángulos y los criterios L-A-L, A-L-A, L-L-L, L-A-A e hipotenusa-cateto, isósceles y ángulo exterior; perpendicularidad, postulado de Playfair y ángulos entre paralelas; suma de los ángulos, desigualdad triangular, bisagra, oblicuas, bisectriz y mediatriz. Temas 1.1 a 1.3 y 2.1 a 2.2 (PDF descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.geo.notas1">Parcial 1 · Demostración y fundamentos</span></a>
+                  <a href="notas/geometria-basica-notas-parcial2.pdf" target="_blank" rel="noopener" title="Notas de clase del Parcial 2 (50 páginas, imprimible): polígonos, ángulos y diagonales; paralelogramos, trapecios, rectángulo, rombo, cuadrado y polígonos regulares; base media, baricentro y teorema de Varignon; postulado del área y áreas de rectángulo, paralelogramo, triángulo, rombo, trapecio y polígono regular; proporciones, teorema de Thales y su recíproco; semejanza A-A, P-A-P y P-P-P, teorema de la bisectriz; Pitágoras, relaciones métricas, Herón, ley del paralelogramo, Apolonio y desigualdades cuadráticas. Temas 2.3 a 2.5 (PDF descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.geo.notas2">Parcial 2 · Polígonos, áreas y semejanza</span></a>
+                  <a href="notas/geometria-basica-notas-parcial3.pdf" target="_blank" rel="noopener" title="Notas de clase del Parcial 3 (118 páginas, imprimible): circunferencia, posiciones de una recta, circuncentro, tangente, incentro; arcos, cuerdas, ángulo inscrito, semi-inscrito, interior y exterior; cuadriláteros cíclicos, Ptolomeo, posiciones de dos circunferencias, longitud, área, sectores y segmentos circulares; rectas y planos en el espacio, perpendicularidad, distancias, proyecciones, tres perpendiculares, Thales en el espacio y diedros; poliedros, Euler, sólidos platónicos, prismas, paralelepípedos, pirámides, volumen, Cavalieri, cilindro, cono y esfera. Temas 2.6 y 2.7 (PDF descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.geo.notas3">Parcial 3 · Circunferencia y espacio</span></a>
+                  <a href="notas/geometria-basica-notas-parcial4.pdf" target="_blank" rel="noopener" title="Notas de clase del Parcial 4 (91 páginas, imprimible): recta real y plano cartesiano, segmentos, rectas paramétricas, ecuaciones de la recta, distancias y área del triángulo, rectas y planos en el espacio; vectores, operaciones, base, producto interno, proyección ortogonal, vectores en el espacio, producto vectorial, producto mixto, triple producto vectorial, ecuación vectorial del plano, trabajo y torque. Capítulos 3 y 4 (PDF descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.geo.notas4">Parcial 4 · Analítica y vectorial</span></a>
+              </div>
+            </details>
+            <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.iueTalleresPrep">Talleres de preparación</summary>
+              <div class="notes-links">
+                  <a href="notas/geometria-basica-clase-taller-parcial3-solucion.pdf" target="_blank" rel="noopener" title="Clase-taller de preparación del Parcial 3, resuelta (9 páginas): poliedros y teorema de Euler con el tetraedro truncado y el dodecaedro; prisma hexagonal y diagonal del ortoedro; pirámide cuadrada y sección paralela con la razón de semejanza; cilindro, cono y principio de Cavalieri; esfera inscrita y circunscrita al cubo y el resultado de Arquímedes; llenado de un cono por semejanza de sólidos; cuadrado construido con la rotación de 90 grados; triángulo isósceles, altura y circuncentro; rectas secantes y alabeadas en el espacio y el plano que las contiene; y plano por tres puntos, distancia al origen y área por dos caminos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.geo.taller3">Clase-taller Parcial 3 · Soluciones</span></a>
+              </div>
+            </details>
+            <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.soluciones">Soluciones de parciales</summary>
+              <div class="notes-links">
+                  <a href="notas/geometria-basica-parcial1-solucion.pdf" target="_blank" rel="noopener" title="Solución completa del Parcial 1 (2026-2), con el desarrollo de cada punto paso a paso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.geo.p1sol">Parcial 1 · Solución</span></a>
+                  <a href="notas/geometria-basica-supletorio-parcial1-solucion.pdf" target="_blank" rel="noopener" title="Solución completa del supletorio del Parcial 1 (2026-2), con el desarrollo de cada punto paso a paso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.geo.sup1sol">Supletorio Parcial 1 · Solución</span></a>
+                  <a href="notas/geometria-basica-parcial2-solucion.pdf" target="_blank" rel="noopener" title="Solución completa del Parcial 2 (7 páginas): área del trapecio ZYRS dentro de un cuadrado de área 8, por diferencia de triángulos y con comprobación por la fórmula del trapecio; medida de AC por semejanza de triángulos con un ángulo común; a elección, la perpendicular desde el centro a una cuerda la biseca, o cuerdas congruentes equidistan del centro, con los criterios LLL e hipotenusa-cateto; ecuación cartesiana del plano que pasa por (1,-2,3) y es perpendicular a una recta dada, más las ecuaciones vectorial y simétricas de esa recta; y la demostración de la fórmula del área del segmento circular en términos del ángulo central y de la cuerda"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.geo.p2sol">Parcial 2 · Solución</span></a>
+                  <a href="notas/geometria-basica-supletorio-parcial2-solucion.pdf" target="_blank" rel="noopener" title="Solución completa del Supletorio del Parcial 2 (7 páginas): área del trapecio ABQP en un rectángulo de área 24, usando la base media y la razón entre áreas de triángulos semejantes; longitud por semejanza con la advertencia de que DE no es paralelo a BC y la correspondencia de vértices es D con C; a elección, cuerdas congruentes equidistan del centro o cuerdas congruentes subtienden arcos congruentes; ecuación cartesiana del plano por (-2,1,4) perpendicular a una recta dada, con sus ecuaciones vectorial y simétricas; y la demostración de que el área de la corona circular depende solo de la cuerda del círculo mayor tangente al menor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.geo.sup2sol">Supletorio Parcial 2 · Solución</span></a>
+              </div>
+            </details></div>
+          </div>
+          <div class="course-row" style="--tono:#7A4E7E">
+            <div class="course-info"><div class="cname" data-i18n="courses.calcdif">Cálculo Diferencial</div><div class="course-meta"><span class="course-status is-current" data-i18n="courses.status.current">En curso</span> <span class="course-period" data-i18n="courses.current1">Semestre 2026-2</span> <span class="course-updated"><span class="course-updated-label" data-i18n="courses.material.updated">Último material:</span> <time datetime="2026-11-13" data-i18n="courses.material.date.20261113">13 nov 2026</time></span></div></div>
+            <div class="course-categories"><details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.resumenes">Resúmenes</summary>
+              <div class="notes-links">
+                  <a href="notas/calculo-diferencial-resumen-parcial1.pdf" target="_blank" rel="noopener" title="Semana 1: números reales, fracciones, desigualdades e intervalos; Semana 2: valor absoluto y el plano cartesiano; Semana 3: funciones y tipos de funciones; Semana 4: transformaciones y operaciones con funciones; incluye formulario de repaso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.calcdif.p1">Resumen Parcial 1</span></a>
+                  <a href="notas/calculo-diferencial-resumen-parcial2.pdf" target="_blank" rel="noopener" title="Semana 5: función inversa, exponencial, logarítmica y trigonométricas; Semana 7: límites y límites trigonométricos; Semana 8: límites infinitos, asíntotas y continuidad; Semana 10: la derivada; incluye formulario de repaso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.calcdif.p2">Resumen Parcial 2</span></a>
+                  <a href="notas/calculo-diferencial-resumen-parcial3.pdf" target="_blank" rel="noopener" title="Semana 10: la derivada, interpretación geométrica, derivadas laterales y relación entre derivabilidad y continuidad; reglas de derivación y regla de la cadena; Semana 11: derivadas de orden superior, interpretación física, derivación implícita y derivadas de las funciones trigonométricas inversas; Semana 12: derivación logarítmica y razones de cambio relacionadas; incluye formulario de repaso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.calcdif.p3">Resumen Parcial 3</span></a>
+                  <a href="notas/calculo-diferencial-resumen-parcial4.pdf" target="_blank" rel="noopener" title="Aplicaciones de la derivada. Semana 14: crecimiento y decrecimiento, criterio crecimiento-decrecimiento, valores extremos, puntos críticos, teorema de Fermat, criterio de la primera derivada, teorema del valor extremo y método del intervalo cerrado; Semana 15: concavidad, puntos de inflexión, criterio de la segunda derivada y la regla de L'Hôpital con las siete formas indeterminadas; Semana 16: trazado de curvas con asíntotas horizontales, verticales y oblicuas, y problemas de optimización; incluye formulario de repaso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.calcdif.p4">Resumen Parcial 4</span></a>
+              </div>
+            </details>
+            <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.soluciones">Soluciones de parciales</summary>
+              <div class="notes-links">
+                  <a href="notas/calculo-diferencial-parcial2-solucion.pdf" target="_blank" rel="noopener" title="Solución completa del Parcial 2 de Cálculo Diferencial (PDF descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.calcdif.p2sol">Parcial 2 · Solución</span></a>
+                  <a href="notas/calculo-diferencial-parcial3-solucionario.pdf" target="_blank" rel="noopener" title="Solución del Parcial 3 (6 páginas): derivada de 1/raíz(2x+1) únicamente por definición, racionalizando el cociente incremental; derivación logarítmica de y = sen(x²) elevado a ln x y evaluación de y'; análisis del movimiento de un dron sobre un riel a partir de su función de posición, con los intervalos de avance y retroceso y la distancia recorrida; recta tangente a la curva y⁴-4y² = x⁴-5x² en el punto (0,-2), que resulta horizontal; razón de cambio de la distancia entre un automóvil y un camión en un cruce, 14 pies por segundo a los 2 segundos; y el bonus sobre f(x) = x² sen(1/x), derivable en 0 con f'(0)=0 pero con derivada discontinua allí"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.calcdif.p3sol">Parcial 3 · Solución</span></a>
+              </div>
+            </details></div>
+          </div>
+          <div class="course-row" style="--tono:#4A6B2A">
+            <div class="course-info"><div class="cname" data-i18n="courses.geovec">Geometría Vectorial y Analítica</div><div class="course-meta"><span class="course-status is-current" data-i18n="courses.status.current">En curso</span> <span class="course-period" data-i18n="courses.current1">Semestre 2026-2</span> <span class="course-updated"><span class="course-updated-label" data-i18n="courses.material.updated">Último material:</span> <time datetime="2026-11-13" data-i18n="courses.material.date.20261113">13 nov 2026</time></span></div></div>
+            <div class="course-categories"><details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.resumenes">Resúmenes</summary>
+              <div class="notes-links">
+                  <a href="notas/geometria-vectorial-resumen-parcial1.pdf" target="_blank" rel="noopener" title="Sistemas y matrices: sistemas de ecuaciones lineales 2×2 y 3×3, el espacio ℝⁿ y el producto escalar, independencia lineal y bases, álgebra matricial, eliminación de Gauss-Jordan, tipos de solución de un sistema, matrices invertibles; incluye formulario de repaso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.geovec.p1">Resumen Parcial 1</span></a>
+                  <a href="notas/geometria-vectorial-resumen-parcial2.pdf" target="_blank" rel="noopener" title="Determinantes y vectores: la función determinante, operaciones elementales, inversa de una matriz y regla de Cramer, vectores geométricos y sus aplicaciones, vectores coordenados, la recta y el plano en el espacio; incluye formulario de repaso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.geovec.p2">Resumen Parcial 2</span></a>
+                  <a href="notas/geometria-vectorial-resumen-parcial3.pdf" target="_blank" rel="noopener" title="Productos escalar y vectorial: el plano en el espacio, el producto escalar, la proyección ortogonal sobre rectas y planos, distancias y ángulos mediante el producto escalar, el producto vectorial y el producto mixto, y las aplicaciones geométricas de ambos productos; incluye formulario de repaso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.geovec.p3">Resumen Parcial 3</span></a>
+                  <a href="notas/geometria-vectorial-resumen-parcial4.pdf" target="_blank" rel="noopener" title="Fuerzas y cónicas. Unidad 20: aplicaciones de los vectores a la física, componentes rectangulares, resultante de un sistema de fuerzas, equilibrio de una partícula y teorema de Lami; Unidad 21: la circunferencia y la parábola; Unidad 22: la elipse; Unidad 23: la hipérbola, la hipérbola equilátera y las cónicas degeneradas; incluye formulario de repaso con tabla comparativa elipse-hipérbola"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.geovec.p4">Resumen Parcial 4</span></a>
+              </div>
+            </details>
+          
+            <details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.soluciones">Soluciones de parciales</summary>
+              <div class="notes-links">
+                <a href="notas/geometria-vectorial-parcial2-solucion.pdf" target="_blank" rel="noopener" title="Solución completa del Parcial 2 de Geometría Vectorial y Analítica (PDF descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.geovec.p2sol">Parcial 2 · Solución</span></a>
+                <a href="notas/geometria-vectorial-parcial3-solucionario.pdf" target="_blank" rel="noopener" title="Solución de Geometría Vectorial y Analítica, Parcial 3 (6 páginas, 2026-02): producto mixto, ángulos y distancias; rectas y planos; normas y ortogonalidad (PDF descargable)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/><path d="M4 20h16"/></svg><span data-i18n="courses.notes.geovec.p3sol">Parcial 3 · Solución</span></a>
+              </div>
+            </details></div>
+</div>
+          <div class="course-row" style="--tono:#3F7E73">
+            <div class="course-info"><div class="cname" data-i18n="courses.calcint">Cálculo Integral</div><div class="course-meta"><span class="course-status is-archive" data-i18n="courses.status.past">Curso anterior</span> <span class="course-updated"><span class="course-updated-label" data-i18n="courses.material.updated">Último material:</span> <time datetime="2026-09-20" data-i18n="courses.material.date.20260920">20 sep 2026</time></span></div></div>
+            <div class="course-categories"><details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.resumenes">Resúmenes</summary>
+              <div class="notes-links">
+                  <a href="notas/calculo-integral-resumen-completo.pdf" target="_blank" rel="noopener" title="Resumen completo del curso: técnicas de integración (sustitución, partes, potencias trigonométricas, sustitución trigonométrica, fracciones parciales); sumas de Riemann, integral definida y teoremas fundamentales del cálculo; integrales impropias y criterios de comparación; aplicaciones (área entre curvas, volúmenes por discos, arandelas y secciones, longitud de arco, área superficial, valor promedio, centroides y teorema de Pappus); sucesiones y series, criterios de convergencia, series de Taylor y Maclaurin; incluye formulario de repaso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.calcint.resumen">Resumen completo del curso</span></a>
+              </div>
+            </details></div>
+          </div>
+          <div class="course-row" style="--tono:#1B5E86">
+            <div class="course-info"><div class="cname" data-i18n="courses.algebra">Álgebra Lineal</div><div class="course-meta"><span class="course-status is-archive" data-i18n="courses.status.past">Curso anterior</span> <span class="course-updated"><span class="course-updated-label" data-i18n="courses.material.updated">Último material:</span> <time datetime="2026-09-29" data-i18n="courses.material.date.20260929">29 sep 2026</time></span></div></div>
+            <div class="course-categories"><details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.libro">Libro del curso</summary>
+              <div class="notes-links">
+                  <a href="notas/algebra-lineal-libro-completo.pdf" target="_blank" rel="noopener" title="Libro completo del curso (283 páginas): vectores en R^n y espacios vectoriales, combinación lineal e independencia, bases y dimensión, los espacios fundamentales de una matriz, coordenadas y cambio de base, producto punto, bases ortonormales y proyecciones, mínimos cuadrados y espacios con producto interno, transformaciones lineales, núcleo e imagen, representación matricial y semejanza, isomorfismos e isometrías, valores y vectores propios, diagonalización y sus aplicaciones, diagonalización ortogonal y formas cuadráticas, y la forma canónica de Jordan; con todas las demostraciones desarrolladas, los ejemplos resueltos paso a paso y un formulario de repaso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.algebra.libro">Libro completo del curso</span></a>
+              </div>
+            </details></div>
+          </div>
+          <div class="course-row" style="--tono:#A0410A">
+            <div class="course-info"><div class="cname" data-i18n="courses.calc-combo">Cálculo Multivariado</div><div class="course-meta"><span class="course-status is-archive" data-i18n="courses.status.past">Curso anterior</span></div></div>
+            <div class="cnote" data-i18n="courses.cnote1">Dictado en semestres anteriores.</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="course-binghamton" class="course-card" role="tabpanel" aria-labelledby="course-tab-binghamton">
+        <div>
+          <div class="inst">Binghamton University</div>
+          <div class="place">Nueva York, EE. UU.</div>
+        </div>
+        <span class="period-badge">2024 — 2026 · Teaching Assistant</span>
+        <div class="course-list">
+          <div class="course-row" style="--tono:#6E4A94">
+            <div class="course-info"><div class="cname" data-i18n="courses.math226">Math 226 · Técnicas de Integración y Ecuaciones Paramétricas</div><div class="course-meta"><span class="course-status is-archive" data-i18n="courses.status.past">Curso anterior</span> <span class="course-period" data-i18n="courses.spring2026">Primavera 2026</span> <span class="course-updated"><span class="course-updated-label" data-i18n="courses.material.updated">Último material:</span> <time datetime="2026-11-09" data-i18n="courses.material.date.20261109">9 nov 2026</time></span></div></div>
+            <div class="course-categories"><details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.notas">Notas de clase</summary>
+              <div class="notes-links">
+                  <a href="notas/math226-clase-01.pdf" target="_blank" rel="noopener" title="Funciones inversas y sus derivadas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase1">Clase 1</span></a>
+                  <a href="notas/math226-clase-02.pdf" target="_blank" rel="noopener" title="Derivada de la función inversa en un punto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase2">Clase 2</span></a>
+                  <a href="notas/math226-clase-03.pdf" target="_blank" rel="noopener" title="La función exponencial natural: propiedades y límites"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase3">Clase 3</span></a>
+                  <a href="notas/math226-clase-04.pdf" target="_blank" rel="noopener" title="Derivada de la función logaritmo natural"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase4">Clase 4</span></a>
+                  <a href="notas/math226-clase-05.pdf" target="_blank" rel="noopener" title="Funciones exponenciales y logarítmicas de base b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase5">Clase 5</span></a>
+                  <a href="notas/math226-clase-06.pdf" target="_blank" rel="noopener" title="Crecimiento y decrecimiento exponencial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase6">Clase 6</span></a>
+                  <a href="notas/math226-clase-07.pdf" target="_blank" rel="noopener" title="La función coseno inverso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase7">Clase 7</span></a>
+                  <a href="notas/math226-clase-08.pdf" target="_blank" rel="noopener" title="Identidad arctan(x) + arccot(x) = π/2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase8">Clase 8</span></a>
+                  <a href="notas/math226-clase-09.pdf" target="_blank" rel="noopener" title="Formas indeterminadas: productos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase9">Clase 9</span></a>
+                  <a href="notas/math226-clase-10.pdf" target="_blank" rel="noopener" title="Integración por partes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase10">Clase 10</span></a>
+                  <a href="notas/math226-clase-11.pdf" target="_blank" rel="noopener" title="Integrales trigonométricas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase11">Clase 11</span></a>
+                  <a href="notas/math226-clase-12.pdf" target="_blank" rel="noopener" title="Sustitución trigonométrica"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase12">Clase 12</span></a>
+                  <a href="notas/math226-clase-13.pdf" target="_blank" rel="noopener" title="Fracciones parciales para funciones racionales"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase13">Clase 13</span></a>
+                  <a href="notas/math226-clase-15.pdf" target="_blank" rel="noopener" title="Integración por sustitución racionalizante"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase15">Clase 15</span></a>
+                  <a href="notas/math226-clase-16.pdf" target="_blank" rel="noopener" title="Criterio de comparación para integrales impropias"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase16">Clase 16</span></a>
+                  <a href="notas/math226-clase-17.pdf" target="_blank" rel="noopener" title="Ecuaciones paramétricas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase17">Clase 17</span></a>
+                  <a href="notas/math226-clase-18.pdf" target="_blank" rel="noopener" title="Curvas paramétricas: rectas tangentes a la cicloide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math226.clase18">Clase 18</span></a>
+              </div>
+            </details></div>
+          </div>
+          <div class="course-row" style="--tono:#2F7D4F">
+            <div class="course-info"><div class="cname" data-i18n="courses.math227">Math 227 · Coordenadas Polares, Sucesiones y Series</div><div class="course-meta"><span class="course-status is-archive" data-i18n="courses.status.past">Curso anterior</span> <span class="course-period" data-i18n="courses.spring2026b">Primavera 2026</span> <span class="course-updated"><span class="course-updated-label" data-i18n="courses.material.updated">Último material:</span> <time datetime="2026-11-09" data-i18n="courses.material.date.20261109">9 nov 2026</time></span></div></div>
+            <div class="course-categories"><details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.notas">Notas de clase</summary>
+              <div class="notes-links">
+                  <a href="notas/math227-clase-01.pdf" target="_blank" rel="noopener" title="Coordenadas polares y curvas paramétricas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase1">Clase 1</span></a>
+                  <a href="notas/math227-clase-02.pdf" target="_blank" rel="noopener" title="Área en coordenadas polares"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase2">Clase 2</span></a>
+                  <a href="notas/math227-clase-03.pdf" target="_blank" rel="noopener" title="Longitud de arco en coordenadas polares"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase3">Clase 3</span></a>
+                  <a href="notas/math227-clase-04.pdf" target="_blank" rel="noopener" title="Sucesiones: definición"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase4">Clase 4</span></a>
+                  <a href="notas/math227-clase-05.pdf" target="_blank" rel="noopener" title="Convergencia de sucesiones"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase5">Clase 5</span></a>
+                  <a href="notas/math227-clase-08.pdf" target="_blank" rel="noopener" title="Criterio de la integral para series"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase8">Clase 8</span></a>
+                  <a href="notas/math227-clase-09.pdf" target="_blank" rel="noopener" title="Estimación de la suma de una serie"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase9">Clase 9</span></a>
+                  <a href="notas/math227-clase-10.pdf" target="_blank" rel="noopener" title="Series alternantes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase10">Clase 10</span></a>
+                  <a href="notas/math227-clase-11.pdf" target="_blank" rel="noopener" title="Criterio de la razón y de la raíz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase11">Clase 11</span></a>
+                  <a href="notas/math227-clase-13.pdf" target="_blank" rel="noopener" title="Series de potencias: representación de funciones"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase13">Clase 13</span></a>
+                  <a href="notas/math227-clase-14.pdf" target="_blank" rel="noopener" title="Series de potencias: la función de Bessel de orden 0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase14">Clase 14</span></a>
+                  <a href="notas/math227-clase-16.pdf" target="_blank" rel="noopener" title="Series de Taylor: modelos clásicos de Maclaurin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase16">Clase 16</span></a>
+                  <a href="notas/math227-clase-17.pdf" target="_blank" rel="noopener" title="Aplicaciones de los polinomios de Taylor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math227.clase17">Clase 17</span></a>
+              </div>
+            </details></div>
+          </div>
+          <div class="course-row" style="--tono:#B03A48">
+            <div class="course-info"><div class="cname" data-i18n="courses.math224">Math 224–225 · Cálculo Diferencial e Integral</div><div class="course-meta"><span class="course-status is-archive" data-i18n="courses.status.past">Curso anterior</span> <span class="course-period" data-i18n="courses.terms1">Otoño 2025 · Invierno 2026 · Verano 2026 (en línea)</span> <span class="course-updated"><span class="course-updated-label" data-i18n="courses.material.updated">Último material:</span> <time datetime="2026-11-09" data-i18n="courses.material.date.20261109">9 nov 2026</time></span></div></div>
+            <div class="course-categories"><details class="notes-group">
+              <summary class="ng-title">Math 224</summary>
+              <div class="notes-links">
+                  <a href="notas/math224-clase-01.pdf" target="_blank" rel="noopener" title="Math 224 · Desigualdades y valor absoluto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math224.clase1">Clase 1</span></a>
+                  <a href="notas/math224-clase-02.pdf" target="_blank" rel="noopener" title="Math 224 · Propiedades del valor absoluto y desigualdades polinómicas (método del cementerio)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math224.clase2">Clase 2</span></a>
+                  <a href="notas/math224-clase-03.pdf" target="_blank" rel="noopener" title="Math 224 · Límites infinitos y asíntotas verticales"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math224.clase3">Clase 3</span></a>
+                  <a href="notas/math224-clase-04.pdf" target="_blank" rel="noopener" title="Math 224 · Teorema del emparedado (squeeze theorem)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math224.clase4">Clase 4</span></a>
+                  <a href="notas/math224-clase-05.pdf" target="_blank" rel="noopener" title="Math 224 · Continuidad: funciones continuas y su dominio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math224.clase5">Clase 5</span></a>
+                  <a href="notas/math224-clase-06.pdf" target="_blank" rel="noopener" title="Math 224 · Razón de cambio promedio e instantánea (introducción a la derivada)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math224.clase6">Clase 6</span></a>
+                  <a href="notas/math224-clase-07.pdf" target="_blank" rel="noopener" title="Math 224 · Ejercicios de repaso: desigualdades y límites"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math224.clase7">Clase 7</span></a>
+                  <a href="notas/math224-clase-08.pdf" target="_blank" rel="noopener" title="Math 224 · Funciones trigonométricas (Apéndice D): repaso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math224.clase8">Clase 8</span></a>
+                  <a href="notas/math224-clase-09.pdf" target="_blank" rel="noopener" title="Math 224 · Diferenciación implícita"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math224.clase9">Clase 9</span></a>
+                  <a href="notas/math224-clase-10.pdf" target="_blank" rel="noopener" title="Math 224 · Crecimiento y decrecimiento de una función a partir de la derivada (Sección 3.3)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math224.clase10">Clase 10</span></a>
+                  <a href="notas/math224-clase-11.pdf" target="_blank" rel="noopener" title="Math 224 · Guía para graficar una curva: dominio, interceptos, simetría y asíntotas (Sección 3.5)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math224.clase11">Clase 11</span></a>
+              </div>
+            </details>
+            <details class="notes-group">
+              <summary class="ng-title">Math 225</summary>
+              <div class="notes-links">
+                  <a href="notas/math225-clase-01.pdf" target="_blank" rel="noopener" title="Repaso de Cálculo I: puntos críticos, criterio de la primera derivada, máximos/mínimos locales y puntos de inflexión"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase1">Clase 1</span></a>
+                  <a href="notas/math225-clase-02.pdf" target="_blank" rel="noopener" title="Problemas de optimización usando los criterios de la primera y segunda derivada"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase2">Clase 2</span></a>
+                  <a href="notas/math225-clase-03.pdf" target="_blank" rel="noopener" title="Optimización aplicada: el punto de la parábola más cercano a un punto dado"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase3">Clase 3</span></a>
+                  <a href="notas/math225-clase-04.pdf" target="_blank" rel="noopener" title="Teorema de Rolle y teorema del valor medio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase4">Clase 4</span></a>
+                  <a href="notas/math225-clase-05.pdf" target="_blank" rel="noopener" title="Antiderivadas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase5">Clase 5</span></a>
+                  <a href="notas/math225-clase-06.pdf" target="_blank" rel="noopener" title="Sumas de Riemann y aproximación del área bajo una curva"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase6">Clase 6</span></a>
+                  <a href="notas/math225-clase-07.pdf" target="_blank" rel="noopener" title="La integral definida como límite de sumas de Riemann"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase7">Clase 7</span></a>
+                  <a href="notas/math225-clase-08.pdf" target="_blank" rel="noopener" title="Teorema del cambio neto y segunda parte del teorema fundamental del cálculo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase8">Clase 8</span></a>
+                  <a href="notas/math225-clase-09.pdf" target="_blank" rel="noopener" title="Derivación de integrales con límites variables (regla de Leibniz)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase9">Clase 9</span></a>
+                  <a href="notas/math225-clase-10.pdf" target="_blank" rel="noopener" title="Regla de sustitución para integrales"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase10">Clase 10</span></a>
+                  <a href="notas/math225-clase-11.pdf" target="_blank" rel="noopener" title="Áreas entre curvas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase11">Clase 11</span></a>
+                  <a href="notas/math225-clase-12.pdf" target="_blank" rel="noopener" title="Problema de áreas entre curvas: integrando respecto a x y respecto a y"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase12">Clase 12</span></a>
+                  <a href="notas/math225-clase-13.pdf" target="_blank" rel="noopener" title="Volúmenes por secciones transversales"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase13">Clase 13</span></a>
+                  <a href="notas/math225-clase-14.pdf" target="_blank" rel="noopener" title="Volúmenes por el método de capas (rotación alrededor del eje y)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase14">Clase 14</span></a>
+                  <a href="notas/math225-clase-15.pdf" target="_blank" rel="noopener" title="Valor promedio de una función"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math225.clase15">Clase 15</span></a>
+              </div>
+            </details></div>
+          </div>
+          <div class="course-row" style="--tono:#37677E">
+            <div class="course-info"><div class="cname" data-i18n="courses.math147">Math 147 · Estadística Elemental</div><div class="course-meta"><span class="course-status is-archive" data-i18n="courses.status.past">Curso anterior</span> <span class="course-period" data-i18n="courses.terms2">Otoño 2024 · Primavera 2025 · Verano 2025 (en línea)</span> <span class="course-updated"><span class="course-updated-label" data-i18n="courses.material.updated">Último material:</span> <time datetime="2026-11-09" data-i18n="courses.material.date.20261109">9 nov 2026</time></span></div></div>
+                      <div class="course-categories"><details class="notes-group">
+              <summary class="ng-title" data-i18n="courses.group.notas">Notas de clase</summary>
+              <div class="notes-links">
+                  <a href="notas/math147-notas.pdf" target="_blank" rel="noopener" title="Notas completas del curso, reescritas en LaTeX con todos los ejercicios resueltos paso a paso (77 páginas, nueve capítulos). 1. Getting Ready for Statistics — proporciones y porcentajes, áreas como proporciones, redondeo y notación científica, intervalos y rectas numéricas, despejes, rectas y sumatorias. 2. Displaying and Describing Data — variables, modelos, tablas de frecuencia, barras e histogramas, forma, centro, dispersión, varianza y desviación estándar. 3. The Standard Deviation as a Ruler and the Normal Model — z-scores, la regla 68-95-99.7, parámetros frente a estadísticos y diagramas de caja. 4. Scatterplots and Correlation — dirección, forma y fuerza, el coeficiente de correlación a mano, condiciones y propiedades. 5. Linear Regression — el modelo lineal, residuos, la recta de mínimos cuadrados, predicción y análisis de residuos. 6. From Randomness to Probability — probabilidad formal, reglas de la suma y del producto, probabilidad condicional e independencia. 7. Random Variables — valor esperado, desviación estándar y combinación de variables aleatorias. 8. Probability Models — ensayos de Bernoulli y los modelos geométrico, binomial, de Poisson y exponencial, con la aproximación normal. 9. Sampling Distributions and Inference — distribuciones muestrales, el teorema del límite central, qué significa realmente un 95 % de confianza, error estándar y la t de Student, intervalos de confianza para la media, contraste de hipótesis, valores P, el z-test para una proporción y el t-test para la media"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/></svg><span data-i18n="courses.notes.math147.notas">Notas del curso</span></a>
+              </div>
+            </details></div>
+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap visitas-wrap-mini bloque-visitas reveal">
+    <p class="visitas-mini">
+      <svg class="visitas-mini-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.6 12S5.5 5 12 5s10.4 7 10.4 7-3.9 7-10.4 7S1.6 12 1.6 12Z"/><circle cx="12" cy="12" r="3.1"/></svg>
+      <span class="visitas-mini-num visitas-numero">—</span>
+      <span class="visitas-mini-label" data-i18n="home.visitas.label">visitas a este sitio</span>
+    </p>
+  </div>
+  <section class="feedback-section" id="feedback-courses" aria-labelledby="feedback-title-courses">
+    <div class="feedback-intro">
+      <span class="eyebrow" data-i18n="feedback.eyebrow">Un mensaje para Santiago</span>
+      <h2 id="feedback-title-courses" data-i18n="feedback.title">¿Qué te gustaría compartir?</h2>
+      <p data-i18n="feedback.description">Puedes sugerir una mejora, señalar un error o contarme qué te ayudó a aprender.</p>
+      <p class="feedback-note" data-i18n="feedback.privacy">El comentario no se publica en el sitio. Nombre y correo son opcionales. Formspree procesa y guarda los envíos en su panel; evita incluir datos sensibles de otros estudiantes. <a href="https://formspree.io/legal/privacy-policy/" target="_blank" rel="noopener">Lee su política de privacidad.</a></p>
+    </div>
+    <form class="feedback-form" data-feedback-form data-feedback-endpoint="https://formspree.io/f/mzerzkoj">
+      <label class="feedback-label" for="feedback-message-courses" data-i18n="feedback.message">Tu comentario</label>
+      <textarea id="feedback-message-courses" name="message" rows="5" maxlength="3000" required data-i18n-placeholder="feedback.placeholder" placeholder="Escribe tu comentario aquí…"></textarea>
+      <label class="feedback-anonymous">
+        <input type="checkbox" name="anonymous" value="yes" checked data-anonymous-toggle>
+        <span data-i18n="feedback.anonymous">Prefiero dejarlo anónimo</span>
+      </label>
+      <div class="feedback-identifying" data-anonymous-fields hidden>
+        <label class="feedback-label" for="feedback-name-courses" data-i18n="feedback.name">Nombre (opcional)</label>
+        <input id="feedback-name-courses" type="text" name="name" autocomplete="name" data-i18n-placeholder="feedback.namePlaceholder" placeholder="Cómo te llamas">
+        <label class="feedback-label" for="feedback-email-courses" data-i18n="feedback.email">Correo (opcional, si quieres respuesta)</label>
+        <input id="feedback-email-courses" type="email" name="email" autocomplete="email" data-i18n-placeholder="feedback.emailPlaceholder" placeholder="tunombre@correo.com">
+      </div>
+      <div class="feedback-honeypot" aria-hidden="true">
+        <label for="feedback-website-courses">Deja este campo vacío</label>
+        <input id="feedback-website-courses" type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+      </div>
+      <button class="feedback-submit" type="submit" data-i18n="feedback.submit">Enviar comentario</button>
+      <p class="feedback-status" data-feedback-status role="status" aria-live="polite" data-i18n="feedback.ready">Tu comentario llegará al correo de Santiago. Puedes enviarlo anónimamente.</p>
+    </form>
+  </section>
+</div>
+</main>
+<footer class="site-foot">
+  <div class="foot-bottom">
+    <span>© 2026 Santiago Alzate</span>
+    <span data-i18n="footer.tagline">Hecho con LaTeX en el corazón, HTML en la página.</span>
+  </div>
+</footer>
+
+<script src="assets/site.js?v=20261119-talleres-udea"></script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "4f01a8ad63b2411f813977c2b179aa71"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
