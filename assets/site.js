@@ -2,6 +2,14 @@
   "use strict";
 
   var dictEn = {
+    "books.an2.course": "Universidad de Antioquia \u00b7 Institute of Mathematics",
+    "books.an2.sub": "Integration, convergence and Fourier analysis",
+    "books.an2.desc": "The class notes of the four exams in one book: the Riemann\u2013Stieltjes integral and bounded variation, improper integrals, uniform convergence, power series, parametric integrals, Fourier series, integral and transform, with complete proofs and worked problems. Written in Spanish.",
+    "books.an2.f1": "Darboux\u2013Stieltjes sums and the uniform-convergence band",
+    "books.an2.f2": "Taylor polynomials, radii of convergence and a non-analytic C\u221e function",
+    "books.an2.f3": "Fourier sums, the Dirichlet kernel and the Gibbs phenomenon",
+    "books.an2.f4": "The transform, uncertainty and a sliding convolution",
+    "courses.notes.an2.interactivo": "Interactive book",
     "books.gva.course": "Universidad de Antioquia \u00b7 Institute of Mathematics",
     "books.gva.sub": "Theory summary and worked problems",
     "books.gva.desc": "The four course summaries in one book: linear systems and matrices, determinants, geometric and coordinate vectors, lines and planes, dot and cross products, applications to physics, and conic sections. Written in Spanish.",

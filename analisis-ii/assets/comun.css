@@ -1,0 +1,53 @@
+/* Estilos comunes a los libros (sobre libro.css). Cada tema define --c1 (principal), --c1o (oscuro),
+   --c1c (claro), --c2 (secundario), --c2c, --c3 (acento cálido), --c3c, --c4 (alerta), --c4c */
+body.lib{--verde:var(--c1);--verdeO:var(--c1o);--verdeC:var(--c1c);--verdeM:var(--c1m);--teal:var(--c2);--tealC:var(--c2c);--ambar:var(--c3);--ambarC:var(--c3c)}
+.lib .toc .portadita img{width:46px;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.lib .toc .parte{color:var(--c2)}
+.lib .cabecera canvas.deco{position:absolute;right:-6px;bottom:-8px;opacity:.42;pointer-events:none}
+.lib h2{color:var(--c1o);border-bottom-color:var(--c1m)}
+.lib h2 .secnum{color:var(--c3)}
+.lib strong{color:var(--c1o)}
+.caja.defi{background:var(--c1c);border-color:var(--c1)} .caja.defi .btit{color:var(--c1)}
+.caja.teo,.caja.coro{background:var(--c2c);border-color:var(--c2)} .caja.teo .btit,.caja.coro .btit{color:var(--c2)}
+.caja.obs,.caja.nota{background:#f5f3fa;border-color:#6b5aa6} .caja.obs .btit,.caja.nota .btit{color:#5a4a96}
+.lib .caja.prob{background:#fff;border:1.5px solid var(--c3m,#e2c48f);border-left:4px solid var(--c3);border-radius:4px 10px 10px 4px}
+.lib .caja.prob .btit{color:var(--c3)}
+.caja.tip{background:var(--c3c);border-color:var(--c3)} .caja.tip .btit{color:var(--c3)} .caja.tip .btit::before{content:"✦ "}
+.caja.error{background:var(--c4c);border-color:var(--c4)} .caja.error .btit{color:var(--c4)} .caja.error .btit::before{content:"⚠ "}
+.caja.mapa{background:#f6f7f9;border-color:#b9c0cc;border-left-width:4px} .caja.mapa .btit{color:var(--c1o)}
+.caja.cierre,.caja.formulario{background:var(--c1c);border-color:var(--c1o)} .caja.cierre .btit,.caja.formulario .btit{color:var(--c1o)}
+.resultado{background:var(--c2c);border:1px solid var(--c2m,#b4d9d4);border-radius:8px;padding:6px 14px;margin:.7em 0}
+.resultado>p{margin:.3em 0}
+p.paso{margin:.9em 0 .2em;font-family:var(--sans);font-weight:700;font-size:.9em;color:var(--c1)}
+strong.paso-in{font-family:var(--sans);font-size:.9em;color:var(--c1)}
+.lib details.prueba>summary{color:var(--c1);border-color:var(--c1m)}
+.lib details.prueba>summary:hover{background:var(--c1c)}
+.lib details.prueba .pbody{border-left-color:var(--c1m)}
+.lib .applet{border-color:var(--c1m)}
+.lib .applet .ahead{background:linear-gradient(90deg,var(--c1c),#fff);color:var(--c1o)}
+.lib .applet .ahead .tag{background:var(--c1)}
+.lib .applet svg{background:#fff}
+.lib .ctl3d,.lib .ctl2d{background:#fafbfd;border-top-color:#e8ebf2}
+.lib .ctl3d .chip{border-color:var(--c1m);color:var(--c1o)}
+.lib .ctl3d .chip.on{background:var(--c1);border-color:var(--c1);color:#fff}
+.lib .ctl2d input,.lib .ctl3d input{accent-color:var(--c1)}
+.lib .ctl2d b{color:var(--c1o)}
+.lib .applet .afoot .lect b{color:var(--c1o)}
+.lib .formula{padding:12px 14px 4px;font-family:var(--sans)}
+.lib .formula input[type=text]{width:100%;font:19px/1.4 var(--serif);padding:8px 12px;border:1.5px solid var(--c1m);border-radius:10px;background:#fff}
+.lib .formula input:focus{outline:2px solid var(--c1);outline-offset:1px}
+.lib .formula .ejemplos{font-size:13px;color:#6c7380;display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0 2px}
+.lib .formula .ejemplos button{font:14px var(--serif);padding:2px 10px;min-height:32px;border:1px solid #e1e5ec;background:#fff;border-radius:8px;cursor:pointer}
+.lib .formula .ejemplos button:hover{border-color:var(--c1)}
+.lib .applet .error{color:var(--c4);font-weight:600}
+.lib .tarjeta .n{color:var(--c2)} .lib .tarjeta b{color:var(--c1o)}
+.lib .tarjeta:hover{border-color:var(--c1m)}
+.lib .hero .botones a{background:#ffd27a;color:#1d2440}
+.lib .hero .sub{color:#ffd27a}
+.lib .hero .bajada{color:rgba(255,255,255,.85);max-width:360px;font-size:17px;margin:14px 0 0}
+.lib .hero .ctrl input{accent-color:#ffd27a}
+.lib .leyenda-cajas .caja{margin:0}
+table.tablita{border-collapse:collapse;font:12.5px ui-monospace,Menlo,monospace;margin:4px 0;flex-basis:100%}
+table.tablita th{color:var(--c1o);font-weight:700;padding:2px 10px;border-bottom:1.5px solid var(--c1m)}
+table.tablita td{padding:2px 10px;text-align:right;border-bottom:1px solid #eef0f5}
+.lib .applet .afoot .lect{align-items:baseline}
