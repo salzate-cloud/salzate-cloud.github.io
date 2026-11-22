@@ -2,6 +2,14 @@
   "use strict";
 
   var dictEn = {
+    "books.calc.course": "Universidad de Antioquia \u00b7 School of Engineering",
+    "books.calc.sub": "Theory and worked problems",
+    "books.calc.desc": "The four course summaries gathered into one book: real numbers and inequalities, functions and their transformations, transcendental functions, limits and continuity, the derivative and its rules, and its applications to curve sketching and optimization. Written in Spanish.",
+    "books.calc.f1": "A function plotter and transformations with sliders",
+    "books.calc.f2": "Two-sided limits and the secant line that becomes a tangent",
+    "books.calc.f3": "Monotonicity, concavity and L\u2019H\u00f4pital, in color",
+    "books.calc.f4": "Folded worked problems and review questions",
+    "courses.notes.calcdif.interactivo": "Interactive book",
     "books.md.course": "Institución Universitaria de Envigado · DM1905",
     "books.status.complete": "Complete",
     "books.md.sub": "Learning by doing",
