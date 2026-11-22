@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Textos académicos — Santiago Alzate</title>
+<meta name="description" content="Textos académicos de Santiago Alzate: libros interactivos de matemáticas para estudiar en la pantalla, con figuras que se mueven y preguntas que se corrigen solas.">
+<link rel="stylesheet" href="assets/styles.css?v=20261122-textos">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png?v=20261110b">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png?v=20261110b">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png?v=20261110b">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=20261110b">
+<link rel="icon" href="favicon.ico?v=20261110b">
+</head>
+<body>
+<header class="site-nav">
+  <input type="checkbox" id="nav-toggle">
+  <div class="nav-row">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">SA</span>
+      Santiago Alzate
+    </a>
+    <label class="burger" for="nav-toggle" aria-label="Abrir menú"><span></span></label>
+    <nav class="links">
+      <a class="navlink" href="index.html" data-i18n="nav.home">Inicio</a>
+      <a class="navlink" href="sobre-mi.html" data-i18n="nav.about">Sobre mí</a>
+      <a class="navlink" href="cursos.html" data-i18n="nav.courses">Cursos</a>
+      <a class="navlink" href="textos-academicos.html" data-i18n="nav.books">Textos académicos</a>
+      <a class="navlink" href="horarios.html" data-i18n="nav.agenda">Crea tu agenda</a>
+      <a class="navlink" href="investigacion.html" data-i18n="nav.research">Investigación</a>
+      <a class="navlink" href="solving-problems.html" data-i18n="nav.sp">Solving Problems</a>
+      <a class="navlink" href="blog.html" data-i18n="nav.blog">Blog</a>
+      <a class="navlink" href="cv.html" data-i18n="nav.cv">CV</a>
+      <a class="navlink" href="contacto.html" data-i18n="nav.contact">Contacto</a>
+      <div class="lang-switch" role="group" aria-label="Idioma / Language">
+        <button type="button" class="lang-btn" data-lang-btn="es" aria-pressed="true">
+          <svg class="flag-icon" viewBox="0 0 20 14" aria-hidden="true">
+            <defs><clipPath id="flagClipCO"><rect width="20" height="14" rx="2"/></clipPath></defs>
+            <g clip-path="url(#flagClipCO)">
+              <rect width="20" height="7" y="0" fill="#FCD116"/>
+              <rect width="20" height="3.5" y="7" fill="#003893"/>
+              <rect width="20" height="3.5" y="10.5" fill="#CE1126"/>
+            </g>
+          </svg>
+          ES
+        </button>
+        <button type="button" class="lang-btn" data-lang-btn="en" aria-pressed="false">
+          <svg class="flag-icon" viewBox="0 0 20 14" aria-hidden="true">
+            <defs><clipPath id="flagClipUS"><rect width="20" height="14" rx="2"/></clipPath></defs>
+            <g clip-path="url(#flagClipUS)">
+              <rect width="20" height="14" fill="#B22234"/>
+              <rect y="1.077" width="20" height="1.077" fill="#fff"/>
+              <rect y="3.231" width="20" height="1.077" fill="#fff"/>
+              <rect y="5.385" width="20" height="1.077" fill="#fff"/>
+              <rect y="7.538" width="20" height="1.077" fill="#fff"/>
+              <rect y="9.692" width="20" height="1.077" fill="#fff"/>
+              <rect y="11.846" width="20" height="1.077" fill="#fff"/>
+              <rect width="8" height="7.538" fill="#3C3B6E"/>
+            </g>
+          </svg>
+          EN
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+<main>
+<div class="page">
+  <div class="page-head">
+    <span class="eyebrow" data-i18n="books.eyebrow">Textos académicos</span>
+    <h1 data-i18n="books.h1">Libros interactivos</h1>
+    <div class="rule-accent"></div>
+    <p class="lead" data-i18n="books.lead">Los textos de mis cursos, pensados para estudiar en la pantalla: figuras que se arrastran y se giran, teoremas citados que se despliegan sin perder el hilo, demostraciones que se abren cuando uno ya lo intentó y preguntas que se corrigen solas.</p>
+  </div>
+  <div class="wrap">
+    <article class="book-card">
+      <a class="book-cover" href="geometria-basica/index.html" aria-label="Abrir Geometría Básica">
+        <img src="geometria-basica/imagenes/portada.png" alt="Portada de Geometría Básica: un árbol de Pitágoras sobre fondo verde" loading="lazy">
+      </a>
+      <div class="book-body">
+        <div class="book-tags"><span class="book-tag" data-i18n="books.geo.course">Universidad de Antioquia · Geometría Básica</span><span class="book-tag is-building" data-i18n="books.status.building">En construcción</span></div>
+        <h2 class="book-title">Geometría Básica</h2>
+        <p class="book-sub" data-i18n="books.geo.sub">De los postulados de Euclides a los vectores del espacio</p>
+        <p data-i18n="books.geo.desc">El texto guía del curso: lógica y métodos de demostración, geometría plana con todas sus demostraciones, geometría del espacio, geometría analítica y vectorial, con apéndices sobre matrices, rotaciones, transformaciones y cónicas.</p>
+        <ul class="book-feats">
+          <li data-i18n="books.geo.f1">Figuras que se arrastran y figuras en 3D que se giran</li>
+          <li data-i18n="books.geo.f2">Teoremas citados que se despliegan en el mismo lugar</li>
+          <li data-i18n="books.geo.f3">Preguntas de repaso que se corrigen solas</li>
+          <li data-i18n="books.geo.f4">Ejercicios que se marcan como resueltos</li>
+        </ul>
+        <p class="book-avail"><strong data-i18n="books.geo.avail.t">Disponible ahora:</strong> <span data-i18n="books.geo.avail">Capítulo 0, Rudimentos de lógica y conjuntos. Los demás capítulos se irán publicando a lo largo del curso.</span></p>
+        <div class="btn-row">
+          <a class="btn btn-solid" href="geometria-basica/cap00.html" data-i18n="books.geo.open">Leer el capítulo 0</a>
+          <a class="btn btn-outline" href="geometria-basica/index.html" data-i18n="books.geo.cover">Ver la portada del libro</a>
+        </div>
+      </div>
+    </article>
+    <p class="books-note" data-i18n="books.note">Esta sección irá creciendo con los textos de mis otros cursos.</p>
+  </div>
+</div>
+</main>
+<footer class="site-foot">
+  <div class="foot-bottom">
+    <span>© 2026 Santiago Alzate</span>
+    <span data-i18n="footer.tagline">Hecho con LaTeX en el corazón, HTML en la página.</span>
+  </div>
+</footer>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script src="assets/site.js?v=20261122-textos"></script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "4f01a8ad63b2411f813977c2b179aa71"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
