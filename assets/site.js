@@ -2,6 +2,14 @@
   "use strict";
 
   var dictEn = {
+    "books.gva.course": "Universidad de Antioquia \u00b7 Institute of Mathematics",
+    "books.gva.sub": "Theory summary and worked problems",
+    "books.gva.desc": "The four course summaries in one book: linear systems and matrices, determinants, geometric and coordinate vectors, lines and planes, dot and cross products, applications to physics, and conic sections. Written in Spanish.",
+    "books.gva.f1": "Step-by-step Gauss\u2013Jordan and matrices that deform the plane",
+    "books.gva.f2": "The determinant as a signed area",
+    "books.gva.f3": "Vectors, planes and products in rotatable 3D",
+    "books.gva.f4": "Forces in equilibrium and the four conics in motion",
+    "courses.notes.geovec.interactivo": "Interactive book",
     "books.calc.course": "Universidad de Antioquia \u00b7 School of Engineering",
     "books.calc.sub": "Theory and worked problems",
     "books.calc.desc": "The four course summaries gathered into one book: real numbers and inequalities, functions and their transformations, transcendental functions, limits and continuity, the derivative and its rules, and its applications to curve sketching and optimization. Written in Spanish.",
