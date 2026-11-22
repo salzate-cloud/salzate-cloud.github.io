@@ -1,0 +1,127 @@
+/* Matemáticas Discretas — tema naranja de la IUE sobre libro.css */
+body.md{
+  --verde:#C15E14; --verdeO:#7a3108; --verdeC:#fdf2e6; --verdeM:#f3d3b2;
+  --teal:#1B5E86; --tealC:#e8f1f7;
+  --ambar:#E27A18; --ambarC:#fdf4ea;
+  --linea:#eadfd3; --papel:#fffdfa; --tinta:#2b2420;
+}
+.md .topbar{background:linear-gradient(90deg,#6e2a06,#A0410A 55%,#d0661a)}
+.md .topbar .prog{background:#ffd27a}
+.md .toc{background:#fbf6f0}
+.md .toc a.cap:hover,.md .toc .secs a:hover{background:#f6ebdf}
+.md .toc .parte{color:#1B5E86}
+.md .toc .portadita canvas{width:54px;height:54px;border-radius:6px;background:#5a2205;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.md .cabecera{background:radial-gradient(900px 300px at 85% -40%,rgba(255,210,122,.30),transparent 60%),linear-gradient(120deg,#5c2305,#A0410A 55%,#d0661a)}
+.md .cabecera .kicker{color:#ffd27a}
+.md .cabecera canvas.cab{position:absolute;right:-6px;bottom:-8px;opacity:.38;pointer-events:none}
+.md h2{color:#7a3108;border-bottom-color:#f3d3b2}
+.md h2 .secnum{color:#1B5E86}
+.md strong{color:#7a3108}
+
+/* cajas del libro */
+.caja.cajadef{background:#fbf0e4;border-color:#A0410A}
+.caja.cajadef .btit{color:#A0410A}
+.caja.cajaclave{background:#e8f1f7;border-color:#1B5E86}
+.caja.cajaclave .btit{color:#1B5E86}
+.caja.cajaaviso{background:#fbeded;border-color:#9E2B2B}
+.caja.cajaaviso .btit{color:#9E2B2B}
+.caja.cajaaviso .btit::before{content:"⚠ "}
+.caja.cajaaplica{background:#ecf5f0;border-color:#1F6F4F}
+.caja.cajaaplica .btit{color:#1F6F4F}
+.md .caja.ejemplo{border:1.5px solid #E27A18;border-left-width:1.5px;border-radius:10px;background:#fff;padding-top:0;overflow:hidden}
+.md .caja.ejemplo>.btit{margin:0 -18px 8px -20px;padding:6px 16px;background:#E27A18;color:#fff}
+.md .caja.ejemplo>.btit a,.md .caja.ejemplo>.btit .bnom{color:#fff}
+.resultado{background:#fdf4ea;border:1px solid #f3c9a0;border-radius:8px;padding:6px 14px;margin:.7em 0}
+.resultado>p{margin:.3em 0}
+p.paso{margin:.9em 0 .2em;font-family:var(--sans);font-weight:700;font-size:.92em;color:#A0410A}
+.md details.prueba>summary{color:#A0410A;border-color:#f0c9a2}
+.md details.prueba>summary:hover{background:#fdf2e6}
+.md details.prueba .pbody{border-left-color:#f0c9a2}
+.md details.respuesta{margin:.4em 0 .1em}
+.md details.respuesta>summary{font-size:13px;padding:3px 10px}
+.md .ejercicios>ol>li::before{background:#C15E14}
+.md .ejercicios li.ok{border-color:#f0c9a2;background:#fffaf4}
+.md .ejercicios li.ok::before{background:#1B5E86;color:#fff}
+.md .ejercicios>ol>li{padding-bottom:6px}
+.md figure.fig figcaption{color:#6b5f55}
+.md table thead th{border-bottom-color:#C15E14;color:#7a3108}
+
+/* portada */
+.md-hero{background:radial-gradient(800px 380px at 78% 30%,rgba(255,180,90,.28),transparent 62%),linear-gradient(160deg,#3d1603,#7a3108 50%,#A0410A)!important;min-height:440px}
+.md-hero canvas.pascal{position:absolute;right:14px;top:30px}
+.md-hero .sub{color:#ffd27a!important}
+.md-hero .bajada{color:#f6dcc4;max-width:330px;font-size:17px;margin:14px 0 0}
+.md-hero .ctrl input{accent-color:#ffd27a}
+.md-hero .botones a{background:#ffd27a;color:#5a2205}
+.md .tarjeta .n{color:#1B5E86}
+.md .tarjeta b{color:#7a3108}
+.md .tarjeta:hover{border-color:#f0c9a2;box-shadow:0 8px 22px rgba(120,50,10,.14)}
+@media (max-width:760px){.md-hero canvas.pascal{opacity:.33;right:-80px}}
+
+/* applets */
+.md .applet{border-color:#f0c9a2;box-shadow:0 4px 18px rgba(120,50,10,.08)}
+.md .applet .ahead{background:linear-gradient(90deg,#fdf2e6,#fff);color:#7a3108}
+.md .applet .ahead .tag{background:#C15E14}
+.md .applet svg{background:#fffdfa}
+.md .applet svg.grafo{background:linear-gradient(#f6eee6 1px,transparent 1px) 0 0/24px 24px,linear-gradient(90deg,#f6eee6 1px,transparent 1px) 0 0/24px 24px,#fffdfa;cursor:crosshair}
+.md .ctl3d{background:#fffaf5;border-top-color:#f3e4d4}
+.md .ctl3d .chip{border-color:#f0c9a2;color:#7a3108}
+.md .ctl3d .chip.on{background:#C15E14;border-color:#C15E14;color:#fff}
+.md .ctl2d{background:#fffaf5;border-top-color:#f3e4d4}
+.md .ctl2d input{accent-color:#C15E14}
+.md .ctl2d b{color:#7a3108}
+.md .applet .afoot{background:#fffcf8;border-top-color:#f3e4d4}
+.md .applet .afoot .lect b{color:#7a3108}
+b.v{color:#1F6F4F!important} b.f{color:#9E2B2B!important}
+.applet .error{color:#9E2B2B;font-weight:600}
+
+/* conectivos */
+.conect{padding:18px}
+.interr{display:flex;gap:14px;justify-content:center;margin-bottom:16px}
+.sw{display:flex;align-items:center;gap:10px;border:0;background:#f3e9df;border-radius:999px;padding:6px 16px 6px 6px;cursor:pointer;font:inherit;font-size:18px;min-height:44px}
+.sw .knob{width:30px;height:30px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.25);transition:transform .2s}
+.sw.on{background:#E27A18;color:#fff}
+.sw.on .knob{transform:translateX(4px)}
+.lamparas{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.lampara{position:relative;border:1.5px solid #eadfd3;border-radius:12px;padding:10px 12px 10px 44px;background:#fff;transition:all .2s;font-family:var(--sans)}
+.lampara b{display:block;font-family:var(--serif);font-size:19px;color:#2b2420}
+.lampara small{color:#7a6f66;font-size:12px}
+.lampara .foco{position:absolute;left:12px;top:16px;width:20px;height:20px;border-radius:50%;background:#e5ddd5}
+.lampara .val{position:absolute;right:12px;top:12px;font-weight:800;color:#9E2B2B}
+.lampara.on{border-color:#E27A18;background:#fff8ef}
+.lampara.on .foco{background:#ffcc66;box-shadow:0 0 0 5px rgba(255,204,102,.35),0 0 18px #ffb347}
+.lampara.on .val{color:#1F6F4F}
+
+/* fórmulas y tablas de verdad */
+.formula{padding:14px 16px 6px;font-family:var(--sans)}
+.formula input[type=text],.formula textarea{width:100%;font:20px/1.4 var(--serif);padding:8px 12px;border:1.5px solid #f0c9a2;border-radius:10px;background:#fff}
+.formula input:focus,.formula textarea:focus{outline:2px solid #E27A18;outline-offset:1px}
+.formula label{display:block;font-size:13px;color:#7a3108;font-weight:600;margin-bottom:8px}
+.formula label small{font-weight:400;color:#7a6f66}
+.simbolos{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.simbolos button,.ejemplos button{font:16px var(--serif);min-width:40px;min-height:36px;border:1px solid #eadfd3;background:#fff;border-radius:8px;cursor:pointer}
+.simbolos button:hover,.ejemplos button:hover{border-color:#E27A18;background:#fff8ef}
+.ejemplos{font-size:13px;color:#7a6f66;display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0 4px}
+.ejemplos button{font-size:14px;min-width:0;padding:2px 10px}
+.tablawrap{overflow-x:auto;padding:4px 16px 12px}
+table.tv{border-collapse:separate;border-spacing:0;margin:6px auto;font-size:15px}
+table.tv th{font-family:var(--serif);font-weight:600;padding:6px 12px;border-bottom:2px solid #C15E14;white-space:nowrap;color:#7a3108}
+table.tv td{text-align:center;padding:3px 12px;border-bottom:1px solid #f1e7dc}
+table.tv .var{background:#fbf6f0}
+table.tv .fin{background:#fff3e3;border-left:2px solid #f0c9a2}
+table.tv tr.critico td{background:#eef7f1}
+table.tv tr.contra td{background:#fbe3e3}
+table.tv tr.gris td{opacity:.45}
+
+/* grafos */
+.md .applet[data-md="grafo-editor"] .acuerpo,.md .applet[data-md="euler"] .acuerpo,.md .applet[data-md="hamilton"] .acuerpo{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}
+.md .applet[data-md] .acuerpo>.ctl3d{grid-column:1/-1}
+.gpanel{padding:12px 14px;font-family:var(--sans);font-size:13.5px;border-left:1px solid #f3e4d4;background:#fffcf8;overflow:auto}
+.gpanel .dato{margin:0 0 9px}
+.gpanel .nota{color:#7a6f66}
+table.matriz{border-collapse:collapse;margin:6px 0;font:12.5px ui-monospace,Menlo,monospace}
+table.matriz th{color:#A0410A;font-weight:700;padding:2px 5px;border:0}
+table.matriz td{width:22px;text-align:center;padding:2px 4px;border:1px solid #efe4d8;color:#b3a89c}
+table.matriz td.uno{background:#fde2c2;color:#7a3108;font-weight:700}
+@media (max-width:720px){.md .applet[data-md="grafo-editor"] .acuerpo,.md .applet[data-md="euler"] .acuerpo,.md .applet[data-md="hamilton"] .acuerpo{grid-template-columns:1fr}.gpanel{border-left:0;border-top:1px solid #f3e4d4}}
+.md .leyenda-cajas .caja.ejemplo>.btit{margin:0 -18px 8px -20px}

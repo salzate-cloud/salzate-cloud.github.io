@@ -1235,3 +1235,9 @@ h2.section-title::before{display:none}
 }
 :root[data-theme="dark"] .book-tag.is-building{ color:#f2c97a; background:#2d2414; }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .book-tag.is-building{ color:#f2c97a; background:#2d2414; } }
+.book-tag.is-ready{ color:#1F6F4F; background:#e6f2ec; }
+.book-md .book-cover{ box-shadow:0 2px 4px rgba(0,0,0,.12), 0 18px 38px rgba(120,50,10,.25); }
+.book-md .book-sub{ color:#A0410A; }
+:root[data-theme="dark"] .book-tag.is-ready{ color:#9fd6b8; background:#14261d; }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .book-tag.is-ready{ color:#9fd6b8; background:#14261d; } }
+:root[data-theme="dark"] .book-md .book-sub{ color:#f0a26a; }

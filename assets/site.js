@@ -2,6 +2,17 @@
   "use strict";
 
   var dictEn = {
+    "books.md.course": "Institución Universitaria de Envigado · DM1905",
+    "books.status.complete": "Complete",
+    "books.md.sub": "Learning by doing",
+    "books.md.desc": "The course textbook for engineering students: propositional logic and proof, Boolean algebra and circuits, Karnaugh maps, sequences and recurrences, graphs and trees. Short definitions, 67 worked examples and 82 exercises with answers. Written in Spanish.",
+    "books.md.f1": "A truth-table calculator and an argument-validity checker",
+    "books.md.f2": "Circuits you can switch on and Karnaugh maps that solve themselves",
+    "books.md.f3": "A graph editor, Euler trails and Hamilton's puzzle",
+    "books.md.f4": "Trees traversed step by step, and review questions",
+    "books.md.open": "Open the book",
+    "books.md.cap1": "Go to chapter 1",
+    "courses.notes.discrete.interactivo": "Interactive book",
     "nav.books": "Academic texts",
     "books.eyebrow": "Academic texts",
     "books.h1": "Interactive books",

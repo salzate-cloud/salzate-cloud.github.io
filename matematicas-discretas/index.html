@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matemáticas Discretas · Aprender haciendo</title>
+<meta name="author" content="Santiago Alzate">
+<link rel="icon" href="imagenes/icono.svg" type="image/svg+xml">
+<link rel="stylesheet" href="katex/katex.min.css">
+<link rel="stylesheet" href="assets/libro.css">
+<link rel="stylesheet" href="assets/tema-md.css">
+</head>
+<body data-pagina="" class="md">
+<header class="topbar">
+  <button class="menu" aria-label="Abrir el índice">☰</button>
+  <a class="marca" href="index.html">Matemáticas Discretas<small>Institución Universitaria de Envigado</small></a>
+  <div class="esp"></div>
+  <div class="nav"><a href="cap01.html"><span>Empezar</span> ›</a></div>
+  <div class="prog"></div>
+</header>
+<nav class="toc" aria-label="Contenido">
+<a class="portadita" href="index.html"><canvas class="pascal-mini" width="54" height="54" data-filas="16" data-mod="2"></canvas><div><b>Matemáticas Discretas</b><span>Aprender haciendo · IUE</span></div></a>
+<a class="cap" data-slug="prologo" href="prologo.html"><span class="n">·</span><span>Antes de empezar</span><span class="visto">●</span></a>
+<div class="parte">Unidad 1 · Lógica proposicional</div>
+<a class="cap" data-slug="cap01" href="cap01.html"><span class="n">1</span><span>Proposiciones y conectivos</span><span class="visto">●</span></a>
+<a class="cap" data-slug="cap02" href="cap02.html"><span class="n">2</span><span>Tablas de verdad y leyes del álgebra proposicional</span><span class="visto">●</span></a>
+<a class="cap" data-slug="cap03" href="cap03.html"><span class="n">3</span><span>Reglas de inferencia y validez de un razonamiento</span><span class="visto">●</span></a>
+<a class="cap" data-slug="cap04" href="cap04.html"><span class="n">4</span><span>Métodos de demostración e inducción matemática</span><span class="visto">●</span></a>
+<div class="parte">Unidad 2 · Álgebra de Boole y circuitos</div>
+<a class="cap" data-slug="cap05" href="cap05.html"><span class="n">5</span><span>Álgebra de Boole y compuertas lógicas</span><span class="visto">●</span></a>
+<a class="cap" data-slug="cap06" href="cap06.html"><span class="n">6</span><span>Funciones booleanas y formas normales</span><span class="visto">●</span></a>
+<a class="cap" data-slug="cap07" href="cap07.html"><span class="n">7</span><span>Mapas de Karnaugh</span><span class="visto">●</span></a>
+<div class="parte">Unidad 3 · Sucesiones y recurrencias</div>
+<a class="cap" data-slug="cap08" href="cap08.html"><span class="n">8</span><span>Sucesiones y progresiones</span><span class="visto">●</span></a>
+<a class="cap" data-slug="cap09" href="cap09.html"><span class="n">9</span><span>Relaciones de recurrencia de primer orden</span><span class="visto">●</span></a>
+<a class="cap" data-slug="cap10" href="cap10.html"><span class="n">10</span><span>Recurrencias de segundo orden: el caso de Fibonacci</span><span class="visto">●</span></a>
+<div class="parte">Unidad 4 · Grafos y árboles</div>
+<a class="cap" data-slug="cap11" href="cap11.html"><span class="n">11</span><span>Grafos: conceptos y representación</span><span class="visto">●</span></a>
+<a class="cap" data-slug="cap12" href="cap12.html"><span class="n">12</span><span>Caminos, circuitos y recorridos de un grafo</span><span class="visto">●</span></a>
+<a class="cap" data-slug="cap13" href="cap13.html"><span class="n">13</span><span>Árboles</span><span class="visto">●</span></a>
+<a class="cap" data-slug="cap14" href="cap14.html"><span class="n">14</span><span>Recorridos de árboles binarios</span><span class="visto">●</span></a>
+<div class="parte">Apéndices</div>
+<a class="cap" data-slug="apA" href="apA.html"><span class="n">A</span><span>Formulario de repaso</span><span class="visto">●</span></a>
+<a class="cap" data-slug="apB" href="apB.html"><span class="n">B</span><span>Respuestas de «Practica tú»</span><span class="visto">●</span></a>
+</nav>
+<div class="velo"></div>
+<main><div class="hoja">
+<div class="hero md-hero">
+<canvas class="pascal" width="420" height="380"></canvas>
+<div class="htxt">
+<div class="uni">Institución Universitaria de Envigado · DM1905</div>
+<h1>Matemáticas<br>Discretas</h1>
+<div class="sub">Aprender haciendo</div>
+<p class="bajada">Lógica, circuitos, recurrencias y grafos, con ejemplos resueltos y herramientas para practicar.</p>
+<div class="autor">Santiago Alzate</div>
+<div class="ctrl"><label>Filas <input id="pascal-filas" type="range" min="4" max="64" value="32"> <b id="pascal-filas-v">32</b></label>
+<label>Módulo <input id="pascal-mod" type="range" min="2" max="9" value="2"> <b id="pascal-mod-v">2</b></label></div>
+<div class="botones"><a href="cap01.html">Empezar a leer</a></div>
+</div></div><h2>¿Qué es el dibujo de la portada?</h2>
+<p>Es el <strong>triángulo de Pascal</strong>: cada número es la suma de los dos que tiene encima. Cada hexágono se pinta según el residuo de su número al dividir por el <em>módulo</em>; los múltiplos se apagan. Con módulo 2 aparece el <em>triángulo de Sierpinski</em>, un fractal escondido en una regla de sumar. Mueve los controles y mira qué figuras salen con 3, 5 o 7.</p>
+<h2>Cómo usar este libro</h2>
+<div class="leyenda-cajas">
+<div class="caja cajadef"><div class="btit">Definiciones cortas</div><div class="bbody">Lo que hay que saber de memoria cabe en tres líneas, y enseguida viene un ejemplo.</div></div>
+<div class="caja ejemplo"><div class="btit">Ejemplos resueltos</div><div class="bbody">La solución está plegada: intenta primero y ábrela después para comparar.</div></div>
+<div class="caja cajaclave"><div class="btit">Herramientas para practicar</div><div class="bbody">Calculadora de tablas de verdad, circuitos que se encienden, mapas de Karnaugh, editor de grafos y árboles que se recorren solos.</div></div>
+<div class="caja cajaaviso"><div class="btit">Practica tú</div><div class="bbody">Cada capítulo cierra con ejercicios; la respuesta de cada uno está plegada debajo, y puedes marcar los que ya resolviste.</div></div>
+</div><h2>Para empezar</h2><div class="tarjetas"><a class="tarjeta" href="prologo.html"><div class="n">Para empezar</div><b>Antes de empezar</b></a></div><h2>Unidad 1 · Lógica proposicional</h2><div class="tarjetas"><a class="tarjeta" href="cap01.html"><div class="n">Capítulo 1</div><b>Proposiciones y conectivos</b></a><a class="tarjeta" href="cap02.html"><div class="n">Capítulo 2</div><b>Tablas de verdad y leyes del álgebra proposicional</b></a><a class="tarjeta" href="cap03.html"><div class="n">Capítulo 3</div><b>Reglas de inferencia y validez de un razonamiento</b></a><a class="tarjeta" href="cap04.html"><div class="n">Capítulo 4</div><b>Métodos de demostración e inducción matemática</b></a></div><h2>Unidad 2 · Álgebra de Boole y circuitos</h2><div class="tarjetas"><a class="tarjeta" href="cap05.html"><div class="n">Capítulo 5</div><b>Álgebra de Boole y compuertas lógicas</b></a><a class="tarjeta" href="cap06.html"><div class="n">Capítulo 6</div><b>Funciones booleanas y formas normales</b></a><a class="tarjeta" href="cap07.html"><div class="n">Capítulo 7</div><b>Mapas de Karnaugh</b></a></div><h2>Unidad 3 · Sucesiones y recurrencias</h2><div class="tarjetas"><a class="tarjeta" href="cap08.html"><div class="n">Capítulo 8</div><b>Sucesiones y progresiones</b></a><a class="tarjeta" href="cap09.html"><div class="n">Capítulo 9</div><b>Relaciones de recurrencia de primer orden</b></a><a class="tarjeta" href="cap10.html"><div class="n">Capítulo 10</div><b>Recurrencias de segundo orden: el caso de Fibonacci</b></a></div><h2>Unidad 4 · Grafos y árboles</h2><div class="tarjetas"><a class="tarjeta" href="cap11.html"><div class="n">Capítulo 11</div><b>Grafos: conceptos y representación</b></a><a class="tarjeta" href="cap12.html"><div class="n">Capítulo 12</div><b>Caminos, circuitos y recorridos de un grafo</b></a><a class="tarjeta" href="cap13.html"><div class="n">Capítulo 13</div><b>Árboles</b></a><a class="tarjeta" href="cap14.html"><div class="n">Capítulo 14</div><b>Recorridos de árboles binarios</b></a></div><h2>Apéndices</h2><div class="tarjetas"><a class="tarjeta" href="apA.html"><div class="n">Apéndice A</div><b>Formulario de repaso</b></a><a class="tarjeta" href="apB.html"><div class="n">Apéndice B</div><b>Respuestas de «Practica tú»</b></a></div>
+<div class="pie">Matemáticas Discretas · Aprender haciendo · Santiago Alzate · Institución Universitaria de Envigado<br><a href="https://santiagoalzates.com/textos-academicos.html">← Volver a santiagoalzates.com</a></div>
+</div></main>
+<script src="assets/libro.js"></script>
+<script src="assets/discreta.js"></script>
+</body>
+</html>
