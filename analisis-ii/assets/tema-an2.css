@@ -14,3 +14,31 @@ body.an2{--c1:#7a1c3a;--c1o:#561128;--c1c:#f9ecf0;--c1m:#e5bccb;--c2:#1f4e79;--c
 @media (max-width:760px){.an2-hero svg.portada{opacity:.35;right:-120px;pointer-events:none}}
 .an2 .applet select{font:14px var(--sans);padding:3px 6px;border-radius:6px;border:1px solid var(--c1m);background:#fff;color:var(--c1o)}
 .an2 .ctl2d .sel{display:flex;gap:8px;align-items:center;font:14px var(--sans)}
+.an2-hero .portada-ctl{position:absolute;right:18px;bottom:16px;display:flex;flex-direction:column;align-items:flex-end;gap:6px;z-index:3;font:13px var(--sans)}
+.an2-hero .pc-fila{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.an2-hero .portada-ctl button{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(243,197,107,.55);border-radius:999px;padding:4px 11px;font:13px var(--sans);cursor:pointer;transition:background .2s}
+.an2-hero .portada-ctl button:hover{background:rgba(243,197,107,.25)}
+.an2-hero .portada-ctl button.on{background:#f3c56b;color:#3a0a19;border-color:#f3c56b;font-weight:600}
+.an2-hero .pc-n{color:#f3c56b;min-width:96px;text-align:center;font-weight:600}
+.an2-hero .pc-ayuda{color:rgba(255,255,255,.6);font-size:12px}
+@media (max-width:760px){.an2-hero .portada-ctl{position:static;margin:14px 0 0;align-items:flex-start}.an2-hero .pc-fila{justify-content:flex-start}}
+.an2 .sim{padding:18px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.an2 .sim-reloj{font:700 46px var(--serif);color:var(--c1o);letter-spacing:1px;font-variant-numeric:tabular-nums}
+.an2 .sim-reloj.poco{color:#c0392b;animation:latido 1s infinite}
+@keyframes latido{50%{opacity:.55}}
+.an2 .sim-barra{width:100%;max-width:520px;height:8px;border-radius:9px;background:var(--c1c);overflow:hidden}
+.an2 .sim-barra i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--c3),var(--c1));transition:width .9s linear}
+.an2 .sim-bot{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.an2 .sim-bot button,.an2 .calif button{font:600 14px var(--sans);padding:8px 14px;border-radius:999px;border:1.5px solid var(--c1);background:#fff;color:var(--c1);cursor:pointer}
+.an2 .sim-bot .sim-go{background:var(--c1);color:#fff}
+.an2 .sim-bot button:disabled{opacity:.4;cursor:default}
+.an2 .sim-estado{font:14px var(--sans);color:#4a4f5c;text-align:center}
+body.an2.en-examen details.solucion>summary{opacity:.55;cursor:not-allowed}
+body.an2.en-examen details.solucion>summary .hint::after{content:" · bloqueada 🔒"}
+.an2 .calif{padding:14px 18px;display:flex;flex-direction:column;gap:8px}
+.an2 .calif-f{display:grid;grid-template-columns:130px 1fr 170px 44px;gap:10px;align-items:center;font:14px var(--sans)}
+.an2 .calif-n{font-weight:700;color:var(--c1o)} .an2 .calif-t{color:#4a4f5c}
+.an2 .calif-f input{accent-color:var(--c1)} .an2 .calif-f b{color:var(--c1o);text-align:right}
+.an2 .calif-total{display:flex;gap:14px;align-items:baseline;margin-top:8px;padding-top:10px;border-top:1px solid var(--c1m);font:15px var(--sans)}
+.an2 .calif-nota{font:700 40px var(--serif)} .an2 .calif-nota.ok{color:#2e7d5b} .an2 .calif-nota.mal{color:#b0413e}
+@media (max-width:640px){.an2 .calif-f{grid-template-columns:90px 1fr 44px}.an2 .calif-t{display:none}}

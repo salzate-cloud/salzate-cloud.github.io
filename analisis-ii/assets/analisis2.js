@@ -321,29 +321,115 @@
     pinta();
   };
 
-  /* ---------- portada: epiciclos que dibujan la onda cuadrada ---------- */
+
+  /* 13. Simulacro: reloj y modo examen */
+  function guarda(k, v) { try { localStorage.setItem('an2-' + location.pathname + '-' + k, JSON.stringify(v)); } catch (e) { } }
+  function lee(k, d) { try { var v = localStorage.getItem('an2-' + location.pathname + '-' + k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } }
+  A['simulacro'] = function (c) {
+    var cu = c.querySelector('.acuerpo'), TOT = 2 * 3600;
+    cu.innerHTML = '<div class="sim"><div class="sim-reloj">2:00:00</div><div class="sim-barra"><i></i></div>' +
+      '<div class="sim-bot"><button type="button" class="sim-go">Empezar el simulacro</button><button type="button" class="sim-pausa" disabled>Pausar</button><button type="button" class="sim-fin" disabled>Terminar y ver soluciones</button><button type="button" class="sim-reset">Reiniciar</button></div>' +
+      '<div class="sim-estado">Las soluciones están disponibles. Al empezar, se bloquean hasta que termines.</div></div>';
+    var st = lee('reloj', { usado: 0, corriendo: false, inicio: 0, fin: false }), timer = null;
+    var reloj = cu.querySelector('.sim-reloj'), barra = cu.querySelector('.sim-barra i'), est = cu.querySelector('.sim-estado');
+    var bGo = cu.querySelector('.sim-go'), bPa = cu.querySelector('.sim-pausa'), bFin = cu.querySelector('.sim-fin');
+    function usado() { return st.usado + (st.corriendo ? (Date.now() - st.inicio) / 1000 : 0); }
+    function hms(x) { x = Math.max(0, Math.round(x)); var h = Math.floor(x / 3600), m = Math.floor(x % 3600 / 60), q = x % 60; return h + ':' + (m < 10 ? '0' : '') + m + ':' + (q < 10 ? '0' : '') + q; }
+    function bloqueo(on) { document.body.classList.toggle('en-examen', on); if (on) document.querySelectorAll('details.solucion[open]').forEach(function (d) { d.open = false; }); }
+    function marca() {
+      var u = usado(), r = TOT - u;
+      if (st.corriendo && r <= 0) { st.usado = TOT; st.corriendo = false; st.fin = true; guarda('reloj', st); fin(true); return; }
+      reloj.textContent = hms(r); barra.style.width = (100 * Math.min(u / TOT, 1)) + '%';
+      reloj.classList.toggle('poco', r < 600 && !st.fin);
+      bGo.disabled = st.corriendo || st.fin; bGo.textContent = st.usado > 0 && !st.fin ? 'Continuar' : 'Empezar el simulacro';
+      bPa.disabled = !st.corriendo; bFin.disabled = st.fin || (!st.corriendo && st.usado === 0);
+      bloqueo((st.corriendo || st.usado > 0) && !st.fin);
+      est.innerHTML = st.fin ? '<b>Simulacro terminado</b> en ' + hms(Math.min(u, TOT)) + '. Revisa las soluciones y califícate abajo.' : st.corriendo ? 'En curso: resuelve en papel. Las soluciones están bloqueadas.' : st.usado > 0 ? 'En pausa. Las soluciones siguen bloqueadas.' : 'Las soluciones están disponibles. Al empezar, se bloquean hasta que termines.';
+    }
+    function fin(auto) { clearInterval(timer); marca(); if (auto) alert('¡Se acabó el tiempo! Ahora puedes ver las soluciones y calificarte.'); var g = document.querySelector('.applet[data-ap="calificacion"]'); if (g) g.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    bGo.onclick = function () { st.corriendo = true; st.inicio = Date.now(); guarda('reloj', st); timer = setInterval(marca, 1000); marca(); };
+    bPa.onclick = function () { st.usado = usado(); st.corriendo = false; guarda('reloj', st); clearInterval(timer); marca(); };
+    bFin.onclick = function () { if (!confirm('¿Terminar el simulacro y desbloquear las soluciones?')) return; st.usado = usado(); st.corriendo = false; st.fin = true; guarda('reloj', st); fin(false); };
+    cu.querySelector('.sim-reset').onclick = function () { if (!confirm('¿Reiniciar el reloj y la calificación?')) return; st = { usado: 0, corriendo: false, inicio: 0, fin: false }; guarda('reloj', st); guarda('notas', {}); clearInterval(timer); marca(); document.dispatchEvent(new Event('an2-reset')); };
+    document.addEventListener('click', function (e) {
+      var sm = e.target.closest('details.solucion > summary');
+      if (sm && document.body.classList.contains('en-examen')) { e.preventDefault(); est.innerHTML = '<b>Las soluciones están bloqueadas</b> hasta que termines el simulacro.'; c.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+    }, true);
+    if (st.corriendo) timer = setInterval(marca, 1000);
+    marca();
+    lect(c, ['5 problemas × 1.0 + bonus 0.5', 'tiempo: 2 horas']);
+  };
+
+  /* 14. Simulacro: calificación */
+  A['calificacion'] = function (c) {
+    var cu = c.querySelector('.acuerpo'), probs = [].slice.call(document.querySelectorAll('.caja.prob')), notas = lee('notas', {});
+    var h = '<div class="calif">';
+    probs.forEach(function (p, i) {
+      var num = p.querySelector('.bnum').textContent, nom = (p.querySelector('.bnom') || { textContent: '' }).textContent.replace(/^·\s*/, ''), bonus = /bonus/i.test(nom), mx = bonus ? .5 : 1;
+      h += '<label class="calif-f"><span class="calif-n">' + num + '</span><span class="calif-t">' + nom + '</span><input type="range" min="0" max="' + mx + '" step="' + (bonus ? .05 : .1) + '" value="' + (notas[i] || 0) + '" data-i="' + i + '" data-b="' + (bonus ? 1 : 0) + '"><b></b></label>';
+    });
+    h += '<div class="calif-total"><span>Nota</span><b class="calif-nota">0.0</b><span class="calif-msg"></span></div></div>';
+    cu.innerHTML = h;
+    function calcula() {
+      var base = 0, bon = 0;
+      cu.querySelectorAll('input').forEach(function (i) { var v = +i.value; i.nextElementSibling.textContent = v.toFixed(i.dataset.b === '1' ? 2 : 1); notas[i.dataset.i] = v; if (i.dataset.b === '1') bon += v; else base += v; });
+      var nota = Math.min(5, base + bon); guarda('notas', notas);
+      cu.querySelector('.calif-nota').textContent = nota.toFixed(1);
+      cu.querySelector('.calif-nota').className = 'calif-nota ' + (nota >= 3 ? 'ok' : 'mal');
+      cu.querySelector('.calif-msg').textContent = nota >= 4.5 ? '¡Excelente! Estás listo para el parcial.' : nota >= 3.5 ? 'Muy bien: repasa los detalles de los problemas que perdiste.' : nota >= 3 ? 'Aprobado, pero vuelve a las demostraciones que te costaron.' : 'Aún no: repasa los capítulos y vuelve a intentarlo.';
+      lect(c, ['problemas: ' + base.toFixed(1) + ' / 5.0', 'bonus: ' + bon.toFixed(2), 'nota (máximo 5.0): ' + nota.toFixed(1)]);
+    }
+    cu.addEventListener('input', calcula);
+    document.addEventListener('an2-reset', function () { cu.querySelectorAll('input').forEach(function (i) { i.value = 0; }); notas = {}; calcula(); });
+    calcula();
+  };
+  /* ---------- portada: epiciclos que dibujan una serie de Fourier (interactiva) ---------- */
   function portada(svg) {
-    var W = 460, H = 380, t = 0, N = 5, traza = [], quieto = false;
+    var W = 460, H = 380, t = 0, N = 5, traza = [], quieto = false, fi = 0, pausa = false;
+    var FS = [
+      { n: 'onda cuadrada', m: 1, term: function (k) { return k % 2 ? [4 / (Math.PI * k), 0] : null; }, f: '(4/π) Σ sen(kx)/k' },
+      { n: 'diente de sierra', m: Math.PI, term: function (k) { return [2 / k, k % 2 ? 0 : Math.PI]; }, f: '2 Σ (−1)ᵏ⁺¹ sen(kx)/k' },
+      { n: 'triángulo', m: Math.PI / 2, term: function (k) { return k % 2 ? [4 / (Math.PI * k * k), 1.5 * Math.PI] : null; }, f: '−(4/π) Σ cos(kx)/k²' }];
     svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-    svg.addEventListener('mousemove', function (e) { var r = svg.getBoundingClientRect(); N = 1 + 2 * Math.round(6 * (e.clientX - r.left) / r.width); });
+    var hero = svg.parentNode, ctl = document.createElement('div'); ctl.className = 'portada-ctl';
+    ctl.innerHTML = '<div class="pc-fila">' + FS.map(function (o, i) { return '<button type="button" data-f="' + i + '"' + (i ? '' : ' class="on"') + '>' + o.n + '</button>'; }).join('') + '</div>' +
+      '<div class="pc-fila"><button type="button" data-d="-1" aria-label="menos armónicos">−</button><span class="pc-n"></span><button type="button" data-d="1" aria-label="más armónicos">+</button><button type="button" data-p="1" class="pc-pausa">❚❚</button></div>' +
+      '<div class="pc-ayuda">Arrastra sobre la figura o usa los botones</div>';
+    hero.appendChild(ctl);
+    function marca() { ctl.querySelector('.pc-n').textContent = N + ' armónico' + (N > 1 ? 's' : ''); ctl.querySelectorAll('[data-f]').forEach(function (b) { b.classList.toggle('on', +b.dataset.f === fi); }); }
+    ctl.addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      if (b.dataset.f) { fi = +b.dataset.f; traza = []; }
+      if (b.dataset.d) N = Math.max(1, Math.min(40, N + (+b.dataset.d) * (N >= 10 ? 5 : 1)));
+      if (b.dataset.p) { pausa = !pausa; b.textContent = pausa ? '▶' : '❚❚'; if (!pausa && quieto) pinta(); }
+      marca(); if (quieto || pausa) pinta();
+    });
+    function desdePuntero(e) { var r = svg.getBoundingClientRect(); N = Math.max(1, Math.min(40, 1 + Math.round(39 * Math.pow((e.clientX - r.left) / r.width, 1.6)))); marca(); if (quieto || pausa) pinta(); }
+    svg.addEventListener('pointermove', function (e) { if (e.pointerType === 'mouse' || e.buttons) desdePuntero(e); });
+    svg.addEventListener('pointerdown', function (e) { desdePuntero(e); });
+    svg.addEventListener('dblclick', function () { fi = (fi + 1) % FS.length; traza = []; marca(); });
+    svg.style.cursor = 'ew-resize';
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) quieto = true;
     function pinta() {
-      var cx = 150, cy = 200, R = 50, x = cx, y = cy, h = '';
-      for (var k = 1; k <= N; k += 2) {
-        var r = R * 4 / (Math.PI * k), nx = x + r * Math.cos(k * t), ny = y - r * Math.sin(k * t);
-        h += '<circle cx="' + x + '" cy="' + y + '" r="' + r + '" fill="none" stroke="rgba(243,197,107,' + (k === 1 ? .55 : .3) + ')" stroke-width="1.2"/>';
-        h += '<line x1="' + x + '" y1="' + y + '" x2="' + nx + '" y2="' + ny + '" stroke="#f3c56b" stroke-width="1.8"/>';
+      var o = FS[fi], cx = 150, cy = 190, R = 62, x = cx, y = cy, h = '';
+      for (var k = 1, usados = 0; k <= 200 && usados < N; k++) {
+        var tm = o.term(k); if (!tm) continue; usados++;
+        var r = R * tm[0] / o.m, a = k * t + tm[1], nx = x + r * Math.cos(a), ny = y - r * Math.sin(a);
+        if (r > .4) h += '<circle cx="' + x + '" cy="' + y + '" r="' + r + '" fill="none" stroke="rgba(243,197,107,' + (usados === 1 ? .55 : .28) + ')" stroke-width="1.1"/>';
+        h += '<line x1="' + x + '" y1="' + y + '" x2="' + nx + '" y2="' + ny + '" stroke="#f3c56b" stroke-width="1.6"/>';
         x = nx; y = ny;
       }
-      traza.unshift(y); if (traza.length > 200) traza.pop();
+      if (!pausa && !quieto) { traza.unshift(y); if (traza.length > 200) traza.pop(); }
       var x0 = 250; h += '<line x1="' + x + '" y1="' + y + '" x2="' + x0 + '" y2="' + y + '" stroke="rgba(255,255,255,.45)" stroke-dasharray="3 3"/>';
+      if (quieto) { traza = []; for (var i = 0; i < 200; i++) { var tt = t - i * .025, yy = cy; for (var k2 = 1, u2 = 0; k2 <= 200 && u2 < N; k2++) { var m2 = o.term(k2); if (!m2) continue; u2++; yy -= R * m2[0] / o.m * Math.sin(k2 * tt + m2[1]); } traza.push(yy); } }
       h += '<path d="' + traza.map(function (v, i) { return (i ? 'L' : 'M') + (x0 + i) + ',' + v; }).join('') + '" fill="none" stroke="#ffd9e3" stroke-width="2.4"/>';
       h += '<path d="M' + x0 + ',' + (cy - R) + 'H' + (x0 + 200) + '" stroke="rgba(255,255,255,.15)"/><path d="M' + x0 + ',' + (cy + R) + 'H' + (x0 + 200) + '" stroke="rgba(255,255,255,.15)"/>';
       h += '<circle cx="' + x + '" cy="' + y + '" r="4" fill="#fff"/>';
-      h += '<text x="' + (W - 12) + '" y="' + (H - 14) + '" text-anchor="end" font-size="14" fill="rgba(255,255,255,.8)" font-family="Palatino Linotype,Palatino,Georgia,serif" font-style="italic">S' + N + '(x) = (4/π) Σ sen(kx)/k</text>';
+      h += '<text x="' + (W - 12) + '" y="22" text-anchor="end" font-size="14" fill="rgba(255,255,255,.8)" font-family="Palatino Linotype,Palatino,Georgia,serif" font-style="italic">' + o.f + '</text>';
       svg.innerHTML = h;
     }
-    (function anim() { t += .025; pinta(); if (!quieto) requestAnimationFrame(anim); })();
+    marca();
+    (function anim() { if (!pausa) t += .025; pinta(); if (!quieto) requestAnimationFrame(anim); })();
   }
   function deco(cv) {
     var dpr = window.devicePixelRatio || 1, W = +cv.getAttribute('width'), H = +cv.getAttribute('height'), i = +(cv.dataset.i || 0);
