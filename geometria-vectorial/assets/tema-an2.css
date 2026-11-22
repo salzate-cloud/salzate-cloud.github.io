@@ -1,0 +1,24 @@
+/* Análisis II — vino, oro viejo y azul noche */
+body.an2{--c1:#7a1c3a;--c1o:#561128;--c1c:#f9ecf0;--c1m:#e5bccb;--c2:#1f4e79;--c2c:#e9f0f8;--c2m:#bcd0e6;--c3:#a86a12;--c3c:#fbf2e1;--c3m:#ecd2a3;--c4:#7a1c3a;--c4c:#f9ecf0;--papel:#fffdfc}
+.an2 .topbar{background:linear-gradient(90deg,#2a0812,#7a1c3a 55%,#9c2b4f)}
+.an2 .topbar .prog{background:#f3c56b}
+.an2 .toc{background:#fbf6f7}
+.an2 .toc a.cap:hover,.an2 .toc .secs a:hover{background:#f4e6ea}
+.an2 .cabecera{background:radial-gradient(900px 300px at 85% -40%,rgba(243,197,107,.25),transparent 60%),linear-gradient(120deg,#2a0812,#7a1c3a 55%,#9c2b4f)}
+.an2 .cabecera .kicker{color:#f3c56b}
+.an2 .caja.lema,.an2 .caja.prop{background:var(--c2c);border-color:var(--c2)} .an2 .caja.lema .btit,.an2 .caja.prop .btit{color:var(--c2)}
+.an2 .caja.ejem{background:#fff;border:1.5px solid var(--c3m);border-left:4px solid var(--c3);border-radius:4px 10px 10px 4px} .an2 .caja.ejem .btit{color:var(--c3)}
+.an2-hero{background:radial-gradient(700px 360px at 78% 45%,rgba(243,197,107,.20),transparent 62%),linear-gradient(160deg,#1a050c,#4a0f24 50%,#7a1c3a)!important;min-height:450px}
+.an2-hero svg.portada{position:absolute;right:4px;top:26px;width:460px;height:380px;touch-action:none}
+.an2-hero .htxt{max-width:350px}
+@media (max-width:760px){.an2-hero svg.portada{opacity:.35;right:-120px;pointer-events:none}}
+.an2 .applet select{font:14px var(--sans);padding:3px 6px;border-radius:6px;border:1px solid var(--c1m);background:#fff;color:var(--c1o)}
+.an2 .ctl2d .sel{display:flex;gap:8px;align-items:center;font:14px var(--sans)}
+.an2-hero .portada-ctl{position:absolute;right:18px;bottom:16px;display:flex;flex-direction:column;align-items:flex-end;gap:6px;z-index:3;font:13px var(--sans)}
+.an2-hero .pc-fila{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.an2-hero .portada-ctl button{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(243,197,107,.55);border-radius:999px;padding:4px 11px;font:13px var(--sans);cursor:pointer;transition:background .2s}
+.an2-hero .portada-ctl button:hover{background:rgba(243,197,107,.25)}
+.an2-hero .portada-ctl button.on{background:#f3c56b;color:#3a0a19;border-color:#f3c56b;font-weight:600}
+.an2-hero .pc-n{color:#f3c56b;min-width:96px;text-align:center;font-weight:600}
+.an2-hero .pc-ayuda{color:rgba(255,255,255,.6);font-size:12px}
+@media (max-width:760px){.an2-hero .portada-ctl{position:static;margin:14px 0 0;align-items:flex-start}.an2-hero .pc-fila{justify-content:flex-start}}

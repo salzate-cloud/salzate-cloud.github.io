@@ -51,3 +51,25 @@ table.tablita{border-collapse:collapse;font:12.5px ui-monospace,Menlo,monospace;
 table.tablita th{color:var(--c1o);font-weight:700;padding:2px 10px;border-bottom:1.5px solid var(--c1m)}
 table.tablita td{padding:2px 10px;text-align:right;border-bottom:1px solid #eef0f5}
 .lib .applet .afoot .lect{align-items:baseline}
+
+/* simulacros */
+.lib .sim{padding:18px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.lib .sim-reloj{font:700 46px var(--serif);color:var(--c1o);letter-spacing:1px;font-variant-numeric:tabular-nums}
+.lib .sim-reloj.poco{color:#c0392b;animation:latido 1s infinite}
+@keyframes latido{50%{opacity:.55}}
+.lib .sim-barra{width:100%;max-width:520px;height:8px;border-radius:9px;background:var(--c1c);overflow:hidden}
+.lib .sim-barra i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--c3),var(--c1));transition:width .9s linear}
+.lib .sim-bot{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.lib .sim-bot button,.lib .calif button{font:600 14px var(--sans);padding:8px 14px;border-radius:999px;border:1.5px solid var(--c1);background:#fff;color:var(--c1);cursor:pointer}
+.lib .sim-bot .sim-go{background:var(--c1);color:#fff}
+.lib .sim-bot button:disabled{opacity:.4;cursor:default}
+.lib .sim-estado{font:14px var(--sans);color:#4a4f5c;text-align:center}
+body.en-examen details.solucion>summary{opacity:.55;cursor:not-allowed}
+body.en-examen details.solucion>summary .hint::after{content:" · bloqueada 🔒"}
+.lib .calif{padding:14px 18px;display:flex;flex-direction:column;gap:8px}
+.lib .calif-f{display:grid;grid-template-columns:130px 1fr 170px 44px;gap:10px;align-items:center;font:14px var(--sans)}
+.lib .calif-n{font-weight:700;color:var(--c1o)} .lib .calif-t{color:#4a4f5c}
+.lib .calif-f input{accent-color:var(--c1)} .lib .calif-f b{color:var(--c1o);text-align:right}
+.lib .calif-total{display:flex;gap:14px;align-items:baseline;margin-top:8px;padding-top:10px;border-top:1px solid var(--c1m);font:15px var(--sans)}
+.lib .calif-nota{font:700 40px var(--serif)} .lib .calif-nota.ok{color:#2e7d5b} .lib .calif-nota.mal{color:#b0413e}
+@media (max-width:640px){.lib .calif-f{grid-template-columns:90px 1fr 44px}.lib .calif-t{display:none}}
