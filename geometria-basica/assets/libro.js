@@ -1,9 +1,10 @@
 /* Geometría Básica — comportamiento del texto interactivo */
 (function () {
   'use strict';
+  var PREF_LIBRO = 'gb:' + ((location.pathname.split('/').filter(Boolean).slice(-2, -1)[0]) || 'libro') + ':';
   var store = {
-    get: function (k, d) { try { var v = localStorage.getItem('gb:' + k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } },
-    set: function (k, v) { try { localStorage.setItem('gb:' + k, JSON.stringify(v)); } catch (e) {} }
+    get: function (k, d) { try { var v = localStorage.getItem(PREF_LIBRO + k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } },
+    set: function (k, v) { try { localStorage.setItem(PREF_LIBRO + k, JSON.stringify(v)); } catch (e) {} }
   };
   var PAGINA = document.body.getAttribute('data-pagina') || '';
 
@@ -54,7 +55,7 @@
   /* ---------- demostraciones: texto del botón ---------- */
   document.querySelectorAll('details.prueba').forEach(function (d) {
     var h = d.querySelector('.hint');
-    if (h && d.classList.contains('solucion')) h.textContent = 'intente primero';
+    if (h && d.classList.contains('solucion')) h.textContent = 'intenta primero';
   });
 
   /* ---------- knowls: referencias que se despliegan ---------- */

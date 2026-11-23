@@ -32,64 +32,7 @@
   }
 
   /* ---------- estilos ---------- */
-  var css = document.createElement('style');
-  css.textContent = [
-    '.sticker{position:absolute;right:.8rem;top:50%;margin-top:-1.75rem;z-index:5;font-size:2.6rem;line-height:1;background:#fff;border-radius:50%;padding:.35rem;box-shadow:0 0 0 4px #fff,0 4px 14px rgba(0,0,0,.25);pointer-events:none;animation:stk-in .55s cubic-bezier(.2,1.6,.4,1) both}',
-    '.sticker.no{animation:stk-in .55s cubic-bezier(.2,1.6,.4,1) both,stk-shake .45s .55s ease-in-out 1}',
-    '.sticker.fuera{animation:stk-out .5s ease-in both}',
-    '@keyframes stk-in{0%{transform:scale(0) rotate(-40deg);opacity:0}100%{transform:scale(1) rotate(var(--rot,-10deg));opacity:1}}',
-    '@keyframes stk-shake{0%,100%{transform:rotate(var(--rot,-10deg))}25%{transform:rotate(calc(var(--rot,-10deg) - 14deg))}75%{transform:rotate(calc(var(--rot,-10deg) + 14deg))}}',
-    '@keyframes stk-out{to{transform:scale(.2) rotate(30deg);opacity:0}}',
-    '.act{margin:2.2em 0;border:1px solid var(--linea,#dde);border-radius:14px;background:#fff;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.04)}',
-    '.act .ahead{display:flex;align-items:center;gap:10px;padding:10px 16px;font-family:var(--sans,system-ui);font-weight:700;font-size:14px;letter-spacing:.3px}',
-    '.act.ordena .ahead{background:var(--tealC,#e4f2f3);color:var(--teal,#006e78)}',
-    '.act.error .ahead{background:var(--moradoC,#f1edf8);color:var(--morado,#664896)}',
-    '.act .ahead .tag{margin-left:auto;font-weight:600;font-size:12px;opacity:.8}',
-    '.act .abody{padding:14px 16px 16px}',
-    '.act .enun{margin:0 0 12px}',
-    '.act .zona{border:2px dashed var(--linea,#ccd);border-radius:10px;padding:8px;min-height:52px;margin:6px 0 4px;background:var(--grisC,#f7f7f5)}',
-    '.act .zona.prueba{background:#fff;border-color:var(--teal,#0a7)}',
-    '.act .ztit{font-family:var(--sans,system-ui);font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--gris,#666);margin-top:10px}',
-    '.act .zona:empty::before{content:attr(data-vacio);display:block;color:#999;font-style:italic;font-size:14px;padding:8px}',
-    '.act .bloque{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--linea,#ccd);border-left:5px solid var(--teal,#0a7);border-radius:8px;padding:8px 10px;margin:6px 0;cursor:pointer;touch-action:pan-y;user-select:none;transition:transform .15s,box-shadow .15s,background .2s}',
-    '.act .zona:not(.prueba) .bloque{border-left-color:#bbb}',
-    '.act .bloque .asa{touch-action:none;cursor:grab;color:#aaa;font-size:18px;line-height:1.2;padding:0 2px;margin-left:-4px}',
-    '.act .bloque:hover{box-shadow:0 2px 8px rgba(0,0,0,.12)}',
-    '.act .bloque .num{font-family:var(--sans,system-ui);font-weight:700;color:var(--teal,#0a7);min-width:1.4em}',
-    '.act .zona:not(.prueba) .bloque .num{display:none}',
-    '.act .bloque .txt{flex:1}',
-    '.act .bloque.arrastrando{opacity:.85;box-shadow:0 8px 22px rgba(0,0,0,.25);transform:scale(1.02);z-index:10;position:relative;cursor:grabbing}',
-    '.act .bloque.bien{background:#eaf7ee;border-left-color:#1d8a4a}',
-    '.act .bloque.mal{background:#fdecec;border-left-color:#c0392b}',
-    '.act .botones,.rep-caja .botones{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}',
-    '.act .botones button,.rep-caja .botones button{font-family:var(--sans,system-ui);font-size:14px;border-radius:999px;padding:7px 16px;border:1px solid var(--linea,#ccd);background:#fff;cursor:pointer}',
-    '.act .botones button.prim,.rep-caja .botones button.prim{background:var(--teal,#006e78);border-color:var(--teal,#006e78);color:#fff;font-weight:600}',
-    '.act.error .botones button.prim{background:var(--morado,#664896);border-color:var(--morado,#664896)}',
-    '.act .fb{display:none;margin-top:12px;padding:10px 14px;border-radius:10px;background:var(--grisC,#f5f5f3);position:relative;padding-right:4.6rem}',
-    '.act .fb.si{display:block}',
-    '.act .fb b.ok{color:#1d7a43}.act .fb b.no{color:#c0392b}',
-    '.act .linea{display:flex;gap:10px;padding:7px 10px;margin:4px 0;border-radius:8px;border:1px solid transparent;cursor:pointer;transition:background .15s}',
-    '.act .linea:hover{background:var(--moradoC,#f1edf8);border-color:var(--linea,#ddd)}',
-    '.act .linea .num{font-family:var(--sans,system-ui);font-weight:700;color:var(--morado,#664896);min-width:1.4em}',
-    '.act .linea.mal{background:#fdecec;border-color:#e3a6a0}',
-    '.act .linea.bien{background:#fff3cd;border-color:#e0b84e;box-shadow:inset 4px 0 0 #c47800}',
-    '.act .linea.bloq{cursor:default}',
-    '.act .ayuda{font-family:var(--sans,system-ui);font-size:12.5px;color:var(--gris,#666);margin-top:6px}',
-    '.repaso-btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans,system-ui);font-weight:700;font-size:15px;padding:10px 20px;border-radius:999px;background:var(--ambar,#c47800);color:#fff !important;text-decoration:none;box-shadow:0 3px 10px rgba(0,0,0,.15);margin:10px 0}',
-    '.repaso-btn:hover{filter:brightness(1.08)}',
-    '.repaso-btn small{font-weight:500;opacity:.9}',
-    '.rep-caja{max-width:820px;margin:30px auto;padding:0 20px 60px}',
-    '.rep-caja .qhead .marcador{font-weight:700}',
-    '.rep-barra{height:8px;border-radius:8px;background:var(--grisC,#eee);overflow:hidden;margin:10px 0 18px}',
-    '.rep-barra i{display:block;height:100%;background:var(--ambar,#c47800);transition:width .4s}',
-    '.rep-origen{font-family:var(--sans,system-ui);font-size:12px;color:var(--gris,#777);margin-bottom:6px}',
-    '.rep-fin{text-align:center;padding:30px 10px}',
-    '.rep-fin .grande{font-size:64px;line-height:1}',
-    '.rep-cajas{display:flex;gap:6px;justify-content:center;margin:16px 0;font-family:var(--sans,system-ui);font-size:12px}',
-    '.rep-cajas span{background:var(--grisC,#f2f2f2);border-radius:8px;padding:6px 10px}',
-    '@media (prefers-reduced-motion:reduce){.sticker,.sticker.no{animation:none;transform:rotate(var(--rot,-10deg))}}'
-  ].join('\n');
-  document.head.appendChild(css);
+  /* los estilos están en assets/actividades.css */
 
   function datos(el) {
     var s = el.querySelector('script[type="application/json"]');
@@ -216,7 +159,7 @@
       bs.forEach(function (b, i) { b.classList.remove('bien', 'mal'); b.classList.add(r.marcas[i] ? 'bien' : 'mal'); });
       if (r.completo) {
         fbMuestra(fb, true, (D.cierre || 'La demostración quedó perfecta.'));
-        st.set('ordena:' + el.id, 1);
+        st.set('ordena:' + el.id, 1); document.dispatchEvent(new Event('act-progreso'));
       } else if (r.dados.length < r.total && r.primeroMal < 0) {
         fbMuestra(fb, false, 'Vas bien, pero faltan pasos: llevas ' + r.dados.length + ' de ' + r.total + '.');
       } else {
@@ -260,7 +203,7 @@
         hecho = true; ln.classList.add('bien');
         cuerpo.querySelectorAll('.linea').forEach(function (x) { x.classList.add('bloq'); });
         fbMuestra(fb, true, '¡Lo pillaste! ' + D.explicacion);
-        st.set('error:' + el.id, 1);
+        st.set('error:' + el.id, 1); document.dispatchEvent(new Event('act-progreso'));
       } else {
         intentos++; ln.classList.add('mal');
         if (intentos >= 2) {
@@ -289,7 +232,7 @@
   function iniciaRepaso(caja) {
     var paginas = JSON.parse(caja.getAttribute('data-paginas') || '[]');
     var vistos = {};
-    try { vistos = JSON.parse(localStorage.getItem('gb:vistos') || '{}'); } catch (e) {}
+    try { vistos = JSON.parse(localStorage.getItem('gb:' + LIBRO + ':vistos') || '{}'); } catch (e) {}
     caja.innerHTML = '<p class="rep-origen">Buscando preguntas en los capítulos…</p>';
     var incrustado = document.getElementById('banco-repaso');
     var fuente = incrustado ? Promise.resolve([JSON.parse(incrustado.textContent)]) : Promise.all(paginas.map(function (p) {
@@ -298,7 +241,7 @@
         doc.querySelectorAll('.quiz').forEach(function (qz) {
           var idq = qz.getAttribute('data-id') || 'q';
           qz.querySelectorAll('.q').forEach(function (q, i) {
-            if (!q.querySelector('.op')) return;
+            if (!q.querySelector('.op') && !q.querySelector('.num input')) return;
             qs.push({ id: p.slug + ':' + idq + ':' + i, html: q.innerHTML, origen: p.titulo, slug: p.slug });
           });
         });
@@ -334,12 +277,7 @@
         '<div class="rep-origen">De: ' + q.origen + '</div><div class="q">' + q.html + '</div></div>';
       var qd = caja.querySelector('.q'), fb = qd.querySelector('.fb'), ver = fb && fb.querySelector('.veredicto');
       if (fb) fb.classList.remove('si');
-      qd.querySelectorAll('.op').forEach(function (op) {
-        op.disabled = false; op.classList.remove('bien', 'mal');
-        op.addEventListener('click', function () {
-          var ok = op.getAttribute('data-c') === '1';
-          qd.querySelectorAll('.op').forEach(function (o) { o.disabled = true; if (o.getAttribute('data-c') === '1') o.classList.add('bien'); });
-          op.classList.add(ok ? 'bien' : 'mal');
+      function califica(ok) {
           var e = est[q.id] || { caja: 1, prox: HOY };
           if (ok) { e.caja = Math.min(e.caja + (repetidas[q.id] ? 0 : 1), 6); aciertos += repetidas[q.id] ? 0 : 1; }
           else { e.caja = 1; if (!repetidas[q.id]) { repetidas[q.id] = 1; cola.push(q); } }
@@ -350,6 +288,30 @@
           sig.innerHTML = '<button class="prim">' + (cola.length > 1 ? 'Siguiente →' : 'Terminar') + '</button>';
           qd.appendChild(sig);
           sig.querySelector('button').addEventListener('click', function () { cola.shift(); pinta(); window.scrollTo({ top: caja.offsetTop - 80, behavior: 'smooth' }); });
+      }
+      var inp = qd.querySelector('.num input');
+      if (inp) {
+        inp.value = ''; inp.disabled = false; inp.classList.remove('bien', 'mal');
+        var bt = qd.querySelector('.comprobar'), hecho = false;
+        var evalua = function () {
+          if (hecho) return;
+          var txt = inp.value.trim().replace(',', '.'), v = NaN;
+          try { if (/^[-+*/().\d\s^sqrtpi]+$/.test(txt)) v = Function('"use strict";var sqrt=Math.sqrt,pi=Math.PI;return (' + txt.replace(/\^/g, '**') + ')')(); } catch (er) {}
+          var r = parseFloat(inp.getAttribute('data-r')), tol = parseFloat(inp.getAttribute('data-tol') || '0.01');
+          if (!isFinite(v)) { if (fb) { fb.classList.add('si'); if (ver) ver.innerHTML = '<b>Escribe un número o una expresión como 3/2.</b> '; } return; }
+          var ok = Math.abs(v - r) <= tol * Math.max(1, Math.abs(r));
+          hecho = true; inp.classList.add(ok ? 'bien' : 'mal'); califica(ok);
+        };
+        if (bt) bt.addEventListener('click', evalua);
+        inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') evalua(); });
+      }
+      qd.querySelectorAll('.op').forEach(function (op) {
+        op.disabled = false; op.classList.remove('bien', 'mal');
+        op.addEventListener('click', function () {
+          var ok = op.getAttribute('data-c') === '1';
+          qd.querySelectorAll('.op').forEach(function (o) { o.disabled = true; if (o.getAttribute('data-c') === '1') o.classList.add('bien'); });
+          op.classList.add(ok ? 'bien' : 'mal');
+          califica(ok);
         });
       });
     }
@@ -373,9 +335,237 @@
     document.querySelectorAll('a.repaso-btn small').forEach(function (s) { s.textContent = n ? '· ' + n + ' pendientes' : ''; });
   }
 
+  /* =====================================================================
+     4. LABORATORIO «ELIGE EL SIGUIENTE PASO»
+     problemas: [{nombre, enunciado, pasos:[{pregunta, opciones, correcta, explica, resultado}]}]
+     ===================================================================== */
+  function iniciaLab(el) {
+    var D = datos(el); if (!D) return;
+    var cuerpo = el.querySelector('.abody');
+    var hechos = st.get('labp:' + el.id, {});
+    var chips = '';
+    if (D.problemas.length > 1) {
+      chips = '<div class="chips">' + D.problemas.map(function (p, i) { return '<button data-i="' + i + '"' + (hechos[i] ? ' class="hecho"' : '') + '>' + p.nombre + '</button>'; }).join('') + '</div>';
+    }
+    cuerpo.insertAdjacentHTML('beforeend', chips + '<div class="lab-zona"></div>');
+    var zona = cuerpo.querySelector('.lab-zona');
+    function abre(ip) {
+      cuerpo.querySelectorAll('.chips button').forEach(function (b) { b.classList.toggle('on', +b.getAttribute('data-i') === ip); });
+      var P = D.problemas[ip], k = 0;
+      zona.innerHTML = (P.enunciado ? '<div class="lab-prob">' + P.enunciado + '</div>' : '') + '<div class="lab-hecho"></div><div class="lab-paso"></div><div class="fb"></div>';
+      var hecho = zona.querySelector('.lab-hecho'), paso = zona.querySelector('.lab-paso'), fb = zona.querySelector('.fb');
+      function pinta() {
+        if (k >= P.pasos.length) {
+          paso.innerHTML = '<div class="botones"><button class="prim otra">' + (D.problemas.length > 1 ? 'Probar con otro' : 'Repetir') + '</button></div>';
+          fbMuestra(fb, true, P.cierre || '¡Problema resuelto paso a paso!');
+          hechos[ip] = 1; st.set('labp:' + el.id, hechos);
+          var ch = cuerpo.querySelector('.chips button[data-i="' + ip + '"]'); if (ch) ch.classList.add('hecho');
+          if (Object.keys(hechos).length >= Math.min(D.problemas.length, D.meta || 1)) { st.set('lab:' + el.id, 1); document.dispatchEvent(new Event('act-progreso')); }
+          paso.querySelector('.otra').addEventListener('click', function () {
+            var sig = D.problemas.length > 1 ? (ip + 1) % D.problemas.length : ip; abre(sig);
+          });
+          return;
+        }
+        var S = P.pasos[k];
+        var orden = mezcla(S.opciones.map(function (o, i) { return i; }));
+        paso.innerHTML = '<div class="lab-preg">' + (k + 1) + '. ' + S.pregunta + '</div><div class="lab-ops">' +
+          orden.map(function (i) { return '<button data-i="' + i + '">' + S.opciones[i] + '</button>'; }).join('') + '</div>';
+        paso.querySelectorAll('.lab-ops button').forEach(function (b) {
+          b.addEventListener('click', function () {
+            var i = +b.getAttribute('data-i');
+            if (i === S.correcta) {
+              b.classList.add('bien');
+              fbMuestra(fb, true, S.explica || '');
+              var d = document.createElement('div'); d.className = 'lp paso-nuevo'; d.innerHTML = S.resultado || S.opciones[i];
+              hecho.appendChild(d); k++;
+              setTimeout(pinta, 650);
+            } else {
+              b.classList.add('mal'); b.disabled = true;
+              fbMuestra(fb, false, (S.porque && S.porque[i]) || S.pista || 'Ese no es el paso que conviene aquí.');
+            }
+          });
+        });
+      }
+      pinta();
+    }
+    cuerpo.querySelectorAll('.chips button').forEach(function (b) { b.addEventListener('click', function () { abre(+b.getAttribute('data-i')); }); });
+    abre(0);
+  }
+
+  /* =====================================================================
+     5. TALLER DE GAUSS–JORDAN (operaciones de fila con fracciones exactas)
+     matriz: filas de números o "a/b"; aumentada: nº de columnas a la derecha de la barra
+     ===================================================================== */
+  function mcd(a, b) { a = Math.abs(a); b = Math.abs(b); while (b) { var t = b; b = a % b; a = t; } return a || 1; }
+  function Q(n, d) { d = d || 1; if (d < 0) { n = -n; d = -d; } var g = mcd(n, d); return { n: n / g, d: d / g }; }
+  function qp(s) { s = String(s).trim().replace(',', '.'); if (/^-?\d+\/-?\d+$/.test(s)) { var p = s.split('/'); return Q(+p[0], +p[1]); }
+    if (/^-?\d+(\.\d+)?$/.test(s)) { var k = (s.split('.')[1] || '').length, m = Math.pow(10, k); return Q(Math.round(+s * m), m); } return null; }
+  function qs(a, b) { return Q(a.n * b.d + b.n * a.d, a.d * b.d); }
+  function qm(a, b) { return Q(a.n * b.n, a.d * b.d); }
+  function qt(a) { return a.d === 1 ? String(a.n).replace('-', '−') : (a.n < 0 ? '−' : '') + Math.abs(a.n) + '/' + a.d; }
+  function iniciaGauss(el) {
+    var D = datos(el); if (!D) return;
+    var M0 = D.matriz.map(function (f) { return f.map(qp); });
+    var m = M0.length, n = M0[0].length, aum = D.aumentada || 0;
+    var M = M0.map(function (f) { return f.slice(); }), hist = [];
+    var cuerpo = el.querySelector('.abody');
+    var opsF = ''; for (var i = 1; i <= m; i++) opsF += '<option value="' + (i - 1) + '">F' + i + '</option>';
+    cuerpo.insertAdjacentHTML('beforeend',
+      '<table class="gj-tabla"></table>' +
+      '<div class="gj-ctrl"><select class="tipo"><option value="sum">Fi → Fi + c·Fj</option><option value="esc">Fi → c·Fi</option><option value="int">Fi ↔ Fj</option></select>' +
+      '<span>i =</span><select class="fi">' + opsF + '</select><span class="lj">j =</span><select class="fj">' + opsF + '</select>' +
+      '<span class="lc">c =</span><input class="c" value="-1" aria-label="escalar c"></div>' +
+      '<div class="botones" style="justify-content:center"><button class="prim apl">Aplicar</button><button class="pista">¿Qué sigue?</button><button class="desh">Deshacer</button><button class="reini">Reiniciar</button></div>' +
+      '<div class="gj-log"></div><div class="fb"></div>');
+    var tabla = cuerpo.querySelector('.gj-tabla'), log = cuerpo.querySelector('.gj-log'), fb = cuerpo.querySelector('.fb');
+    var tipo = cuerpo.querySelector('.tipo'), fi = cuerpo.querySelector('.fi'), fj = cuerpo.querySelector('.fj'), ci = cuerpo.querySelector('.c');
+    fj.value = '0'; fi.value = String(Math.min(1, m - 1));
+    function pivotes() {
+      var piv = [];
+      for (var r = 0; r < m; r++) { for (var c = 0; c < n - aum; c++) if (M[r][c].n !== 0) { piv.push([r, c]); break; } }
+      return piv;
+    }
+    function esRREF() {
+      var lead = -1, piv = pivotes(), filasNoNulas = piv.length;
+      for (var r = 0; r < m; r++) {
+        var c = -1; for (var k = 0; k < n - aum; k++) if (M[r][k].n !== 0) { c = k; break; }
+        if (c < 0) { for (var r2 = r + 1; r2 < m; r2++) for (var k2 = 0; k2 < n - aum; k2++) if (M[r2][k2].n !== 0) return false; break; }
+        if (c <= lead) return false; lead = c;
+        if (!(M[r][c].n === 1 && M[r][c].d === 1)) return false;
+        for (var r3 = 0; r3 < m; r3++) if (r3 !== r && M[r3][c].n !== 0) return false;
+      }
+      return filasNoNulas >= 0;
+    }
+    function pinta() {
+      var piv = {}; pivotes().forEach(function (p) { piv[p[0] + ',' + p[1]] = 1; });
+      tabla.innerHTML = M.map(function (f, r) {
+        return '<tr><th>F' + (r + 1) + '</th>' + f.map(function (x, c) {
+          return '<td class="' + (c === n - aum && aum ? 'sep ' : '') + (piv[r + ',' + c] ? 'piv' : '') + '">' + qt(x) + '</td>';
+        }).join('') + '</tr>';
+      }).join('');
+      var t = tipo.value;
+      cuerpo.querySelector('.lj').style.display = fj.style.display = t === 'esc' ? 'none' : '';
+      cuerpo.querySelector('.lc').style.display = ci.style.display = t === 'int' ? 'none' : '';
+      if (esRREF()) { fbMuestra(fb, true, '¡Forma escalonada reducida! ' + (D.cierre || '') + ' Lo lograste en ' + hist.length + ' operaciones.'); st.set('lab:' + el.id, 1); document.dispatchEvent(new Event('act-progreso')); }
+    }
+    tipo.addEventListener('change', pinta);
+    function sugerencia() {
+      var r = 0;
+      for (var c = 0; c < n - aum && r < m; c++) {
+        var p = -1;
+        if (D.pivoteo) { var mx = 0; for (var k0 = r; k0 < m; k0++) { var v = Math.abs(M[k0][c].n / M[k0][c].d); if (v > mx + 1e-12) { mx = v; p = k0; } } }
+        else { for (var k = r; k < m; k++) if (M[k][c].n !== 0) { p = k; break; } }
+        if (p < 0) continue;
+        if (p !== r) return 'Intercambia F' + (r + 1) + ' y F' + (p + 1) + (D.pivoteo ? ' para usar como pivote el de mayor valor absoluto' : ' para tener un pivote') + ' en la columna ' + (c + 1) + '.';
+        if (!(M[r][c].n === 1 && M[r][c].d === 1)) return 'Multiplica F' + (r + 1) + ' por ' + qt(Q(M[r][c].d, M[r][c].n)) + ' para que el pivote sea 1.';
+        for (var k2 = 0; k2 < m; k2++) if (k2 !== r && M[k2][c].n !== 0) return 'Haz F' + (k2 + 1) + ' → F' + (k2 + 1) + ' + (' + qt(Q(-M[k2][c].n, M[k2][c].d)) + ')·F' + (r + 1) + ' para anular esa entrada.';
+        r++;
+      }
+      return 'Ya está en forma escalonada reducida.';
+    }
+    cuerpo.querySelector('.apl').addEventListener('click', function () {
+      var t = tipo.value, i = +fi.value, j = +fj.value, c = qp(ci.value);
+      fb.classList.remove('si');
+      if (t !== 'esc' && i === j) { fbMuestra(fb, false, 'Elige dos filas distintas.'); return; }
+      if (t !== 'int' && !c) { fbMuestra(fb, false, 'Escribe c como entero, decimal o fracción (por ejemplo, -1/2).'); return; }
+      if (t === 'esc' && c.n === 0) { fbMuestra(fb, false, 'Multiplicar una fila por 0 no es una operación elemental: se pierde información.'); return; }
+      hist.push(M.map(function (f) { return f.slice(); }));
+      var txt;
+      if (t === 'int') { var tmp = M[i]; M[i] = M[j]; M[j] = tmp; txt = 'F' + (i + 1) + ' ↔ F' + (j + 1); }
+      else if (t === 'esc') { M[i] = M[i].map(function (x) { return qm(x, c); }); txt = 'F' + (i + 1) + ' → ' + qt(c) + '·F' + (i + 1); }
+      else { M[i] = M[i].map(function (x, k) { return qs(x, qm(c, M[j][k])); }); txt = 'F' + (i + 1) + ' → F' + (i + 1) + ' + (' + qt(c) + ')·F' + (j + 1); }
+      log.textContent = hist.length + '. ' + txt;
+      pinta();
+    });
+    cuerpo.querySelector('.pista').addEventListener('click', function () { fb.classList.add('si'); fb.innerHTML = '<b>Pista:</b> ' + sugerencia(); });
+    cuerpo.querySelector('.desh').addEventListener('click', function () { if (hist.length) { M = hist.pop(); log.textContent = 'Deshecho. Llevas ' + hist.length + ' operaciones.'; fb.classList.remove('si'); pinta(); } });
+    cuerpo.querySelector('.reini').addEventListener('click', function () { M = M0.map(function (f) { return f.slice(); }); hist = []; log.textContent = ''; fb.classList.remove('si'); pinta(); });
+    pinta();
+  }
+
+  /* =====================================================================
+     6. SOLUCIONES Y DEMOSTRACIONES PASO A PASO
+     ===================================================================== */
+  function iniciaRevela(d) {
+    var body = d.querySelector('.pbody'); if (!body || d._revela) return;
+    var hijos = Array.prototype.filter.call(body.children, function (x) { return !x.classList.contains('revela'); });
+    var esCab = function (h) { return h.classList.contains('paso') || /^\s*(Paso\s*\d|Caso\s*\d|\(\w{1,3}\)|[a-z]\)|Parte\s)/i.test(h.textContent.slice(0, 14)); };
+    var conCab = hijos.filter(esCab).length >= 2, grupos = [], actual = null;
+    hijos.forEach(function (h) {
+      if (!actual || !conCab || esCab(h)) { actual = { els: [h] }; grupos.push(actual); }
+      else actual.els.push(h);
+    });
+    if (grupos.length < 3 || grupos.length > 18) return;
+    d._revela = true;
+    var k = 1;
+    var barra = document.createElement('div'); barra.className = 'revela';
+    barra.innerHTML = '<button class="sig">Siguiente paso ▸</button><button class="todo">Ver todo</button><span class="cuenta"></span>';
+    body.appendChild(barra);
+    function pinta(anim) {
+      grupos.forEach(function (g, i) { g.els.forEach(function (e) { e.classList.toggle('paso-oculto', i >= k); if (anim && i === k - 1) { e.classList.remove('paso-nuevo'); void e.offsetWidth; e.classList.add('paso-nuevo'); } }); });
+      barra.querySelector('.cuenta').textContent = 'Paso ' + k + ' de ' + grupos.length + ' · intenta adivinar el siguiente antes de verlo';
+      if (k >= grupos.length) barra.style.display = 'none';
+    }
+    barra.querySelector('.sig').addEventListener('click', function () { k++; pinta(true); });
+    barra.querySelector('.todo').addEventListener('click', function () { k = grupos.length; pinta(false); });
+    pinta(false);
+  }
+
+  /* =====================================================================
+     7. PROGRESO DEL CAPÍTULO Y MEDALLAS
+     ===================================================================== */
+  var PREF = 'gb:' + LIBRO + ':';
+  function lee(k, d) { try { var v = localStorage.getItem(PREF + k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } }
+  function progresoCapitulo() {
+    var caja = document.querySelector('.progreso'); if (!caja) return;
+    var slug = caja.getAttribute('data-slug'), items = [], hechos = 0, total = 0;
+    document.querySelectorAll('.quiz').forEach(function (qz) {
+      var nq = qz.querySelectorAll('.q').length, res0 = lee('quiz:' + qz.getAttribute('data-id'), {}) || {}, res = Object.keys(res0).map(function (k) { return res0[k]; });
+      var bien = res.filter(function (x) { return x === true; }).length;
+      total += 2; var ok = nq && bien >= Math.ceil(0.7 * nq); if (ok) hechos += 2;
+      items.push('<span class="item' + (ok ? ' ok' : '') + '">✎ Quiz ' + bien + '/' + nq + '</span>');
+    });
+    [['.act.ordena', 'ordena', '🧩 Ordena'], ['.act.error', 'error', '🔍 Error'], ['.act.lab', 'lab', '🔬 Laboratorio']].forEach(function (t) {
+      document.querySelectorAll(t[0]).forEach(function (a) {
+        var ok = !!st.get(t[1] + ':' + a.id, 0); total++; if (ok) hechos++;
+        items.push('<span class="item' + (ok ? ' ok' : '') + '">' + t[2] + (ok ? ' ✓' : '') + '</span>');
+      });
+    });
+    var pct = total ? Math.round(100 * hechos / total) : 0;
+    caja.innerHTML = '<b>Tu progreso</b><span class="barra"><i style="width:' + pct + '%"></i></span><b>' + pct + ' %</b>' + items.join('');
+    var meds = st.get('medallas', {}), progs = st.get('progresos', {});
+    progs[slug] = pct; st.set('progresos', progs);
+    if (pct === 100 && !meds[slug]) {
+      meds[slug] = Date.now(); st.set('medallas', meds);
+      var t = document.createElement('div'); t.className = 'medalla-toast';
+      t.innerHTML = '<div class="m">' + (caja.getAttribute('data-emoji') || '🏅') + '</div><b>¡Medalla desbloqueada!</b><br>' + (caja.getAttribute('data-nombre') || 'Capítulo completo') + '<br><small>Mírala en tu colección, en la portada del libro.</small>';
+      document.body.appendChild(t); setTimeout(function () { t.style.transition = 'opacity .6s'; t.style.opacity = 0; setTimeout(function () { t.remove(); }, 700); }, 4200);
+    }
+  }
+  function coleccion() {
+    var c = document.getElementById('medallas'); if (!c) return;
+    var caps = JSON.parse(c.getAttribute('data-caps') || '[]'), meds = st.get('medallas', {}), progs = st.get('progresos', {});
+    var n = caps.filter(function (x) { return meds[x.slug]; }).length;
+    var rangos = [[0, 'Aprendiz 🐣'], [0.2, 'En racha 🔥'], [0.5, 'Pilo de la clase 🧠'], [0.8, 'Casi crack 🚀'], [1, '¡Crack del curso! 🏆']], r = rangos[0][1];
+    rangos.forEach(function (x) { if (n / Math.max(caps.length, 1) >= x[0]) r = x[1]; });
+    c.innerHTML = '<h2>Tu colección de medallas</h2><p>Completa los retos de cada capítulo (quiz, ordena, error y laboratorio) para ganar su medalla. Llevas <b>' + n + ' de ' + caps.length + '</b> · Rango: <span class="rango">' + r + '</span></p>' +
+      '<div class="grid">' + caps.map(function (x) {
+        var p = progs[x.slug] || 0;
+        return '<a class="med' + (meds[x.slug] ? ' si' : '') + '" href="' + x.href + '"><span class="m">' + x.emoji + '</span>' + x.nombre + '<div class="pp"><i style="width:' + (meds[x.slug] ? 100 : p) + '%"></i></div></a>';
+      }).join('') + '</div>';
+  }
+
   function arranca() {
     document.querySelectorAll('.act.ordena').forEach(iniciaOrdena);
     document.querySelectorAll('.act.error').forEach(iniciaError);
+    document.querySelectorAll('.act.lab.pasos').forEach(iniciaLab);
+    document.querySelectorAll('.act.lab.gauss').forEach(iniciaGauss);
+    document.querySelectorAll('details.prueba').forEach(function (d) {
+      d.addEventListener('toggle', function () { if (d.open) iniciaRevela(d); });
+    });
+    progresoCapitulo(); coleccion();
+    document.addEventListener('act-progreso', progresoCapitulo);
+    document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('.quiz .op, .quiz .comprobar, .quiz .reiniciar')) setTimeout(progresoCapitulo, 60); });
     var r = document.getElementById('repaso'); if (r) iniciaRepaso(r);
     botonRepaso();
   }
