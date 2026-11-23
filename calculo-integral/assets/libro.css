@@ -278,3 +278,15 @@ a.knowl.abierto{background:var(--tealC)}
 .toc .cap.off .pronto{margin-left:auto;font-size:10.5px;text-transform:uppercase;letter-spacing:.8px;border:1px solid #d3dbd6;border-radius:999px;padding:0 6px;align-self:center}
 .tarjeta.off{opacity:.55;cursor:default}
 .tarjeta.off:hover{transform:none;box-shadow:none;border-color:var(--linea)}
+
+/* ---- portada en pantallas pequeñas: el dibujo pasa debajo del texto, completo e interactivo ---- */
+@media (max-width:760px){
+  .hero{display:flex!important;flex-direction:column;overflow:hidden}
+  .hero .htxt{order:1;max-width:none!important}
+  .hero > canvas,.hero > svg.portada{order:2;position:relative!important;top:auto!important;right:auto!important;bottom:auto!important;left:auto!important;
+    display:block;width:100%!important;max-width:460px;height:auto!important;aspect-ratio:auto;margin:22px auto 0!important;opacity:1!important;pointer-events:auto!important;z-index:2}
+  .hero > svg.portada{aspect-ratio:460/380}
+  .hero .portada-ctl{order:3;position:static!important;margin:12px 0 0!important;align-items:flex-start!important}
+  .hero .portada-ctl .pc-fila{justify-content:flex-start!important}
+  .hero .ctrl{position:relative;z-index:3}
+}
