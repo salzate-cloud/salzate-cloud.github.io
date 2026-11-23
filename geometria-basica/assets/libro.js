@@ -66,6 +66,41 @@
     });
     return cachePag[p];
   }
+  /* --- Retroalimentación con voz propia + stickers --- */
+  var FR_OK = ['¡Eso, crack! 🔥', '¡Uy, qué nivel! 🧠', '¡De una, eso es! ✅', '¡Bieeen, parcero! 🎉'];
+  var FR_NO = ['Nuuu, incorrecto 🙈', 'Nuuu, casi casi… 🤏', 'Nuuu, por ahí no es 🚫', 'Nuuu, incorrecto. ¡Otra vez! 🔁'];
+  var ST_OK = ['🔥', '🧠', '🏆', '🎉', '🤩', '💯', '🚀', '😎'];
+  var ST_NO = ['🙈', '🤦', '😬', '🫠', '🐢', '🤔', '💥', '😵‍💫'];
+  function azar(a) { return a[Math.floor(Math.random() * a.length)]; }
+  function frase(ok) {
+    return ok ? '<b class="ok">' + azar(FR_OK) + '</b> ' : '<b class="no">' + azar(FR_NO) + '</b> ';
+  }
+  (function () {
+    if (document.getElementById('css-sticker')) return;
+    var st = document.createElement('style'); st.id = 'css-sticker';
+    st.textContent = '.sticker{position:absolute;right:.8rem;top:50%;margin-top:-1.75rem;z-index:5;font-size:2.6rem;line-height:1;' +
+      'background:#fff;border-radius:50%;padding:.35rem;box-shadow:0 0 0 4px #fff,0 4px 14px rgba(0,0,0,.25);' +
+      'pointer-events:none;animation:stk-in .55s cubic-bezier(.2,1.6,.4,1) both}' +
+      '.sticker.no{animation:stk-in .55s cubic-bezier(.2,1.6,.4,1) both,stk-shake .45s .55s ease-in-out 1}' +
+      '.sticker.fuera{animation:stk-out .5s ease-in both}' +
+      '@keyframes stk-in{0%{transform:scale(0) rotate(-40deg);opacity:0}100%{transform:scale(1) rotate(var(--rot,-10deg));opacity:1}}' +
+      '@keyframes stk-shake{0%,100%{transform:rotate(var(--rot,-10deg))}25%{transform:rotate(calc(var(--rot,-10deg) - 14deg))}75%{transform:rotate(calc(var(--rot,-10deg) + 14deg))}}' +
+      '@keyframes stk-out{to{transform:scale(.2) rotate(30deg);opacity:0}}' +
+      '@media (prefers-reduced-motion:reduce){.sticker,.sticker.no{animation:none;transform:rotate(var(--rot,-10deg))}}';
+    document.head.appendChild(st);
+  })();
+  function sticker(q, ok) {
+    if (getComputedStyle(q).position === 'static') q.style.position = 'relative';
+    var v = q.querySelector('.sticker'); if (v) v.remove();
+    var s = document.createElement('span');
+    s.className = 'sticker ' + (ok ? 'si' : 'no');
+    s.setAttribute('aria-hidden', 'true');
+    s.style.setProperty('--rot', (Math.random() * 30 - 15).toFixed(0) + 'deg');
+    s.textContent = azar(ok ? ST_OK : ST_NO);
+    q.appendChild(s);
+    setTimeout(function () { s.classList.add('fuera'); setTimeout(function () { s.remove(); }, 520); }, 2600);
+  }
+
   function bloqueDe(a) {
     var b = a.closest('p, li, td, .caja .bbody > *, figcaption') || a.parentNode;
     return b;
@@ -126,7 +161,8 @@
       function resuelve(ok, elegido) {
         res[iq] = ok; store.set('quiz:' + id, res); actualiza();
         fb.classList.add('si');
-        fb.querySelector('.veredicto').innerHTML = ok ? '<b class="ok">¡Correcto!</b> ' : '<b class="no">No es así.</b> ';
+        fb.querySelector('.veredicto').innerHTML = frase(ok);
+        sticker(fb, ok);
       }
       ops.forEach(function (op) {
         op.addEventListener('click', function () {
