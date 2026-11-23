@@ -15,7 +15,7 @@
   <button class="menu" aria-label="Abrir el índice">☰</button>
   <a class="marca" href="index.html">Matemáticas Discretas<small>Institución Universitaria de Envigado</small></a>
   <div class="esp"></div>
-  <div class="nav"><a href="cap06.html">‹ <span>Anterior</span></a><a href="cap08.html"><span>Siguiente</span> ›</a></div>
+  <div class="nav"><a href="cap06.html">‹ <span>Anterior</span></a><a href="sim2.html"><span>Siguiente</span> ›</a></div>
   <div class="prog"></div>
 </header>
 <nav class="toc" aria-label="Contenido">
@@ -26,27 +26,31 @@
 <a class="cap" data-slug="cap02" href="cap02.html"><span class="n">2</span><span>Tablas de verdad y leyes del álgebra proposicional</span><span class="visto">●</span></a>
 <a class="cap" data-slug="cap03" href="cap03.html"><span class="n">3</span><span>Reglas de inferencia y validez de un razonamiento</span><span class="visto">●</span></a>
 <a class="cap" data-slug="cap04" href="cap04.html"><span class="n">4</span><span>Métodos de demostración e inducción matemática</span><span class="visto">●</span></a>
+<a class="cap" data-slug="sim1" href="sim1.html"><span class="n">S1</span><span>Simulacro de la Unidad 1</span><span class="visto">●</span></a>
 <div class="parte">Unidad 2 · Álgebra de Boole y circuitos</div>
 <a class="cap" data-slug="cap05" href="cap05.html"><span class="n">5</span><span>Álgebra de Boole y compuertas lógicas</span><span class="visto">●</span></a>
 <a class="cap" data-slug="cap06" href="cap06.html"><span class="n">6</span><span>Funciones booleanas y formas normales</span><span class="visto">●</span></a>
 <a class="cap activo" data-slug="cap07" href="cap07.html"><span class="n">7</span><span>Mapas de Karnaugh</span><span class="visto">●</span></a>
 <div class="secs"><a href="cap07.html#sec-1">7.1 El mapa y su orden</a><a href="cap07.html#sec-2">7.2 Agrupar y leer</a><a href="cap07.html#sec-3">7.3 Cuatro variables</a><a href="cap07.html#practica">Practica tú</a></div>
+<a class="cap" data-slug="sim2" href="sim2.html"><span class="n">S2</span><span>Simulacro de la Unidad 2</span><span class="visto">●</span></a>
 <div class="parte">Unidad 3 · Sucesiones y recurrencias</div>
 <a class="cap" data-slug="cap08" href="cap08.html"><span class="n">8</span><span>Sucesiones y progresiones</span><span class="visto">●</span></a>
 <a class="cap" data-slug="cap09" href="cap09.html"><span class="n">9</span><span>Relaciones de recurrencia de primer orden</span><span class="visto">●</span></a>
 <a class="cap" data-slug="cap10" href="cap10.html"><span class="n">10</span><span>Recurrencias de segundo orden: el caso de Fibonacci</span><span class="visto">●</span></a>
+<a class="cap" data-slug="sim3" href="sim3.html"><span class="n">S3</span><span>Simulacro de la Unidad 3</span><span class="visto">●</span></a>
 <div class="parte">Unidad 4 · Grafos y árboles</div>
 <a class="cap" data-slug="cap11" href="cap11.html"><span class="n">11</span><span>Grafos: conceptos y representación</span><span class="visto">●</span></a>
 <a class="cap" data-slug="cap12" href="cap12.html"><span class="n">12</span><span>Caminos, circuitos y recorridos de un grafo</span><span class="visto">●</span></a>
 <a class="cap" data-slug="cap13" href="cap13.html"><span class="n">13</span><span>Árboles</span><span class="visto">●</span></a>
 <a class="cap" data-slug="cap14" href="cap14.html"><span class="n">14</span><span>Recorridos de árboles binarios</span><span class="visto">●</span></a>
+<a class="cap" data-slug="sim4" href="sim4.html"><span class="n">S4</span><span>Simulacro de la Unidad 4</span><span class="visto">●</span></a>
 <div class="parte">Apéndices</div>
 <a class="cap" data-slug="apA" href="apA.html"><span class="n">A</span><span>Formulario de repaso</span><span class="visto">●</span></a>
 <a class="cap" data-slug="apB" href="apB.html"><span class="n">B</span><span>Respuestas de «Practica tú»</span><span class="visto">●</span></a>
 </nav>
 <div class="velo"></div>
 <main><div class="hoja">
-<div class="cabecera"><canvas class="pascal-mini cab" width="300" height="200" data-filas="32" data-mod="5"></canvas><div class="kicker">Capítulo 7</div><h1>Mapas de Karnaugh</h1><div class="parte">Unidad 2 · Álgebra de Boole y circuitos</div></div><div class="caja cajaclave"><div class="btit">Al terminar este capítulo vas a poder</div><div class="bbody">
+<div class="cabecera"><canvas class="pascal-mini cab" width="300" height="200" data-filas="32" data-mod="2"></canvas><div class="kicker">Capítulo 7</div><h1>Mapas de Karnaugh</h1><div class="parte">Unidad 2 · Álgebra de Boole y circuitos</div></div><div class="caja cajaclave"><div class="btit">Al terminar este capítulo vas a poder</div><div class="bbody">
 <ul>
 <li><p>dibujar el mapa de Karnaugh de una función de dos, tres o cuatro variables a partir de su tabla o de sus minitérminos;</p></li>
 <li><p>rodear los grupos de unos que dan la expresión más corta, incluidos los que cruzan el borde del mapa;</p></li>
@@ -218,10 +222,11 @@
 </div>
 <div class="applet" data-md="karnaugh"><div class="ahead"><span class="tag">Interactivo</span>Mapa de Karnaugh de cuatro variables</div><div class="acuerpo"></div><div class="afoot"><div class="lect"></div><div class="instr">Toca las casillas para poner 1 o 0. Los grupos y la expresión mínima se calculan solos.</div></div></div>
 <div class="quiz" data-id="cap07-final"><div class="qhead"><span>✎ Repaso del capítulo</span><span class="marcador"></span></div><div class="q"><div class="enun">En un mapa de Karnaugh las filas y columnas siguen el orden…</div><div class="ops"><button class="op" data-c="0"><span class="l">a)</span><span>00, 01, 10, 11</span></button><button class="op" data-c="1"><span class="l">b)</span><span>00, 01, 11, 10</span></button><button class="op" data-c="0"><span class="l">c)</span><span>00, 10, 01, 11</span></button><button class="op" data-c="0"><span class="l">d)</span><span>cualquiera</span></button></div><div class="fb"><span class="veredicto"></span>Es el código de Gray: entre vecinos cambia un solo bit.</div></div><div class="q"><div class="enun">Un grupo válido en un mapa de Karnaugh tiene…</div><div class="ops"><button class="op" data-c="0"><span class="l">a)</span><span>3 casillas</span></button><button class="op" data-c="0"><span class="l">b)</span><span>6 casillas</span></button><button class="op" data-c="1"><span class="l">c)</span><span>1, 2, 4, 8 o 16 casillas</span></button><button class="op" data-c="0"><span class="l">d)</span><span>cualquier número de casillas</span></button></div><div class="fb"><span class="veredicto"></span>Los grupos son rectángulos con potencias de 2 casillas.</div></div><div class="q"><div class="enun">Las casillas de los bordes opuestos del mapa se consideran vecinas.</div><div class="ops"><button class="op" data-c="1"><span class="l">V</span><span>Verdadero</span></button><button class="op" data-c="0"><span class="l">F</span><span>Falso</span></button></div><div class="fb"><span class="veredicto"></span>El mapa «se enrolla» como un toro: por eso las cuatro esquinas pueden formar un grupo.</div></div><div class="q"><div class="enun">Un grupo de 4 casillas en un mapa de 4 variables produce un término con…</div><div class="ops"><button class="op" data-c="0"><span class="l">a)</span><span>4 literales</span></button><button class="op" data-c="0"><span class="l">b)</span><span>3 literales</span></button><button class="op" data-c="1"><span class="l">c)</span><span>2 literales</span></button><button class="op" data-c="0"><span class="l">d)</span><span>1 literal</span></button></div><div class="fb"><span class="veredicto"></span>Cada vez que el grupo se duplica desaparece una variable.</div></div><button class="reiniciar">Reiniciar estas preguntas</button></div>
-<nav class="pager"><a class="ant" href="cap06.html"><small>← Capítulo 6</small><b>Funciones booleanas y formas normales</b></a><a class="sig" href="cap08.html"><small>Capítulo 8 →</small><b>Sucesiones y progresiones</b></a></nav>
+<nav class="pager"><a class="ant" href="cap06.html"><small>← Capítulo 6</small><b>Funciones booleanas y formas normales</b></a><a class="sig" href="sim2.html"><small>Simulacro · Unidad 2 →</small><b>Simulacro de la Unidad 2</b></a></nav>
 <div class="pie">Matemáticas Discretas · Aprender haciendo · Santiago Alzate · Institución Universitaria de Envigado<br><a href="https://santiagoalzates.com/textos-academicos.html">← Volver a santiagoalzates.com</a></div>
 </div></main>
 <script src="assets/libro.js"></script>
 <script src="assets/discreta.js"></script>
+<script src="assets/simulacro.js"></script>
 </body>
 </html>

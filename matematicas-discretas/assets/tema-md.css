@@ -125,3 +125,26 @@ table.matriz td{width:22px;text-align:center;padding:2px 4px;border:1px solid #e
 table.matriz td.uno{background:#fde2c2;color:#7a3108;font-weight:700}
 @media (max-width:720px){.md .applet[data-md="grafo-editor"] .acuerpo,.md .applet[data-md="euler"] .acuerpo,.md .applet[data-md="hamilton"] .acuerpo{grid-template-columns:1fr}.gpanel{border-left:0;border-top:1px solid #f3e4d4}}
 .md .leyenda-cajas .caja.ejemplo>.btit{margin:0 -18px 8px -20px}
+
+/* simulacros */
+body.md{--c1:#C15E14;--c1o:#7a3108;--c1c:#fdf2e6;--c1m:#f3d3b2;--c2:#1B5E86;--c3:#E27A18;--serif:"Palatino Linotype",Palatino,Georgia,serif}
+.md .sim{padding:18px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.md .sim-reloj{font:700 46px var(--serif);color:var(--c1o);letter-spacing:1px;font-variant-numeric:tabular-nums}
+.md .sim-reloj.poco{color:#c0392b;animation:latido 1s infinite}
+@keyframes latido{50%{opacity:.55}}
+.md .sim-barra{width:100%;max-width:520px;height:8px;border-radius:9px;background:var(--c1c);overflow:hidden}
+.md .sim-barra i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--c3),var(--c1));transition:width .9s linear}
+.md .sim-bot{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.md .sim-bot button,.md .calif button{font:600 14px var(--sans);padding:8px 14px;border-radius:999px;border:1.5px solid var(--c1);background:#fff;color:var(--c1);cursor:pointer}
+.md .sim-bot .sim-go{background:var(--c1);color:#fff}
+.md .sim-bot button:disabled{opacity:.4;cursor:default}
+.md .sim-estado{font:14px var(--sans);color:#4a4f5c;text-align:center}
+body.en-examen details.solucion>summary{opacity:.55;cursor:not-allowed}
+body.en-examen details.solucion>summary .hint::after{content:" · bloqueada 🔒"}
+.md .calif{padding:14px 18px;display:flex;flex-direction:column;gap:8px}
+.md .calif-f{display:grid;grid-template-columns:130px 1fr 170px 44px;gap:10px;align-items:center;font:14px var(--sans)}
+.md .calif-n{font-weight:700;color:var(--c1o)} .md .calif-t{color:#4a4f5c}
+.md .calif-f input{accent-color:var(--c1)} .md .calif-f b{color:var(--c1o);text-align:right}
+.md .calif-total{display:flex;gap:14px;align-items:baseline;margin-top:8px;padding-top:10px;border-top:1px solid var(--c1m);font:15px var(--sans)}
+.md .calif-nota{font:700 40px var(--serif)} .md .calif-nota.ok{color:#2e7d5b} .md .calif-nota.mal{color:#b0413e}
+@media (max-width:640px){.md .calif-f{grid-template-columns:90px 1fr 44px}.md .calif-t{display:none}}
