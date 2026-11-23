@@ -2,6 +2,14 @@
   "use strict";
 
   var dictEn = {
+    "books.num.course": "Universidad de Antioquia \u00b7 Institute of Mathematics",
+    "books.num.sub": "Methods, errors and algorithms",
+    "books.num.desc": "The course in three exams, following Burden and Faires: error and floating point, bisection, fixed point and Banach, Newton and secant, Lagrange and Hermite interpolation, splines, Weierstrass; numerical differentiation and integration, Romberg, adaptive and Gaussian quadrature; initial value problems, Euler, Runge\u2013Kutta, multistep methods and stiffness; direct and iterative linear solvers and conjugate gradient. With mock exams and a chapter of topics beyond the course. Written in Spanish.",
+    "books.num.f1": "Fractal cover: Newton basins in the complex plane",
+    "books.num.f2": "The optimal h measured with your browser's real arithmetic",
+    "books.num.f3": "Cobwebs, Runge vs Chebyshev, quadratures and Gauss",
+    "books.num.f4": "Euler and RK4, stiffness, iterative methods and PageRank",
+    "courses.notes.an.interactivo": "Interactive book",
     "books.cint.course": "Universidad de Antioquia \u00b7 Institute of Mathematics",
     "books.cint.sub": "Areas, volumes and series",
     "books.cint.desc": "The whole course in four exams: antiderivatives, Riemann sums and the fundamental theorem; integration techniques and improper integrals; area between curves, volumes by slicing, disks, washers and shells, arc length, centroids, Pappus and work; sequences, series and Taylor series. With a mock exam at the end of each part. Written in Spanish.",

@@ -1,0 +1,29 @@
+/* Cálculo Integral — petróleo, coral y oro */
+body.cint{--c1:#0f5257;--c1o:#083236;--c1c:#e8f4f3;--c1m:#b5d8d5;--c2:#c2563a;--c2c:#fbefe9;--c2m:#ecc4b5;--c3:#a86a12;--c3c:#fbf2e1;--c3m:#ecd2a3;--c4:#0f5257;--c4c:#e8f4f3;--papel:#fffdfc}
+.cint .topbar{background:linear-gradient(90deg,#04181b,#0f5257 55%,#1d7a72)}
+.cint .topbar .prog{background:#f3c56b}
+.cint .toc{background:#f5faf9}
+.cint .toc a.cap:hover,.cint .toc .secs a:hover{background:#e3f1ef}
+.cint .cabecera{background:radial-gradient(900px 300px at 85% -40%,rgba(243,197,107,.25),transparent 60%),linear-gradient(120deg,#04181b,#0f5257 55%,#1d7a72)}
+.cint .cabecera .kicker{color:#f3c56b}
+.cint .caja.lema,.cint .caja.prop{background:var(--c2c);border-color:var(--c2)} .cint .caja.lema .btit,.cint .caja.prop .btit{color:var(--c2)}
+.cint .caja.ejem{background:#fff;border:1.5px solid var(--c3m);border-left:4px solid var(--c3);border-radius:4px 10px 10px 4px} .cint .caja.ejem .btit{color:var(--c3)}
+.cint-hero{background:radial-gradient(700px 360px at 78% 45%,rgba(243,197,107,.20),transparent 62%),linear-gradient(160deg,#031114,#0a3438 50%,#0f5257)!important;min-height:450px}
+.cint-hero canvas.portada3d{position:absolute;right:4px;top:26px;width:460px;height:380px;touch-action:none}
+.cint-hero .htxt{max-width:350px}
+@media (max-width:760px){.cint-hero canvas.portada3d{opacity:.35;right:-120px;pointer-events:none}}
+.cint .applet select{font:14px var(--sans);padding:3px 6px;border-radius:6px;border:1px solid var(--c1m);background:#fff;color:var(--c1o)}
+.cint .ctl2d .sel{display:flex;gap:8px;align-items:center;font:14px var(--sans)}
+.cint-hero .portada-ctl{position:absolute;right:18px;bottom:16px;display:flex;flex-direction:column;align-items:flex-end;gap:6px;z-index:3;font:13px var(--sans)}
+.cint-hero .pc-fila{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.cint-hero .portada-ctl button{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(243,197,107,.55);border-radius:999px;padding:4px 11px;font:13px var(--sans);cursor:pointer;transition:background .2s}
+.cint-hero .portada-ctl button:hover{background:rgba(243,197,107,.25)}
+.cint-hero .portada-ctl button.on{background:#f3c56b;color:#062427;border-color:#f3c56b;font-weight:600}
+.cint-hero .pc-n{color:#f3c56b;min-width:96px;text-align:center;font-weight:600}
+.cint-hero .pc-ayuda{color:rgba(255,255,255,.6);font-size:12px}
+@media (max-width:760px){.cint-hero .portada-ctl{position:static;margin:14px 0 0;align-items:flex-start}.cint-hero .pc-fila{justify-content:flex-start}}
+.cint-hero canvas.portada3d{cursor:grab}
+.cint-hero canvas.portada3d:active{cursor:grabbing}
+.lib .applet canvas.c3d{display:block;width:100%;height:auto;touch-action:none;cursor:grab;border-radius:10px;background:radial-gradient(circle at 50% 40%,#ffffff,#eef4f3)}
+.lib .applet canvas.c3d:active{cursor:grabbing}
+.lib .applet .ayuda3d{font:12px var(--sans);color:#7b8394;margin:4px 0 0;text-align:right}

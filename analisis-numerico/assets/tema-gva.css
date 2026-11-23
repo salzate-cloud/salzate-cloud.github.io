@@ -1,0 +1,18 @@
+/* Geometría Vectorial y Analítica — petróleo, índigo y ámbar */
+body.gva{--c1:#0f5e6e;--c1o:#0a3f4a;--c1c:#e6f3f5;--c1m:#b6dbe2;--c2:#3730a3;--c2c:#eeedfb;--c2m:#c9c6f1;--c3:#b45309;--c3c:#fdf3e2;--c3m:#f1d3a6;--c4:#9f1239;--c4c:#fbeaef;--papel:#fdfefe}
+.gva .topbar{background:linear-gradient(90deg,#062f37,#0f5e6e 55%,#138a9a)}
+.gva .topbar .prog{background:#ffd27a}
+.gva .toc{background:#f3f8f9}
+.gva .toc a.cap:hover,.gva .toc .secs a:hover{background:#e3f0f2}
+.gva .cabecera{background:radial-gradient(900px 300px at 85% -40%,rgba(160,200,255,.28),transparent 60%),linear-gradient(120deg,#062f37,#0f5e6e 55%,#138a9a)}
+.gva .cabecera .kicker{color:#ffd27a}
+.gva-hero{background:radial-gradient(700px 360px at 78% 45%,rgba(120,170,255,.22),transparent 62%),linear-gradient(160deg,#03222a,#0a3f4a 50%,#0f5e6e)!important;min-height:450px}
+.gva-hero svg.portada{position:absolute;right:4px;top:26px;width:440px;height:380px}
+.gva-hero .htxt{max-width:350px}
+@media (max-width:760px){.gva-hero svg.portada{opacity:.35;right:-120px;pointer-events:none}}
+.gj{padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.gj .op{font-family:var(--sans);font-size:15px;color:#33424a}
+table.matriz-gj{border-collapse:separate;border-spacing:0;font:18px var(--serif);border-left:2.5px solid #33424a;border-right:2.5px solid #33424a;border-radius:6px;padding:4px 6px}
+table.matriz-gj td{min-width:54px;text-align:center;padding:6px 10px;transition:background .3s}
+table.matriz-gj td.aum{border-left:1.5px dashed #9aa5ad}
+table.matriz-gj td.piv{background:#ffd27a;border-radius:8px;font-weight:700}
