@@ -1,5 +1,5 @@
 /* Lectura sin internet: las páginas se piden primero a la red y, si no hay conexión,
-   se sirven desde la copia guardada. Versión 56515648 */
+   se sirven desde la copia guardada. Versión 3294443 */
 var CACHE = 'libro-' + (self.registration.scope.split('/').filter(Boolean).pop() || 'libro');
 self.addEventListener('install', function () { self.skipWaiting(); });
 self.addEventListener('activate', function (e) { e.waitUntil(self.clients.claim()); });

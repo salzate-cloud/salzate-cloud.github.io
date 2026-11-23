@@ -231,3 +231,15 @@ html.sin-animacion *,html.sin-animacion *::before,html.sin-animacion *::after{an
 .esc-btn:hover{background:var(--teal,#006e78);color:#fff}
 .esc-mat{display:inline-grid;grid-template-columns:auto auto;gap:0 10px;padding:0 7px;border-left:1.5px solid currentColor;border-right:1.5px solid currentColor;border-radius:6px;vertical-align:middle;font-variant-numeric:tabular-nums;line-height:1.25}
 .esc-mat span{text-align:right}
+/* Preguntas que no se ganan por descarte */
+.qaviso{margin:10px 0 4px;padding:10px 14px;border-radius:12px;background:#fff6e0;border:1px solid #f1d08a;font-family:var(--sans,system-ui);font-size:14.5px;line-height:1.5;animation:qav .35s ease}
+.qaviso details{margin:6px 0}.qaviso summary{cursor:pointer;color:var(--teal,#006e78);font-weight:600}
+.qantes{margin-top:6px;padding:8px 10px;background:#fff;border-radius:8px;border:1px dashed #e4c27a}
+.qnuevo{display:inline-block;margin-top:8px;border-radius:999px;padding:7px 16px;border:0;background:var(--teal,#006e78);color:#fff;font:600 14px var(--sans,system-ui);cursor:pointer}
+.qnuevo:hover{filter:brightness(1.1)}
+.q.q-bloq .op{opacity:.55}
+.fb.sin-x .fbx{display:none}
+.enun.qnueva{animation:qnueva 1.2s ease}
+@keyframes qnueva{0%{background:#fff1c4}100%{background:transparent}}
+@keyframes qav{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.sin-animacion .qaviso,.sin-animacion .enun.qnueva{animation:none}

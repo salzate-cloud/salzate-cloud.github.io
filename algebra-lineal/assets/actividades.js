@@ -277,7 +277,7 @@
         '<div class="quiz"><div class="qhead"><span>🔁 Repasar hoy</span><span class="marcador">' + (hechas + 1) + ' / ' + sesion.length + '</span></div>' +
         '<div class="rep-origen">De: ' + q.origen + '</div><div class="q">' + q.html + '</div></div>';
       var qd = caja.querySelector('.q'), fb = qd.querySelector('.fb'), ver = fb && fb.querySelector('.veredicto');
-      if (fb) fb.classList.remove('si');
+      if (fb) fb.classList.remove('si'); barajaOps(qd);
       function califica(ok) {
           var e = est[q.id] || { caja: 1, prox: HOY };
           if (ok) { e.caja = Math.min(e.caja + (repetidas[q.id] ? 0 : 1), 6); aciertos += repetidas[q.id] ? 0 : 1; }
@@ -745,9 +745,9 @@
         var q = qs[k];
         caja.innerHTML = '<div class="rep-barra"><i style="width:' + (100 * k / qs.length) + '%"></i></div><div class="quiz"><div class="qhead"><span>' + nombre + '</span><span class="marcador">' + (k + 1) + ' / ' + qs.length + '</span></div>' +
           '<div class="rep-origen">Tema: ' + q.origen + '</div><div class="q">' + q.html + '</div><div class="botones"><button class="saltar-q">No sé, siguiente</button></div></div>';
-        var qd = caja.querySelector('.q'), fb = qd.querySelector('.fb'); if (fb) fb.classList.remove('si');
+        var qd = caja.querySelector('.q'), fb = qd.querySelector('.fb'); if (fb) fb.classList.remove('si'); barajaOps(qd);
         function sigue(ok, elegida) { resp[k] = { ok: ok, q: q, elegida: elegida }; k++; if (k < qs.length) pinta(); else informe(); }
-        qd.querySelectorAll('.op').forEach(function (op, i) { op.classList.remove('bien', 'mal'); op.disabled = false; op.addEventListener('click', function () { sigue(op.getAttribute('data-c') === '1', i); }); });
+        qd.querySelectorAll('.op').forEach(function (op, i) { op.classList.remove('bien', 'mal'); op.disabled = false; op.addEventListener('click', function () { sigue(op.getAttribute('data-c') === '1', +op.dataset.o); }); });
         var inp = qd.querySelector('.num input');
         if (inp) {
           inp.value = ''; var ev = function () {
@@ -793,6 +793,91 @@
     menu();
   }
 
+  /* =====================================================================
+     PREGUNTAS QUE NO SE GANAN POR DESCARTE
+     · las opciones salen en otro orden cada vez;
+     · si fallas una pregunta con datos, vuelve con OTROS números;
+     · si fallas una conceptual, se bloquea, cambia el orden y toca releerla.
+     ===================================================================== */
+  function barajaOps(q) {
+    var cont = q.querySelector('.ops'); if (!cont) return;
+    var ops = [].slice.call(cont.querySelectorAll('.op'));
+    ops.forEach(function (o, i) { if (o.dataset.o === undefined) o.dataset.o = i; });
+    if (ops.length < 3) return;
+    mezcla(ops).forEach(function (o) { cont.appendChild(o); });
+    [].slice.call(cont.querySelectorAll('.op')).forEach(function (o, i) { var l = o.querySelector('.l'); if (l) l.textContent = 'abcdef'[i] + ')'; });
+  }
+  function envuelveFb(q) {
+    var fb = q.querySelector('.fb'); if (!fb || fb.querySelector('.fbx')) return;
+    var x = document.createElement('span'); x.className = 'fbx';
+    [].slice.call(fb.childNodes).forEach(function (n) { if (!(n.classList && n.classList.contains('veredicto'))) x.appendChild(n); });
+    fb.appendChild(x);
+  }
+  function quitaAviso(q) { var a = q.querySelector('.qaviso'); if (a) a.remove(); q.classList.remove('q-bloq'); }
+  function aviso(q, html) {
+    quitaAviso(q); var a = document.createElement('div'); a.className = 'qaviso'; a.innerHTML = html;
+    var fb = q.querySelector('.fb'); q.insertBefore(a, fb ? fb.nextSibling : null); return a;
+  }
+  function ponVariante(q) {
+    var sc = q.querySelector('script.qvar'); if (!sc) return false;
+    var V; try { V = JSON.parse(sc.textContent); } catch (e) { return false; }
+    var k = ((parseInt(q.dataset.qv, 10) + 1) || 0) % V.length; q.dataset.qv = k; var v = V[k];
+    var en = q.querySelector('.enun'); en.innerHTML = v.e; en.classList.remove('qnueva'); void en.offsetWidth; en.classList.add('qnueva');
+    var fb = q.querySelector('.fb'); if (fb) { fb.classList.remove('si'); var x = fb.querySelector('.fbx'); if (x) x.innerHTML = v.x || ''; var st = fb.querySelector('.sticker'); if (st) st.remove(); }
+    if (v.o) {
+      var ops = [].slice.call(q.querySelectorAll('.op')), orden = mezcla(v.o.map(function (_, i) { return i; }));
+      ops.forEach(function (op, i) {
+        var sp = op.querySelector('span:not(.l)') || op; sp.innerHTML = v.o[orden[i]];
+        op.setAttribute('data-c', orden[i] === 0 ? '1' : '0'); op.dataset.o = orden[i]; op.classList.remove('bien', 'mal'); op.disabled = false;
+      });
+    } else if (v.r !== undefined) {
+      var inp = q.querySelector('.num input'); inp.setAttribute('data-r', v.r); inp.setAttribute('data-tol', v.tol || 0.005);
+      inp.value = ''; inp.disabled = false; inp.classList.remove('bien', 'mal'); var bt = q.querySelector('.comprobar'); if (bt) bt.disabled = false;
+    }
+    q.dataset.cambios = (parseInt(q.dataset.cambios, 10) || 0) + 1;
+    return true;
+  }
+  function falloEn(q) {
+    var conDatos = !!q.querySelector('script.qvar'), ops = q.querySelectorAll('.op'), inp = q.querySelector('.num input');
+    if (!conDatos && inp) return;                       /* respuesta escrita sin variantes: puede volver a escribir */
+    var fb = q.querySelector('.fb');
+    if (ops.length && ops.length < 3) {                 /* verdadero/falso: un solo intento, y se ve la explicación */
+      ops.forEach(function (o) { o.disabled = true; if (o.getAttribute('data-c') === '1') o.classList.add('bien'); }); return;
+    }
+    q.classList.add('q-bloq'); ops.forEach(function (o) { o.disabled = true; }); if (inp) { inp.disabled = true; var bt = q.querySelector('.comprobar'); if (bt) bt.disabled = true; }
+    if (conDatos) {
+      var antes = fb && fb.querySelector('.fbx') ? fb.querySelector('.fbx').innerHTML : '';
+      var a = aviso(q, '<b>📝 Esta ya no cuenta: te traigo el mismo problema con otros números.</b> Vuelve a leerlo con calma y resuélvelo otra vez; nada de adivinar entre las que quedan.' +
+        (antes ? '<details><summary>Ver cómo se resolvía la anterior</summary><div class="qantes">' + antes + '</div></details>' : '') +
+        '<button type="button" class="qnuevo">🔄 Dame los datos nuevos</button>');
+      if (fb) fb.classList.add('sin-x');
+      a.querySelector('.qnuevo').addEventListener('click', function () { quitaAviso(q); if (fb) fb.classList.remove('sin-x'); ponVariante(q); var en = q.querySelector('.enun'); en.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+    } else {
+      if (fb) fb.classList.add('sin-x');
+      var b = aviso(q, '<b>🔁 Vuelve a leer la pregunta despacio.</b> Te cambio el orden de las opciones para que la pienses de nuevo, no por descarte.<button type="button" class="qnuevo">Intentar otra vez</button>');
+      b.querySelector('.qnuevo').addEventListener('click', function () { quitaAviso(q); barajaOps(q); q.querySelectorAll('.op').forEach(function (o) { o.disabled = false; o.classList.remove('bien', 'mal'); }); if (fb) fb.classList.remove('si'); var st = fb && fb.querySelector('.sticker'); if (st) st.remove(); });
+    }
+  }
+  function preguntasVivas() {
+    document.querySelectorAll('.quiz[data-id] .q').forEach(function (q) { envuelveFb(q); barajaOps(q); });
+    document.addEventListener('click', function (e) {
+      var t = e.target.closest && e.target.closest('.quiz[data-id] .op, .quiz[data-id] .comprobar'); if (!t) return;
+      var q = t.closest('.q');
+      setTimeout(function () {
+        if (t.classList.contains('op')) { if (t.getAttribute('data-c') !== '1') falloEn(q); else { quitaAviso(q); var fb = q.querySelector('.fb'); if (fb) fb.classList.remove('sin-x'); } }
+        else { var inp = q.querySelector('.num input'); if (inp && inp.classList.contains('mal')) falloEn(q); else if (inp && inp.classList.contains('bien')) { var fb2 = q.querySelector('.fb'); if (fb2) fb2.classList.remove('sin-x'); } }
+      }, 0);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter' || !e.target.closest || !e.target.closest('.quiz[data-id] .num input')) return;
+      var q = e.target.closest('.q'); setTimeout(function () { if (e.target.classList.contains('mal')) falloEn(q); }, 0);
+    });
+    document.addEventListener('click', function (e) {                 /* «Reiniciar» del quiz: vuelve todo a la normalidad */
+      var r = e.target.closest && e.target.closest('.quiz[data-id] .reiniciar'); if (!r) return;
+      r.closest('.quiz').querySelectorAll('.q').forEach(function (q) { quitaAviso(q); var fb = q.querySelector('.fb'); if (fb) fb.classList.remove('sin-x'); barajaOps(q); });
+    });
+  }
+
   function arranca() {
     document.querySelectorAll('.act.ordena').forEach(iniciaOrdena);
     document.querySelectorAll('.act.error').forEach(iniciaError);
@@ -802,6 +887,7 @@
     document.querySelectorAll('details.prueba').forEach(function (d) {
       d.addEventListener('toggle', function () { if (d.open) iniciaRevela(d); });
     });
+    preguntasVivas();
     progresoCapitulo(); coleccion(); herramientas(); accesibilidad(); comentarios(); sinInternet();
     var pr = document.getElementById('practica-libro'); if (pr) iniciaPractica(pr);
     document.addEventListener('act-progreso', progresoCapitulo);
