@@ -2,6 +2,14 @@
   "use strict";
 
   var dictEn = {
+    "books.al.course": "Universidad de Antioquia \u00b7 Institute of Mathematics",
+    "books.al.sub": "From \u211d\u207f to the Jordan form",
+    "books.al.desc": "The full course in four exams, with every proof: vector spaces, independence, bases and dimension, the fundamental subspaces, change of basis, orthogonality, Gram\u2013Schmidt and least squares, linear transformations and isometries, eigenvalues, diagonalization, Markov chains, quadratic forms and the Jordan form. Over two hundred worked examples and a mock exam at the end of each part. Written in Spanish.",
+    "books.al.f1": "Interactive cover: drag the columns of A and watch the grid deform",
+    "books.al.f2": "Exact step-by-step Gauss\u2013Jordan with rank, nullity and bases",
+    "books.al.f3": "Gram\u2013Schmidt in 3D, least squares with your own data and change of basis",
+    "books.al.f4": "Eigenvalues, conics and phase portraits with Jordan blocks",
+    "courses.notes.algebra.interactivo": "Interactive book",
     "books.num.course": "Universidad de Antioquia \u00b7 Institute of Mathematics",
     "books.num.sub": "Methods, errors and algorithms",
     "books.num.desc": "The course in three exams, following Burden and Faires: error and floating point, bisection, fixed point and Banach, Newton and secant, Lagrange and Hermite interpolation, splines, Weierstrass; numerical differentiation and integration, Romberg, adaptive and Gaussian quadrature; initial value problems, Euler, Runge\u2013Kutta, multistep methods and stiffness; direct and iterative linear solvers and conjugate gradient. With mock exams and a chapter of topics beyond the course. Written in Spanish.",

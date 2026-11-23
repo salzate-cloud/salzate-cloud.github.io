@@ -1,0 +1,12 @@
+/* Cálculo Diferencial — índigo, verde azulado y ámbar (la paleta de los resúmenes) */
+body.calc{--c1:#22357E;--c1o:#17245a;--c1c:#eceff9;--c1m:#c3cce9;--c2:#0E6B62;--c2c:#e4f2f0;--c2m:#b4d9d4;--c3:#9A5B08;--c3c:#fbf1df;--c3m:#ebd4a6;--c4:#9F1239;--c4c:#fbeaef;--papel:#fdfdfe}
+.calc .topbar{background:linear-gradient(90deg,#111a45,#22357E 55%,#2f4aa8)}
+.calc .topbar .prog{background:#ffd27a}
+.calc .toc{background:#f5f6fa}
+.calc .toc a.cap:hover,.calc .toc .secs a:hover{background:#e9ecf6}
+.calc .cabecera{background:radial-gradient(900px 300px at 85% -40%,rgba(120,200,190,.28),transparent 60%),linear-gradient(120deg,#111a45,#22357E 55%,#2f4aa8)}
+.calc .cabecera .kicker{color:#ffd27a}
+.calc-hero{background:radial-gradient(700px 360px at 80% 40%,rgba(90,200,180,.22),transparent 62%),linear-gradient(160deg,#0b1233,#17245a 50%,#22357E)!important;min-height:450px}
+.calc-hero svg.portada{position:absolute;right:4px;top:26px;width:440px;height:380px;touch-action:none}
+.calc-hero .htxt{max-width:350px}
+@media (max-width:760px){.calc-hero svg.portada{opacity:.35;right:-120px;pointer-events:none}}
