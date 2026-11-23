@@ -293,4 +293,5 @@
   };
 
   window.EXPLORA = W;
+  window.EXPLORA_U = { Lienzo: Lienzo, deslizador: deslizador, lectura: lectura, reto: reto, f2: f2, f4: f4, COL: COL };
 })();

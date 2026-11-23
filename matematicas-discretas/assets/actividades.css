@@ -223,3 +223,11 @@ html.sin-animacion *,html.sin-animacion *::before,html.sin-animacion *::after{an
   .topbar .herr{margin:0 4px;gap:4px}.topbar .herr button{min-width:32px;height:32px;font-size:13px;padding:0 6px}
   .topbar .nav a span{display:none}
 }
+/* Escenas de aplicación (dibujo interactivo del problema) */
+.act.lab.escena .ahead{background:linear-gradient(90deg,#e6f4fb,#fdf4e2)}
+.act.lab.escena{margin:14px 0 22px}
+.esc-canvas{cursor:default}
+.esc-btn{border-radius:999px;padding:6px 14px;border:1px solid var(--teal,#006e78);background:#fff;color:var(--teal,#006e78);cursor:pointer;font:600 13.5px var(--sans,system-ui)}
+.esc-btn:hover{background:var(--teal,#006e78);color:#fff}
+.esc-mat{display:inline-grid;grid-template-columns:auto auto;gap:0 10px;padding:0 7px;border-left:1.5px solid currentColor;border-right:1.5px solid currentColor;border-radius:6px;vertical-align:middle;font-variant-numeric:tabular-nums;line-height:1.25}
+.esc-mat span{text-align:right}
