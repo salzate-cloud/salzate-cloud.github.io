@@ -178,7 +178,7 @@ html.sin-animacion *,html.sin-animacion *::before,html.sin-animacion *::after{an
 .comentar{margin:26px 0 10px;text-align:center;font-family:var(--sans,system-ui)}
 .comentar>button{border:1px dashed var(--linea,#bbb);background:transparent;border-radius:999px;padding:8px 16px;cursor:pointer;color:var(--gris,#555);font-size:14px}
 .comentar form{max-width:560px;margin:12px auto;text-align:left;display:flex;flex-direction:column;gap:10px;background:var(--grisC,#f6f6f4);padding:14px 16px;border-radius:14px}
-.comentar textarea,.comentar select{width:100%;font:inherit;border:1px solid var(--linea,#ccd);border-radius:8px;padding:8px;margin-top:4px;box-sizing:border-box}
+.comentar textarea,.comentar select,.comentar input[type=email]{width:100%;font:inherit;border:1px solid var(--linea,#ccd);border-radius:8px;padding:8px;margin-top:4px;box-sizing:border-box}
 .comentar .botones{display:flex;gap:8px}.comentar .botones button{border-radius:999px;padding:7px 16px;border:1px solid var(--linea,#ccd);background:#fff;cursor:pointer}
 .comentar .botones button.prim{background:var(--teal,#006e78);color:#fff;border-color:var(--teal,#006e78)}
 .comentar small{color:#777}.comentar .trampa{position:absolute;left:-9999px;width:1px;height:1px}

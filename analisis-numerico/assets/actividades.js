@@ -673,7 +673,7 @@
   /* =====================================================================
      9. COMENTARIOS ANÓNIMOS
      ===================================================================== */
-  var URL_COMENTARIOS = 'https://comentarios.alzattesantiago.workers.dev';
+  var URL_COMENTARIOS = 'https://formspree.io/f/mzerzkoj';   /* el mismo buzón del formulario de santiagoalzates.com */
   function comentarios() {
     document.querySelectorAll('.comentar').forEach(function (c) {
       var b = c.querySelector('button');
@@ -681,21 +681,28 @@
         if (c.querySelector('form')) return;
         var f = document.createElement('form');
         f.innerHTML = '<label>¿Qué viste? <select name="tipo"><option>Error en el texto o en una cuenta</option><option>Algo no se entiende</option><option>Una idea para mejorar</option><option>Otro</option></select></label>' +
-          '<label>Cuéntame (si es un error, di dónde está):<textarea name="texto" maxlength="1500" rows="4" required></textarea></label>' +
-          '<input name="web" class="trampa" tabindex="-1" autocomplete="off" aria-hidden="true">' +
-          '<div class="botones"><button class="prim" type="submit">Enviar de forma anónima</button><button type="button" class="canc">Cancelar</button></div><small>No se guarda tu nombre, correo ni ningún dato tuyo.</small><div class="cres" aria-live="polite"></div>';
+          '<label>Cuéntame (si es un error, di dónde está):<textarea name="message" maxlength="3000" rows="4" required></textarea></label>' +
+          '<label>Tu correo <small>(opcional, solo si quieres que te responda)</small><input type="email" name="email" autocomplete="email" placeholder="tunombre@correo.com"></label>' +
+          '<input name="_gotcha" class="trampa" tabindex="-1" autocomplete="off" aria-hidden="true">' +
+          '<div class="botones"><button class="prim" type="submit">Enviar comentario</button><button type="button" class="canc">Cancelar</button></div>' +
+          '<small>No te pido tu nombre; el correo es opcional. El comentario llega al buzón de Santiago (lo procesa Formspree, <a href="https://formspree.io/legal/privacy-policy/" target="_blank" rel="noopener">política de privacidad</a>) y no se publica.</small><div class="cres" aria-live="polite"></div>';
         c.appendChild(f); f.querySelector('textarea').focus();
         f.querySelector('.canc').addEventListener('click', function () { f.remove(); });
         f.addEventListener('submit', function (e) {
           e.preventDefault();
-          if (f.web.value) return;
-          var datos = { libro: LIBRO, pagina: (document.body.getAttribute('data-pagina') || location.pathname), tipo: f.tipo.value, texto: f.texto.value.slice(0, 1500) };
+          if (f._gotcha.value) return;
+          var titulo = (document.querySelector('.cabecera h1') || {}).textContent || document.title;
+          var pagina = document.body.getAttribute('data-pagina') || location.pathname;
+          var fd = new FormData(f);
+          fd.append('libro', LIBRO); fd.append('pagina', pagina); fd.append('capitulo', titulo.trim()); fd.append('enlace', location.href.split('#')[0]);
+          fd.append('anonymous', fd.get('email') ? 'no' : 'yes');
+          fd.append('_subject', 'Comentario en el libro ' + LIBRO + ' · ' + titulo.trim().slice(0, 60));
           var res = f.querySelector('.cres'); f.querySelector('[type=submit]').disabled = true; res.textContent = 'Enviando…';
-          fetch(URL_COMENTARIOS + '/comentario', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(datos) })
-            .then(function (r) { if (!r.ok) throw 0; f.innerHTML = '<p><b>¡Gracias, parcero! 🙌</b> Tu comentario llegó y me ayuda a mejorar el libro.</p>'; })
+          fetch(URL_COMENTARIOS, { method: 'POST', body: fd, headers: { Accept: 'application/json' } })
+            .then(function (r) { if (!r.ok) throw 0; f.innerHTML = '<p><b>¡Gracias, parcero! 🙌</b> Tu comentario le llegó a Santiago y ayuda a mejorar el libro.</p>'; })
             .catch(function () {
-              var cuerpo = encodeURIComponent('Libro: ' + datos.libro + '\nPágina: ' + datos.pagina + '\nTipo: ' + datos.tipo + '\n\n' + datos.texto);
-              res.innerHTML = 'No pude enviarlo directamente. Puedes mandarlo por correo: <a href="mailto:santiago.alzate9@udea.edu.co?subject=' + encodeURIComponent('Comentario sobre ' + datos.libro) + '&body=' + cuerpo + '">abrir el correo con tu comentario</a>.';
+              var cuerpo = encodeURIComponent('Libro: ' + LIBRO + '\nPágina: ' + pagina + '\nTipo: ' + fd.get('tipo') + '\n\n' + fd.get('message'));
+              res.innerHTML = 'No pude enviarlo ahora. Inténtalo más tarde o <a href="mailto:santiago.alzate9@udea.edu.co?subject=' + encodeURIComponent('Comentario sobre ' + LIBRO) + '&body=' + cuerpo + '">mándalo por correo</a>.';
               f.querySelector('[type=submit]').disabled = false;
             });
         });
