@@ -52,11 +52,11 @@
 <path clip-rule="nonzero" d="M 16 15 L 166 15 L 166 127.269531 L 16 127.269531 Z M 16 15 "/>
 </clipPath>
 </defs>
+<path fill-rule="nonzero" fill="rgb(82.987976%, 89.550781%, 88.917542%)" fill-opacity="1" d="M 90.726562 121.808594 L 67.546875 85.882812 L 113.90625 85.882812 Z M 90.726562 121.808594 "/>
 <g clip-path="url(#clip-0)">
 <path fill="none" stroke-width="0.99628" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(56.469727%, 58.529663%, 62.644958%)" stroke-opacity="1" stroke-miterlimit="10" d="M -60.437961 92.97905 L 0.00000697301 -0.000931876 L 60.437975 92.97905 " transform="matrix(0.997148, 0, 0, -0.997148, 90.726556, 121.807665)"/>
 </g>
 <path fill="none" stroke-width="0.99628" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(56.469727%, 58.529663%, 62.644958%)" stroke-opacity="1" stroke-miterlimit="10" d="M -60.437961 92.97905 L 60.437975 92.97905 " transform="matrix(0.997148, 0, 0, -0.997148, 90.726556, 121.807665)"/>
-<path fill-rule="nonzero" fill="rgb(82.987976%, 89.550781%, 88.917542%)" fill-opacity="1" d="M 90.726562 121.808594 L 67.546875 85.882812 L 113.90625 85.882812 Z M 90.726562 121.808594 "/>
 <path fill="none" stroke-width="0.99628" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(5.488586%, 41.96167%, 38.430786%)" stroke-opacity="1" stroke-miterlimit="10" d="M -23.245968 36.027587 L 23.245982 36.027587 " transform="matrix(0.997148, 0, 0, -0.997148, 90.726556, 121.807665)"/>
 <path fill="none" stroke-width="0.3985" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(41.96167%, 44.706726%, 50.193787%)" stroke-opacity="1" stroke-miterlimit="10" d="M -68.570526 3.281867 L -68.570526 89.700169 " transform="matrix(0.997148, 0, 0, -0.997148, 90.726556, 121.807665)"/>
 <path fill-rule="nonzero" fill="rgb(41.96167%, 44.706726%, 50.193787%)" fill-opacity="1" stroke-width="0.3985" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(41.96167%, 44.706726%, 50.193787%)" stroke-opacity="1" stroke-miterlimit="10" d="M 4.535326 0.000933812 L 0.64141 1.466049 L 1.922406 0.000933812 L 0.64141 -1.464182 Z M 4.535326 0.000933812 " transform="matrix(0, 0.997148, 0.997148, 0, 22.350631, 116.719794)"/>

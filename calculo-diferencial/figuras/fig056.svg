@@ -46,8 +46,8 @@
 </g>
 </g>
 </defs>
-<path fill="none" stroke-width="0.99628" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(59.371948%, 61.294556%, 65.136719%)" stroke-opacity="1" stroke-miterlimit="10" d="M -8.786711 0.00195689 L 161.689347 0.00195689 " transform="matrix(0.997964, 0, 0, -0.997964, 45.323505, 117.716797)"/>
 <path fill-rule="nonzero" fill="rgb(91.874695%, 92.25769%, 93.026733%)" fill-opacity="1" d="M 185.636719 117.714844 L 185.636719 5.464844 L 194.40625 5.464844 L 194.40625 117.714844 Z M 185.636719 117.714844 "/>
+<path fill="none" stroke-width="0.99628" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(59.371948%, 61.294556%, 65.136719%)" stroke-opacity="1" stroke-miterlimit="10" d="M -8.786711 0.00195689 L 161.689347 0.00195689 " transform="matrix(0.997964, 0, 0, -0.997964, 45.323505, 117.716797)"/>
 <path fill="none" stroke-width="0.99628" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(56.469727%, 58.529663%, 62.644958%)" stroke-opacity="1" stroke-miterlimit="10" d="M 140.599525 0.00195689 L 140.599525 112.481005 " transform="matrix(0.997964, 0, 0, -0.997964, 45.323505, 117.716797)"/>
 <path fill="none" stroke-width="0.79701" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(70.292664%, 51.763916%, 27.352905%)" stroke-opacity="1" stroke-miterlimit="10" d="M 0.000714897 0.00195689 L 140.599525 105.451065 " transform="matrix(0.997964, 0, 0, -0.997964, 45.323505, 117.716797)"/>
 <path fill="none" stroke-width="0.3985" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(65.174866%, 66.822815%, 70.115662%)" stroke-opacity="1" stroke-dasharray="2.98883 2.98883" stroke-miterlimit="10" d="M 0.000714897 0.00195689 L 140.599525 0.00195689 " transform="matrix(0.997964, 0, 0, -0.997964, 45.323505, 117.716797)"/>
