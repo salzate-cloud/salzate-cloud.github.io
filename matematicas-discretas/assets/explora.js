@@ -273,13 +273,13 @@
   /* 10. Ángulo inscrito */
   W.inscrito = function (c, D) {
     var tA = 220 * Math.PI / 180, tB = 320 * Math.PI / 180, tP = 90 * Math.PI / 180;
-    var L = Lienzo(c, 330, [-1.6, 1.6, -1.35, 1.35]); L.v = [-1.6 * L.w / 330, 1.6 * L.w / 330, -1.35, 1.35];
+    var L = Lienzo(c, 330, [-1.6, 1.6, -1.35, 1.35]); L.v = [-1.35 * L.w / 330, 1.35 * L.w / 330, -1.35, 1.35];
     var lec = lectura(c);
     reto(c, 'Mueve P por la circunferencia. Si el ángulo central mide 100°, ¿cuánto mide el inscrito (con P en el arco mayor)?', true, function (v) { return Math.abs(v - 50) < 0.5; }, '¡Mitad del central! Y si pasas P al otro arco, el inscrito mide 180° − 50°.').el.__fin = c.__fin;
     function pt(t) { return [Math.cos(t), Math.sin(t)]; }
     function ang(P, Q, R2) { var a = [P[0] - Q[0], P[1] - Q[1]], b = [R2[0] - Q[0], R2[1] - Q[1]]; return Math.acos((a[0] * b[0] + a[1] * b[1]) / Math.hypot(a[0], a[1]) / Math.hypot(b[0], b[1])) * 180 / Math.PI; }
     function dib() {
-      L.v = [-1.6 * L.w / 330, 1.6 * L.w / 330, -1.35, 1.35]; L.limpia();
+      L.v = [-1.35 * L.w / 330, 1.35 * L.w / 330, -1.35, 1.35]; L.limpia();
       var A = pt(tA), B = pt(tB), P = pt(tP), O = [0, 0], g = L.ctx;
       g.save(); g.strokeStyle = COL.tinta; g.lineWidth = 2; g.beginPath(); g.arc(L.X(0), L.Y(0), L.X(1) - L.X(0), 0, 7); g.stroke(); g.restore();
       L.linea(A[0], A[1], P[0], P[1], COL.ambar, 2.2); L.linea(B[0], B[1], P[0], P[1], COL.ambar, 2.2);
