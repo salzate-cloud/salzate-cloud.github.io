@@ -71,6 +71,90 @@
     var gr = g.createRadialGradient(x, y, 0, x, y, rx); gr.addColorStop(0, 'rgba(20,35,15,' + (a || 0.32) + ')'); gr.addColorStop(1, 'rgba(20,35,15,0)');
     g.save(); g.translate(x, y); g.scale(1, ry / rx); g.translate(-x, -y); g.fillStyle = gr; g.beginPath(); g.arc(x, y, rx, 0, 7); g.fill(); g.restore();
   }
+  function Poblador(redibuja) {                       /* hace aparecer (y desaparecer) las cosas poco a poco */
+    var nac = {}, primero = true, pend = false;
+    return {
+      a: function (k) { if (!(k in nac)) nac[k] = primero || sinAnim() ? -1e9 : performance.now(); return Math.min(1, (performance.now() - nac[k]) / 420); },
+      cierra: function (vivos) {
+        primero = false; var hay = false, t = performance.now();
+        Object.keys(nac).forEach(function (k) { if (vivos.indexOf(k) < 0) delete nac[k]; else if (t - nac[k] < 420) hay = true; });
+        if (hay && !pend) { pend = true; requestAnimationFrame(function () { pend = false; redibuja(); }); }
+      }
+    };
+  }
+  function sitiosRect(n, sem) {                        /* puntos repartidos en [0,1]² (rejilla con ruido), en orden aleatorio fijo */
+    var r = azar(sem || 3), c = Math.ceil(Math.sqrt(n * 1.6)), f = Math.ceil(n / c) + 1, P = [];
+    for (var i = 0; i < f; i++) for (var j = 0; j < c; j++) P.push([(j + 0.2 + r() * 0.6) / c, (i + 0.2 + r() * 0.6) / f]);
+    for (var k = P.length - 1; k > 0; k--) { var q = Math.floor(r() * (k + 1)), t = P[k]; P[k] = P[q]; P[q] = t; }
+    return P;
+  }
+  function oveja(g, x, y, k, dir) {
+    sombraPiso(g, x - 3 * k, y + 4 * k, 9 * k, 2.2 * k, 0.3);
+    g.save(); g.translate(x, y); g.scale(dir * k, k);
+    g.strokeStyle = '#3b3b3b'; g.lineWidth = 1.6; g.lineCap = 'round'; [[-4, 1], [-1.5, 1], [2.5, 1], [5, 1]].forEach(function (p) { g.beginPath(); g.moveTo(p[0], 2); g.lineTo(p[0], 6); g.stroke(); });
+    var gr = g.createRadialGradient(-2, -3, 1, 0, 0, 9); gr.addColorStop(0, '#ffffff'); gr.addColorStop(1, '#d9d6cf');
+    g.fillStyle = gr; [[-5, 0, 4], [-1.5, -2.5, 4.4], [2.5, -1.5, 4.2], [4.5, 1, 3.6], [-2, 2, 4], [1.5, 2, 4]].forEach(function (b) { g.beginPath(); g.arc(b[0], b[1], b[2], 0, 7); g.fill(); });
+    g.fillStyle = '#2f2f2f'; g.beginPath(); g.ellipse(8.2, -1.6, 2.8, 2.2, 0.3, 0, 7); g.fill(); g.fillStyle = '#fff'; g.beginPath(); g.arc(9, -2.2, 0.6, 0, 7); g.fill();
+    g.restore();
+  }
+  function flor(g, x, y, k, col) {
+    g.save(); g.strokeStyle = '#3f7d45'; g.lineWidth = 1.2 * k; g.beginPath(); g.moveTo(x, y + 5 * k); g.lineTo(x, y); g.stroke();
+    g.fillStyle = col; for (var i = 0; i < 5; i++) { var a = i * 1.2566; g.beginPath(); g.arc(x + Math.cos(a) * 2.4 * k, y + Math.sin(a) * 2.4 * k, 1.8 * k, 0, 7); g.fill(); }
+    g.fillStyle = '#f6c945'; g.beginPath(); g.arc(x, y, 1.4 * k, 0, 7); g.fill(); g.restore();
+  }
+  function barril(g, x, y, k) {
+    sombraPiso(g, x, y + 7 * k, 7 * k, 2 * k, 0.3);
+    var gr = g.createLinearGradient(x - 6 * k, 0, x + 6 * k, 0); gr.addColorStop(0, '#7a4a22'); gr.addColorStop(0.45, '#c48a4f'); gr.addColorStop(1, '#6a3d18');
+    g.fillStyle = gr; g.beginPath(); g.moveTo(x - 5 * k, y - 7 * k); g.quadraticCurveTo(x - 7 * k, y, x - 5 * k, y + 7 * k); g.lineTo(x + 5 * k, y + 7 * k); g.quadraticCurveTo(x + 7 * k, y, x + 5 * k, y - 7 * k); g.closePath(); g.fill();
+    g.strokeStyle = '#3c3c3c'; g.lineWidth = 1.2 * k; [-4, 4].forEach(function (d) { g.beginPath(); g.moveTo(x - 6 * k, y + d * k); g.lineTo(x + 6 * k, y + d * k); g.stroke(); });
+    g.fillStyle = '#8a5a2b'; g.beginPath(); g.ellipse(x, y - 7 * k, 5 * k, 1.6 * k, 0, 0, 7); g.fill();
+  }
+  function balde(g, x, y, k, lleno) {
+    sombraPiso(g, x, y + 8 * k, 9 * k, 2 * k, 0.3);
+    var gr = g.createLinearGradient(x - 7 * k, 0, x + 7 * k, 0); gr.addColorStop(0, '#9aa5b1'); gr.addColorStop(0.4, '#e4e9ee'); gr.addColorStop(1, '#7d8893');
+    g.fillStyle = gr; g.beginPath(); g.moveTo(x - 7 * k, y - 7 * k); g.lineTo(x + 7 * k, y - 7 * k); g.lineTo(x + 5 * k, y + 8 * k); g.lineTo(x - 5 * k, y + 8 * k); g.closePath(); g.fill();
+    g.fillStyle = 'rgba(60,150,220,' + (0.5 + 0.4 * lleno) + ')'; g.beginPath(); g.ellipse(x, y - 7 * k + (1 - lleno) * 10 * k, 7 * k - (1 - lleno) * 1.3 * k, 1.8 * k, 0, 0, 7); g.fill();
+    g.strokeStyle = '#5e6873'; g.lineWidth = 1.2 * k; g.beginPath(); g.arc(x, y - 7 * k, 7 * k, Math.PI, 0); g.stroke();
+  }
+
+  function iconos(g, P, n, dib, x0, y0, dx, dy, porFila, pref, k) {   /* n dibujitos que aparecen o se van poco a poco */
+    var vivos = [];
+    for (var q = 0; q < n; q++) { var key = pref + q, al = P.a(key); vivos.push(key); g.save(); g.globalAlpha = al;
+      dib(g, x0 + (q % porFila) * dx, y0 + Math.floor(q / porFila) * dy - (1 - al) * 6, k || 1, q); g.restore(); }
+    return vivos;
+  }
+  function icoPesa(g, x, y, k) {
+    sombraPiso(g, x, y + 7 * k, 8 * k, 2 * k, 0.3);
+    g.strokeStyle = '#3a3f46'; g.lineWidth = 2.2 * k; g.beginPath(); g.arc(x, y - 5 * k, 3.6 * k, Math.PI, 0); g.stroke();
+    var gr = g.createRadialGradient(x - 2 * k, y - 1 * k, 1, x, y + 2 * k, 8 * k); gr.addColorStop(0, '#6b737c'); gr.addColorStop(1, '#22262b');
+    g.fillStyle = gr; g.beginPath(); g.ellipse(x, y + 2 * k, 7 * k, 6 * k, 0, 0, 7); g.fill();
+    g.fillStyle = '#e8eef2'; g.font = '700 ' + (5.5 * k) + 'px system-ui'; g.textAlign = 'center'; g.fillText('1kg', x, y + 4 * k);
+  }
+  function icoBillete(g, x, y, k) {
+    g.save(); g.translate(x, y); g.rotate(-0.06); g.fillStyle = 'rgba(0,0,0,.18)'; g.fillRect(-9 * k + 1, -5 * k + 2, 18 * k, 10 * k);
+    var gr = g.createLinearGradient(-9 * k, 0, 9 * k, 0); gr.addColorStop(0, '#6fbf73'); gr.addColorStop(1, '#3e8e41'); g.fillStyle = gr; g.fillRect(-9 * k, -5 * k, 18 * k, 10 * k);
+    g.strokeStyle = 'rgba(255,255,255,.6)'; g.lineWidth = 0.8; g.strokeRect(-7.5 * k, -3.5 * k, 15 * k, 7 * k);
+    g.fillStyle = '#e8f5e9'; g.beginPath(); g.arc(0, 0, 2.6 * k, 0, 7); g.fill(); g.fillStyle = '#2e7d32'; g.font = '700 ' + (3.6 * k) + 'px system-ui'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('$', 0, 0.3 * k); g.restore();
+  }
+  function icoCamion(g, x, y, k) {
+    sombraPiso(g, x, y + 7 * k, 14 * k, 2 * k, 0.3);
+    var gr = g.createLinearGradient(0, y - 8 * k, 0, y + 4 * k); gr.addColorStop(0, '#f39c12'); gr.addColorStop(1, '#c87f0a'); g.fillStyle = gr; g.fillRect(x - 13 * k, y - 8 * k, 17 * k, 12 * k);
+    g.fillStyle = '#c0392b'; g.beginPath(); g.moveTo(x + 4 * k, y + 4 * k); g.lineTo(x + 4 * k, y - 5 * k); g.lineTo(x + 10 * k, y - 5 * k); g.lineTo(x + 13 * k, y); g.lineTo(x + 13 * k, y + 4 * k); g.closePath(); g.fill();
+    g.fillStyle = '#cfe8f7'; g.fillRect(x + 6 * k, y - 3.5 * k, 4 * k, 3 * k);
+    g.fillStyle = '#222'; [x - 9 * k, x - 3 * k, x + 9 * k].forEach(function (cx) { g.beginPath(); g.arc(cx, y + 5 * k, 2.4 * k, 0, 7); g.fill(); });
+  }
+  function icoVaca(g, x, y, k, q) {
+    sombraPiso(g, x, y + 8 * k, 12 * k, 2 * k, 0.3);
+    g.save(); g.translate(x, y); g.scale((q % 2 ? -1 : 1) * k, k);
+    g.strokeStyle = '#3b3b3b'; g.lineWidth = 2; [-7, -4, 4, 7].forEach(function (lx) { g.beginPath(); g.moveTo(lx, 2); g.lineTo(lx, 8); g.stroke(); });
+    g.fillStyle = '#f7f4ee'; g.beginPath(); g.ellipse(0, -1, 10, 6, 0, 0, 7); g.fill();
+    g.fillStyle = '#2b2b2b'; g.beginPath(); g.ellipse(-4, -3, 3.4, 2.6, 0.3, 0, 7); g.fill(); g.beginPath(); g.ellipse(4, 1, 2.6, 2.2, -0.2, 0, 7); g.fill();
+    g.fillStyle = '#f7f4ee'; g.beginPath(); g.ellipse(11, -4, 3.6, 3.2, 0, 0, 7); g.fill(); g.fillStyle = '#f2b8b0'; g.beginPath(); g.ellipse(13.5, -2.6, 2, 1.6, 0, 0, 7); g.fill();
+    g.fillStyle = '#d8c9a8'; g.beginPath(); g.moveTo(9.5, -7); g.lineTo(9, -10); g.lineTo(10.6, -7.4); g.fill(); g.fillStyle = '#111'; g.beginPath(); g.arc(11.6, -5, 0.8, 0, 7); g.fill();
+    g.restore();
+  }
+
+
   /* ---------- paisaje ---------- */
   function pradera(g, w, h, sem) {
     var cielo = g.createLinearGradient(0, 0, 0, h * 0.5); cielo.addColorStop(0, '#7fb9de'); cielo.addColorStop(0.7, '#cfe8f2'); cielo.addColorStop(1, '#eef6ea');
@@ -267,6 +351,7 @@
   };
 
   W.tanque = function (c, D) {
+    var Pt = Poblador(function () { dib(); }), rP = azar(4), PZ = []; for (var iP = 0; iP < 40; iP++) PZ.push([0.1 + rP() * 0.8, 0.25 + rP() * 0.7, rP() < 0.5 ? 1 : -1]);
     var H = 12, Rr = 6, Q = 8, L = lienzoPx(c, 340), ct = fila(c), hs = U.deslizador(ct, 'profundidad h =', 0.3, 11.5, 0.01, 2, function (v) { return f2(v) + ' m'; });
     reloj(ct, hs, 11.5, 0.9, '▶ Abrir la llave');
     var lec = U.lectura(c), R = U.reto(c, '¿Qué tan rápido sube el nivel cuando h = 4 m? (m/min, 3 decimales)', true, function (v) { return Math.abs(v - 2 / Math.PI) < 0.003; },
@@ -279,6 +364,10 @@
       var gr = g.createLinearGradient(0, V.Y(hh), 0, V.Y(0)); gr.addColorStop(0, '#5fb3e6'); gr.addColorStop(1, '#1f6fae');
       g.fillStyle = gr; g.beginPath(); g.moveTo(V.X(-r), V.Y(hh)); g.lineTo(V.X(0), V.Y(0)); g.lineTo(V.X(r), V.Y(hh)); g.closePath(); g.fill();
       g.fillStyle = 'rgba(255,255,255,.35)'; g.beginPath(); g.ellipse(V.X(0), V.Y(hh), Math.max(1, r * V.s), Math.max(1, r * V.s * 0.12), 0, 0, 7); g.fill();
+      var nP = Math.floor(vol / 12), vivosP = [];
+      for (var q = 0; q < nP && q < PZ.length; q++) { var pz = PZ[q], yy = pz[1] * hh * 0.85 + 0.15 * hh * 0.5, half = yy / 2 * 0.8, xx0 = (pz[0] * 2 - 1) * half, al = Pt.a('p' + q); vivosP.push('p' + q);
+        if (yy > 0.6) { g.globalAlpha = al; pez(g, V.X(xx0), V.Y(yy), Math.min(0.75, 0.3 + V.s / 60), ['#f39c12', '#e74c3c', '#f1c40f', '#e67e22'][q % 4], pz[2]); g.globalAlpha = 1; } }
+      Pt.cierra(vivosP);
       var brillo = g.createLinearGradient(V.X(-Rr), 0, V.X(Rr), 0); brillo.addColorStop(0, 'rgba(255,255,255,0)'); brillo.addColorStop(0.28, 'rgba(255,255,255,.35)'); brillo.addColorStop(0.36, 'rgba(255,255,255,0)'); brillo.addColorStop(0.85, 'rgba(0,0,0,.12)');
       g.fillStyle = brillo; g.beginPath(); g.moveTo(V.X(-Rr), V.Y(H)); g.lineTo(V.X(0), V.Y(0)); g.lineTo(V.X(Rr), V.Y(H)); g.closePath(); g.fill();
       sombraPiso(g, V.X(-1.5), V.Y(-0.2) + 2, 60, 6, 0.3);
@@ -291,7 +380,7 @@
       g.setLineDash([5, 4]); g.strokeStyle = COL.gris; g.lineWidth = 1.2; g.beginPath(); g.moveTo(V.X(Rr) + 12, V.Y(0)); g.lineTo(V.X(Rr) + 12, V.Y(H)); g.stroke(); g.beginPath(); g.moveTo(V.X(r), V.Y(hh)); g.lineTo(V.X(Rr) + 30, V.Y(hh)); g.stroke(); g.setLineDash([]);
       rotulo(g, '12 m', V.X(Rr) + 12, V.Y(H / 2), '#56616d'); rotulo(g, 'h = ' + f2(hh), V.X(Rr) + 34, V.Y(hh), COL.teal, 'left');
       rotulo(g, 'r = ' + f2(Math.round(r * 100) / 100), V.X(r) + 30, V.Y(hh) - 16, '#1f6fae', 'left'); rotulo(g, 'radio 6 m', V.X(Rr) + 8, V.Y(H) - 14, '#56616d', 'left');
-      panel(g, ['V = πh³/12 = ' + f2(Math.round(vol * 10) / 10) + ' m³', 'el nivel sube a ' + f2(Math.round(hp * 1000) / 1000) + ' m/min'], 10, 10);
+      panel(g, ['V = πh³/12 = ' + f2(Math.round(vol * 10) / 10) + ' m³ · 🐟 cada 12 m³', 'el nivel sube a ' + f2(Math.round(hp * 1000) / 1000) + ' m/min'], 10, 10);
       lec.innerHTML = 'Por semejanza r/h = 6/12 ⇒ r = h/2 ⇒ V = πh³/12 ⇒ V′ = (πh²/4)·h′ ⇒ <b>h′ = 32/(πh²) = ' + f2(Math.round(hp * 1000) / 1000) + ' m/min</b>';
     }
     hs.inp.addEventListener('input', function () { dib(); }); L.redibuja = dib; dib();
@@ -387,7 +476,7 @@
     var Gf = grafOpt(c, function (x) { return Ar(x) / 1000; }, 0, 1200, 760, 200, 200);
     var ct = fila(c), x = U.deslizador(ct, 'lados perpendiculares x =', 20, 1180, 1, 300, function (v) { return Math.round(v) + ' m'; });
     var lec = U.lectura(c), R = U.reto(c, 'Mueve x hasta encerrar el área más grande posible.', false, function () { return true; }, '¡Máximo! x = 600 m y el lado paralelo al río mide 1200 m: área de 720 000 m².'); R.el.__fin = c.__fin;
-    var chk = alLlegar(x, 600, 2, R, c), r = azar(5), ovejas = []; for (var i = 0; i < 14; i++) ovejas.push([r(), r(), r() < 0.5 ? 1 : -1]);
+    var chk = alLlegar(x, 600, 2, R, c), r = azar(5), ovejas = sitiosRect(40, 5).map(function (p) { return [p[0], p[1], r() < 0.5 ? 1 : -1]; }), Pb = Poblador(function () { dib(); });
     function dib() {
       var g = L.g, w = L.w, h = L.h, xx = x.v, y = P - 2 * xx, V = vista(L, -40, 2440, -1250, 160, 8);
       g.fillStyle = '#a3cf8c'; g.fillRect(0, 0, w, h);
@@ -399,7 +488,11 @@
       g.strokeStyle = '#8b5a2b'; g.lineWidth = 3; g.beginPath(); g.moveTo(X0, Y0); g.lineTo(X0, Y1); g.lineTo(X1, Y1); g.lineTo(X1, Y0); g.stroke();
       g.fillStyle = '#6d4520'; var per = [[X0, Y0, X0, Y1], [X0, Y1, X1, Y1], [X1, Y1, X1, Y0]];
       per.forEach(function (s) { var n = Math.max(2, Math.round(Math.hypot(s[2] - s[0], s[3] - s[1]) / 18)); for (var q = 0; q <= n; q++) g.fillRect(s[0] + (s[2] - s[0]) * q / n - 2, s[1] + (s[3] - s[1]) * q / n - 2, 4, 4); });
-      ovejas.forEach(function (o) { var ox = X0 + 10 + o[0] * (X1 - X0 - 20), oy = Y0 + 10 + o[1] * (Y1 - Y0 - 16); if (X1 - X0 < 26 || Y1 - Y0 < 24) return; g.fillStyle = '#fff'; g.beginPath(); g.arc(ox, oy, 4.2, 0, 7); g.arc(ox + 3 * o[2], oy - 1, 3.4, 0, 7); g.arc(ox - 3 * o[2], oy, 3.6, 0, 7); g.fill(); g.fillStyle = '#333'; g.beginPath(); g.arc(ox + 6.5 * o[2], oy - 1.5, 2, 0, 7); g.fill(); });
+      var nOv = Math.max(0, Math.round(Ar(xx) / 20000)), vivos = [];
+      for (var q = 0; q < nOv; q++) { var o = ovejas[q], ox = X0 + 9 + o[0] * Math.max(0, X1 - X0 - 22), oy = Y0 + 8 + o[1] * Math.max(0, Y1 - Y0 - 18), al = Pb.a('o' + q); vivos.push('o' + q);
+        g.globalAlpha = al; oveja(g, ox, oy + (1 - al) * 4, Math.min(1, 0.55 + w / 1400), o[2]); g.globalAlpha = 1; }
+      Pb.cierra(vivos);
+      rotulo(g, '🐑 ' + nOv + (nOv === 1 ? ' oveja' : ' ovejas') + ' (cada una necesita 20 000 m²)', w - 10, h - 16, '#2f5d1f', 'right', 12);
       rotulo(g, 'río (no se cerca)', w / 2, V.Y(0) / 2, '#fff', 'center', 13, 'rgba(0,60,110,.35)');
       rotulo(g, 'x = ' + Math.round(xx), X0 - 6, (Y0 + Y1) / 2, '#6d4520', 'right'); rotulo(g, 'y = 2400 − 2x = ' + Math.round(y), (X0 + X1) / 2, Y1 + 14, '#6d4520');
       Gf.dib(xx); lec.innerHTML = 'Área A(x) = x(2400 − 2x) = <b>' + miles(Ar(xx)) + ' m²</b> · A′(x) = 2400 − 4x = ' + Math.round(2400 - 4 * xx) + ' <span style="color:#56606b">(gráfica en miles de m²)</span>';
@@ -409,7 +502,8 @@
   };
 
   W.alambre = function (c, D) {
-    var L = lienzoPx(c, 260), Ar = function (x) { return x * x / 16 + (10 - x) * (10 - x) / (4 * Math.PI); };
+    var L = lienzoPx(c, 260), Ar = function (x) { return x * x / 16 + (10 - x) * (10 - x) / (4 * Math.PI); }, Pf = Poblador(function () { dib(); });
+    var SQ = sitiosRect(30, 8), rq = azar(9), CI = []; while (CI.length < 40) { var px = rq() * 2 - 1, py = rq() * 2 - 1; if (px * px + py * py < 1) CI.push([px, py]); }
     var Gf = grafOpt(c, Ar, 0, 10, 8.5, 1, 2);
     var ct = fila(c), x = U.deslizador(ct, 'alambre para el cuadrado x =', 0, 10, 0.01, 4, function (v) { return f2(v) + ' m'; });
     var lec = U.lectura(c), R = U.reto(c, '¿Cuántos metros hay que usar en el cuadrado para que el área total sea MÁXIMA?', true, function (v) { return Math.abs(v) < 0.005; },
@@ -424,14 +518,19 @@
       var cy = V.Y(-1.9);
       if (lado > 0.005) { g.fillStyle = 'rgba(176,109,43,.18)'; g.strokeStyle = '#b06d2b'; g.lineWidth = 3.5; g.fillRect(V.X(2.6) - lado * V.s / 2, cy - lado * V.s / 2, lado * V.s, lado * V.s); g.strokeRect(V.X(2.6) - lado * V.s / 2, cy - lado * V.s / 2, lado * V.s, lado * V.s); }
       if (rad > 0.005) { g.fillStyle = 'rgba(125,138,150,.18)'; g.strokeStyle = '#7d8a96'; g.lineWidth = 3.5; g.beginPath(); g.arc(V.X(7.3), cy, rad * V.s, 0, 7); g.fill(); g.stroke(); }
+      var vivosF = [], colF = ['#f29fb5', '#ffffff', '#c39bd3', '#f5b041'];
+      var nq = Math.round(lado * lado * 4), nc = Math.round(Math.PI * rad * rad * 4);
+      for (var q = 0; q < nq; q++) { var p = SQ[q]; var al = Pf.a('q' + q); vivosF.push('q' + q); g.globalAlpha = al; flor(g, V.X(2.6) + (p[0] - 0.5) * lado * V.s * 0.82, cy + (p[1] - 0.5) * lado * V.s * 0.82, Math.min(1.2, 0.55 + V.s / 60), colF[q % 4]); g.globalAlpha = 1; }
+      for (q = 0; q < nc; q++) { var d = CI[q]; var al2 = Pf.a('c' + q); vivosF.push('c' + q); g.globalAlpha = al2; flor(g, V.X(7.3) + d[0] * rad * V.s * 0.84, cy + d[1] * rad * V.s * 0.84, Math.min(1.2, 0.55 + V.s / 60), colF[(q + 1) % 4]); g.globalAlpha = 1; }
+      Pf.cierra(vivosF);
       rotulo(g, '□ ' + f2(Math.round(lado * lado * 100) / 100) + ' m²', V.X(2.6), V.Y(-3.4), '#b06d2b'); rotulo(g, '○ ' + f2(Math.round(Math.PI * rad * rad * 100) / 100) + ' m²', V.X(7.3), V.Y(-3.4), '#56616d');
-      Gf.dib(xx); lec.innerHTML = 'A(x) = x²/16 + (10 − x)²/(4π) = <b>' + f2(Math.round(Ar(xx) * 1000) / 1000) + ' m²</b> · compara los extremos A(0) ≈ 7,958 y A(10) = 6,25 con el punto crítico';
+      Gf.dib(xx); lec.innerHTML = '🌸 Cada flor ocupa ¼ m² · A(x) = x²/16 + (10 − x)²/(4π) = <b>' + f2(Math.round(Ar(xx) * 1000) / 1000) + ' m²</b> · compara los extremos A(0) ≈ 7,958 y A(10) = 6,25 con el punto crítico';
     }
     x.inp.addEventListener('input', dib); L.redibuja = dib; Gf.G.redibuja = dib; dib();
   };
 
   W.cajaabierta = function (c, D) {
-    var Vol = 32000, L = lienzoPx(c, 280), M = function (x) { return x * x + 4 * Vol / x; };
+    var Vol = 32000, L = lienzoPx(c, 280), M = function (x) { return x * x + 4 * Vol / x; }, Pc = Poblador(function () { dib(); });
     var Gf = grafOpt(c, function (x) { return M(x) / 1000; }, 10, 90, 14, 10, 2);
     var ct = fila(c), x = U.deslizador(ct, 'lado de la base x =', 12, 88, 0.1, 25, function (v) { return f2(v) + ' cm'; });
     var lec = U.lectura(c), R = U.reto(c, 'Encuentra la base que usa menos material.', false, function () { return true; }, '¡Mínimo! Base de 40 × 40 cm y altura 20 cm: 4800 cm² de material.'); R.el.__fin = c.__fin;
@@ -447,6 +546,10 @@
       g.fillStyle = '#c99a62'; g.beginPath(); g.moveTo(ox + bw, oy); g.lineTo(ox + bw + dx, oy - dy); g.lineTo(ox + bw + dx, oy - dy - bh); g.lineTo(ox + bw, oy - bh); g.closePath(); g.fill(); g.stroke();
       g.strokeStyle = 'rgba(138,90,43,.6)'; g.setLineDash([4, 3]); g.beginPath(); g.moveTo(ox, oy - bh); g.lineTo(ox + bw, oy - bh); g.stroke(); g.setLineDash([]);
       rotulo(g, 'x = ' + f2(Math.round(xx * 10) / 10), ox + bw / 2, oy + 13, '#6d4520'); rotulo(g, 'h = ' + f2(Math.round(hh * 10) / 10), ox + bw + dx + 8, oy - dy - bh / 2, '#6d4520', 'left');
+      var nL = Math.round(M(xx) / 400), vivosL = [], bx0 = w - 70, by0 = h - 24;
+      for (var q = 0; q < nL; q++) { var al = Pc.a('l' + q); vivosL.push('l' + q); g.globalAlpha = al; var yq = by0 - q * 5 - (1 - al) * 8;
+        g.fillStyle = q % 2 ? '#d9b27c' : '#cfa56c'; g.beginPath(); g.moveTo(bx0 - 26, yq); g.lineTo(bx0 + 26, yq); g.lineTo(bx0 + 34, yq - 7); g.lineTo(bx0 - 18, yq - 7); g.closePath(); g.fill(); g.strokeStyle = '#8a5a2b'; g.lineWidth = 0.8; g.stroke(); g.globalAlpha = 1; }
+      Pc.cierra(vivosL); rotulo(g, nL + ' láminas de 400 cm²', bx0 + 4, by0 + 12, '#6d4520', 'center', 11);
       panel(g, ['sin tapa · V = 32 000 cm³', 'material = ' + miles(M(xx)) + ' cm²'], 10, 10);
       Gf.dib(xx); lec.innerHTML = 'h = 32 000/x² ⇒ M(x) = x² + 4xh = x² + 128 000/x = <b>' + miles(M(xx)) + ' cm²</b> · M′(x) = 2x − 128 000/x² = ' + f2(Math.round((2 * xx - 128000 / (xx * xx)) * 10) / 10) + ' <span style="color:#56606b">(gráfica en miles de cm²)</span>';
       chk();
@@ -455,7 +558,7 @@
   };
 
   W.tuberia = function (c, D) {
-    var L = lienzoPx(c, 280), C = function (x) { return 2 * Math.sqrt(4 + x * x) + (4 - x); };
+    var L = lienzoPx(c, 280), C = function (x) { return 2 * Math.sqrt(4 + x * x) + (4 - x); }, Pu = Poblador(function () { dib(); });
     var Gf = grafOpt(c, C, 0, 4, 9, 1, 1);
     var ct = fila(c), x = U.deslizador(ct, 'sale a la costa a x =', 0, 4, 0.005, 3, function (v) { return f2(v) + ' km'; });
     var lec = U.lectura(c), R = U.reto(c, 'Mueve el punto P hasta que el costo sea mínimo (en unidades de k).', false, function () { return true; }, '¡Mínimo! x = 2/√3 ≈ 1,155 km y C = 4 + 2√3 ≈ 7,46k.'); R.el.__fin = c.__fin;
@@ -476,6 +579,8 @@
       g.strokeStyle = '#d17a22'; g.beginPath(); g.moveTo(Px, costa - 5); g.lineTo(rx - 6, costa - 5); g.stroke();
       g.fillStyle = COL.rojo; g.beginPath(); g.arc(Px, costa - 5, 6, 0, 7); g.fill(); rotulo(g, 'P', Px, costa - 22, COL.rojo, 'center', 13);
       rotulo(g, 'mar: 2k por km', (px0 + Px) / 2 + 28, (py0 + costa) / 2 + 6, '#fff', 'left', 12, 'rgba(0,40,70,.45)'); rotulo(g, 'tierra: k por km', (Px + rx) / 2, costa - 24, '#8a4f12', 'center', 12);
+      var nBi = Math.round(C(xx) * 3); var pfB = Math.max(5, Math.floor(w * 0.3 / 21)); Pu.cierra(iconos(g, Pu, nBi, icoBillete, w - 16, h - 14, -21, -13, pfB, 'b', 1));
+      rotulo(g, 'costo: ' + nBi + ' billetes (cada uno ⅓ k)', w - 12, h - 32 - Math.floor((nBi - 1) / pfB) * 13, '#fff', 'right', 11, 'rgba(0,40,70,.55)');
       Gf.dib(xx); lec.innerHTML = 'C(x) = 2k√(4 + x²) + k(4 − x) = <b>' + f2(Math.round(C(xx) * 1000) / 1000) + 'k</b> · C′(x) = k(2x/√(4 + x²) − 1) = ' + f2(Math.round((2 * xx / Math.sqrt(4 + xx * xx) - 1) * 1000) / 1000) + 'k';
       chk();
     }
@@ -483,7 +588,7 @@
   };
 
   W.canoa = function (c, D) {
-    var L = lienzoPx(c, 260), Vf = function (t) { return 160 * Math.sin(t * Math.PI / 180); };
+    var L = lienzoPx(c, 260), Vf = function (t) { return 160 * Math.sin(t * Math.PI / 180); }, Pn = Poblador(function () { dib(); });
     var Gf = grafOpt(c, Vf, 0, 180, 175, 30, 40);
     var ct = fila(c), th = U.deslizador(ct, 'ángulo entre los lados θ =', 5, 175, 0.5, 40, function (v) { return f2(v) + '°'; });
     var lec = U.lectura(c), R = U.reto(c, 'Abre la canoa hasta que le quepa la mayor cantidad posible.', false, function () { return true; }, '¡Máximo! θ = 90°: el extremo es un triángulo rectángulo isósceles y V = 160 m³.'); R.el.__fin = c.__fin;
@@ -500,6 +605,9 @@
       g.strokeStyle = '#6b3d16'; g.lineWidth = 1; for (var q = 1; q < 6; q++) { var u = q / 6, p1 = [a1[0] + (a3[0] - a1[0]) * u, a1[1] + (a3[1] - a1[1]) * u], p2 = [a2[0] + (a3[0] - a2[0]) * u, a2[1] + (a3[1] - a2[1]) * u]; g.beginPath(); g.moveTo(p1[0], p1[1]); g.lineTo(p2[0], p2[1]); g.stroke(); }
       g.strokeStyle = COL.rojo; g.lineWidth = 2; g.beginPath(); var an = Math.atan2(a1[1] - a3[1], a1[0] - a3[0]), an2 = Math.atan2(a2[1] - a3[1], a2[0] - a3[0]); g.arc(a3[0], a3[1], 18, Math.min(an, an2), Math.max(an, an2)); g.stroke();
       rotulo(g, 'θ', a3[0], a3[1] - 28, COL.rojo, 'center', 13, false); rotulo(g, '4 m', (a1[0] + a3[0]) / 2 - 18, (a1[1] + a3[1]) / 2, '#6b3d16', 'right'); rotulo(g, '20 m de largo', (a2[0] + b2[0]) / 2, (a2[1] + b2[1]) / 2 - 14, '#6b3d16');
+      var nB = Math.round(Vf(th.v) / 16), vivosB = [];
+      for (var q = 0; q < nB; q++) { var u = (q + 0.5) / 10, al = Pn.a('b' + q); vivosB.push('b' + q); var P0 = P(0, 0, u * 20); g.globalAlpha = al; barril(g, P0[0], P0[1] - 6 - (1 - al) * 10, Math.min(1.5, Math.max(0.9, V.s / 22))); g.globalAlpha = 1; }
+      Pn.cierra(vivosB); rotulo(g, '🛢️ ' + nB + ' barriles de 16 m³', w - 12, h - 16, '#3d2412', 'right', 12);
       Gf.dib(th.v); lec.innerHTML = 'Área del extremo = ½·4·4·sen θ = 8 sen θ ⇒ <b>V(θ) = 160 sen θ = ' + f2(Math.round(Vf(th.v) * 10) / 10) + ' m³</b>';
       chk();
     }
@@ -540,7 +648,7 @@
     for (var i = 1; i < n; i++) g.lineTo(a + (b - a) * i / n, y + (i % 2 ? -amp : amp)); g.lineTo(b, y); g.lineTo(x2, y); g.stroke(); g.restore();
   }
   W.resorte = function (c, D) {
-    var k = 800, L = lienzoPx(c, 170), G = U.Lienzo(c, 200, [0, 0.105, 0, 90]);
+    var Pr = Poblador(function () { dib(); }), k = 800, L = lienzoPx(c, 170), G = U.Lienzo(c, 200, [0, 0.105, 0, 90]);
     var ct = fila(c), Ls = U.deslizador(ct, 'longitud del resorte =', 10, 20, 0.1, 15, function (v) { return f2(v) + ' cm'; });
     var lec = U.lectura(c), R = U.reto(c, '¿Cuánto trabajo cuesta estirarlo de 15 a 18 cm? (J)', true, function (v) { return Math.abs(v - 1.56) < 0.005; },
       '¡Bien! k = 40/0,05 = 800 N/m y W = ∫ de 0,05 a 0,08 de 800x dx = 400(0,08² − 0,05²) = 1,56 J.'); R.el.__fin = c.__fin;
@@ -551,6 +659,7 @@
       var bx = 26 + l * esc; resorteDib(g, 26, bx, y, 14, 12 - (l - 10) * 0.4, '#4f5b66');
       g.fillStyle = '#c47800'; rr(g, bx, y - 20, 42, 40, 6); g.fill(); g.fillStyle = 'rgba(255,255,255,.25)'; rr(g, bx + 4, y - 16, 34, 10, 4); g.fill();
       flecha(g, bx + 46, y, bx + 46 + Math.min(70, F / 1.4), y, COL.rojo, 3); rotulo(g, 'F = ' + f2(Math.round(F * 10) / 10) + ' N', bx + 56, y - 26, COL.rojo, 'left');
+      var nPe = Math.round(F / 10), pfP = Math.max(3, Math.floor((w - bx - 80) / 20)); Pr.cierra(iconos(g, Pr, nPe, icoPesa, w - 16, 22, -20, 18, pfP, 'p', 1)); rotulo(g, '≈ ' + nPe + ' pesas de 1 kg (10 N c/u)', w - 12, h - 10, '#8a5300', 'right', 11);
       for (var cm = 0; cm <= 20; cm += 1) { var tx = 26 + cm * esc; g.fillStyle = '#56616d'; g.fillRect(tx, y + 26, 1, cm % 5 ? 4 : 9); if (cm % 5 === 0) { g.font = '11px system-ui'; g.textAlign = 'center'; g.fillText(cm + ' cm', tx, y + 46); } }
       g.fillStyle = 'rgba(0,110,120,.25)'; g.fillRect(26 + 10 * esc, y + 22, Math.max(0, l - 10) * esc, 4);
       G.limpia(); G.ejes(0.01, 10); var gg = G.ctx;
@@ -564,7 +673,7 @@
   };
 
   W.bombear = function (c, D) {
-    var L = lienzoPx(c, 330), ct = fila(c), a = U.deslizador(ct, 'nivel del agua =', 0, 4, 0.01, 4, function (v) { return f2(v) + ' m'; });
+    var Pb2 = Poblador(function () { dib(); }), L = lienzoPx(c, 330), ct = fila(c), a = U.deslizador(ct, 'nivel del agua =', 0, 4, 0.01, 4, function (v) { return f2(v) + ' m'; });
     var rel = reloj(ct, { get v() { return 4 - a.v; }, set v(t) { a.v = 4 - t; }, inp: a.inp }, 4, 0.5, '▶ Encender la bomba');
     a.inp.min = 0;
     var Wp = function (s) { return 2450 * Math.PI * (64 / 3 - (4 * s * s * s / 3 - s * s * s * s / 4)); };
@@ -585,6 +694,10 @@
       g.strokeStyle = '#3a3f46'; g.lineWidth = 4; g.beginPath(); g.moveTo(V.X(-1.7), V.Y(5.0)); g.lineTo(V.X(0), V.Y(5.0)); g.lineTo(V.X(0), V.Y(Math.max(lv, 0.15))); g.stroke();
       if (lv < 3.99) { g.strokeStyle = 'rgba(70,160,225,.85)'; g.lineWidth = 3; g.beginPath(); g.moveTo(V.X(-3.9), V.Y(5.0)); g.quadraticCurveTo(V.X(-4.3), V.Y(4.8), V.X(-4.25), V.Y(0)); g.stroke(); }
       rotulo(g, 'radio 2 m', V.X(2) + 8, V.Y(4) - 12, '#56616d', 'left', 12); rotulo(g, '4 m', V.X(2.4), V.Y(2), '#56616d', 'left', 12);
+      var vS = Math.PI * (64 - lv * lv * lv) / 12, nb = Math.floor(vS), vivosB = [], porF = Math.max(4, Math.min(9, Math.floor((w * 0.4) / 24)));
+      for (var q = 0; q < Math.ceil(vS - 1e-9) && q < 18; q++) { var al = Pb2.a('b' + q); vivosB.push('b' + q); var lleno = q < nb ? 1 : (vS - nb);
+        g.globalAlpha = al; balde(g, w - 22 - (q % porF) * 24, V.Y(-0.1) - 12 - Math.floor(q / porF) * 24, 0.95, lleno); g.globalAlpha = 1; }
+      Pb2.cierra(vivosB); rotulo(g, 'agua sacada: ' + f2(Math.round(vS * 100) / 100) + ' m³ (cada balde: 1 m³)', w - 12, V.Y(-0.1) + 14, '#1f5a8a', 'right', 11);
       panel(g, ['trabajo hecho: ' + f2(Math.round((Wp(lv)) / 100) / 10) + ' kJ', 'de ' + f2(Math.round(Wp(0) / 100) / 10) + ' kJ en total'], 10, 10);
       lec.innerHTML = 'Capa a altura y: radio y/2, volumen π(y/2)²dy, sube 4 − y ⇒ dW = 9800·π(y/2)²(4 − y) dy · W(hasta nivel ' + f2(lv) + ') = ∫<sub>' + f2(lv) + '</sub><sup>4</sup> … = <b>' + miles(Wp(lv)) + ' J</b>';
     }
@@ -592,7 +705,7 @@
   };
 
   W.represa = function (c, D) {
-    var L = lienzoPx(c, 330), ct = fila(c), p = U.deslizador(ct, 'profundidad de la franja h =', 0, 8, 0.05, 3, function (v) { return f2(v) + ' m'; });
+    var Pd = Poblador(function () { dib(); }), L = lienzoPx(c, 330), ct = fila(c), p = U.deslizador(ct, 'profundidad de la franja h =', 0, 8, 0.05, 3, function (v) { return f2(v) + ' m'; });
     var Fh = function (s) { return 9800 * (10 * s * s - 5 * s * s * s / 12); };
     var lec = U.lectura(c), R = U.reto(c, '¿Cuál es la fuerza total sobre la compuerta? (en millones de N, 2 decimales)', true, function (v) { return Math.abs(v - Fh(8) / 1e6) < 0.006; },
       '¡Eso es! F = 9800∫₀⁸ h(20 − 5h/4) dh ≈ 4,18 × 10⁶ N.'); R.el.__fin = c.__fin;
@@ -607,6 +720,10 @@
       for (var z = 0.5; z <= 8; z += 1) { var len = z * 4; flecha(g, V.X(-wd(z) / 2) - 8 - len, V.Y(-z), V.X(-wd(z) / 2) - 6, V.Y(-z), 'rgba(25,90,150,.7)', 1.8, 7); }
       rotulo(g, 'la presión crece con la profundidad', V.X(-13.5), V.Y(-8.9), '#1f5a8a', 'left', 12);
       rotulo(g, '20 m', V.X(0), V.Y(0) - 12, '#4f5b66'); rotulo(g, '10 m', V.X(0), V.Y(-8) + 14, '#4f5b66'); rotulo(g, 'ancho ' + f2(Math.round(wd(s) * 100) / 100) + ' m', V.X(hw) + 8, V.Y(y1), '#8a5300', 'left');
+      var nC = Math.round(Fh(s) / 9.8 / 15000), abajo = h - 24 - V.Y(-8.6) > 70;
+      if (abajo) { var pfA = Math.floor((w - 24) / 30); Pd.cierra(iconos(g, Pd, nC, icoCamion, 26, V.Y(-8.6) + 24, 30, 18, pfA, 'c', 0.95)); }
+      else { var kC = Math.min(1, w / 700), pfC = Math.max(3, Math.floor((w - 14 - V.X(8.4)) / (28 * kC))); Pd.cierra(iconos(g, Pd, nC, icoCamion, w - 18 * kC, V.Y(-8.6) - 12, -28 * kC, -17 * kC, pfC, 'c', kC)); }
+      rotulo(g, 'la fuerza equivale al peso de ' + nC + ' camiones de 15 t', w - 12, h - 10, '#3a3f46', 'right', 11);
       panel(g, ['fuerza hasta h = ' + f2(s) + ' m:', f2(Math.round(Fh(s) / 1e4) / 100) + ' millones de N'], w - 200, 10);
       lec.innerHTML = 'Franja a profundidad h: presión 9800h, área (20 − 5h/4)dh ⇒ <b>dF = 9800·h·(20 − 5h/4) dh</b>';
     }
@@ -644,7 +761,7 @@
     g.fillStyle = 'rgba(255,255,255,.35)'; g.beginPath(); g.ellipse(1, -2, 7, 2, 0, 0, 7); g.fill(); g.fillStyle = '#fff'; g.beginPath(); g.arc(6.5, -1.5, 2.3, 0, 7); g.fill(); g.fillStyle = '#111'; g.beginPath(); g.arc(7, -1.5, 1.2, 0, 7); g.fill(); g.restore();
   }
   W.ventana = function (c, D) {
-    var L = lienzoPx(c, 330), ct = fila(c), d = U.deslizador(ct, 'profundidad del centro =', 1, 6, 0.05, 3, function (v) { return f2(v) + ' m'; }), r = U.deslizador(ct, 'radio =', 0.3, 1, 0.01, 1, function (v) { return f2(v) + ' m'; });
+    var Pv = Poblador(function () { dib(); }), L = lienzoPx(c, 330), ct = fila(c), d = U.deslizador(ct, 'profundidad del centro =', 1, 6, 0.05, 3, function (v) { return f2(v) + ' m'; }), r = U.deslizador(ct, 'radio =', 0.3, 1, 0.01, 1, function (v) { return f2(v) + ' m'; });
     var lec = U.lectura(c), R = U.reto(c, 'Con radio 1 m y centro a 3 m de profundidad, ¿cuál es la fuerza sobre la ventana? (kN, 1 decimal)', true, function (v) { return Math.abs(v - 29.4 * Math.PI) < 0.1; },
       '¡Sí! F = 9800∫ de −1 a 1 de (3 − y)·2√(1 − y²) dy = 9800·3·π ≈ 92,4 kN: es la presión en el centro por el área.'); R.el.__fin = c.__fin;
     var rnd = azar(3), peces = []; for (var i = 0; i < 6; i++) peces.push([rnd(), rnd(), ['#f39c12', '#e74c3c', '#f1c40f', '#9b59b6', '#16a085', '#e67e22'][i], rnd() < 0.5 ? 1 : -1]);
@@ -661,6 +778,8 @@
       for (var yy = -rr0 * 0.9; yy <= rr0 * 0.9; yy += rr0 * 0.3) { var prof = dd - yy, len = prof * 9; flecha(g, cx + R0 + 10 + len, V.Y(-dd + yy), cx + R0 + 8, V.Y(-dd + yy), '#ffd166', 2, 7); }
       g.setLineDash([4, 4]); g.strokeStyle = 'rgba(255,255,255,.8)'; g.lineWidth = 1.2; g.beginPath(); g.moveTo(cx - R0 - 30, V.Y(0)); g.lineTo(cx - R0 - 30, cy); g.stroke(); g.setLineDash([]);
       rotulo(g, f2(dd) + ' m', cx - R0 - 34, (V.Y(0) + cy) / 2, '#fff', 'right', 13, 'rgba(10,50,80,.5)');
+      var nV = Math.round(F / 9.8 / 600), pfV = Math.max(4, Math.floor(w * 0.32 / 30)); Pv.cierra(iconos(g, Pv, nV, icoVaca, w - 22, h - 16, -30, -20, pfV, 'v', 1));
+      rotulo(g, 'empuja como ' + nV + (nV === 1 ? ' vaca' : ' vacas') + ' de 600 kg encima', w - 12, h - 34 - Math.floor((nV - 1) / pfV) * 20, '#fff', 'right', 11, 'rgba(10,50,80,.55)');
       panel(g, ['F ≈ ' + f2(Math.round(F / 100) / 10) + ' kN', '= 9800 · ' + f2(dd) + ' · π · ' + f2(rr0) + '²'], 10, 10);
       lec.innerHTML = 'Franja a altura y respecto del centro: profundidad ' + f2(dd) + ' − y, ancho 2√(r² − y²) ⇒ <b>dF = 9800(' + f2(dd) + ' − y)·2√(r² − y²) dy</b>';
     }
