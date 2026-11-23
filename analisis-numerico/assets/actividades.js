@@ -839,8 +839,13 @@
   }
   function falloEn(q) {
     var conDatos = !!q.querySelector('script.qvar'), ops = q.querySelectorAll('.op'), inp = q.querySelector('.num input');
-    if (!conDatos && inp) return;                       /* respuesta escrita sin variantes: puede volver a escribir */
     var fb = q.querySelector('.fb');
+    if (!conDatos && inp) {                              /* respuesta escrita sin variantes: se esconde la solución y se reintenta */
+      var sol = fb && fb.querySelector('.fbx') ? fb.querySelector('.fbx').innerHTML.trim() : '';
+      if (fb) fb.classList.add('sin-x');
+      aviso(q, '<b>🔁 Revisa tu cuenta e inténtalo otra vez.</b>' + (sol ? '<details><summary>Me rindo: ver la solución</summary><div class="qantes">' + sol + '</div></details>' : ''));
+      inp.select(); return;
+    }
     if (ops.length && ops.length < 3) {                 /* verdadero/falso: un solo intento, y se ve la explicación */
       ops.forEach(function (o) { o.disabled = true; if (o.getAttribute('data-c') === '1') o.classList.add('bien'); }); return;
     }
@@ -865,12 +870,12 @@
       var q = t.closest('.q');
       setTimeout(function () {
         if (t.classList.contains('op')) { if (t.getAttribute('data-c') !== '1') falloEn(q); else { quitaAviso(q); var fb = q.querySelector('.fb'); if (fb) fb.classList.remove('sin-x'); } }
-        else { var inp = q.querySelector('.num input'); if (inp && inp.classList.contains('mal')) falloEn(q); else if (inp && inp.classList.contains('bien')) { var fb2 = q.querySelector('.fb'); if (fb2) fb2.classList.remove('sin-x'); } }
+        else { var inp = q.querySelector('.num input'); if (inp && inp.classList.contains('mal')) falloEn(q); else if (inp && inp.classList.contains('bien')) { quitaAviso(q); var fb2 = q.querySelector('.fb'); if (fb2) fb2.classList.remove('sin-x'); } }
       }, 0);
     });
     document.addEventListener('keydown', function (e) {
       if (e.key !== 'Enter' || !e.target.closest || !e.target.closest('.quiz[data-id] .num input')) return;
-      var q = e.target.closest('.q'); setTimeout(function () { if (e.target.classList.contains('mal')) falloEn(q); }, 0);
+      var q = e.target.closest('.q'); setTimeout(function () { if (e.target.classList.contains('mal')) falloEn(q); else if (e.target.classList.contains('bien')) { quitaAviso(q); var f3 = q.querySelector('.fb'); if (f3) f3.classList.remove('sin-x'); } }, 0);
     });
     document.addEventListener('click', function (e) {                 /* «Reiniciar» del quiz: vuelve todo a la normalidad */
       var r = e.target.closest && e.target.closest('.quiz[data-id] .reiniciar'); if (!r) return;
