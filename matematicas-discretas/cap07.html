@@ -9,7 +9,8 @@
 <link rel="stylesheet" href="katex/katex.min.css">
 <link rel="stylesheet" href="assets/libro.css">
 <link rel="stylesheet" href="assets/tema-md.css">
-<link rel="stylesheet" href="assets/actividades.css?v=act4">
+<link rel="stylesheet" href="assets/actividades.css?v=act5">
+<!--MANI--><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#14213d"><!--/MANI-->
 </head>
 <body data-pagina="cap07" class="md">
 <header class="topbar">
@@ -20,8 +21,7 @@
   <div class="prog"></div>
 </header>
 <nav class="toc" aria-label="Contenido">
-<a class="portadita" href="index.html"><canvas class="pascal-mini" width="54" height="54" data-filas="16" data-mod="2"></canvas><div><b>Matemáticas Discretas</b><span>Aprender haciendo · IUE</span></div></a>
-<a class="cap" data-slug="prologo" href="prologo.html"><span class="n">·</span><span>Antes de empezar</span><span class="visto">●</span></a>
+<a class="portadita" href="index.html"><canvas class="pascal-mini" width="54" height="54" data-filas="16" data-mod="2"></canvas><div><b>Matemáticas Discretas</b><span>Aprender haciendo · IUE</span></div></a><!--HTOC--><div class="herramientas-toc"><a href="practica.html">🧭 ¿Por dónde empiezo?</a><a href="repaso.html">🔁 Repasar hoy</a><a href="formulas.html">📋 Fórmulas</a><a href="glosario.html">📖 Glosario</a></div><!--/HTOC--><a class="cap" data-slug="prologo" href="prologo.html"><span class="n">·</span><span>Antes de empezar</span><span class="visto">●</span></a>
 <div class="parte">Unidad 1 · Lógica proposicional</div>
 <a class="cap" data-slug="cap01" href="cap01.html"><span class="n">1</span><span>Proposiciones y conectivos</span><span class="visto">●</span></a>
 <a class="cap" data-slug="cap02" href="cap02.html"><span class="n">2</span><span>Tablas de verdad y leyes del álgebra proposicional</span><span class="visto">●</span></a>
@@ -231,12 +231,14 @@
 </section><!--/ACT-->
 <div class="quiz" data-id="cap07-final"><div class="qhead"><span>✎ Repaso del capítulo</span><span class="marcador"></span></div><div class="q"><div class="enun">En un mapa de Karnaugh las filas y columnas siguen el orden…</div><div class="ops"><button class="op" data-c="0"><span class="l">a)</span><span>00, 01, 10, 11</span></button><button class="op" data-c="1"><span class="l">b)</span><span>00, 01, 11, 10</span></button><button class="op" data-c="0"><span class="l">c)</span><span>00, 10, 01, 11</span></button><button class="op" data-c="0"><span class="l">d)</span><span>cualquiera</span></button></div><div class="fb"><span class="veredicto"></span>Es el código de Gray: entre vecinos cambia un solo bit.</div></div><div class="q"><div class="enun">Un grupo válido en un mapa de Karnaugh tiene…</div><div class="ops"><button class="op" data-c="0"><span class="l">a)</span><span>3 casillas</span></button><button class="op" data-c="0"><span class="l">b)</span><span>6 casillas</span></button><button class="op" data-c="1"><span class="l">c)</span><span>1, 2, 4, 8 o 16 casillas</span></button><button class="op" data-c="0"><span class="l">d)</span><span>cualquier número de casillas</span></button></div><div class="fb"><span class="veredicto"></span>Los grupos son rectángulos con potencias de 2 casillas.</div></div><div class="q"><div class="enun">Las casillas de los bordes opuestos del mapa se consideran vecinas.</div><div class="ops"><button class="op" data-c="1"><span class="l">V</span><span>Verdadero</span></button><button class="op" data-c="0"><span class="l">F</span><span>Falso</span></button></div><div class="fb"><span class="veredicto"></span>El mapa «se enrolla» como un toro: por eso las cuatro esquinas pueden formar un grupo.</div></div><div class="q"><div class="enun">Un grupo de 4 casillas en un mapa de 4 variables produce un término con…</div><div class="ops"><button class="op" data-c="0"><span class="l">a)</span><span>4 literales</span></button><button class="op" data-c="0"><span class="l">b)</span><span>3 literales</span></button><button class="op" data-c="1"><span class="l">c)</span><span>2 literales</span></button><button class="op" data-c="0"><span class="l">d)</span><span>1 literal</span></button></div><div class="fb"><span class="veredicto"></span>Cada vez que el grupo se duplica desaparece una variable.</div></div><!--QX--><div class="q"><div class="enun">Un grupo de 8 casillas en un mapa de 4 variables deja un término de cuántas variables?</div><div class="num"><input type="text" inputmode="decimal" placeholder="Tu respuesta" data-r="1" data-tol="0.01"><button class="comprobar">Comprobar</button><span style="font-size:.85em;color:#777">puedes escribir fracciones como 3/2</span></div><div class="fb"><span class="veredicto"></span></div></div><div class="q"><div class="enun">En el orden de Gray dos vecinos difieren en exactamente un bit.</div><div class="ops"><button class="op" data-c="1"><span class="l">V</span><span>Verdadero</span></button><button class="op" data-c="0"><span class="l">F</span><span>Falso</span></button></div><div class="fb"><span class="veredicto"></span></div></div><div class="q"><div class="enun">Las casillas de un mapa se ordenan 00, 01, 11, 10 porque…</div><div class="ops"><button class="op" data-c="1"><span class="l">a)</span><span>así los vecinos difieren en un solo bit</span></button><button class="op" data-c="0"><span class="l">b)</span><span>es el orden binario</span></button><button class="op" data-c="0"><span class="l">c)</span><span>es el orden alfabético</span></button><button class="op" data-c="0"><span class="l">d)</span><span>por costumbre</span></button></div><div class="fb"><span class="veredicto"></span></div></div><!--/QX--><button class="reiniciar">Reiniciar estas preguntas</button></div>
 <!--REP--><p style="text-align:center"><a class="repaso-btn" href="repaso.html">🔁 Repasar hoy <small></small></a></p><!--/REP-->
+<!--COM--><div class="comentar"><button type="button">💬 ¿Viste un error o algo no se entiende? Cuéntame (anónimo)</button></div><!--/COM-->
 <nav class="pager"><a class="ant" href="cap06.html"><small>← Capítulo 6</small><b>Funciones booleanas y formas normales</b></a><a class="sig" href="sim2.html"><small>Simulacro · Unidad 2 →</small><b>Simulacro de la Unidad 2</b></a></nav>
 <div class="pie">Matemáticas Discretas · Aprender haciendo · Santiago Alzate · Institución Universitaria de Envigado<br><a href="https://santiagoalzates.com/textos-academicos.html">← Volver a santiagoalzates.com</a></div>
 </div></main>
-<script src="assets/libro.js?v=stk2"></script>
+<script src="assets/libro.js?v=stk3"></script>
 <script src="assets/discreta.js"></script>
 <script src="assets/simulacro.js"></script>
-<script src="assets/actividades.js?v=act4"></script>
+<script src="assets/explora.js?v=act5"></script>
+<script src="assets/actividades.js?v=act5"></script>
 </body>
 </html>

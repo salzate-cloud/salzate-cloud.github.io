@@ -91,6 +91,7 @@
     document.head.appendChild(st);
   })();
   function sticker(q, ok) {
+    if (document.documentElement.classList.contains('sin-animacion')) return;
     if (getComputedStyle(q).position === 'static') q.style.position = 'relative';
     var v = q.querySelector('.sticker'); if (v) v.remove();
     var s = document.createElement('span');

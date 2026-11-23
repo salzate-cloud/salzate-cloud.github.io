@@ -16,6 +16,7 @@
   function azar(a) { return a[Math.floor(Math.random() * a.length)]; }
   function frase(ok) { return ok ? '<b class="ok">' + azar(FR_OK) + '</b> ' : '<b class="no">' + azar(FR_NO) + '</b> '; }
   function sticker(el, ok) {
+    if (document.documentElement.classList.contains('sin-animacion')) return;
     if (getComputedStyle(el).position === 'static') el.style.position = 'relative';
     var v = el.querySelector(':scope > .sticker'); if (v) v.remove();
     var s = document.createElement('span');
@@ -555,15 +556,247 @@
       }).join('') + '</div>';
   }
 
+  window.__Voz = { muestra: fbMuestra };
+  function iniciaExplora(el) {
+    var D = datos(el); if (!D || !window.EXPLORA || !window.EXPLORA[D.widget]) return;
+    var c = document.createElement('div'); c.className = 'exp'; el.querySelector('.abody').appendChild(c);
+    c.__fin = function () { st.set('lab:' + el.id, 1); document.dispatchEvent(new Event('act-progreso')); };
+    window.EXPLORA[D.widget](c, D);
+  }
+
+  /* =====================================================================
+     8. HERRAMIENTAS: buscador, accesibilidad, sin internet
+     ===================================================================== */
+  function quitaTildes(s) { return (s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); }
+  var INDICE = null;
+  function abreBuscador() {
+    var cap = document.getElementById('buscador');
+    if (!cap) {
+      cap = document.createElement('div'); cap.id = 'buscador'; cap.setAttribute('role', 'dialog'); cap.setAttribute('aria-label', 'Buscar en el libro');
+      cap.innerHTML = '<div class="bx"><div class="bfila"><span aria-hidden="true">🔎</span><input type="search" placeholder="Busca un tema, teorema o palabra… (p. ej., Cramer)" aria-label="Buscar"><button class="cerrar" aria-label="Cerrar">✕</button></div><div class="bres" aria-live="polite"></div><div class="bpie">Enter abre el primer resultado · Esc cierra</div></div>';
+      document.body.appendChild(cap);
+      var inp = cap.querySelector('input'), res = cap.querySelector('.bres');
+      var pinta = function () {
+        var q = quitaTildes(inp.value.trim());
+        if (!INDICE) { res.innerHTML = '<p class="bnada">Cargando índice…</p>'; return; }
+        if (q.length < 2) { res.innerHTML = '<p class="bnada">Escribe al menos dos letras.</p>'; return; }
+        var tk = q.split(/\s+/).filter(Boolean), out = [];
+        INDICE.forEach(function (e) {
+          var t = e._t || (e._t = quitaTildes(e.t)), x = e._x || (e._x = quitaTildes(e.x));
+          var sc = 0;
+          for (var i = 0; i < tk.length; i++) { var w = tk[i]; if (t.indexOf(w) >= 0) sc += 10; else if (x.indexOf(w) >= 0) sc += 2; else { sc = -1; break; } }
+          if (sc > 0) { if (t.indexOf(q) === 0) sc += 8; sc += e.k === 'def' ? 3 : e.k === 'sec' ? 2 : e.k === 'teo' ? 2 : 0; out.push([sc, e]); }
+        });
+        out.sort(function (a, b) { return b[0] - a[0]; });
+        var et = { def: 'Definición', teo: 'Resultado', sec: 'Sección', cap: 'Capítulo', txt: 'Texto', pag: 'Página' };
+        res.innerHTML = out.length ? out.slice(0, 25).map(function (r) {
+          var e = r[1], x = e.x, i = quitaTildes(x).indexOf(tk[0]), frag = x.slice(Math.max(0, i - 50), i + 110);
+          return '<a href="' + e.u + '"><span class="bk">' + (et[e.k] || '') + ' · ' + e.c + '</span><b>' + e.t + '</b><small>' + (i > 50 ? '…' : '') + frag + '…</small></a>';
+        }).join('') : '<p class="bnada">Nada por aquí. Prueba con otra palabra o sin tildes.</p>';
+      };
+      inp.addEventListener('input', pinta);
+      inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') { var a = res.querySelector('a'); if (a) location.href = a.href; } });
+      cap.addEventListener('click', function (e) { if (e.target === cap || e.target.closest('.cerrar')) cierraBuscador(); });
+      cap._pinta = pinta;
+      if (!INDICE) {
+        var sc = document.createElement('script'); sc.src = 'buscar.js';
+        sc.onload = function () { INDICE = window.__INDICE || []; pinta(); };
+        sc.onerror = function () { res.innerHTML = '<p class="bnada">No pude cargar el índice de búsqueda.</p>'; };
+        document.head.appendChild(sc);
+      }
+    }
+    cap.classList.add('si'); document.documentElement.classList.add('sin-scroll');
+    var i2 = cap.querySelector('input'); i2.focus(); i2.select(); cap._pinta();
+  }
+  function cierraBuscador() { var c = document.getElementById('buscador'); if (c) c.classList.remove('si'); document.documentElement.classList.remove('sin-scroll'); }
+
+  var PREFS = (function () { try { return JSON.parse(localStorage.getItem('gb:accesibilidad') || '{}'); } catch (e) { return {}; } })();
+  function aplicaPrefs() {
+    document.documentElement.classList.toggle('letra-grande', !!PREFS.grande);
+    document.documentElement.classList.toggle('alto-contraste', !!PREFS.contraste);
+    document.documentElement.classList.toggle('sin-animacion', !!PREFS.quietas);
+  }
+  aplicaPrefs();
+  function panelAcceso(btn) {
+    var p = document.getElementById('panel-acceso');
+    if (p) { p.remove(); btn.setAttribute('aria-expanded', 'false'); return; }
+    p = document.createElement('div'); p.id = 'panel-acceso'; p.setAttribute('role', 'dialog'); p.setAttribute('aria-label', 'Opciones de lectura');
+    var op = [['grande', 'Letra grande'], ['contraste', 'Alto contraste'], ['quietas', 'Sin animaciones ni stickers']];
+    p.innerHTML = '<b>Opciones de lectura</b>' + op.map(function (o) { return '<label><input type="checkbox" data-k="' + o[0] + '"' + (PREFS[o[0]] ? ' checked' : '') + '> ' + o[1] + '</label>'; }).join('') +
+      '<small>Se guardan en este navegador.</small>';
+    document.body.appendChild(p); btn.setAttribute('aria-expanded', 'true');
+    p.querySelectorAll('input').forEach(function (c) { c.addEventListener('change', function () { PREFS[c.getAttribute('data-k')] = c.checked; try { localStorage.setItem('gb:accesibilidad', JSON.stringify(PREFS)); } catch (e) {} aplicaPrefs(); }); });
+    p.querySelector('input').focus();
+  }
+  function herramientas() {
+    var tb = document.querySelector('.topbar'); if (!tb || tb.querySelector('.herr')) return;
+    var h = document.createElement('div'); h.className = 'herr';
+    h.innerHTML = '<button class="hbus" aria-label="Buscar en el libro (Ctrl+K)" title="Buscar (Ctrl+K)">🔎</button><button class="hacc" aria-label="Opciones de lectura: letra grande y contraste" aria-expanded="false" title="Opciones de lectura">Aa</button>';
+    var esp = tb.querySelector('.esp'); if (esp && esp.nextSibling) tb.insertBefore(h, esp.nextSibling); else tb.appendChild(h);
+    h.querySelector('.hbus').addEventListener('click', abreBuscador);
+    h.querySelector('.hacc').addEventListener('click', function () { panelAcceso(this); });
+    document.addEventListener('keydown', function (e) {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); abreBuscador(); }
+      else if (e.key === 'Escape') { cierraBuscador(); var pa = document.getElementById('panel-acceso'); if (pa) pa.remove(); }
+      else if (e.key === '/' && !/input|textarea|select/i.test((e.target.tagName || ''))) { e.preventDefault(); abreBuscador(); }
+    });
+  }
+  /* textos alternativos y teclado para lo que no los tenga */
+  function accesibilidad() {
+    document.querySelectorAll('figure img:not([alt]), figure img[alt=""]').forEach(function (im) {
+      var cap = im.closest('figure').querySelector('figcaption'); im.setAttribute('alt', cap ? cap.textContent.trim().slice(0, 240) : 'Figura del texto');
+    });
+    document.querySelectorAll('canvas:not([aria-label])').forEach(function (c) { c.setAttribute('role', 'img'); c.setAttribute('aria-label', 'Figura interactiva: usa el ratón, el dedo o los controles de al lado'); });
+    if (!document.querySelector('.saltar')) {
+      var m = document.querySelector('main'); if (m) { if (!m.id) m.id = 'contenido'; var a = document.createElement('a'); a.className = 'saltar'; a.href = '#' + m.id; a.textContent = 'Saltar al contenido'; document.body.insertBefore(a, document.body.firstChild); }
+    }
+  }
+  /* lectura sin internet (solo en la web) */
+  function sinInternet() {
+    if (!('serviceWorker' in navigator) || location.protocol !== 'https:' && location.hostname !== 'localhost') return;
+    navigator.serviceWorker.register('sw.js').catch(function () {});
+    var caja = document.getElementById('offline'); if (!caja) return;
+    var lista = JSON.parse(caja.getAttribute('data-archivos') || '[]');
+    var listo = st.get('offline', 0);
+    caja.innerHTML = '<button class="prim">' + (listo ? '✅ Guardado: puedes leerlo sin internet · actualizar' : '📥 Guardar el libro para leer sin internet') + '</button><span class="oinfo"></span>';
+    caja.querySelector('button').addEventListener('click', function () {
+      var b = this, info = caja.querySelector('.oinfo'); b.disabled = true;
+      caches.open('libro-' + LIBRO).then(function (c) {
+        var hechos = 0;
+        return Promise.all(lista.map(function (u) {
+          return fetch(u, { cache: 'reload' }).then(function (r) { if (r.ok) return c.put(u, r); }).catch(function () {}).then(function () { hechos++; info.textContent = ' ' + hechos + ' / ' + lista.length; });
+        }));
+      }).then(function () { st.set('offline', Date.now()); b.textContent = '✅ ¡Listo! El libro quedó guardado en este dispositivo'; b.disabled = false; info.textContent = ''; });
+    });
+  }
+
+  /* =====================================================================
+     9. COMENTARIOS ANÓNIMOS
+     ===================================================================== */
+  var URL_COMENTARIOS = 'https://comentarios.alzattesantiago.workers.dev';
+  function comentarios() {
+    document.querySelectorAll('.comentar').forEach(function (c) {
+      var b = c.querySelector('button');
+      b.addEventListener('click', function () {
+        if (c.querySelector('form')) return;
+        var f = document.createElement('form');
+        f.innerHTML = '<label>¿Qué viste? <select name="tipo"><option>Error en el texto o en una cuenta</option><option>Algo no se entiende</option><option>Una idea para mejorar</option><option>Otro</option></select></label>' +
+          '<label>Cuéntame (si es un error, di dónde está):<textarea name="texto" maxlength="1500" rows="4" required></textarea></label>' +
+          '<input name="web" class="trampa" tabindex="-1" autocomplete="off" aria-hidden="true">' +
+          '<div class="botones"><button class="prim" type="submit">Enviar de forma anónima</button><button type="button" class="canc">Cancelar</button></div><small>No se guarda tu nombre, correo ni ningún dato tuyo.</small><div class="cres" aria-live="polite"></div>';
+        c.appendChild(f); f.querySelector('textarea').focus();
+        f.querySelector('.canc').addEventListener('click', function () { f.remove(); });
+        f.addEventListener('submit', function (e) {
+          e.preventDefault();
+          if (f.web.value) return;
+          var datos = { libro: LIBRO, pagina: (document.body.getAttribute('data-pagina') || location.pathname), tipo: f.tipo.value, texto: f.texto.value.slice(0, 1500) };
+          var res = f.querySelector('.cres'); f.querySelector('[type=submit]').disabled = true; res.textContent = 'Enviando…';
+          fetch(URL_COMENTARIOS + '/comentario', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(datos) })
+            .then(function (r) { if (!r.ok) throw 0; f.innerHTML = '<p><b>¡Gracias, parcero! 🙌</b> Tu comentario llegó y me ayuda a mejorar el libro.</p>'; })
+            .catch(function () {
+              var cuerpo = encodeURIComponent('Libro: ' + datos.libro + '\nPágina: ' + datos.pagina + '\nTipo: ' + datos.tipo + '\n\n' + datos.texto);
+              res.innerHTML = 'No pude enviarlo directamente. Puedes mandarlo por correo: <a href="mailto:santiago.alzate9@udea.edu.co?subject=' + encodeURIComponent('Comentario sobre ' + datos.libro) + '&body=' + cuerpo + '">abrir el correo con tu comentario</a>.';
+              f.querySelector('[type=submit]').disabled = false;
+            });
+        });
+      });
+    });
+  }
+
+  /* =====================================================================
+     10. ¿POR DÓNDE EMPIEZO? y SIMULACROS RÁPIDOS CON INFORME
+     ===================================================================== */
+  function iniciaPractica(caja) {
+    var banco = JSON.parse(document.getElementById('banco-repaso').textContent);
+    var caps = JSON.parse(caja.getAttribute('data-caps'));      // [{slug, href, titulo, parte, labs:[ids]}]
+    var porCap = {}; banco.forEach(function (q) { (porCap[q.slug] = porCap[q.slug] || []).push(q); });
+    var partes = []; caps.forEach(function (c) { if (partes.indexOf(c.parte) < 0) partes.push(c.parte); });
+    function menu() {
+      var ult = st.get('diag-ultimo', null);
+      caja.innerHTML = '<div class="pmenu"><button class="pcard" data-m="diag"><span class="pe">🧭</span><b>¿Por dónde empiezo?</b><small>Una pregunta de cada tema. Al final te digo qué dominas y qué capítulos repasar.</small></button>' +
+        partes.map(function (p, i) { return '<button class="pcard" data-m="sim" data-p="' + i + '"><span class="pe">⏱️</span><b>Simulacro rápido</b><small>' + p + ' · 12 preguntas, con informe por tema</small></button>'; }).join('') + '</div>' +
+        (ult ? '<p class="ayuda" style="text-align:center">Tu último intento (' + new Date(ult.fecha).toLocaleDateString('es-CO') + '): ' + ult.bien + ' de ' + ult.n + ' en «' + ult.nombre + '».</p>' : '');
+      caja.querySelectorAll('.pcard').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var m = b.getAttribute('data-m');
+          if (m === 'diag') {
+            var sel = caps.filter(function (c) { return porCap[c.slug]; });
+            var paso = Math.max(1, sel.length / 10), qs = [];
+            for (var i = 0; i < sel.length && qs.length < 10; i += paso) { var L = porCap[sel[Math.floor(i)].slug]; qs.push(azar(L)); }
+            corre(qs, '¿Por dónde empiezo?');
+          } else {
+            var p = partes[+b.getAttribute('data-p')], qs2 = [];
+            caps.filter(function (c) { return c.parte === p && porCap[c.slug]; }).forEach(function (c) { qs2 = qs2.concat(porCap[c.slug]); });
+            corre(mezcla(qs2).slice(0, 12), 'Simulacro · ' + p);
+          }
+        });
+      });
+    }
+    function corre(qs, nombre) {
+      var k = 0, resp = [];
+      function pinta() {
+        var q = qs[k];
+        caja.innerHTML = '<div class="rep-barra"><i style="width:' + (100 * k / qs.length) + '%"></i></div><div class="quiz"><div class="qhead"><span>' + nombre + '</span><span class="marcador">' + (k + 1) + ' / ' + qs.length + '</span></div>' +
+          '<div class="rep-origen">Tema: ' + q.origen + '</div><div class="q">' + q.html + '</div><div class="botones"><button class="saltar-q">No sé, siguiente</button></div></div>';
+        var qd = caja.querySelector('.q'), fb = qd.querySelector('.fb'); if (fb) fb.classList.remove('si');
+        function sigue(ok, elegida) { resp[k] = { ok: ok, q: q, elegida: elegida }; k++; if (k < qs.length) pinta(); else informe(); }
+        qd.querySelectorAll('.op').forEach(function (op, i) { op.classList.remove('bien', 'mal'); op.disabled = false; op.addEventListener('click', function () { sigue(op.getAttribute('data-c') === '1', i); }); });
+        var inp = qd.querySelector('.num input');
+        if (inp) {
+          inp.value = ''; var ev = function () {
+            var txt = inp.value.trim().replace(',', '.'), v = NaN;
+            try { if (/^[-+*/().\d\s^sqrtpi]+$/.test(txt)) v = Function('"use strict";var sqrt=Math.sqrt,pi=Math.PI;return (' + txt.replace(/\^/g, '**') + ')')(); } catch (er) {}
+            if (!isFinite(v)) return;
+            var r = parseFloat(inp.getAttribute('data-r')), tol = parseFloat(inp.getAttribute('data-tol') || '0.01');
+            sigue(Math.abs(v - r) <= tol * Math.max(1, Math.abs(r)), inp.value);
+          };
+          var bt = qd.querySelector('.comprobar'); if (bt) { bt.textContent = 'Responder'; bt.addEventListener('click', ev); }
+          inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') ev(); });
+        }
+        caja.querySelector('.saltar-q').addEventListener('click', function () { sigue(false, null); });
+      }
+      function informe() {
+        var bien = resp.filter(function (r) { return r.ok; }).length, temas = {};
+        resp.forEach(function (r) { var t = temas[r.q.slug] = temas[r.q.slug] || { ok: 0, n: 0, titulo: r.q.origen }; t.n++; if (r.ok) t.ok++; });
+        st.set('diag-ultimo', { fecha: Date.now(), bien: bien, n: resp.length, nombre: nombre });
+        var flojos = Object.keys(temas).filter(function (s) { return temas[s].ok < temas[s].n; });
+        var fuertes = Object.keys(temas).filter(function (s) { return temas[s].ok === temas[s].n; });
+        var cap = function (s) { return caps.filter(function (c) { return c.slug === s; })[0] || { href: s + '.html', titulo: s }; };
+        var pct = bien / resp.length, cara = pct >= .9 ? '🏆' : pct >= .7 ? '🔥' : pct >= .4 ? '💪' : '🐢';
+        caja.innerHTML = '<div class="rep-fin"><div class="grande">' + cara + '</div><h2>' + bien + ' de ' + resp.length + '</h2><p>' +
+          (pct >= .9 ? '¡Eso, crack! Estás listo.' : pct >= .7 ? '¡Uy, qué nivel! Ya casi.' : pct >= .4 ? 'Vas bien, parcero: hay temas para repasar.' : 'Nuuu, hay que ponerle juicio… pero para eso es esto. Aquí tienes tu ruta.') + '</p></div>' +
+          (flojos.length ? '<h3>🧭 Tu ruta de repaso</h3><ol class="ruta">' + flojos.map(function (s) { var c = cap(s); return '<li><a href="' + c.href + '"><b>' + c.titulo + '</b></a><br><small>Lee el gancho y las cajas de definición, resuelve el ' + (c.labs ? 'laboratorio y el ' : '') + '«Ordena» y vuelve a intentar el quiz del capítulo (' + temas[s].ok + '/' + temas[s].n + ' aquí).</small></li>'; }).join('') + '</ol>' : '') +
+          (fuertes.length ? '<h3>✅ Lo que ya dominas</h3><p class="fuertes">' + fuertes.map(function (s) { return '<a href="' + cap(s).href + '">' + cap(s).titulo + '</a>'; }).join(' · ') + '</p>' : '') +
+          '<h3>Revisa tus respuestas</h3><div class="revision"></div><div class="botones" style="justify-content:center"><button class="prim otra">Volver al menú</button></div>';
+        var rv = caja.querySelector('.revision');
+        resp.forEach(function (r, i) {
+          var d = document.createElement('details'); d.className = 'rv ' + (r.ok ? 'ok' : 'no');
+          d.innerHTML = '<summary>' + (r.ok ? '✅' : '❌') + ' Pregunta ' + (i + 1) + ' · ' + r.q.origen + '</summary><div class="q">' + r.q.html + '</div>';
+          rv.appendChild(d);
+          var q = d.querySelector('.q'); q.querySelectorAll('.op').forEach(function (o, j) { o.disabled = true; if (o.getAttribute('data-c') === '1') o.classList.add('bien'); else if (j === r.elegida) o.classList.add('mal'); });
+          var inp = q.querySelector('.num input'); if (inp) { inp.disabled = true; inp.value = r.elegida || ''; var t = document.createElement('div'); t.className = 'ayuda'; t.textContent = 'Respuesta esperada: ' + inp.getAttribute('data-r').replace('.', ','); inp.parentNode.appendChild(t); }
+          var fb = q.querySelector('.fb'); if (fb) { fb.classList.add('si'); var v = fb.querySelector('.veredicto'); if (v) v.innerHTML = r.ok ? '<b class="ok">Bien.</b> ' : '<b class="no">Así era:</b> '; }
+        });
+        caja.querySelector('.otra').addEventListener('click', menu);
+        sticker(caja.querySelector('.rep-fin'), pct >= .6);
+        window.scrollTo({ top: caja.offsetTop - 80, behavior: 'smooth' });
+      }
+      pinta();
+    }
+    menu();
+  }
+
   function arranca() {
     document.querySelectorAll('.act.ordena').forEach(iniciaOrdena);
     document.querySelectorAll('.act.error').forEach(iniciaError);
     document.querySelectorAll('.act.lab.pasos').forEach(iniciaLab);
     document.querySelectorAll('.act.lab.gauss').forEach(iniciaGauss);
+    document.querySelectorAll('.act.lab.explora').forEach(iniciaExplora);
     document.querySelectorAll('details.prueba').forEach(function (d) {
       d.addEventListener('toggle', function () { if (d.open) iniciaRevela(d); });
     });
-    progresoCapitulo(); coleccion();
+    progresoCapitulo(); coleccion(); herramientas(); accesibilidad(); comentarios(); sinInternet();
+    var pr = document.getElementById('practica-libro'); if (pr) iniciaPractica(pr);
     document.addEventListener('act-progreso', progresoCapitulo);
     document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('.quiz .op, .quiz .comprobar, .quiz .reiniciar')) setTimeout(progresoCapitulo, 60); });
     var r = document.getElementById('repaso'); if (r) iniciaRepaso(r);
