@@ -2,6 +2,14 @@
   "use strict";
 
   var dictEn = {
+    "books.cint.course": "Universidad de Antioquia \u00b7 Institute of Mathematics",
+    "books.cint.sub": "Areas, volumes and series",
+    "books.cint.desc": "The whole course in four exams: antiderivatives, Riemann sums and the fundamental theorem; integration techniques and improper integrals; area between curves, volumes by slicing, disks, washers and shells, arc length, centroids, Pappus and work; sequences, series and Taylor series. With a mock exam at the end of each part. Written in Spanish.",
+    "books.cint.f1": "3D solids you rotate with your finger: disks, washers and cross sections",
+    "books.cint.f2": "Cylindrical shells that unroll and Pappus's torus",
+    "books.cint.f3": "Gabriel's horn: volume \u03c0, infinite area",
+    "books.cint.f4": "Partial sums, the Basel problem and Riemann's rearrangement",
+    "courses.notes.calcint.interactivo": "Interactive book",
     "books.an2.course": "Universidad de Antioquia \u00b7 Institute of Mathematics",
     "books.an2.sub": "Integration, convergence and Fourier analysis",
     "books.an2.desc": "The class notes of the four exams in one book: the Riemann\u2013Stieltjes integral and bounded variation, improper integrals, uniform convergence, power series, parametric integrals, Fourier series, integral and transform, with complete proofs and worked problems. Written in Spanish.",
