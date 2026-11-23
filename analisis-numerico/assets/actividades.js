@@ -291,7 +291,8 @@
     var vistos = {};
     try { vistos = JSON.parse(localStorage.getItem('gb:vistos') || '{}'); } catch (e) {}
     caja.innerHTML = '<p class="rep-origen">Buscando preguntas en los capítulos…</p>';
-    Promise.all(paginas.map(function (p) {
+    var incrustado = document.getElementById('banco-repaso');
+    var fuente = incrustado ? Promise.resolve([JSON.parse(incrustado.textContent)]) : Promise.all(paginas.map(function (p) {
       return fetch(p.href).then(function (r) { return r.ok ? r.text() : ''; }).catch(function () { return ''; }).then(function (t) {
         var doc = new DOMParser().parseFromString(t, 'text/html'), qs = [];
         doc.querySelectorAll('.quiz').forEach(function (qz) {
@@ -303,7 +304,8 @@
         });
         return qs;
       });
-    })).then(function (listas) {
+    }));
+    fuente.then(function (listas) {
       var todas = [].concat.apply([], listas);
       if (!todas.length) { caja.innerHTML = '<p>No encontré preguntas para repasar.</p>'; return; }
       var est = st.get('leitner', {});
