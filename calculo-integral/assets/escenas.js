@@ -1481,9 +1481,13 @@
   function camara3(L, cfg) {                           /* cámara orbital: arrastra para girar */
     var C = { yaw: cfg.yaw || -0.6, pitch: cfg.pitch || 0.32, esc: 1, cx: 0, cy: 0, arrastrando: false };
     var x0 = 0, y0 = 0, y00 = 0, p00 = 0;
-    function ini(e) { var p = e.touches ? e.touches[0] : e; C.arrastrando = true; x0 = p.clientX; y0 = p.clientY; y00 = C.yaw; p00 = C.pitch; }
-    function mov(e) { if (!C.arrastrando) return; var p = e.touches ? e.touches[0] : e; C.yaw = y00 + (p.clientX - x0) * 0.01; C.pitch = Math.max(-0.2, Math.min(1.2, p00 + (p.clientY - y0) * 0.006)); if (e.cancelable) e.preventDefault(); if (L.redibuja) L.redibuja(); }
-    function fin() { C.arrastrando = false; }
+    var gesto = null;                                  /* en el celular: arrastre horizontal gira; vertical deja bajar la página */
+    function ini(e) { var p = e.touches ? e.touches[0] : e; C.arrastrando = true; gesto = e.touches ? null : 'girar'; x0 = p.clientX; y0 = p.clientY; y00 = C.yaw; p00 = C.pitch; }
+    function mov(e) { if (!C.arrastrando) return; var p = e.touches ? e.touches[0] : e, dx = p.clientX - x0, dy = p.clientY - y0;
+      if (!gesto) { if (Math.abs(dx) + Math.abs(dy) < 8) return; gesto = Math.abs(dx) > Math.abs(dy) ? 'girar' : 'pagina'; }
+      if (gesto !== 'girar') return;
+      C.yaw = y00 + dx * 0.01; if (!e.touches) C.pitch = Math.max(-0.2, Math.min(1.2, p00 + dy * 0.006)); if (e.cancelable) e.preventDefault(); if (L.redibuja) L.redibuja(); }
+    function fin() { C.arrastrando = false; gesto = null; }
     L.c.style.cursor = 'grab'; L.c.style.touchAction = 'pan-y';
     L.c.addEventListener('mousedown', ini); window.addEventListener('mousemove', mov); window.addEventListener('mouseup', fin);
     L.c.addEventListener('touchstart', ini, { passive: true }); L.c.addEventListener('touchmove', mov, { passive: false }); L.c.addEventListener('touchend', fin);
@@ -1921,5 +1925,198 @@
       lec.innerHTML = 'La rueda mide 40 m de diámetro y su centro está a 23 m de altura: cada cabina recorre la <b>circunferencia</b> x² + (y − 23)² = 400. Mira cómo, aunque la cabina roja suba y baje, sus coordenadas siempre cumplen la ecuación.';
     }
     animador(L, dib); L.redibuja();
+  };
+
+  /* =====================================================================
+     El espacio en 3D: la recta (un dron), el plano (un panel solar),
+     el producto cruz (la llave y el tornillo) y los sólidos de revolución (el torno)
+     ===================================================================== */
+  function flecha3(g, C, a, b, col, lw) {
+    var p = C.P(a[0], a[1], a[2]), q = C.P(b[0], b[1], b[2]), an = Math.atan2(q[1] - p[1], q[0] - p[0]), L = Math.hypot(q[0] - p[0], q[1] - p[1]), cab = Math.min(13, L * 0.35);
+    g.save(); g.strokeStyle = col; g.fillStyle = col; g.lineWidth = lw || 3; g.lineCap = 'round'; g.shadowColor = 'rgba(0,0,0,.35)'; g.shadowBlur = 4;
+    g.beginPath(); g.moveTo(p[0], p[1]); g.lineTo(q[0] - Math.cos(an) * cab * 0.6, q[1] - Math.sin(an) * cab * 0.6); g.stroke();
+    g.beginPath(); g.moveTo(q[0], q[1]); g.lineTo(q[0] - cab * Math.cos(an - 0.4), q[1] - cab * Math.sin(an - 0.4)); g.lineTo(q[0] - cab * Math.cos(an + 0.4), q[1] - cab * Math.sin(an + 0.4)); g.closePath(); g.fill(); g.restore();
+  }
+  function ejes3(g, C, n, conPiso) {                   /* piso cuadriculado y ejes x, y, z */
+    if (conPiso) { var pz = [[-n, -n], [n, -n], [n, n], [-n, n]].map(function (q) { return C.P(q[0], q[1], 0); }); poli3(g, pz, 'rgba(255,255,255,.05)');
+      for (var i = -n; i <= n; i++) { linea3(g, C, [i, -n, 0], [i, n, 0], 'rgba(255,255,255,' + (i ? 0.08 : 0.0) + ')', 1); linea3(g, C, [-n, i, 0], [n, i, 0], 'rgba(255,255,255,' + (i ? 0.08 : 0.0) + ')', 1); } }
+    [[[n + 0.6, 0, 0], '#ff7b7b', 'x'], [[0, n + 0.6, 0], '#7bff9b', 'y'], [[0, 0, n + 0.3], '#7bb8ff', 'z']].forEach(function (e) { flecha3(g, C, [0, 0, 0], e[0], e[1], 2); var p = C.P(e[0][0] * 1.06, e[0][1] * 1.06, e[0][2] * 1.06); g.fillStyle = e[1]; g.font = '600 13px system-ui'; g.textAlign = 'center'; g.fillText(e[2], p[0], p[1]); });
+  }
+  function fmtV(v) { return '(' + v.map(function (q) { return f2(Math.round(q * 100) / 100); }).join(', ') + ')'; }
+
+  /* ---------- La recta en el espacio: la ruta de un dron ---------- */
+  W.recta3d = function (c, D) {
+    var L = lienzoPx(c, function (w) { return w < 560 ? 420 : 400; }), C = camara3(L, { yaw: -0.75, pitch: 0.38 });
+    var ct = fila(c), ts = U.deslizador(ct, 'tiempo t', -2, 3, 0.01, 0, function (v) { return f2(v); });
+    var ct2 = fila(c), vx = U.deslizador(ct2, 'v₁', -3, 3, 0.5, 2, function (v) { return f2(v); }), vy = U.deslizador(ct2, 'v₂', -3, 3, 0.5, -1, function (v) { return f2(v); }), vz = U.deslizador(ct2, 'v₃', -2, 3, 0.5, 1, function (v) { return f2(v); });
+    reloj(ct, ts, 3, 0.8, '▶ Que vuele');
+    var lec = U.lectura(c), R = U.reto(c, 'El dron sale de P₀ = (1, 2, 0) con velocidad v = (2, −1, 3). ¿A qué altura z va en t = 2?', true, function (v) { return Math.abs(v - 6) < 0.01; },
+      '¡Eso! z = 0 + 3·2 = 6. En t = 2 el dron está en (5, 0, 6): cada coordenada es la de P₀ más t veces la de v.'); R.el.__fin = c.__fin;
+    var P0 = [1, 2, 0], rnd = azar(3), helice = 0;
+    function dib(dt, now) {
+      var g = L.g, w = L.w, h = L.h, t = ts.v, v = [vx.v, vy.v, vz.v], P = [P0[0] + t * v[0], P0[1] + t * v[1], P0[2] + t * v[2]]; helice += dt * 40;
+      fondoEstudio(g, w, h); C.cx = w / 2; C.cy = h * 0.6; C.esc = Math.min(w, h) / 9;
+      ejes3(g, C, 4, true);
+      var A = [P0[0] - 2 * v[0], P0[1] - 2 * v[1], P0[2] - 2 * v[2]], B = [P0[0] + 3 * v[0], P0[1] + 3 * v[1], P0[2] + 3 * v[2]];
+      g.setLineDash([6, 6]); linea3(g, C, A, B, 'rgba(255,230,140,.75)', 2); g.setLineDash([]);
+      linea3(g, C, [A[0], A[1], 0], [B[0], B[1], 0], 'rgba(0,0,0,.35)', 3);
+      linea3(g, C, P, [P[0], P[1], 0], 'rgba(255,255,255,.25)', 1);
+      var sh = C.P(P[0], P[1], 0); g.fillStyle = 'rgba(0,0,0,.35)'; g.beginPath(); g.ellipse(sh[0], sh[1], 14, 5, 0, 0, 7); g.fill();
+      var p0 = C.P(P0[0], P0[1], P0[2]); g.fillStyle = '#ffd166'; g.beginPath(); g.arc(p0[0], p0[1], 5, 0, 7); g.fill(); rotulo(g, 'P₀ = (1, 2, 0)', p0[0] - 10, p0[1] + 16, '#1f2a36', 'right', 12);
+      flecha3(g, C, P0, [P0[0] + v[0], P0[1] + v[1], P0[2] + v[2]], '#ff9f43', 3.5); var pv = C.P(P0[0] + v[0], P0[1] + v[1], P0[2] + v[2]); rotulo(g, 'v = ' + fmtV(v), pv[0] + 8, pv[1] - 10, '#8a4a10', 'left', 12);
+      /* el dron */
+      var d = C.P(P[0], P[1], P[2]), k = Math.max(0.8, C.esc / 24);
+      g.save(); g.translate(d[0], d[1]); g.scale(k, k);
+      g.strokeStyle = '#2b2f36'; g.lineWidth = 3; g.beginPath(); g.moveTo(-18, -6); g.lineTo(18, 6); g.moveTo(-18, 6); g.lineTo(18, -6); g.stroke();
+      [[-18, -6], [18, 6], [-18, 6], [18, -6]].forEach(function (q, i) { g.fillStyle = 'rgba(200,220,240,.35)'; g.beginPath(); g.ellipse(q[0], q[1] - 3, 10, 3, 0, 0, 7); g.fill(); g.strokeStyle = 'rgba(255,255,255,.7)'; g.lineWidth = 1.2; g.beginPath(); var a = helice + i; g.moveTo(q[0] - 9 * Math.cos(a), q[1] - 3 - 2 * Math.sin(a)); g.lineTo(q[0] + 9 * Math.cos(a), q[1] - 3 + 2 * Math.sin(a)); g.stroke(); });
+      var cg = g.createLinearGradient(0, -8, 0, 8); cg.addColorStop(0, '#f5f7fa'); cg.addColorStop(1, '#8792a0'); g.fillStyle = cg; rr(g, -9, -6, 18, 12, 4); g.fill(); g.fillStyle = '#1b2733'; g.beginPath(); g.arc(0, 2, 3, 0, 7); g.fill(); g.fillStyle = '#4ec9ff'; g.beginPath(); g.arc(0, 2, 1.5, 0, 7); g.fill();
+      g.fillStyle = (Math.floor(now / 300) % 2) ? '#ff4d4d' : '#55ff7a'; g.beginPath(); g.arc(-8, -5, 1.5, 0, 7); g.arc(8, -5, 1.5, 0, 7); g.fill(); g.restore();
+      rotulo(g, 'P(t) = ' + fmtV(P), d[0] + 26, d[1] - 18, '#1f2a36', 'left', 12);
+      g.font = '12px system-ui'; g.fillStyle = 'rgba(255,255,255,.55)'; g.textAlign = 'center'; g.fillText('arrastra para girar', w / 2, h - 10);
+      lec.innerHTML = 'Ruta del dron: <b>(x, y, z) = (1, 2, 0) + t' + fmtV(v) + '</b> · paramétricas: x = 1 + ' + f2(v[0]) + 't, y = 2 + ' + f2(v[1]) + 't, z = ' + f2(v[2]) + 't. Con t = ' + f2(t) + ' está en <b>' + fmtV(P) + '</b>. Cambiar v cambia la dirección del vuelo; la sombra en el piso es la proyección de la recta.';
+    }
+    [ts, vx, vy, vz].forEach(function (s) { s.inp.addEventListener('input', function () { L.redibuja(); }); }); animador(L, dib); L.redibuja();
+  };
+
+  /* ---------- El plano en el espacio: un panel solar y su vector normal ---------- */
+  W.plano3d = function (c, D) {
+    var L = lienzoPx(c, function (w) { return w < 560 ? 430 : 400; }), C = camara3(L, { yaw: 0.9, pitch: 0.42 });
+    var ct = fila(c), inc = U.deslizador(ct, 'inclinación del panel', 0, 80, 1, 30, function (v) { return Math.round(v) + '°'; }), rum = U.deslizador(ct, 'hacia dónde mira', -180, 180, 1, 0, function (v) { return Math.round(v) + '°'; });
+    var ct2 = fila(c), hora = U.deslizador(ct2, '🕑 hora del día', 6, 18, 0.05, 12, function (v) { var hh = Math.floor(v), mm = Math.round((v - hh) * 60); return hh + ':' + (mm < 10 ? '0' : '') + mm; });
+    reloj(ct2, hora, 18, 2, '▶ Pasar el día');
+    var lec = U.lectura(c), R = U.reto(c, 'El panel está en el plano que pasa por (1, 1, 1) con vector normal n = (2, −1, 2). En su ecuación 2x − y + 2z = d, ¿cuánto vale d?', true, function (v) { return Math.abs(v - 3) < 0.01; },
+      '¡Correcto! d = n·P₀ = 2·1 − 1·1 + 2·1 = 3, así que el plano es 2x − y + 2z = 3.'); R.el.__fin = c.__fin;
+    var rayos = [], rnd = azar(8), energia = 0;
+    function dib(dt, now) {
+      var g = L.g, w = L.w, h = L.h, a = inc.v * Math.PI / 180, b = rum.v * Math.PI / 180, n = [Math.sin(a) * Math.cos(b), Math.sin(a) * Math.sin(b), Math.cos(a)];
+      var hs = (hora.v - 6) / 12 * Math.PI, sol = [Math.cos(hs), 0.35, Math.sin(hs)], ns = Math.hypot(sol[0], sol[1], sol[2]); sol = sol.map(function (q) { return q / ns; });
+      var cosT = Math.max(0, n[0] * sol[0] + n[1] * sol[1] + n[2] * sol[2]), alt = Math.max(0, sol[2]);
+      var cie = g.createLinearGradient(0, 0, 0, h), dia = Math.min(1, alt * 3); cie.addColorStop(0, 'rgb(' + (40 + 80 * dia | 0) + ',' + (60 + 120 * dia | 0) + ',' + (110 + 120 * dia | 0) + ')'); cie.addColorStop(1, 'rgb(' + (230 - 40 * (1 - dia) | 0) + ',' + (200 + 30 * dia | 0) + ',' + (160 + 60 * dia | 0) + ')'); g.fillStyle = cie; g.fillRect(0, 0, w, h);
+      C.cx = w / 2; C.cy = h * 0.62; C.esc = Math.min(w, h) / 5;
+      var suelo = []; for (var k = 0; k <= 40; k++) { var t = k / 40 * 6.2832; suelo.push(C.P(3.2 * Math.cos(t), 3.2 * Math.sin(t), -0.6)); } poli3(g, suelo, '#7fa860');
+      /* techo de una casa */
+      var casa = [[-1.4, -1.0], [1.4, -1.0], [1.4, 1.0], [-1.4, 1.0]];
+      poli3(g, casa.map(function (q) { return C.P(q[0], q[1], -0.6); }), '#c9b9a0');
+      [[0, 1], [1, 2], [2, 3], [3, 0]].forEach(function (e) { var A = casa[e[0]], B = casa[e[1]]; var cara = [C.P(A[0], A[1], -0.6), C.P(B[0], B[1], -0.6), C.P(B[0], B[1], 0), C.P(A[0], A[1], 0)]; poli3(g, cara, 'rgba(220,205,180,.95)', '#8f806a', 1); });
+      poli3(g, casa.map(function (q) { return C.P(q[0], q[1], 0); }), '#9b4a32', '#6e3221', 1.2);
+      var ps = C.P(sol[0] * 4, sol[1] * 4, Math.max(-0.3, sol[2] * 4)); if (sol[2] > -0.05) { var sg = g.createRadialGradient(ps[0], ps[1], 2, ps[0], ps[1], 50); sg.addColorStop(0, 'rgba(255,250,210,1)'); sg.addColorStop(0.25, 'rgba(255,220,120,.8)'); sg.addColorStop(1, 'rgba(255,220,120,0)'); g.fillStyle = sg; g.beginPath(); g.arc(ps[0], ps[1], 50, 0, 7); g.fill(); }
+      /* el panel: plano por (0,0,0.25) con normal n */
+      var o = [0, 0, 0.25], u = [Math.cos(b + Math.PI / 2), Math.sin(b + Math.PI / 2), 0], v = [n[1] * u[2] - n[2] * u[1], n[2] * u[0] - n[0] * u[2], n[0] * u[1] - n[1] * u[0]];
+      var W2 = 1.1, H2 = 0.75, esq = [[-W2, -H2], [W2, -H2], [W2, H2], [-W2, H2]].map(function (q) { return [o[0] + u[0] * q[0] + v[0] * q[1], o[1] + u[1] * q[0] + v[1] * q[1], o[2] + u[2] * q[0] + v[2] * q[1]]; });
+      [[0, 3]].forEach(function () { linea3(g, C, [0, 0, 0], o, '#5c636c', 4); });
+      var pe = esq.map(function (q) { return C.P(q[0], q[1], q[2]); }), luzP = 0.35 + 0.65 * cosT;
+      var pg = g.createLinearGradient(pe[0][0], pe[0][1], pe[2][0], pe[2][1]); pg.addColorStop(0, 'rgb(' + (20 + 40 * luzP | 0) + ',' + (40 + 70 * luzP | 0) + ',' + (90 + 120 * luzP | 0) + ')'); pg.addColorStop(1, 'rgb(' + (10 + 20 * luzP | 0) + ',' + (25 + 40 * luzP | 0) + ',' + (70 + 70 * luzP | 0) + ')');
+      poli3(g, pe, pg, '#c9ced4', 2.5);
+      for (var i = 1; i < 6; i++) { var f = -W2 + 2 * W2 * i / 6; linea3(g, C, [o[0] + u[0] * f - v[0] * H2, o[1] + u[1] * f - v[1] * H2, o[2] + u[2] * f - v[2] * H2], [o[0] + u[0] * f + v[0] * H2, o[1] + u[1] * f + v[1] * H2, o[2] + u[2] * f + v[2] * H2], 'rgba(200,220,255,.35)', 1); }
+      for (var j = 1; j < 4; j++) { var f2b = -H2 + 2 * H2 * j / 4; linea3(g, C, [o[0] - u[0] * W2 + v[0] * f2b, o[1] - u[1] * W2 + v[1] * f2b, o[2] - u[2] * W2 + v[2] * f2b], [o[0] + u[0] * W2 + v[0] * f2b, o[1] + u[1] * W2 + v[1] * f2b, o[2] + u[2] * W2 + v[2] * f2b], 'rgba(200,220,255,.35)', 1); }
+      var brillo = Math.pow(cosT, 30); if (brillo > 0.05) { var cpp = C.P(o[0], o[1], o[2]), bg = g.createRadialGradient(cpp[0], cpp[1], 2, cpp[0], cpp[1], 60); bg.addColorStop(0, 'rgba(255,255,255,' + 0.6 * brillo + ')'); bg.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = bg; g.beginPath(); g.arc(cpp[0], cpp[1], 60, 0, 7); g.fill(); }
+      flecha3(g, C, o, [o[0] + n[0] * 1.3, o[1] + n[1] * 1.3, o[2] + n[2] * 1.3], '#ffd166', 4); var pn = C.P(o[0] + n[0] * 1.35, o[1] + n[1] * 1.35, o[2] + n[2] * 1.35); rotulo(g, 'n (normal)', pn[0] + 8, pn[1] - 6, '#7a5a00', 'left', 12);
+      /* rayos de sol que llegan al panel */
+      if (sol[2] > 0.02 && rayos.length < 26) rayos.push({ s: rnd() * 2 - 1, q: rnd() * 2 - 1, t: 0 });
+      rayos.forEach(function (r) { r.t += dt * 1.4; }); rayos = rayos.filter(function (r) { return r.t < 1.2; });
+      g.save(); g.globalCompositeOperation = 'lighter'; rayos.forEach(function (r) { var Pp = [o[0] + u[0] * W2 * r.s + v[0] * H2 * r.q, o[1] + u[1] * W2 * r.s + v[1] * H2 * r.q, o[2] + u[2] * W2 * r.s + v[2] * H2 * r.q], d = Math.max(0, 1 - r.t), A = [Pp[0] + sol[0] * 2.5 * d, Pp[1] + sol[1] * 2.5 * d, Pp[2] + sol[2] * 2.5 * d], B = [Pp[0] + sol[0] * 2.5 * (d + 0.25), Pp[1] + sol[1] * 2.5 * (d + 0.25), Pp[2] + sol[2] * 2.5 * (d + 0.25)]; linea3(g, C, B, A, 'rgba(255,225,120,' + (0.7 * Math.min(1, r.t * 4)) + ')', 2); }); g.restore();
+      energia = energia * 0.9 + cosT * 0.1 * (sol[2] > 0 ? 1 : 0);
+      var bx = w - 150, by = 14; g.fillStyle = 'rgba(255,255,255,.85)'; rr(g, bx, by, 136, 58, 10); g.fill(); g.fillStyle = '#1f2a36'; g.font = '600 12px system-ui'; g.textAlign = 'left'; g.fillText('⚡ el panel produce', bx + 10, by + 18);
+      g.fillStyle = '#dfe5ea'; rr(g, bx + 10, by + 28, 116, 12, 6); g.fill(); var eg = g.createLinearGradient(bx + 10, 0, bx + 126, 0); eg.addColorStop(0, '#f6c445'); eg.addColorStop(1, '#3ec46d'); g.fillStyle = eg; rr(g, bx + 10, by + 28, Math.max(2, 116 * energia), 12, 6); g.fill(); g.fillStyle = '#1f2a36'; g.font = '11px system-ui'; g.fillText(Math.round(energia * 100) + ' % del máximo', bx + 10, by + 52);
+      var d0 = n[0] * o[0] + n[1] * o[1] + n[2] * o[2];
+      g.font = '12px system-ui'; g.fillStyle = 'rgba(30,40,50,.6)'; g.textAlign = 'center'; g.fillText('arrastra para girar', w / 2, h - 10);
+      lec.innerHTML = 'El panel es un pedazo del plano <b>' + f2(Math.round(n[0] * 100) / 100) + 'x + ' + f2(Math.round(n[1] * 100) / 100) + 'y + ' + f2(Math.round(n[2] * 100) / 100) + 'z = ' + f2(Math.round(d0 * 100) / 100) + '</b>: sus coeficientes son el vector normal n. La energía es proporcional a cos θ, el ángulo entre n y la dirección del Sol (n · s = ' + f2(Math.round(cosT * 100) / 100) + '). Gana el que apunta su normal hacia el Sol.';
+    }
+    [inc, rum, hora].forEach(function (s) { s.inp.addEventListener('input', function () { L.redibuja(); }); }); animador(L, dib); L.redibuja();
+  };
+
+  /* ---------- El producto cruz: la llave, el tornillo y el torque ---------- */
+  W.cruz3d = function (c, D) {
+    var L = lienzoPx(c, function (w) { return w < 560 ? 420 : 400; }), C = camara3(L, { yaw: 0.35, pitch: 0.55 });
+    var ct = fila(c), lr = U.deslizador(ct, 'largo de la llave |r|', 0.1, 0.4, 0.01, 0.3, function (v) { return f2(v) + ' m'; }), Fm = U.deslizador(ct, 'fuerza |F|', 0, 80, 1, 50, function (v) { return Math.round(v) + ' N'; }), ang = U.deslizador(ct, 'ángulo entre r y F', 0, 180, 1, 90, function (v) { return Math.round(v) + '°'; });
+    var lec = U.lectura(c), R = U.reto(c, 'Con una llave de 0,3 m y una fuerza de 50 N perpendicular a la llave, ¿cuánto vale |r × F| (en N·m)?', true, function (v) { return Math.abs(v - 15) < 0.01; },
+      '¡Perfecto! |r × F| = |r||F| sen 90° = 0,3·50 = 15 N·m. Si empujas en la dirección de la llave (0°), el tornillo no gira nada.'); R.el.__fin = c.__fin;
+    var giro = 0, rot = 0;
+    function dib(dt, now) {
+      var g = L.g, w = L.w, h = L.h, r = lr.v, th = ang.v * Math.PI / 180, F = Fm.v, tau = r * F * Math.sin(th);
+      fondoEstudio(g, w, h); C.cx = w / 2; C.cy = h * 0.62; C.esc = Math.min(w * (w < 560 ? 1.05 : 1.6), h * 1.5);
+      giro += dt * tau * 0.12; rot = giro;
+      madera3(g);
+      function madera3(g) { var tab = [[-0.55, -0.4], [0.55, -0.4], [0.55, 0.4], [-0.55, 0.4]].map(function (q) { return C.P(q[0], q[1], -0.02); }); var tg = g.createLinearGradient(tab[0][0], tab[0][1], tab[2][0], tab[2][1]); tg.addColorStop(0, '#8a5a32'); tg.addColorStop(1, '#c48e55'); poli3(g, tab, tg, '#5d3a1c', 1.5); for (var k = -0.5; k < 0.55; k += 0.06) linea3(g, C, [k, -0.4, -0.02], [k + 0.02, 0.4, -0.02], 'rgba(70,40,15,.25)', 1); }
+      /* el tornillo (sube o baja girando) */
+      var hz = 0.02 + ((giro * 0.004) % 0.06 + 0.06) % 0.06, hx = []; for (var k2 = 0; k2 < 6; k2++) { var a2 = rot + k2 / 6 * 6.2832; hx.push(C.P(0.035 * Math.cos(a2), 0.035 * Math.sin(a2), hz)); }
+      var hx2 = []; for (var k3 = 0; k3 < 6; k3++) { var a3 = rot + k3 / 6 * 6.2832; hx2.push(C.P(0.035 * Math.cos(a3), 0.035 * Math.sin(a3), hz + 0.025)); }
+      for (var k4 = 0; k4 < 6; k4++) poli3(g, [hx[k4], hx[(k4 + 1) % 6], hx2[(k4 + 1) % 6], hx2[k4]], 'rgb(' + (140 + 60 * Math.cos(rot + k4) | 0) + ',' + (145 + 60 * Math.cos(rot + k4) | 0) + ',' + (155 + 60 * Math.cos(rot + k4) | 0) + ')', '#3d454e', 0.8);
+      poli3(g, hx2, '#c9ced4', '#3d454e', 1);
+      /* la llave: de el tornillo hacia la dirección rot */
+      var ux = [Math.cos(rot), Math.sin(rot), 0], pe = [0, 0, hz + 0.0125], fin = [ux[0] * r, ux[1] * r, hz + 0.0125], nperp = [-ux[1], ux[0], 0];
+      var ancho = 0.018, cuerpo = [[pe[0] + nperp[0] * ancho, pe[1] + nperp[1] * ancho], [fin[0] + nperp[0] * ancho, fin[1] + nperp[1] * ancho], [fin[0] - nperp[0] * ancho, fin[1] - nperp[1] * ancho], [pe[0] - nperp[0] * ancho, pe[1] - nperp[1] * ancho]].map(function (q) { return C.P(q[0], q[1], pe[2]); });
+      var lg = g.createLinearGradient(cuerpo[0][0], cuerpo[0][1], cuerpo[3][0], cuerpo[3][1]); lg.addColorStop(0, '#eef1f4'); lg.addColorStop(0.5, '#9aa3ad'); lg.addColorStop(1, '#5a636c'); poli3(g, cuerpo, lg, '#3d454e', 1);
+      var cab = []; for (var k5 = 0; k5 <= 20; k5++) { var a5 = k5 / 20 * 6.2832; cab.push(C.P(0.05 * Math.cos(a5), 0.05 * Math.sin(a5), pe[2])); } poli3(g, cab, '#b9c0c8', '#3d454e', 1.2);
+      /* r, F y r × F */
+      var Fd = [Math.cos(rot + th), Math.sin(rot + th), 0], Fs = 0.004 * F, Fend = [fin[0] + Fd[0] * Fs, fin[1] + Fd[1] * Fs, fin[2]];
+      flecha3(g, C, [0, 0, fin[2] + 0.005], [fin[0], fin[1], fin[2] + 0.005], '#4ea8ff', 3); flecha3(g, C, fin, Fend, '#ff6b6b', 4);
+      var par = [C.P(0, 0, fin[2]), C.P(fin[0], fin[1], fin[2]), C.P(Fend[0], Fend[1], fin[2]), C.P(Fd[0] * Fs, Fd[1] * Fs, fin[2])]; poli3(g, par, 'rgba(255,209,102,.18)', 'rgba(255,209,102,.5)', 1);
+      var tz = Math.max(-0.35, Math.min(0.35, tau * 0.02)); flecha3(g, C, [0, 0, hz + 0.03], [0, 0, hz + 0.03 + tz], '#ffd166', 5);
+      var pr = C.P(fin[0] / 2, fin[1] / 2, fin[2]), pf = C.P(Fend[0], Fend[1], Fend[2]), pt = C.P(0, 0, hz + 0.03 + tz);
+      rotulo(g, 'r', pr[0], pr[1] + 14, '#1f5f9e', 'center', 13); rotulo(g, 'F = ' + Math.round(F) + ' N', pf[0] + 8, pf[1], '#b02a2a', 'left', 12); rotulo(g, 'r × F = ' + f2(Math.round(tau * 100) / 100) + ' N·m', pt[0] + 10, pt[1], '#7a5a00', 'left', 12);
+      g.font = '12px system-ui'; g.fillStyle = 'rgba(255,255,255,.55)'; g.textAlign = 'center'; g.fillText(w < 560 ? 'arrastra para girar' : 'arrastra para girar · el área amarilla es |r × F|', w / 2, h - 10);
+      lec.innerHTML = 'El <b>torque</b> τ = r × F es perpendicular a la llave y a la fuerza: apunta a lo largo del tornillo (regla de la mano derecha) y por eso el tornillo ' + (tau > 0.01 ? 'sube girando a la izquierda' : tau < -0.01 ? 'baja' : 'no se mueve') + '. Su tamaño es |r||F| sen θ = ' + f2(r) + '·' + Math.round(F) + '·sen ' + Math.round(ang.v) + '° = <b>' + f2(Math.round(tau * 100) / 100) + ' N·m</b>, el área del paralelogramo amarillo. Por eso se empuja lejos del tornillo y perpendicular a la llave.';
+    }
+    [lr, Fm, ang].forEach(function (s) { s.inp.addEventListener('input', function () { L.redibuja(); }); }); animador(L, dib); L.redibuja();
+  };
+
+  /* ---------- Sólidos de revolución: el torno del alfarero ---------- */
+  W.revolucion3d = function (c, D) {
+    var L = lienzoPx(c, function (w) { return w < 560 ? 440 : 420; }), C = camara3(L, { yaw: -0.5, pitch: 0.32 }), metodo = D.metodo || 'discos';
+    var formas = { raiz: { n: 'y = √x (copa)', f: function (x) { return Math.sqrt(x); }, a: 0, b: 4, V: 8 * Math.PI }, jarron: { n: 'jarrón y = 1 + 0,5 sen x', f: function (x) { return 1 + 0.5 * Math.sin(x); }, a: 0, b: 6, V: Math.PI * (6 + 0.25 * 3 + (1 - Math.cos(6)) - 0.25 * Math.sin(12) / 4 * 2) }, cono: { n: 'cono y = x/2', f: function (x) { return x / 2; }, a: 0, b: 4, V: 16 * Math.PI / 3 }, cuenco: { n: 'cuenco y = x²/4', f: function (x) { return x * x / 4; }, a: 0, b: 3, V: Math.PI * 243 / 80 } };
+    var fsel = 'raiz', giro = 6.2832, auto = false, rodaja = 0;
+    var ct = botonesModo(c, Object.keys(formas).map(function (k) { return [k, { raiz: '🍷 Copa', jarron: '🏺 Jarrón', cono: '🍦 Cono', cuenco: '🥣 Cuenco' }[k]]; }), fsel, function (k) { fsel = k; giro = 0; auto = true; });
+    var ct2 = fila(c), nd = U.deslizador(ct2, metodo === 'discos' ? 'número de discos' : 'número de cascarones', 2, 30, 1, 8, function (v) { return String(Math.round(v)); });
+    boton(ct2, '▶ Girar el torno', function () { giro = 0; auto = true; });
+    var lec = U.lectura(c), R = metodo === 'discos'
+      ? U.reto(c, 'Al girar y = √x, 0 ≤ x ≤ 4, alrededor del eje x, ¿cuál es el volumen? (2 decimales)', true, function (v) { return Math.abs(v - 8 * Math.PI) < 0.01; }, '¡Eso! V = π∫₀⁴ (√x)² dx = π∫₀⁴ x dx = 8π ≈ 25,13. Los discos se acercan a ese valor cuando son muchos.')
+      : U.reto(c, 'Con cascarones: al girar y = x/2, 0 ≤ x ≤ 4, alrededor del eje y, el volumen es 2π∫₀⁴ x·(x/2) dx. ¿Cuánto da? (2 decimales)', true, function (v) { return Math.abs(v - 64 * Math.PI / 3) < 0.01; }, '¡Muy bien! 2π∫₀⁴ x²/2 dx = π·64/3 ≈ 67,02.');
+    R.el.__fin = c.__fin;
+    function dib(dt, now) {
+      var g = L.g, w = L.w, h = L.h, F = formas[fsel], n = Math.round(nd.v), a = F.a, b = F.b, ymax = 0; for (var q = 0; q <= 40; q++) ymax = Math.max(ymax, F.f(a + (b - a) * q / 40));
+      if (auto) { giro = Math.min(6.2832, giro + dt * 2.4); if (giro >= 6.2832) auto = false; }
+      var cas = metodo === 'cascarones';
+      paredEstuco(g, w, h, '#f3ede2', '#e2d6c2', 5); mesaMadera(g, w, h * 0.8, h);
+      C.cx = w / 2; C.cy = h * (cas ? 0.62 : 0.5); C.esc = Math.min(w / (b - a + 2.6), h / (2 * ymax + 2.4)) * (cas ? 0.8 : 1);
+      var x0 = -(a + b) / 2;
+      /* el torno: plato giratorio */
+      var plato = []; for (var k = 0; k <= 40; k++) { var t = k / 40 * 6.2832; plato.push(cas ? C.P(1.2 * b * Math.cos(t) * 0.9, 1.2 * b * Math.sin(t) * 0.9, -0.15) : C.P(x0 + a - 0.3, 1.25 * ymax * Math.cos(t), 1.25 * ymax * Math.sin(t))); }
+      if (cas) { var pg = g.createRadialGradient(C.cx, C.cy, 4, C.cx, C.cy, C.esc * b); pg.addColorStop(0, '#a3a8ae'); pg.addColorStop(1, '#5c636c'); poli3(g, plato, pg, '#3d454e', 2); }
+      /* la superficie de revolución (barro o vidrio) */
+      var NX = 36, NT = 40, tmax = giro, caras = [], V = C.vista(), luz = [0.4, -0.6, 0.7];
+      function S(x, t) { var y = F.f(x); return cas ? [x * Math.cos(t), x * Math.sin(t), y] : [x0 + x, y * Math.cos(t), y * Math.sin(t)]; }
+      for (var i = 0; i < NX; i++) for (var j = 0; j < NT; j++) {
+        var xa = a + (b - a) * i / NX, xb = a + (b - a) * (i + 1) / NX, ta = tmax * j / NT, tb = tmax * (j + 1) / NT;
+        var p4 = [S(xa, ta), S(xb, ta), S(xb, tb), S(xa, tb)], cx = (p4[0][0] + p4[2][0]) / 2, cy = (p4[0][1] + p4[2][1]) / 2, cz = (p4[0][2] + p4[2][2]) / 2;
+        var e1 = [p4[1][0] - p4[0][0], p4[1][1] - p4[0][1], p4[1][2] - p4[0][2]], e2 = [p4[3][0] - p4[0][0], p4[3][1] - p4[0][1], p4[3][2] - p4[0][2]], nn = [e1[1] * e2[2] - e1[2] * e2[1], e1[2] * e2[0] - e1[0] * e2[2], e1[0] * e2[1] - e1[1] * e2[0]], ln = Math.hypot(nn[0], nn[1], nn[2]) || 1;
+        nn = nn.map(function (q) { return q / ln; });
+        caras.push({ pr: p4.map(function (q) { return C.P(q[0], q[1], q[2]); }), prof: C.P(cx, cy, cz)[2], li: Math.abs(nn[0] * luz[0] + nn[1] * luz[1] + nn[2] * luz[2]), fr: nn[0] * V[0] + nn[1] * V[1] + nn[2] * V[2] });
+      }
+      caras.sort(function (p, q) { return q.prof - p.prof; });
+      caras.forEach(function (cf) { var t = 0.35 + 0.65 * cf.li; poli3(g, cf.pr, 'rgba(' + (205 * t | 0) + ',' + (120 * t | 0) + ',' + (75 * t | 0) + ',.42)', 'rgba(120,60,30,.12)', 0.5); });
+      /* el perfil (la región que gira) */
+      g.save(); g.strokeStyle = '#7a3b16'; g.lineWidth = 3; g.beginPath(); for (var q2 = 0; q2 <= 60; q2++) { var xx = a + (b - a) * q2 / 60, pp = cas ? C.P(xx, 0, F.f(xx)) : C.P(x0 + xx, 0, F.f(xx)); if (q2) g.lineTo(pp[0], pp[1]); else g.moveTo(pp[0], pp[1]); } g.stroke(); g.restore();
+      /* discos o cascarones que aproximan */
+      var dx = (b - a) / n, suma = 0, cols = ['#4ea8ff', '#3ec46d', '#f6c445', '#ff8c42'];
+      var piezas = []; for (var p = 0; p < n; p++) { var xm = a + dx * (p + 0.5), y = F.f(xm); suma += cas ? 2 * Math.PI * xm * y * dx : Math.PI * y * y * dx; piezas.push({ xm: xm, y: y, prof: cas ? C.P(xm, 0, y / 2)[2] : C.P(x0 + xm, 0, 0)[2] }); }
+      piezas.forEach(function (pz, p) {
+        var col = cols[p % 4], NN = 30;
+        if (!cas) { var xl = x0 + pz.xm - dx / 2, xr = x0 + pz.xm + dx / 2, aro1 = [], aro2 = [];
+          for (var k6 = 0; k6 <= NN; k6++) { var t6 = k6 / NN * 6.2832; aro1.push(C.P(xl, pz.y * Math.cos(t6), pz.y * Math.sin(t6))); aro2.push(C.P(xr, pz.y * Math.cos(t6), pz.y * Math.sin(t6))); }
+          g.globalAlpha = 0.75; for (var k7 = 0; k7 < NN; k7++) poli3(g, [aro1[k7], aro1[k7 + 1], aro2[k7 + 1], aro2[k7]], col); poli3(g, aro2, col, 'rgba(0,0,0,.25)', 1); g.globalAlpha = 1; }
+        else { var r1 = pz.xm - dx / 2, r2 = pz.xm + dx / 2, ab = [], ar = [];
+          for (var k8 = 0; k8 <= NN; k8++) { var t8 = k8 / NN * 6.2832; ab.push(C.P(r2 * Math.cos(t8), r2 * Math.sin(t8), 0)); ar.push(C.P(r2 * Math.cos(t8), r2 * Math.sin(t8), pz.y)); }
+          g.globalAlpha = 0.5; for (var k9 = 0; k9 < NN; k9++) poli3(g, [ab[k9], ab[k9 + 1], ar[k9 + 1], ar[k9]], col); g.strokeStyle = col; g.lineWidth = 1.5; g.beginPath(); ar.forEach(function (q, i) { if (i) g.lineTo(q[0], q[1]); else g.moveTo(q[0], q[1]); }); g.stroke(); g.globalAlpha = 1; }
+      });
+      var ej1 = cas ? C.P(0, 0, -0.3) : C.P(x0 + a - 0.6, 0, 0), ej2 = cas ? C.P(0, 0, ymax + 0.8) : C.P(x0 + b + 0.6, 0, 0); g.setLineDash([6, 5]); g.strokeStyle = '#2f3640'; g.lineWidth = 1.5; g.beginPath(); g.moveTo(ej1[0], ej1[1]); g.lineTo(ej2[0], ej2[1]); g.stroke(); g.setLineDash([]); rotulo(g, cas ? 'eje y' : 'eje x', ej2[0] + 6, ej2[1], '#2f3640', 'left', 12);
+      var V0 = 0, M = 400; for (var q3 = 0; q3 < M; q3++) { var xq = a + (b - a) * (q3 + 0.5) / M, yq = F.f(xq); V0 += (cas ? 2 * Math.PI * xq * yq : Math.PI * yq * yq) * (b - a) / M; }
+      panel(g, [F.n, (cas ? n + ' cascarones: ' : n + ' discos: ') + f2(Math.round(suma * 100) / 100) + (V0 ? '  ·  exacto: ' + f2(Math.round(V0 * 100) / 100) : '')], 10, 10);
+      g.font = '12px system-ui'; g.fillStyle = 'rgba(30,40,50,.55)'; g.textAlign = 'center'; g.fillText('arrastra para girar', w / 2, h - 8);
+      lec.innerHTML = cas
+        ? 'Cada <b>cascarón</b> es un tubo de radio x, altura f(x) y grosor Δx: su volumen es ≈ 2π·x·f(x)·Δx. Sumando y haciendo Δx → 0: <b>V = 2π∫ x f(x) dx</b>. Sube el número de cascarones y mira cómo la suma se acerca al volumen exacto.'
+        : 'El alfarero gira el perfil y sale el sólido. Cada <b>disco</b> es un cilindro de radio f(x) y grosor Δx: su volumen es π f(x)² Δx. Sumando y haciendo Δx → 0: <b>V = π∫ f(x)² dx</b>. Sube el número de discos y mira cómo la suma se acerca al volumen exacto.';
+    }
+    nd.inp.addEventListener('input', function () { L.redibuja(); }); animador(L, dib); L.redibuja();
   };
 })();

@@ -673,6 +673,24 @@
   /* =====================================================================
      9. COMENTARIOS ANÓNIMOS
      ===================================================================== */
+
+  /* Si algo se rompe en el celular de un estudiante (por ejemplo en Safari de iPhone), avisa solo al buzón:
+     sin datos personales, solo la página, el error y el navegador; máximo 3 avisos por día en cada aparato. */
+  (function () {
+    if (!/santiagoalzates\.com$/.test(location.hostname)) return;
+    function avisa(msg, donde) {
+      try {
+        var k = 'errores-enviados', hoy = new Date().toISOString().slice(0, 10), reg = JSON.parse(localStorage.getItem(k) || '{}');
+        if (reg.dia !== hoy) reg = { dia: hoy, n: 0, vistos: [] };
+        var firma = (msg + '|' + donde).slice(0, 160); if (reg.n >= 3 || reg.vistos.indexOf(firma) >= 0) return;
+        reg.n++; reg.vistos.push(firma); localStorage.setItem(k, JSON.stringify(reg));
+        var fd = new FormData(); fd.append('tipo', 'Error automático de la página'); fd.append('message', 'Página: ' + location.pathname + '\nError: ' + msg + '\nDónde: ' + donde + '\nNavegador: ' + navigator.userAgent + '\nPantalla: ' + screen.width + '×' + screen.height);
+        fetch('https://formspree.io/f/mzerzkoj', { method: 'POST', body: fd, headers: { Accept: 'application/json' } }).catch(function () {});
+      } catch (e) {}
+    }
+    window.addEventListener('error', function (e) { if (e && e.message) avisa(e.message, (e.filename || '').split('/').pop() + ':' + e.lineno + ':' + e.colno); });
+    window.addEventListener('unhandledrejection', function (e) { avisa(String(e.reason && e.reason.message || e.reason), 'promesa'); });
+  })();
   var URL_COMENTARIOS = 'https://formspree.io/f/mzerzkoj';   /* el mismo buzón del formulario de santiagoalzates.com */
   function comentarios() {
     document.querySelectorAll('.comentar').forEach(function (c) {
