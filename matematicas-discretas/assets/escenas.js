@@ -1838,4 +1838,88 @@
     }
     gi.inp.addEventListener('input', function () { L.redibuja(); }); dd.inp.addEventListener('input', function () { puntos = []; ondaT = 0; L.redibuja(); }); animador(L, dib); L.redibuja();
   };
+
+  /* ---------------------------------------------------------------------
+     La circunferencia: ondas en el agua, ubicar un celular con tres antenas y la rueda de Chicago
+     --------------------------------------------------------------------- */
+  W.circulo3d = function (c, D) {
+    var L = lienzoPx(c, function (w) { return w < 560 ? 440 : 420; }), C = camara3(L, { yaw: -0.5, pitch: 0.55 }), modo = 'ondas';
+    var ctO;
+    botonesModo(c, [['ondas', '💧 Ondas en el agua'], ['gps', '📡 Tres antenas'], ['noria', '🎡 Rueda de Chicago']], modo, function (m) { modo = m; C.pitch = m === 'noria' ? 0.12 : m === 'gps' ? 0.8 : 0.55; C.yaw = m === 'noria' ? -0.35 : -0.5; ctO.style.display = m === 'ondas' ? '' : 'none'; t = 0; fuentes = [{ x: -0.3, y: 0.2, t0: -0.5 }]; });
+    ctO = fila(c); boton(ctO, '💧 Tirar otra piedra', function () { fuentes.push({ x: (rnd() - 0.5) * 2.4, y: (rnd() - 0.5) * 2.4, t0: t }); if (fuentes.length > 3) fuentes.shift(); });
+    var lec = U.lectura(c), R = U.reto(c, 'La antena está en (2, −1) y el celular en (5, 3), en km. ¿Cuál es el radio r de la circunferencia de la antena que pasa por el celular?', true, function (v) { return Math.abs(v - 5) < 0.01; },
+      '¡Eso! r = √((5 − 2)² + (3 + 1)²) = √25 = 5 km, y la circunferencia es (x − 2)² + (y + 1)² = 25.'); R.el.__fin = c.__fin;
+    var t = 0, rnd = azar(12), fuentes = [{ x: -0.3, y: 0.2, t0: -0.5 }];
+    function dib(dt, now) {
+      t += dt; var g = L.g, w = L.w, h = L.h; fondoEstudio(g, w, h);
+      if (modo === 'ondas') return ondas(g, w, h);
+      if (modo === 'gps') return antenas(g, w, h, now);
+      return noria(g, w, h, now);
+    }
+    function ondas(g, w, h) {
+      var cie = g.createLinearGradient(0, 0, 0, h); cie.addColorStop(0, '#9cc9e6'); cie.addColorStop(1, '#e6f0e8'); g.fillStyle = cie; g.fillRect(0, 0, w, h);
+      C.cx = w / 2; C.cy = h * 0.55; C.esc = Math.min(w * 0.3, h * 0.42);
+      var N = 50, S = 1.66, vel = 0.55, V = C.vista(), luz = [0.4, -0.5, 0.75];
+      function alt(x, y) { var z = 0; fuentes.forEach(function (f) { var r = Math.hypot(x - f.x, y - f.y), fr = (t - f.t0) * vel; var u = fr - r; if (u > 0 && u < 2) z += 0.11 * Math.exp(-0.3 * r) * Math.sin(10 * (r - fr)) * Math.min(1, u * 6) * Math.max(0, 1 - u / 2) * Math.max(0, 1 - u / 2); }); return z; }
+      var Z = []; for (var i = 0; i <= N; i++) { Z.push([]); for (var j = 0; j <= N; j++) Z[i].push(alt(-S + 2 * S * j / N, -S + 2 * S * i / N)); }
+      var orilla = []; for (var k = 0; k <= 48; k++) { var a2 = k / 48 * 6.2832; orilla.push(C.P(1.78 * Math.cos(a2), 1.78 * Math.sin(a2), -0.03)); } var pasto3 = []; for (var k5 = 0; k5 <= 48; k5++) { var a7 = k5 / 48 * 6.2832; pasto3.push(C.P(3 * Math.cos(a7), 3 * Math.sin(a7), -0.03)); } poli3(g, pasto3, '#86b56a'); poli3(g, orilla, '#e3d2a2', '#c9b27a', 2);
+      var caras = [];
+      for (i = 0; i < N; i++) for (j = 0; j < N; j++) {
+        var x0 = -S + 2 * S * j / N, y0 = -S + 2 * S * i / N, d = 2 * S / N, z00 = Z[i][j], z10 = Z[i][j + 1], z01 = Z[i + 1][j], z11 = Z[i + 1][j + 1];
+        var nx = -(z10 - z00 + z11 - z01) / (2 * d), ny = -(z01 - z00 + z11 - z10) / (2 * d), nn = Math.hypot(nx, ny, 1), li = (nx * luz[0] + ny * luz[1] + luz[2]) / nn, es = Math.pow(Math.max(0, li), 30);
+        caras.push({ pr: [C.P(x0, y0, z00), C.P(x0 + d, y0, z10), C.P(x0 + d, y0 + d, z11), C.P(x0, y0 + d, z01)], prof: C.P(x0 + d / 2, y0 + d / 2, 0)[2], li: li, es: es, r2: Math.hypot(x0, y0) });
+      }
+      caras.sort(function (p, q) { return q.prof - p.prof; });
+      var borde = []; for (var k6 = 0; k6 <= 64; k6++) { var a8 = k6 / 64 * 6.2832; borde.push(C.P(1.62 * Math.cos(a8), 1.62 * Math.sin(a8), 0)); } g.save(); g.beginPath(); borde.forEach(function (p, i) { if (i) g.lineTo(p[0], p[1]); else g.moveTo(p[0], p[1]); }); g.closePath(); g.clip();
+      caras.forEach(function (cf) { var tt = 0.25 + 0.95 * Math.max(-0.1, cf.li), col = [50 * tt + 255 * cf.es * 0.8, 150 * tt + 255 * cf.es * 0.8, 205 * tt + 255 * cf.es * 0.8].map(function (v) { return Math.min(255, v) | 0; }); poli3(g, cf.pr, 'rgb(' + col + ')', 'rgba(' + col + ',.9)', 0.6); }); g.restore();
+      fuentes.forEach(function (f, k) { var fr = (t - f.t0) * vel; if (fr > 0 && fr < 2.2) { g.strokeStyle = 'rgba(255,240,150,.9)'; g.lineWidth = 2; g.setLineDash([5, 4]); g.beginPath(); for (var q = 0; q <= 72; q++) { var an = q / 72 * 6.2832, X = f.x + fr * Math.cos(an), Y = f.y + fr * Math.sin(an); if (Math.hypot(X, Y) > 1.6) { g.stroke(); g.beginPath(); continue; } var p = C.P(X, Y, 0.02); g.lineTo(p[0], p[1]); } g.stroke(); g.setLineDash([]); }
+        var pc = C.P(f.x, f.y, 0.05); if (t - f.t0 < 0.4) { g.fillStyle = '#6b6f73'; g.beginPath(); g.arc(pc[0], pc[1] - (0.4 - (t - f.t0)) * 160, 6, 0, 7); g.fill(); } });
+      var ult = fuentes[fuentes.length - 1], rr1 = Math.max(0, (t - ult.t0) * vel);
+      if (rr1 > 1.5) { fuentes.push({ x: (rnd() - 0.5) * 2.2, y: (rnd() - 0.5) * 2.2, t0: t }); if (fuentes.length > 3) fuentes.shift(); }
+      var h0 = Math.round(ult.x * 100) / 100, k0 = Math.round(ult.y * 100) / 100, sg = function (v) { return v < 0 ? ' + ' + f2(-v) : ' − ' + f2(v); };
+      panel(g, ['(x' + sg(h0) + ')² + (y' + sg(k0) + ')² = ' + f2(Math.round(rr1 * 100) / 100) + '²', 'el borde de la onda crece: r = ' + vel + '·t'], 10, 10);
+      lec.innerHTML = 'Al caer la piedra, todos los puntos del borde de la onda están a la misma distancia del lugar donde cayó: forman una <b>circunferencia</b> de centro (h, k) y radio r = v·t, que crece con el tiempo. Tira otra piedra y mira cómo se cruzan las ondas.';
+    }
+    function antenas(g, w, h, now) {
+      var cie = g.createLinearGradient(0, 0, 0, h); cie.addColorStop(0, '#16263a'); cie.addColorStop(1, '#22384f'); g.fillStyle = cie; g.fillRect(0, 0, w, h);
+      C.cx = w / 2; C.cy = h * 0.53; C.esc = Math.min(w, h * 1.4) / 24;
+      var mapa = [[-10, -8], [10, -8], [10, 8], [-10, 8]].map(function (q) { return C.P(q[0], q[1], 0); }); var mg = g.createLinearGradient(mapa[0][0], mapa[0][1], mapa[2][0], mapa[2][1]); mg.addColorStop(0, '#3c6e4a'); mg.addColorStop(1, '#5b8c5a'); poli3(g, mapa, mg);
+      for (var x = -10; x <= 10; x++) linea3(g, C, [x, -8, 0], [x, 8, 0], 'rgba(255,255,255,.07)', 1); for (var y = -8; y <= 8; y++) linea3(g, C, [-10, y, 0], [10, y, 0], 'rgba(255,255,255,.07)', 1);
+      g.strokeStyle = 'rgba(230,220,200,.5)'; g.lineWidth = 4; g.beginPath(); for (var s = -10; s <= 10; s += 0.5) { var p0 = C.P(s, 2 * Math.sin(s / 3) - 1, 0); g.lineTo(p0[0], p0[1]); } g.stroke();
+      var ang = t * 0.35, P = [3.2 * Math.cos(ang), 2.4 * Math.sin(ang * 1.3), 0], T = [[-6, -4, '120,220,255', 'A'], [6, -3, '255,190,110', 'B'], [1, 6, '200,150,255', 'C']];
+      T.forEach(function (o) { var r = Math.hypot(P[0] - o[0], P[1] - o[1]), pul = (now / 900) % 1; var cir = []; for (var q = 0; q <= 90; q++) { var an = q / 90 * 6.2832; cir.push(C.P(o[0] + r * Math.cos(an), o[1] + r * Math.sin(an), 0)); }
+        g.strokeStyle = 'rgba(' + o[2] + ',.85)'; g.lineWidth = 2; g.beginPath(); cir.forEach(function (p, i) { if (i) g.lineTo(p[0], p[1]); else g.moveTo(p[0], p[1]); }); g.stroke();
+        var rp = r * pul; g.strokeStyle = 'rgba(' + o[2] + ',' + (0.5 * (1 - pul)) + ')'; g.lineWidth = 1.2; g.beginPath(); for (var q2 = 0; q2 <= 60; q2++) { var an2 = q2 / 60 * 6.2832, p2 = C.P(o[0] + rp * Math.cos(an2), o[1] + rp * Math.sin(an2), 0); if (q2) g.lineTo(p2[0], p2[1]); else g.moveTo(p2[0], p2[1]); } g.stroke();
+        var b0 = C.P(o[0], o[1], 0), b1 = C.P(o[0], o[1], 2.4); g.strokeStyle = '#d6dbe1'; g.lineWidth = 3; g.beginPath(); g.moveTo(b0[0], b0[1]); g.lineTo(b1[0], b1[1]); g.stroke(); brillo3(g, C, [o[0], o[1], 2.4], 14, o[2], 0.95);
+        linea3(g, C, [o[0], o[1], 0.02], [P[0], P[1], 0.02], 'rgba(' + o[2] + ',.5)', 1); rotulo(g, o[3] + ' · r = ' + f2(Math.round(r * 10) / 10), b0[0], b0[1] + 16, '#1f2a36', 'center', 11); });
+      var pp = C.P(P[0], P[1], 0); brillo3(g, C, P, 26, '255,250,200', 0.8); g.fillStyle = '#111'; rr(g, pp[0] - 6, pp[1] - 11, 12, 20, 3); g.fill(); g.fillStyle = '#7fd3ff'; g.fillRect(pp[0] - 4.5, pp[1] - 8.5, 9, 13);
+      rotulo(g, '📱 (' + f2(Math.round(P[0] * 10) / 10) + ', ' + f2(Math.round(P[1] * 10) / 10) + ')', pp[0] + 12, pp[1] - 14, '#1f2a36', 'left', 12);
+      g.font = '12px system-ui'; g.fillStyle = 'rgba(255,255,255,.6)'; g.textAlign = 'center'; g.fillText(w < 560 ? 'las tres circunferencias se cruzan en el celular' : 'cada antena sabe solo la distancia: el celular está en el único punto donde se cruzan las tres circunferencias', w / 2, h - 10);
+      var rA = Math.hypot(P[0] + 6, P[1] + 4);
+      lec.innerHTML = 'Cada antena mide cuánto tarda la señal y así sabe a qué distancia r está el celular, pero no hacia dónde: el celular puede estar en cualquier punto de la <b>circunferencia</b> (x − h)² + (y − k)² = r². Con dos antenas quedan dos puntos posibles; con la tercera, uno solo. Antena A: (x + 6)² + (y + 4)² = ' + f2(Math.round(rA * 10) / 10) + '². El GPS hace lo mismo con esferas y satélites.';
+    }
+    function noria(g, w, h, now) {
+      var cie = g.createLinearGradient(0, 0, 0, h); cie.addColorStop(0, '#f6b26b'); cie.addColorStop(0.5, '#f8d9a0'); cie.addColorStop(1, '#a7c8de'); g.fillStyle = cie; g.fillRect(0, 0, w, h);
+      var so = g.createRadialGradient(w * 0.78, h * 0.3, 4, w * 0.78, h * 0.3, 90); so.addColorStop(0, 'rgba(255,250,220,1)'); so.addColorStop(0.2, 'rgba(255,220,150,.8)'); so.addColorStop(1, 'rgba(255,220,150,0)'); g.fillStyle = so; g.fillRect(0, 0, w, h);
+      C.cx = w / 2; C.cy = h * 0.8; C.esc = Math.min(w * 0.26, h * 0.32);
+      var Rr = 1, K = 1.15, ang = t * 0.25, N = 12, gnd = -0.15;
+      var suelo = [[-3, -2, gnd], [3, -2, gnd], [3, 2, gnd], [-3, 2, gnd]].map(function (q) { return C.P(q[0], q[1], q[2]); }); poli3(g, suelo, '#7fa860');
+      [[-0.18], [0.18]].forEach(function (yy) { linea3(g, C, [-0.7, yy[0] * 2, gnd], [0, yy[0], K], '#5d6670', 4); linea3(g, C, [0.7, yy[0] * 2, gnd], [0, yy[0], K], '#5d6670', 4); });
+      [-0.12, 0.12].forEach(function (yy) { var aro = []; for (var q = 0; q <= 80; q++) { var a3 = q / 80 * 6.2832; aro.push(C.P(Rr * Math.cos(a3), yy, K + Rr * Math.sin(a3))); } g.strokeStyle = '#e8edf2'; g.lineWidth = 3; g.beginPath(); aro.forEach(function (p, i) { if (i) g.lineTo(p[0], p[1]); else g.moveTo(p[0], p[1]); }); g.stroke();
+        for (var k = 0; k < N; k++) { var a4 = ang + k / N * 6.2832; linea3(g, C, [0, yy, K], [Rr * Math.cos(a4), yy, K + Rr * Math.sin(a4)], 'rgba(230,236,242,.8)', 1.2); } });
+      for (var k2 = 0; k2 < 40; k2++) { var a5 = k2 / 40 * 6.2832 + ang, lp = C.P(Rr * 1.01 * Math.cos(a5), -0.12, K + Rr * 1.01 * Math.sin(a5)); g.fillStyle = 'hsl(' + ((k2 * 30 + now / 20) % 360) + ',90%,65%)'; g.beginPath(); g.arc(lp[0], lp[1], 1.8, 0, 7); g.fill(); }
+      var cabs = []; for (var k3 = 0; k3 < N; k3++) { var a6 = ang + k3 / N * 6.2832; cabs.push({ k: k3, x: Rr * Math.cos(a6), z: K + Rr * Math.sin(a6), prof: C.P(Rr * Math.cos(a6), 0, K + Rr * Math.sin(a6))[2] }); }
+      cabs.sort(function (p, q) { return q.prof - p.prof; });
+      cabs.forEach(function (cb) { var top = C.P(cb.x, 0, cb.z), bot = C.P(cb.x, 0, cb.z - 0.16); g.strokeStyle = '#3d454e'; g.lineWidth = 1.5; g.beginPath(); g.moveTo(top[0], top[1]); g.lineTo(bot[0], bot[1]); g.stroke();
+        var sz = C.esc * 0.11, cg = g.createLinearGradient(bot[0] - sz, 0, bot[0] + sz, 0), col = cb.k === 0 ? ['#ff6b6b', '#b02a2a'] : ['hsl(' + (cb.k * 30) + ',70%,62%)', 'hsl(' + (cb.k * 30) + ',60%,38%)']; cg.addColorStop(0, col[0]); cg.addColorStop(1, col[1]); g.fillStyle = cg; rr(g, bot[0] - sz, bot[1], sz * 2, sz * 1.4, 4); g.fill();
+        g.fillStyle = 'rgba(220,240,255,.8)'; g.fillRect(bot[0] - sz * 0.7, bot[1] + sz * 0.25, sz * 1.4, sz * 0.45); });
+      var cr = cabs.filter(function (q) { return q.k === 0; })[0], cc0 = C.P(0, 0, K), pr = C.P(cr.x, 0, cr.z);
+      g.strokeStyle = '#c0392b'; g.lineWidth = 2; g.setLineDash([5, 4]); g.beginPath(); g.moveTo(cc0[0], cc0[1]); g.lineTo(pr[0], pr[1]); g.stroke(); g.setLineDash([]);
+      g.fillStyle = '#3d454e'; g.beginPath(); g.arc(cc0[0], cc0[1], 5, 0, 7); g.fill();
+      var X = cr.x * 20, Y = cr.z * 20;
+      panel(g, ['cabina roja: (' + f2(Math.round(X * 10) / 10) + ', ' + f2(Math.round(Y * 10) / 10) + ') m', 'x² + (y − 23)² = ' + f2(Math.round((X * X + (Y - 23) * (Y - 23)) * 10) / 10) + ' = 20²  ✓'], 10, 10);
+      lec.innerHTML = 'La rueda mide 40 m de diámetro y su centro está a 23 m de altura: cada cabina recorre la <b>circunferencia</b> x² + (y − 23)² = 400. Mira cómo, aunque la cabina roja suba y baje, sus coordenadas siempre cumplen la ecuación.';
+    }
+    animador(L, dib); L.redibuja();
+  };
 })();
