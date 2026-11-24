@@ -34,10 +34,14 @@
     g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2 - Math.cos(a) * c * 0.6, y2 - Math.sin(a) * c * 0.6); g.stroke();
     g.beginPath(); g.moveTo(x2, y2); g.lineTo(x2 - c * Math.cos(a - 0.4), y2 - c * Math.sin(a - 0.4)); g.lineTo(x2 - c * Math.cos(a + 0.4), y2 - c * Math.sin(a + 0.4)); g.closePath(); g.fill(); g.restore();
   }
-  function rotulo(g, t, x, y, col, al, tam, fondo) {
-    g.save(); g.font = (tam && tam > 13 ? '600 ' : '') + (tam || 13) + 'px system-ui, sans-serif'; g.textAlign = al || 'center'; g.textBaseline = 'middle';
-    if (fondo !== false) { var w = g.measureText(t).width + 10, x0 = al === 'left' ? x - 5 : al === 'right' ? x - w + 5 : x - w / 2; g.fillStyle = fondo || 'rgba(255,255,255,.85)'; rr(g, x0, y - 10, w, 20, 7); g.fill(); }
-    g.fillStyle = col || COL.tinta; g.fillText(t, x, y + 0.5); g.restore();
+  function rotulo(g, t, x, y, col, al, tam, fondo) {   /* «T_AB» se dibuja con subíndice de verdad */
+    var T = tam || 13, f1 = (T > 13 ? '600 ' : '') + T + 'px system-ui, sans-serif', f2 = Math.round(T * 0.72) + 'px system-ui, sans-serif';
+    var trozos = String(t).split(/_(\{[^}]*\}|[A-Za-z0-9]+)/).map(function (p, i) { return { t: i % 2 ? p.replace(/[{}]/g, '') : p, sub: i % 2 === 1 }; }).filter(function (p) { return p.t; });
+    g.save(); g.textBaseline = 'middle'; g.textAlign = 'left';
+    var w = 0; trozos.forEach(function (p) { g.font = p.sub ? f2 : f1; p.w = g.measureText(p.t).width; w += p.w; });
+    var x0 = al === 'left' ? x : al === 'right' ? x - w : x - w / 2;
+    if (fondo !== false) { g.fillStyle = fondo || 'rgba(255,255,255,.85)'; rr(g, x0 - 5, y - 10, w + 10, 20, 7); g.fill(); }
+    g.fillStyle = col || COL.tinta; trozos.forEach(function (p) { g.font = p.sub ? f2 : f1; g.fillText(p.t, x0, y + 0.5 + (p.sub ? T * 0.3 : 0)); x0 += p.w; }); g.restore();
   }
   function panel(g, lineas, x, y) {
     g.save(); g.textAlign = 'left'; g.textBaseline = 'alphabetic'; g.font = '600 13.5px system-ui, sans-serif'; var w = 0; lineas.forEach(function (l, i) { g.font = (i ? '' : '600 ') + (i ? 12.5 : 14) + 'px system-ui, sans-serif'; w = Math.max(w, g.measureText(l).width); });
@@ -976,8 +980,8 @@
       g.fillStyle = '#222'; [[-22, 9], [22, 9]].forEach(function (p) { g.beginPath(); g.arc(cx0 + p[0], cy0 + p[1], 7, 0, 7); g.fill(); }); g.fillStyle = '#999'; [[-22, 9], [22, 9]].forEach(function (p) { g.beginPath(); g.arc(cx0 + p[0], cy0 + p[1], 3, 0, 7); g.fill(); });
       g.strokeStyle = '#2f3640'; g.lineWidth = 1.5; g.beginPath(); g.moveTo(Ax, Ay + 26); g.lineTo(cx0 - 26, cy0 - 6); g.moveTo(Ax, Ay + 26); g.lineTo(cx0 + 26, cy0 - 6); g.stroke();
       g.fillStyle = COL.ambar; g.beginPath(); g.arc(Ax, Ay, 5, 0, 7); g.fill(); rotulo(g, 'A', Ax - 12, Ay - 8, COL.tinta, 'center', 13, false);
-      rotulo(g, 'T_AB = ' + miles(TAB) + ' lb', (Bx + Ax) / 2 + 12, (By + Ay) / 2, '#2f3640', 'left'); rotulo(g, 'T_AC = ' + f2(Math.round(TAC * 10) / 10) + ' lb', (Ax + Cx) / 2 + 10, (Ay + Cy) / 2 - 14, '#c0392b', 'left'); rotulo(g, '3500 lb', cx0, cy0 + 26, '#1f5f9e');
       trianguloFuerzas(g, w - 160, 12, [[-TAB * Math.sin(ar), TAB * Math.cos(ar)], [TAC * Math.cos(br), -TAC * Math.sin(br)], [0, -Wt]], 1, ['#2f3640', '#c0392b', '#1f5f9e']);
+      rotulo(g, 'T_AB = ' + miles(TAB) + ' lb', (Bx + Ax) / 2 + 12, (By + Ay) / 2, '#2f3640', 'left'); rotulo(g, 'T_AC = ' + f2(Math.round(TAC * 10) / 10) + ' lb', (Ax + Cx) / 2 + 10, (Ay + Cy) / 2 - 14, '#c0392b', 'left'); rotulo(g, '3500 lb', cx0, cy0 + 26, '#1f5f9e');
       lec.innerHTML = 'ΣF<sub>x</sub>: −T<sub>AB</sub> sen ' + f2(a.v) + '° + T<sub>AC</sub> cos ' + f2(b.v) + '° = 0 · ΣF<sub>y</sub>: T<sub>AB</sub> cos ' + f2(a.v) + '° − T<sub>AC</sub> sen ' + f2(b.v) + '° − 3500 = 0 ⇒ <b>T<sub>AC</sub> = ' + f2(Math.round(TAC * 10) / 10) + ' lb</b>';
     }
     [a, b].forEach(function (s) { s.inp.addEventListener('input', dib); }); L.redibuja = dib; dib();
@@ -1010,8 +1014,8 @@
         var cg = g.createLinearGradient(Cx - 30, 0, Cx + 30, 0); cg.addColorStop(0, '#b07a45'); cg.addColorStop(1, '#d8a56a'); g.fillStyle = cg; g.fillRect(Cx - 30, Cy + 36, 60, 46); g.restore();
         g.strokeStyle = '#8a5a2b'; g.lineWidth = 1.5; g.strokeRect(Cx - 30, Cy + 36, 60, 46); g.beginPath(); g.moveTo(Cx - 30, Cy + 36); g.lineTo(Cx + 30, Cy + 82); g.moveTo(Cx + 30, Cy + 36); g.lineTo(Cx - 30, Cy + 82); g.stroke(); rotulo(g, '200 kg', Cx, Cy + 59, '#5a3a1a'); }
       g.fillStyle = COL.ambar; g.beginPath(); g.arc(Cx, Cy, 6, 0, 7); g.fill(); rotulo(g, 'C', Cx + 12, Cy + 12, COL.tinta, 'left', 13, false);
-      rotulo(g, 'T_AC = ' + Math.round(TAC) + ' N' + (max ? ' / 1200' : ''), (Ax + Cx) / 2 - 8, (18 + Cy) / 2, cA, 'right'); rotulo(g, 'T_BC = ' + Math.round(TBC) + ' N' + (max ? ' / 600' : ''), (Bx + Cx) / 2 + 8, (18 + Cy) / 2, cB, 'left');
       trianguloFuerzas(g, w - 160, h - 152, [[-TAC * Math.cos(ar), TAC * Math.sin(ar)], [TBC * Math.cos(brr), TBC * Math.sin(brr)], Fext], 1, [cA, cB, '#1f5f9e']);
+      rotulo(g, 'T_AC = ' + Math.round(TAC) + ' N' + (max ? ' / 1200' : ''), (Ax + Cx) / 2 - 8, (18 + Cy) / 2, cA, 'right'); rotulo(g, 'T_BC = ' + Math.round(TBC) + ' N' + (max ? ' / 600' : ''), (Bx + Cx) / 2 + 8, (18 + Cy) / 2, cB, 'left');
       if (max) { var ok = TAC <= 1200.5 && TBC <= 600.5 && TAC >= 0 && TBC >= 0; lec.innerHTML = (ok ? '✅ Los dos cables aguantan.' : '❌ ' + (TAC > 1200.5 ? 'AC se revienta. ' : '') + (TBC > 600.5 ? 'BC se revienta. ' : '') + (TBC < 0 || TAC < 0 ? 'Un cable quedaría empujando: imposible.' : '')) + ' T<sub>AC</sub> = ' + Math.round(TAC) + ' N (máx. 1200) · T<sub>BC</sub> = ' + Math.round(TBC) + ' N (máx. 600)'; }
       else lec.innerHTML = 'Lami / equilibrio: T<sub>AC</sub> = 1962·cos α / sen(40° + α) = <b>' + f2(Math.round(TAC * 10) / 10) + ' N</b> · T<sub>BC</sub> = 1962·cos 40° / sen(40° + α) = <b>' + f2(Math.round(TBC * 10) / 10) + ' N</b>';
     }
@@ -1128,7 +1132,7 @@
           g.save(); g.shadowColor = 'rgba(0,0,0,.25)'; g.shadowBlur = 4; g.shadowOffsetY = 2; var dg = g.createLinearGradient(0, y, 0, y + dh); dg.addColorStop(0, 'hsl(' + hue + ',70%,66%)'); dg.addColorStop(1, 'hsl(' + hue + ',65%,40%)');
           g.fillStyle = dg; rr(g, x - dw / 2, y + 1, dw, dh - 2, Math.min(9, dh / 2)); g.fill(); g.restore(); if (v === sel && i === pilas[v].length - 1) { g.strokeStyle = '#f5b82e'; g.lineWidth = 3; rr(g, x - dw / 2, y + 1, dw, dh - 2, Math.min(9, dh / 2)); g.stroke(); } }); }
       var min = Math.pow(2, n) - 1, listo = pilas[2].length === n || pilas[1].length === n;
-      panel(g, ['Movimientos: ' + mov, 'mínimo posible: 2^' + n + ' − 1 = ' + min], 10, 10);
+      panel(g, ['Movimientos: ' + mov, 'mínimo posible: 2' + String(n).replace(/\d/g, function (d) { return '⁰¹²³⁴⁵⁶⁷⁸⁹'[d]; }) + ' − 1 = ' + min], 10, 10);
       if (listo && mov) { lec.innerHTML = mov === min ? '✅ ¡Torre pasada en el mínimo de movimientos!' : '✅ Torre pasada, pero en ' + mov + ' movimientos: se puede en ' + min + '.'; if (n === 4 && mov === 15 && !auto && !hecho.r) { hecho.r = 1; R.evalua(1); if (c.__fin) c.__fin(); } }
       else lec.innerHTML = 'Toca una varilla para tomar el disco de arriba y otra para dejarlo. h<sub>n</sub> = 2h<sub>n−1</sub> + 1 ⇒ <b>h<sub>' + n + '</sub> = ' + min + '</b>' + (n < 8 ? '' : ' (¡y con 10 discos serían 1023!)');
     }
