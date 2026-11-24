@@ -2205,6 +2205,36 @@
     if (Math.hypot(x2 - x1, y2 - y1) < 3) return; g.save(); g.shadowColor = 'rgba(0,0,0,.3)'; g.shadowBlur = 3; flecha(g, x1, y1, x2, y2, col, w || 4, 12); g.restore();
     if (et) rotulo(g, et, x2 + (al === 'right' ? -8 : 8), y2 - 12, col, al || 'left', 12);
   }
+
+  function paisajeMedellin(g, w, h, base) {          /* el Valle de Aburrá: cielo, montañas y la ladera llena de casas */
+    var cie = g.createLinearGradient(0, 0, 0, h * 0.6); cie.addColorStop(0, '#3f86c9'); cie.addColorStop(0.55, '#8cc0e3'); cie.addColorStop(1, '#dfeef3'); g.fillStyle = cie; g.fillRect(0, 0, w, h);
+    var so = g.createRadialGradient(w * 0.14, h * 0.1, 3, w * 0.14, h * 0.1, 140); so.addColorStop(0, 'rgba(255,253,235,1)'); so.addColorStop(0.12, 'rgba(255,246,205,.85)'); so.addColorStop(1, 'rgba(255,246,205,0)'); g.fillStyle = so; g.fillRect(0, 0, w, h);
+    function cresta(x, y0, amp, f, fase) { return y0 - amp * Math.sin(x / w * f + fase) - amp * 0.35 * Math.sin(x / 31 + fase * 2) - amp * 0.15 * Math.sin(x / 9 + fase); }
+    function monte(y0, amp, f, fase, c1, c2, puntos, sem) { var gr = g.createLinearGradient(0, y0 - amp, 0, base); gr.addColorStop(0, c1); gr.addColorStop(1, c2); g.fillStyle = gr; g.beginPath(); g.moveTo(0, base);
+      for (var x = 0; x <= w; x += 4) g.lineTo(x, cresta(x, y0, amp, f, fase)); g.lineTo(w, base); g.closePath(); g.fill();
+      if (puntos) { var r = azar(sem); g.save(); g.clip(); for (var k = 0; k < puntos; k++) { var px = r() * w, py = cresta(px, y0, amp, f, fase) + r() * (base - y0 + amp); g.fillStyle = 'rgba(' + (30 + r() * 30 | 0) + ',' + (70 + r() * 40 | 0) + ',' + (40 + r() * 20 | 0) + ',.16)'; g.beginPath(); g.arc(px, py, 0.8 + r() * 1.6, 0, 7); g.fill(); } g.restore(); } }
+    monte(h * 0.2, 18, 2.2, 0.4, '#9db8c6', '#b5cbd3', 0, 1);
+    monte(h * 0.28, 24, 2.8, 1.1, '#7fa596', '#98b8a6', 500, 2);
+    var yL = function (x) { return cresta(x, h * 0.36, 26, 3.3, 1.9); };
+    monte(h * 0.36, 26, 3.3, 1.9, '#5d8f55', '#6f9e5c', 700, 3);
+    /* casas por terrazas, de lejos (pequeñas, con bruma) a cerca (grandes) */
+    var r = azar(31), filas = 26, techoGris = ['#8d9296', '#a3a6a8', '#7c8287'], muros = [[178, 86, 58], [196, 106, 70], [168, 73, 47], [215, 140, 95], [228, 210, 178], [205, 120, 80], [140, 170, 205], [238, 228, 205]];
+    for (var fi = 0; fi < filas; fi++) { var t = fi / (filas - 1), esc = 0.45 + t * 1.25, niebla = 0.45 * (1 - t);
+      for (var x = -10; x < w + 10; x += (7 + r() * 6) * esc) {
+        var top = yL(x), y = top + 6 + t * (base - 70 - top) + (r() - 0.5) * 6 * esc; if (y > base - 46) continue; if (r() < 0.12) { g.fillStyle = 'rgba(45,100,50,.75)'; g.beginPath(); g.arc(x, y - 3 * esc, (3 + r() * 3) * esc, 0, 7); g.fill(); continue; }
+        var bw = (6 + r() * 7) * esc, bh = (5 + r() * 7) * esc, m = muros[Math.floor(r() * muros.length)], lado = bw * 0.28;
+        function mez(c, f) { return 'rgb(' + c.map(function (v, k) { return Math.round(v * f * (1 - niebla) + [190, 210, 220][k] * niebla); }).join(',') + ')'; }
+        g.fillStyle = mez(m, 1); g.fillRect(x, y - bh, bw, bh); g.fillStyle = mez(m, 0.72); g.fillRect(x + bw, y - bh + lado * 0.3, lado, bh - lado * 0.3);
+        if (r() < 0.55) { g.fillStyle = mez([150, 155, 160], 1); g.beginPath(); g.moveTo(x - 1, y - bh); g.lineTo(x + bw + lado, y - bh + lado * 0.3); g.lineTo(x + bw + lado, y - bh - 1.2 * esc + lado * 0.3); g.lineTo(x - 1, y - bh - 1.6 * esc); g.closePath(); g.fill(); }
+        else { g.fillStyle = mez([110, 110, 110], 1); g.fillRect(x - 0.5, y - bh - 1 * esc, bw + 1, 1.2 * esc); if (r() < 0.35) { g.fillStyle = mez([40, 70, 140], 1); g.fillRect(x + bw * 0.6, y - bh - 3 * esc, 2.2 * esc, 2.2 * esc); } }
+        if (esc > 0.8) { g.fillStyle = mez([50, 45, 45], 1); for (var wy = y - bh + 2 * esc; wy < y - 2 * esc; wy += 4 * esc) for (var wx = x + 1.5 * esc; wx < x + bw - 2 * esc; wx += 3.5 * esc) if (r() < 0.55) g.fillRect(wx, wy, 1.4 * esc, 1.6 * esc); }
+      } }
+    var bru = g.createLinearGradient(0, h * 0.15, 0, base - 60); bru.addColorStop(0, 'rgba(220,236,244,.35)'); bru.addColorStop(1, 'rgba(220,236,244,0)'); g.fillStyle = bru; g.fillRect(0, 0, w, base);
+    /* franja verde del parque con árboles */
+    var pg = g.createLinearGradient(0, base - 48, 0, base); pg.addColorStop(0, '#5f9a48'); pg.addColorStop(1, '#4b8239'); g.fillStyle = pg; g.fillRect(0, base - 46, w, 46);
+    var ra = azar(8); for (var k2 = 0; k2 < w / 26; k2++) { var tx = ra() * w, ty = base - 40 + ra() * 8, tr = 7 + ra() * 9; g.fillStyle = '#5a3d22'; g.fillRect(tx - 1.5, ty, 3, 12); var cg = g.createRadialGradient(tx - tr * 0.3, ty - tr * 0.5, 1, tx, ty - tr * 0.2, tr); cg.addColorStop(0, '#6fb45a'); cg.addColorStop(1, '#2f6e2c'); g.fillStyle = cg; g.beginPath(); g.arc(tx, ty - tr * 0.3, tr, 0, 7); g.fill(); }
+    g.fillStyle = 'rgba(0,0,0,.12)'; g.fillRect(0, base - 6, w, 6);
+  }
   W.fuerzautil = function (c, D) {
     var modo = D.modo || 'maleta', L = lienzoPx(c, function (w) { return w < 560 ? 360 : 330; });
     var ct = fila(c), an = U.deslizador(ct, modo === 'maleta' ? 'ángulo de la manija' : 'inclinación de la rampa', modo === 'maleta' ? 0 : 5, modo === 'maleta' ? 90 : 60, 1, modo === 'maleta' ? 45 : 25, function (v) { return Math.round(v) + '°'; });
@@ -2254,17 +2284,10 @@
         var bajaF = F * Math.sin(a), aprieta = F * Math.cos(a);
         if (corre) { if (pos < 1) { vel += (bajaF / F * 9.8 * 0.5) * dt; pos = Math.min(1, pos + vel * dt / 6); } else { espera = (espera || 0) + dt; if (espera > 1.2) { pos = 0; vel = 0; espera = 0; } } }
         /* Medellín: parque Juanes de la Paz, montañas del Valle de Aburrá con casitas de ladrillo y el Metrocable */
-        var cie2 = g.createLinearGradient(0, 0, 0, h); cie2.addColorStop(0, '#5fa8e0'); cie2.addColorStop(0.7, '#cfe8f5'); g.fillStyle = cie2; g.fillRect(0, 0, w, h);
-        var so = g.createRadialGradient(w * 0.15, h * 0.12, 4, w * 0.15, h * 0.12, 90); so.addColorStop(0, 'rgba(255,252,225,1)'); so.addColorStop(0.2, 'rgba(255,240,180,.7)'); so.addColorStop(1, 'rgba(255,240,180,0)'); g.fillStyle = so; g.fillRect(0, 0, w, h);
-        nube(g, w * 0.45, 26, 0.8); nube(g, w * 0.78, 40, 0.6);
         var base = h - 34, rc = azar(17);
-        function monte(y0, amp, f, c1, c2, fase) { var gr = g.createLinearGradient(0, y0 - amp, 0, base); gr.addColorStop(0, c1); gr.addColorStop(1, c2); g.fillStyle = gr; g.beginPath(); g.moveTo(0, base); for (var x = 0; x <= w; x += 8) g.lineTo(x, y0 - amp * Math.sin(x / w * f + fase) - amp * 0.3 * Math.sin(x / 37 + fase)); g.lineTo(w, base); g.closePath(); g.fill(); }
-        monte(h * 0.3, 26, 2.6, '#6f9e8a', '#88b49c', 0.7);
-        monte(h * 0.42, 30, 3.3, '#5f9a5a', '#7fae63', 1.9);
-        /* casitas de ladrillo en la ladera */
-        var rk = azar(31); for (var q = 0; q < 420; q++) { var hx = rk() * w, hy0 = h * 0.42 - 30 * Math.sin(hx / w * 3.3 + 1.9) - 9 * Math.sin(hx / 37 + 1.9), hy = hy0 + 6 + Math.pow(rk(), 1.6) * (base - 70 - hy0) * 0.75; if (hy > base - 50) continue;
-          var bw = 5 + rk() * 6, bh = 4 + rk() * 5, col = ['#b5563a', '#c46a45', '#a8492f', '#d98a5c', '#e7d3b0', '#8fb3d9'][Math.floor(rk() * 6)];
-          g.fillStyle = col; g.fillRect(hx, hy - bh, bw, bh); g.fillStyle = 'rgba(0,0,0,.18)'; g.fillRect(hx + bw * 0.6, hy - bh, bw * 0.4, bh); g.fillStyle = 'rgba(60,40,30,.7)'; g.fillRect(hx - 0.5, hy - bh - 1.2, bw + 1, 1.4); if (rk() < 0.4) { g.fillStyle = 'rgba(40,30,30,.7)'; g.fillRect(hx + 2, hy - bh * 0.6, 1.6, 1.6); } }
+        if (!L.medellin || L.medellin.w !== w || L.medellin.h !== h) { var oc = document.createElement('canvas'), dpr = window.devicePixelRatio || 1; oc.width = w * dpr; oc.height = h * dpr; var og = oc.getContext('2d'); og.setTransform(dpr, 0, 0, dpr, 0, 0); paisajeMedellin(og, w, h, base); L.medellin = { w: w, h: h, c: oc }; }
+        g.drawImage(L.medellin.c, 0, 0, w, h);
+        nube(g, (w * 0.45 + now / 400) % (w + 120) - 60, 26, 0.8); nube(g, (w * 0.78 + now / 650) % (w + 120) - 60, 40, 0.6);
         /* Metrocable: cable y cabinas */
         var c1x = -20, c1y = h * 0.16, c2x = w + 20, c2y = h * 0.4; g.strokeStyle = 'rgba(40,45,55,.7)'; g.lineWidth = 1.2; g.beginPath(); g.moveTo(c1x, c1y); g.lineTo(c2x, c2y); g.moveTo(c1x, c1y + 6); g.lineTo(c2x, c2y + 6); g.stroke();
         [0.18, 0.52, 0.85].forEach(function (t0, k) { var t = ((t0 + now / 60000 * (k % 2 ? -1 : 1)) % 1 + 1) % 1, cx3 = c1x + (c2x - c1x) * t, cy3 = c1y + (c2y - c1y) * t + (k % 2 ? 6 : 0); g.strokeStyle = '#333'; g.lineWidth = 1.2; g.beginPath(); g.moveTo(cx3, cy3); g.lineTo(cx3, cy3 + 8); g.stroke();
@@ -2279,6 +2302,7 @@
         var vg = g.createLinearGradient(0, vy - 54, 0, vy - 30); vg.addColorStop(0, '#1e8449'); vg.addColorStop(1, '#145a32'); g.fillStyle = vg; rr(g, vx - 6, vy - 56, 90, 26, 5); g.fill(); g.strokeStyle = '#fff'; g.lineWidth = 1.5; rr(g, vx - 4, vy - 54, 86, 22, 4); g.stroke();
         g.fillStyle = '#fff'; g.font = '700 8.5px system-ui'; g.textAlign = 'center'; g.fillText('PARQUE JUANES', vx + 39, vy - 45); g.fillText('DE LA PAZ', vx + 39, vy - 35);
         var x0 = w * 0.06, x1 = w * 0.9, alto = Math.min(base - 120, (x1 - x0) * Math.tan(a)), xr = x0 + alto / Math.tan(a); if (xr > x1) xr = x1;
+        g.fillStyle = 'rgba(0,0,0,.28)'; g.beginPath(); g.moveTo(x0, base); g.lineTo(xr, base); g.lineTo(xr + alto * 0.35, base + 12); g.lineTo(x0 + alto * 0.55, base + 12); g.closePath(); g.fill();
         /* la rampa: plataforma de madera con estructura metálica y superficie de skatelite */
         g.save(); g.beginPath(); g.moveTo(x0, base); g.lineTo(xr, base); g.lineTo(x0, base - alto); g.closePath(); g.clip();
         madera(g, x0, base - alto, xr - x0, alto, '#9a6a3c', '#c99a62', 23, true);
@@ -2308,6 +2332,7 @@
         /* el patinador baja por la rampa */
         var s2 = 0.08 + 0.84 * pos, sx = x0 + (xr - x0) * s2 + nxr * 7, sy = base - alto * (1 - s2) + nyr * 7, hP = Math.min(96, Math.max(70, alto * 0.42));
         for (var e = 1; e <= 3; e++) { g.globalAlpha = 0.1 * (4 - e) * Math.min(1, vel / 3); g.save(); g.translate(sx - ux * e * 7, sy - uy * e * 7); g.rotate(a); patinador(g, 0, -10, hP); g.restore(); } g.globalAlpha = 1;
+        g.save(); g.translate(sx, sy); g.rotate(a); g.fillStyle = 'rgba(0,0,0,.3)'; g.beginPath(); g.ellipse(hP * 0.1, 1, hP * 0.5, 3, 0, 0, 7); g.fill(); g.restore();
         g.save(); g.translate(sx, sy); g.rotate(a);
         var tb = g.createLinearGradient(0, -12, 0, -6); tb.addColorStop(0, '#2b2b2b'); tb.addColorStop(1, '#111'); g.fillStyle = tb; rr(g, -hP * 0.42, -12, hP * 0.84, 6, 3); g.fill(); g.fillStyle = '#e74c3c'; g.fillRect(-hP * 0.4, -7, hP * 0.8, 1.5);
         [-hP * 0.28, hP * 0.28].forEach(function (rx) { metalH(g, rx - 5, -7, 10, 3, '#c3cad2'); g.save(); g.translate(rx, -2); g.rotate(now / 60 * vel); g.fillStyle = '#f5f0e0'; g.beginPath(); g.arc(0, 0, 4.2, 0, 7); g.fill(); g.strokeStyle = '#c8b98a'; g.lineWidth = 1.2; g.beginPath(); g.moveTo(-3, 0); g.lineTo(3, 0); g.stroke(); g.restore(); });
