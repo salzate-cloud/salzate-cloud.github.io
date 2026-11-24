@@ -706,7 +706,37 @@
     window.addEventListener('error', function (e) { if (e && e.message) avisa(e.message, (e.filename || '').split('/').pop() + ':' + e.lineno + ':' + e.colno); });
     window.addEventListener('unhandledrejection', function (e) { avisa(String(e.reason && e.reason.message || e.reason), 'promesa'); });
   })();
-  var URL_COMENTARIOS = 'https://formspree.io/f/mzerzkoj';   /* el mismo buzón del formulario de santiagoalzates.com */
+  /* ---------- fórmulas en display que se salen del renglón ----------
+   1) si sobra poco, se encoge un poco la letra; 2) si sobra mucho, se parte en renglones por los
+   signos =, +, … (KaTeX ya deja esos puntos de corte) y la etiqueta (n) baja a su propio renglón;
+   3) si aun así no cabe (una matriz enorme), se encoge hasta 70 % y lo que quede se desplaza. */
+function ajustaFormulas(raiz) {
+  (raiz || document).querySelectorAll('.katex-display').forEach(function (e) {
+    var k = e.firstElementChild; if (!k || !e.offsetParent) return;
+    e.classList.remove('kd-parte'); k.style.fontSize = '';
+    var cw = e.clientWidth; if (!cw) return;
+    var r = e.scrollWidth / cw; if (e.scrollWidth <= cw + 1) return;
+    if (r <= 1.3) { k.style.fontSize = (Math.floor(100 / r) - 1) + '%'; if (e.scrollWidth <= cw + 1) return; k.style.fontSize = ''; }
+    if (k.querySelectorAll('.katex-html > .base').length > 1 || k.querySelector('.katex-html > .tag')) { e.classList.add('kd-parte'); }
+    r = e.scrollWidth / cw;
+    if (e.scrollWidth > cw + 1) { var fs = Math.max(70, Math.floor(100 / r) - 1); k.style.fontSize = fs + '%';
+      while (e.scrollWidth > e.clientWidth + 1 && fs > 70) { fs -= 2; k.style.fontSize = fs + '%'; } }
+  });
+}
+(function () {
+  var t = null; function ya() { clearTimeout(t); t = setTimeout(function () { ajustaFormulas(); }, 120); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ya); else ya();
+  window.addEventListener('load', ya); window.addEventListener('resize', ya);
+  document.addEventListener('toggle', function (ev) { if (ev.target.open) ajustaFormulas(ev.target); }, true);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(ya);
+  window.ajustaFormulas = ajustaFormulas;
+  if (window.MutationObserver) new MutationObserver(function (ms) {
+    for (var i = 0; i < ms.length; i++) for (var j = 0; j < ms[i].addedNodes.length; j++) { var n = ms[i].addedNodes[j];
+      if (n.nodeType === 1 && (n.classList.contains('katex-display') || n.querySelector('.katex-display'))) { ya(); return; } }
+  }).observe(document.documentElement, { childList: true, subtree: true });
+})();
+
+var URL_COMENTARIOS = 'https://formspree.io/f/mzerzkoj';   /* el mismo buzón del formulario de santiagoalzates.com */
   function comentarios() {
     document.querySelectorAll('.comentar').forEach(function (c) {
       var b = c.querySelector('button');

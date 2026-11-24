@@ -195,7 +195,7 @@ html.sin-animacion *,html.sin-animacion *::before,html.sin-animacion *::after{an
 .saltar-q{border-radius:999px;padding:6px 14px;border:1px solid var(--linea,#ccd);background:#fff;cursor:pointer;margin-top:8px}
 
 /* ---------- formulario y glosario ---------- */
-.formulario{columns:2 330px;column-gap:28px}
+.formulario:not(.caja){columns:2 330px;column-gap:28px}
 .formulario section{break-inside:avoid;margin:0 0 16px;border:1px solid var(--linea,#dde);border-radius:12px;padding:8px 14px;background:#fff}
 .formulario h3{margin:6px 0 6px;font-size:1.02em}
 .formulario dl{margin:0}.formulario dt{font-weight:600;margin-top:6px;font-size:.93em}.formulario dd{margin:2px 0 6px}
@@ -243,3 +243,10 @@ html.sin-animacion *,html.sin-animacion *::before,html.sin-animacion *::after{an
 @keyframes qnueva{0%{background:#fff1c4}100%{background:transparent}}
 @keyframes qav{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 .sin-animacion .qaviso,.sin-animacion .enun.qnueva{animation:none}
+
+/* ---------- fórmulas en display que no caben: se parten o se encogen (ajustaFormulas) ---------- */
+.katex-display.kd-parte>.katex{white-space:normal;text-align:center;line-height:1.9}
+.katex-display.kd-parte>.katex>.katex-html{display:block}
+.katex-display.kd-parte .katex-html>.base{margin:2px 0}
+.katex-display.kd-parte .katex-html>.tag{position:static;display:block;text-align:right;margin-top:.15em}
+.caja table,.formulario section table{break-inside:avoid}
