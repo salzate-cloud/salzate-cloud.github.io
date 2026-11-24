@@ -350,9 +350,12 @@
     }
     cuerpo.insertAdjacentHTML('beforeend', chips + '<div class="lab-zona"></div>');
     var zona = cuerpo.querySelector('.lab-zona');
-    function abre(ip) {
+    var vari = {};
+    function abre(ip, nueva) {
       cuerpo.querySelectorAll('.chips button').forEach(function (b) { b.classList.toggle('on', +b.getAttribute('data-i') === ip); });
-      var P = D.problemas[ip], k = 0;
+      var P0 = D.problemas[ip], P = P0, k = 0, VS = P0.variantes || [];
+      if (nueva && VS.length) { vari[ip] = ((vari[ip] == null ? -1 : vari[ip]) + 1) % VS.length; }
+      if (vari[ip] != null && VS.length) P = { nombre: P0.nombre, enunciado: VS[vari[ip]].enunciado, pasos: VS[vari[ip]].pasos, cierre: VS[vari[ip]].cierre };
       zona.innerHTML = (P.enunciado ? '<div class="lab-prob">' + P.enunciado + '</div>' : '') + '<div class="lab-hecho"></div><div class="lab-paso"></div><div class="fb"></div>';
       var hecho = zona.querySelector('.lab-hecho'), paso = zona.querySelector('.lab-paso'), fb = zona.querySelector('.fb');
       function pinta() {
@@ -363,7 +366,7 @@
           var ch = cuerpo.querySelector('.chips button[data-i="' + ip + '"]'); if (ch) ch.classList.add('hecho');
           if (Object.keys(hechos).length >= Math.min(D.problemas.length, D.meta || 1)) { st.set('lab:' + el.id, 1); document.dispatchEvent(new Event('act-progreso')); }
           paso.querySelector('.otra').addEventListener('click', function () {
-            var sig = D.problemas.length > 1 ? (ip + 1) % D.problemas.length : ip; abre(sig);
+            if (D.problemas.length > 1) abre((ip + 1) % D.problemas.length); else abre(ip, true);
           });
           return;
         }
@@ -381,8 +384,20 @@
               hecho.appendChild(d); k++;
               setTimeout(pinta, 650);
             } else {
-              b.classList.add('mal'); b.disabled = true;
-              fbMuestra(fb, false, (S.porque && S.porque[i]) || S.pista || 'Ese no es el paso que conviene aquí.');
+              b.classList.add('mal');
+              paso.querySelectorAll('.lab-ops button').forEach(function (o) { o.disabled = true; if (+o.getAttribute('data-i') === S.correcta) o.classList.add('bien'); });
+              var hay = VS.length > 0, varios = D.problemas.length > 1;
+              var msg = (S.porque && S.porque[i]) || S.pista || 'Ese no es el paso que conviene aquí.';
+              msg += ' El paso correcto está marcado en verde. <br><b>📝 Este intento ya no cuenta:</b> ' +
+                (hay ? 'te traigo el mismo problema con otros datos para que lo resuelvas de principio a fin.' :
+                 varios ? 'pasemos a otro problema y luego vuelves a este.' : 'vuelve a empezar desde el primer paso.');
+              fbMuestra(fb, false, msg);
+              var bx = document.createElement('div'); bx.className = 'botones';
+              bx.innerHTML = '<button class="prim nuevo">' + (hay ? '🔄 Dame los datos nuevos' : varios ? '➡️ Otro problema' : '🔁 Empezar de nuevo') + '</button>';
+              paso.appendChild(bx);
+              bx.querySelector('.nuevo').addEventListener('click', function () {
+                if (hay) abre(ip, true); else if (varios) abre((ip + 1) % D.problemas.length); else abre(ip);
+              });
             }
           });
         });
