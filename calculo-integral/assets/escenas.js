@@ -2209,7 +2209,7 @@
     var modo = D.modo || 'maleta', L = lienzoPx(c, function (w) { return w < 560 ? 360 : 330; });
     var ct = fila(c), an = U.deslizador(ct, modo === 'maleta' ? 'ángulo de la manija' : 'inclinación de la rampa', modo === 'maleta' ? 0 : 5, modo === 'maleta' ? 90 : 60, 1, modo === 'maleta' ? 45 : 25, function (v) { return Math.round(v) + '°'; });
     var Fs = U.deslizador(ct, modo === 'maleta' ? 'fuerza con que jalas' : 'peso del patinador', modo === 'maleta' ? 20 : 300, modo === 'maleta' ? 100 : 900, modo === 'maleta' ? 1 : 10, modo === 'maleta' ? 60 : 600, function (v) { return Math.round(v) + ' N'; });
-    var ct2 = fila(c), corre = true, pos = 0, vel = 0; var bP = boton(ct2, '⏸ Pausa', function () { corre = !corre; bP.textContent = corre ? '⏸ Pausa' : '▶ Seguir'; }); boton(ct2, '↺ Empezar de nuevo', function () { pos = 0; vel = 0; });
+    var ct2 = fila(c), corre = true, pos = 0, vel = 0, espera = 0; var bP = boton(ct2, '⏸ Pausa', function () { corre = !corre; bP.textContent = corre ? '⏸ Pausa' : '▶ Seguir'; }); boton(ct2, '↺ Empezar de nuevo', function () { pos = 0; vel = 0; });
     var lec = U.lectura(c), R = modo === 'maleta'
       ? U.reto(c, 'Jalas la maleta con 60 N y la manija forma 60° con el piso. ¿Cuántos newtons sirven de verdad para avanzar?', true, function (v) { return Math.abs(v - 30) < 0.05; }, '¡Eso! La parte útil es la proyección de la fuerza sobre el piso: 60·cos 60° = 30 N. Los otros 60·sen 60° ≈ 52 N solo levantan la maleta.')
       : U.reto(c, 'Un patinador de 600 N está en una rampa de 30°. ¿Cuántos newtons de su peso lo empujan rampa abajo?', true, function (v) { return Math.abs(v - 300) < 0.5; }, '¡Correcto! Es la proyección del peso sobre la rampa: 600·sen 30° = 300 N. La otra parte, 600·cos 30° ≈ 520 N, lo aprieta contra la rampa.');
@@ -2252,30 +2252,48 @@
         lec.innerHTML = 'Jalas con F = ' + Math.round(F) + ' N, pero la maleta solo puede moverse por el piso: lo que la hace avanzar es la <b>proyección de F sobre el piso</b>, F cos θ = <b>' + Math.round(util) + ' N</b> (la «sombra» de F). Lo demás, F sen θ = ' + Math.round(sube) + ' N, la levanta y no la adelanta. Por eso cansa más jalar con la manija muy parada. En 10 m haces un trabajo útil de ' + Math.round(util * 10) + ' J.';
       } else {
         var bajaF = F * Math.sin(a), aprieta = F * Math.cos(a);
-        if (corre) { vel += (bajaF / F * 9.8 * 0.35) * dt; pos += vel * dt * 40; if (pos > 1) { pos = 0; vel = 0; } }
-        var cie2 = g.createLinearGradient(0, 0, 0, h); cie2.addColorStop(0, '#f6b26b'); cie2.addColorStop(1, '#fde3c0'); g.fillStyle = cie2; g.fillRect(0, 0, w, h);
-        nube(g, w * 0.7, 40, 0.8); nube(g, w * 0.2, 60, 0.6);
-        var base = h - 30, x0 = w * 0.08, x1 = w * 0.92, alto = Math.min(base - 110, (x1 - x0) * Math.tan(a)), xr = x0 + alto / Math.tan(a); if (xr > x1) xr = x1;
-        concreto(g, 0, base, w, h - base, '#b9b4aa', '#8d887e', 3);
-        g.save(); g.beginPath(); g.moveTo(x0, base); g.lineTo(xr, base); g.lineTo(x0, base - alto); g.closePath(); g.clip(); concreto(g, 0, 0, w, h, '#cfc9be', '#9c968b', 9);
-        g.globalAlpha = 0.55; [['#e74c3c', 0.2, 0.75, 34], ['#3498db', 0.35, 0.85, 26], ['#f1c40f', 0.12, 0.55, 22], ['#9b59b6', 0.5, 0.92, 20]].forEach(function (q) { g.fillStyle = q[0]; g.beginPath(); g.ellipse(x0 + (xr - x0) * q[1], base - alto * (1 - q[2]) * 0.9 - 6, q[3], q[3] * 0.45, -0.2, 0, 7); g.fill(); }); g.globalAlpha = 1;
-        g.fillStyle = 'rgba(255,255,255,.8)'; g.font = '700 ' + Math.max(12, alto * 0.12) + 'px system-ui'; g.textAlign = 'left'; g.fillText('SKATE', x0 + 10, base - 12); g.restore();
-        metalH(g, x0 - 2, base - alto - 3, Math.hypot(xr - x0, alto) * 0 + 8, 5, '#c3cad2'); g.save(); g.strokeStyle = '#d7dde3'; g.lineWidth = 3; g.beginPath(); g.moveTo(x0, base - alto - 1); g.lineTo(xr, base - 1); g.stroke(); g.restore();
-        g.strokeStyle = '#6b665d'; g.lineWidth = 3; g.beginPath(); g.moveTo(x0, base - alto); g.lineTo(xr, base); g.stroke();
-        metalH(g, x0 - 4, base - alto - 6, 6, 6, '#9aa4ae');
-        g.fillStyle = '#c94f3b'; g.font = '600 13px system-ui'; g.textAlign = 'center';
-        var s = 0.12 + 0.8 * pos, sx = x0 + (xr - x0) * s, sy = base - alto * (1 - s), ux = Math.cos(a), uy = Math.sin(a);
+        if (corre) { if (pos < 1) { vel += (bajaF / F * 9.8 * 0.5) * dt; pos = Math.min(1, pos + vel * dt / 6); } else { espera = (espera || 0) + dt; if (espera > 1.2) { pos = 0; vel = 0; espera = 0; } } }
+        /* atardecer en el parque: cielo, sol, ciudad a lo lejos, árboles */
+        var cie2 = g.createLinearGradient(0, 0, 0, h); cie2.addColorStop(0, '#4a6fa5'); cie2.addColorStop(0.45, '#f39c6b'); cie2.addColorStop(0.8, '#fbd38d'); g.fillStyle = cie2; g.fillRect(0, 0, w, h);
+        var so = g.createRadialGradient(w * 0.82, h * 0.42, 4, w * 0.82, h * 0.42, 110); so.addColorStop(0, 'rgba(255,250,215,1)'); so.addColorStop(0.18, 'rgba(255,214,140,.85)'); so.addColorStop(1, 'rgba(255,214,140,0)'); g.fillStyle = so; g.fillRect(0, 0, w, h);
+        var base = h - 34, rc = azar(17); g.fillStyle = 'rgba(70,55,90,.55)';
+        for (var bx3 = 0; bx3 < w; bx3 += 14 + rc() * 22) { var bw3 = 12 + rc() * 26, bh3 = 30 + rc() * 70; g.fillRect(bx3, base - 30 - bh3, bw3, bh3 + 30); if (rc() < 0.5) { g.fillStyle = 'rgba(255,220,140,.6)'; for (var wy = base - 30 - bh3 + 6; wy < base - 34; wy += 9) if (rc() < 0.4) g.fillRect(bx3 + 3, wy, 3, 3); g.fillStyle = 'rgba(70,55,90,.55)'; } }
+        [[0.9, 1.1], [0.97, 0.8], [0.05, 0.9]].forEach(function (t) { arbol(g, w * t[0], base - 2, t[1], 0.25); });
+        nube(g, w * 0.3, 34, 0.7); nube(g, w * 0.62, 22, 0.5);
+        asfalto(g, 0, base, w, h - base, 5); g.fillStyle = 'rgba(255,255,255,.12)'; g.fillRect(0, base, w, 2);
+        var x0 = w * 0.06, x1 = w * 0.9, alto = Math.min(base - 120, (x1 - x0) * Math.tan(a)), xr = x0 + alto / Math.tan(a); if (xr > x1) xr = x1;
+        /* la rampa: plataforma de madera con estructura metálica y superficie de skatelite */
+        g.save(); g.beginPath(); g.moveTo(x0, base); g.lineTo(xr, base); g.lineTo(x0, base - alto); g.closePath(); g.clip();
+        madera(g, x0, base - alto, xr - x0, alto, '#9a6a3c', '#c99a62', 23, true);
+        g.strokeStyle = 'rgba(60,64,70,.85)'; g.lineWidth = 4; for (var px2 = x0 + 30; px2 < xr; px2 += 46) { g.beginPath(); g.moveTo(px2, base); g.lineTo(px2, base - alto * (1 - (px2 - x0) / (xr - x0))); g.stroke(); }
+        g.lineWidth = 3; g.beginPath(); for (var px3 = x0 + 30; px3 + 46 < xr; px3 += 46) { var y1 = base - 4, y2 = base - alto * (1 - (px3 + 46 - x0) / (xr - x0)) + 4; g.moveTo(px3, y1); g.lineTo(px3 + 46, Math.max(y2, base - alto * (1 - (px3 - x0) / (xr - x0)) * 0.5)); } g.stroke();
+        g.fillStyle = 'rgba(0,0,0,.18)'; g.fillRect(x0, base - alto, 6, alto);
+        g.globalAlpha = 0.8; [['#ff4fa3', 0.28, 0.82, 22], ['#2ad4ff', 0.42, 0.9, 18], ['#ffe14f', 0.16, 0.7, 16]].forEach(function (q) { g.fillStyle = q[0]; g.beginPath(); g.ellipse(x0 + (xr - x0) * q[1], base - alto * (1 - q[2]) * 0.7 - 10, q[3], q[3] * 0.5, -0.3, 0, 7); g.fill(); }); g.globalAlpha = 1;
+        g.restore();
+        var Lr = Math.hypot(xr - x0, alto), ux = (xr - x0) / Lr, uy = alto / Lr, nxr = uy, nyr = -ux;
+        g.save(); var sk = g.createLinearGradient(x0 + nxr * 8, base - alto + nyr * 8, x0, base - alto); sk.addColorStop(0, '#3a3f46'); sk.addColorStop(1, '#5c636c');
+        g.fillStyle = sk; g.beginPath(); g.moveTo(x0, base - alto); g.lineTo(xr, base); g.lineTo(xr + nxr * 7, base + nyr * 7); g.lineTo(x0 + nxr * 7, base - alto + nyr * 7); g.closePath(); g.fill();
+        g.strokeStyle = 'rgba(255,255,255,.35)'; g.lineWidth = 1; g.beginPath(); g.moveTo(x0 + nxr * 6, base - alto + nyr * 6); g.lineTo(xr + nxr * 6, base + nyr * 6); g.stroke(); g.restore();
+        metalH(g, x0 - 6, base - alto - 2 + nyr * 8, 16, 6, '#d7dde3'); metalV(g, x0 - 4, base - alto + 4, 5, alto - 4, '#9aa4ae');
+        /* el patinador baja por la rampa */
+        var s2 = 0.08 + 0.84 * pos, sx = x0 + (xr - x0) * s2 + nxr * 7, sy = base - alto * (1 - s2) + nyr * 7, hP = Math.min(96, Math.max(70, alto * 0.42));
+        for (var e = 1; e <= 3; e++) { g.globalAlpha = 0.1 * (4 - e) * Math.min(1, vel / 3); g.save(); g.translate(sx - ux * e * 7, sy - uy * e * 7); g.rotate(a); patinador(g, 0, -10, hP); g.restore(); } g.globalAlpha = 1;
         g.save(); g.translate(sx, sy); g.rotate(a);
-        g.fillStyle = '#3d2a1a'; rr(g, -28, -10, 56, 6, 3); g.fill(); g.fillStyle = '#e74c3c'; g.fillRect(-26, -10, 52, 2);
-        [-18, 18].forEach(function (rx) { g.fillStyle = '#f5f5f5'; g.beginPath(); g.arc(rx, -2, 4, 0, 7); g.fill(); });
-        patinador(g, 0, -10, 62); g.restore();
-        var cx = x0 + (xr - x0) * 0.72, cy = base - alto * 0.28 - (w < 560 ? 150 : 120), kk = 0.13, Wl = F * kk; g.fillStyle = 'rgba(255,255,255,.55)'; rr(g, cx - 70, cy - 22, 190, Wl + 40, 12); g.fill(); rotulo(g, 'diagrama de fuerzas', cx + 25, cy - 10, '#2c3e50', 'center', 11, false); g.setLineDash([3, 4]); g.strokeStyle = 'rgba(44,62,80,.35)'; g.beginPath(); g.moveTo(sx - Math.sin(a) * 40, sy - Math.cos(a) * 40); g.lineTo(cx, cy); g.stroke(); g.setLineDash([]);
-        flecha2(g, cx, cy, cx, cy + Wl, '#2c3e50', 4); rotulo(g, 'peso ' + Math.round(F) + ' N', cx - 8, cy + Wl * 0.6, '#2c3e50', 'right', 12);
+        var tb = g.createLinearGradient(0, -12, 0, -6); tb.addColorStop(0, '#2b2b2b'); tb.addColorStop(1, '#111'); g.fillStyle = tb; rr(g, -hP * 0.42, -12, hP * 0.84, 6, 3); g.fill(); g.fillStyle = '#e74c3c'; g.fillRect(-hP * 0.4, -7, hP * 0.8, 1.5);
+        [-hP * 0.28, hP * 0.28].forEach(function (rx) { metalH(g, rx - 5, -7, 10, 3, '#c3cad2'); g.save(); g.translate(rx, -2); g.rotate(now / 60 * vel); g.fillStyle = '#f5f0e0'; g.beginPath(); g.arc(0, 0, 4.2, 0, 7); g.fill(); g.strokeStyle = '#c8b98a'; g.lineWidth = 1.2; g.beginPath(); g.moveTo(-3, 0); g.lineTo(3, 0); g.stroke(); g.restore(); });
+        patinador(g, 0, -12, hP); g.restore();
+        if (vel > 0.2) { g.fillStyle = 'rgba(255,240,200,.7)'; for (var sp = 0; sp < 5; sp++) { var t2 = rc(); g.beginPath(); g.arc(sx - ux * (10 + t2 * 26) + nxr * 2, sy - uy * (10 + t2 * 26) - t2 * 6, 1.3, 0, 7); g.fill(); } }
+        /* diagrama de fuerzas en un recuadro */
+        var cx = w < 560 ? w * 0.6 : w * 0.66, cy = w < 560 ? 110 : 96, kk = (w < 560 ? 0.11 : 0.12), Wl = F * kk;
+        g.save(); g.shadowColor = 'rgba(0,0,0,.25)'; g.shadowBlur = 10; g.fillStyle = 'rgba(255,255,255,.86)'; rr(g, cx - 78, cy - 30, w < 560 ? 168 : 214, Wl + 54, 12); g.fill(); g.restore();
+        rotulo(g, 'diagrama de fuerzas', cx - 66, cy - 16, '#2c3e50', 'left', 11, false);
+        g.setLineDash([3, 4]); g.strokeStyle = 'rgba(255,255,255,.7)'; g.lineWidth = 1.2; g.beginPath(); g.moveTo(sx, sy - hP * 0.6); g.lineTo(cx, cy + Wl * 0.5); g.stroke(); g.setLineDash([]);
+        flecha2(g, cx, cy, cx, cy + Wl, '#2c3e50', 4); rotulo(g, 'peso ' + Math.round(F) + ' N', cx - 8, cy + Wl * 0.55, '#2c3e50', 'right', 12);
         var bx2 = cx + ux * bajaF * kk, by2 = cy + uy * bajaF * kk; flecha2(g, cx, cy, bx2, by2, '#e67e22', 5, 'rampa abajo: ' + Math.round(bajaF) + ' N');
         g.setLineDash([4, 4]); g.strokeStyle = 'rgba(80,60,140,.7)'; g.lineWidth = 1.5; g.beginPath(); g.moveTo(bx2, by2); g.lineTo(cx, cy + Wl); g.stroke(); g.setLineDash([]);
         flecha2(g, bx2, by2, cx, cy + Wl, '#7d3c98', 3, 'aprieta: ' + Math.round(aprieta) + ' N');
-        g.strokeStyle = '#2c3e50'; g.lineWidth = 1.5; g.beginPath(); g.arc(xr, base, 34, Math.PI, Math.PI + a); g.stroke(); rotulo(g, Math.round(an.v) + '°', xr - 44, base - 12, '#2c3e50', 'right', 11, false);
-        panel(g, ['velocidad: ' + f2(Math.round(vel * 3.6 * 10) / 10) + ' km/h', 'parte que baja = P sen β = ' + Math.round(bajaF) + ' N'], Math.max(10, w - 250), 10);
+        g.strokeStyle = '#fff'; g.lineWidth = 2; g.beginPath(); g.arc(xr, base, 38, Math.PI, Math.PI + a); g.stroke(); rotulo(g, Math.round(an.v) + '°', xr - 50, base - 14, '#2c3e50', 'right', 12);
+        panel(g, ['velocidad: ' + f2(Math.round(vel * 3.6 * 10) / 10) + ' km/h', 'parte que baja = P sen β = ' + Math.round(bajaF) + ' N'], 10, 10);
         lec.innerHTML = 'El peso apunta hacia abajo, pero el patinador solo puede moverse a lo largo de la rampa: lo que lo acelera es la <b>proyección del peso sobre la rampa</b>, P sen β = <b>' + Math.round(bajaF) + ' N</b>. La otra parte, P cos β = ' + Math.round(aprieta) + ' N, es perpendicular a la rampa y solo lo aprieta contra ella. Más inclinada la rampa, más larga la «sombra» del peso sobre ella y más rápido baja.';
       }
     }
