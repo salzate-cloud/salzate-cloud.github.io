@@ -1474,4 +1474,187 @@
     }
     L.redibuja = dib; dib();
   };
+
+  /* =====================================================================
+     Cónicas en 3D: el plano que corta el cono y la antena parabólica
+     ===================================================================== */
+  function camara3(L, cfg) {                           /* cámara orbital: arrastra para girar */
+    var C = { yaw: cfg.yaw || -0.6, pitch: cfg.pitch || 0.32, esc: 1, cx: 0, cy: 0, arrastrando: false };
+    var x0 = 0, y0 = 0, y00 = 0, p00 = 0;
+    function ini(e) { var p = e.touches ? e.touches[0] : e; C.arrastrando = true; x0 = p.clientX; y0 = p.clientY; y00 = C.yaw; p00 = C.pitch; }
+    function mov(e) { if (!C.arrastrando) return; var p = e.touches ? e.touches[0] : e; C.yaw = y00 + (p.clientX - x0) * 0.01; C.pitch = Math.max(-0.2, Math.min(1.2, p00 + (p.clientY - y0) * 0.006)); if (e.cancelable) e.preventDefault(); if (L.redibuja) L.redibuja(); }
+    function fin() { C.arrastrando = false; }
+    L.c.style.cursor = 'grab'; L.c.style.touchAction = 'pan-y';
+    L.c.addEventListener('mousedown', ini); window.addEventListener('mousemove', mov); window.addEventListener('mouseup', fin);
+    L.c.addEventListener('touchstart', ini, { passive: true }); L.c.addEventListener('touchmove', mov, { passive: false }); L.c.addEventListener('touchend', fin);
+    C.P = function (x, y, z) {                          /* z hacia arriba */
+      var cy = Math.cos(C.yaw), sy = Math.sin(C.yaw), X = x * cy - y * sy, Y = x * sy + y * cy;
+      var cp = Math.cos(C.pitch), sp = Math.sin(C.pitch), Z = z * cp - Y * sp, D = Y * cp + z * sp;
+      return [C.cx + X * C.esc, C.cy - Z * C.esc, D];   /* D grande = más lejos */
+    };
+    C.vista = function () { var cy = Math.cos(C.yaw), sy = Math.sin(C.yaw), cp = Math.cos(C.pitch), sp = Math.sin(C.pitch); return [sy * cp, cy * cp, sp]; };  /* dirección hacia el fondo, en coordenadas del mundo */
+    return C;
+  }
+  function poli3(g, pts, fill, stroke, lw) { g.beginPath(); g.moveTo(pts[0][0], pts[0][1]); for (var i = 1; i < pts.length; i++) g.lineTo(pts[i][0], pts[i][1]); g.closePath(); if (fill) { g.fillStyle = fill; g.fill(); } if (stroke) { g.strokeStyle = stroke; g.lineWidth = lw || 1; g.stroke(); } }
+  function fondoEstudio(g, w, h) {
+    var gr = g.createRadialGradient(w * 0.45, h * 0.35, 20, w * 0.5, h * 0.5, Math.max(w, h) * 0.8); gr.addColorStop(0, '#2c3e57'); gr.addColorStop(1, '#0d1522'); g.fillStyle = gr; g.fillRect(0, 0, w, h);
+    var r = azar(77); g.fillStyle = 'rgba(255,255,255,.5)'; for (var i = 0; i < 60; i++) { var s = r() * 1.3; g.globalAlpha = 0.2 + r() * 0.5; g.fillRect(r() * w, r() * h, s, s); } g.globalAlpha = 1;
+  }
+
+  W.conicas = function (c, D) {
+    var L = lienzoPx(c, function (w) { return w < 560 ? 520 : 400; }), ct = fila(c), C = camara3(L, { yaw: -0.7, pitch: 0.3 });
+    var be = U.deslizador(ct, 'inclinación del plano', 0, 85, 0.5, 0, function (v) { return f2(v) + '°'; }), z0 = U.deslizador(ct, 'altura del corte', -0.8, 1.2, 0.01, 0.35, function (v) { return f2(v); });
+    var ct2 = fila(c), anim = null;
+    function para() { if (anim) cancelAnimationFrame(anim); anim = null; bA.textContent = '▶ Ver cómo nacen las cuatro'; }
+    var bA = boton(ct2, '▶ Ver cómo nacen las cuatro', function () {
+      if (anim) { para(); return; }
+      bA.textContent = '⏸ Pausa'; var t0 = performance.now(), b0 = be.v >= 84 ? 0 : be.v;
+      function paso(t) { var v = Math.min(85, b0 + (t - t0) / 1000 * 9); be.v = v; dib(); if (v < 85) anim = requestAnimationFrame(paso); else para(); }
+      anim = requestAnimationFrame(paso); });
+    [['○ circunferencia', 0], ['⬭ elipse', 35], ['∪ parábola', 60], [')( hipérbola', 78]].forEach(function (p) { boton(ct2, p[0], function () { para(); var a = be.v, t0 = performance.now(); (function paso(t) { var u = Math.min(1, (t - t0) / 600); u = u * u * (3 - 2 * u); be.v = a + (p[1] - a) * u; dib(); if (u < 1) requestAnimationFrame(paso); })(t0); }); });
+    var lec = U.lectura(c), R = U.reto(c, 'El cono tiene generatrices a 60° de la horizontal. ¿Con qué inclinación del plano (en grados) aparece la parábola?', true, function (v) { return Math.abs(v - 60) < 0.6; },
+      '¡Exacto! Con 60° el plano queda paralelo a una generatriz: nunca alcanza a cerrar la curva en ese manto, pero tampoco corta el otro. Por debajo sale elipse; por encima, hipérbola.'); R.el.__fin = c.__fin;
+    var AL = 30 * Math.PI / 180, TA = Math.tan(AL), H = 1.7;
+    function dib() {
+      var g = L.g, w = L.w, h = L.h, mov = w < 560, beta = be.v * Math.PI / 180, zc = z0.v, sb = Math.sin(beta), cb = Math.cos(beta);
+      fondoEstudio(g, w, h);
+      var area = mov ? { x: 0, y: 0, w: w, h: h - 170 } : { x: 0, y: 0, w: w * 0.64, h: h };
+      C.cx = area.x + area.w / 2; C.cy = area.y + area.h / 2 + 18; C.esc = Math.min(area.w, area.h) * 0.24;
+      var V = C.vista(), luz = [0.4, -0.5, 0.75], nl = Math.hypot(luz[0], luz[1], luz[2]); luz = luz.map(function (q) { return q / nl; });
+      /* caras del cono doble */
+      var caras = [], NF = 40, NZ = 8;
+      for (var s = -1; s <= 1; s += 2) for (var k = 0; k < NZ; k++) for (var i = 0; i < NF; i++) {
+        var z1 = s * H * k / NZ, z2 = s * H * (k + 1) / NZ, f1 = i / NF * 6.2832, f2a = (i + 1) / NF * 6.2832, fm = (f1 + f2a) / 2;
+        var pts = [[z1, f1], [z1, f2a], [z2, f2a], [z2, f1]].map(function (q) { var r = Math.abs(q[0]) * TA; return [r * Math.cos(q[1]), r * Math.sin(q[1]), q[0]]; });
+        var n = [Math.cos(fm) * Math.cos(AL), Math.sin(fm) * Math.cos(AL), -s * Math.sin(AL)];   /* normal hacia afuera */
+        var dz = (z1 + z2) / 2, rm = Math.abs(dz) * TA, cen = [rm * Math.cos(fm), rm * Math.sin(fm), dz];
+        var pr = pts.map(function (q) { return C.P(q[0], q[1], q[2]); }), prof = C.P(cen[0], cen[1], cen[2])[2];
+        var frente = (n[0] * V[0] + n[1] * V[1] + n[2] * V[2]) < 0, li = Math.max(0, n[0] * luz[0] + n[1] * luz[1] + n[2] * luz[2]);
+        var lado = (cen[1] * sb + cen[2] * cb) - zc * cb;      /* de qué lado del plano está la cara */
+        caras.push({ pr: pr, prof: prof, frente: frente, li: li, lado: lado, s: s });
+      }
+      caras.sort(function (a, b) { return b.prof - a.prof; });
+      function pintaCara(cf, alfa) { var t = 0.35 + 0.65 * cf.li, base = cf.s > 0 ? [120, 170, 230] : [235, 160, 90];
+        poli3(g, cf.pr, 'rgba(' + (base[0] * t | 0) + ',' + (base[1] * t | 0) + ',' + (base[2] * t | 0) + ',' + alfa + ')', 'rgba(255,255,255,' + alfa * 0.18 + ')', 0.6); }
+      caras.forEach(function (cf) { if (!cf.frente) pintaCara(cf, 0.55); });
+      /* plano de corte */
+      var u = [1, 0, 0], v2 = [0, cb, -sb], P0 = [0, 0, zc], S = 2;
+      var esq = [[-S, -S], [S, -S], [S, S], [-S, S]].map(function (q) { return C.P(P0[0] + u[0] * q[0] + v2[0] * q[1], P0[1] + u[1] * q[0] + v2[1] * q[1], P0[2] + u[2] * q[0] + v2[2] * q[1]); });
+      var pg = g.createLinearGradient(esq[0][0], esq[0][1], esq[2][0], esq[2][1]); pg.addColorStop(0, 'rgba(255,230,140,.2)'); pg.addColorStop(1, 'rgba(255,200,90,.09)');
+      poli3(g, esq, pg, 'rgba(255,225,150,.75)', 1.4);
+      g.strokeStyle = 'rgba(255,225,150,.18)'; g.lineWidth = 1; for (var q = -S; q <= S; q += S / 5) { var a1 = C.P(u[0] * q, v2[1] * -S, zc + v2[2] * -S), a2 = C.P(u[0] * q, v2[1] * S, zc + v2[2] * S); g.beginPath(); g.moveTo(a1[0], a1[1]); g.lineTo(a2[0], a2[1]); g.stroke(); }
+      /* la curva de corte: t·(tanα·senφ·senβ + cosβ) = z0·cosβ */
+      var tramos = [], act = [], N = 720;
+      for (var j = 0; j <= N; j++) { var ph = j / N * 6.2832, den = TA * Math.sin(ph) * sb + cb, t = Math.abs(den) < 1e-9 ? 1e9 : zc * cb / den;
+        if (Math.abs(t) <= H) { var r = Math.abs(t) * TA, p3 = [r * Math.cos(ph), r * Math.sin(ph), t]; act.push({ p3: p3, s: t >= 0 ? 1 : -1 }); } else if (act.length) { tramos.push(act); act = []; } }
+      if (act.length) tramos.push(act);
+      if (tramos.length > 1 && tramos[0][0].s === tramos[tramos.length - 1][0].s && Math.abs(tramos[0][0].p3[0] - tramos[tramos.length - 1][tramos[tramos.length - 1].length - 1].p3[0]) < 0.05) { tramos[0] = tramos.pop().concat(tramos[0]); }
+      var tipo = Math.abs(zc) < 0.02 ? 'degenerada' : be.v < 0.6 ? 'circunferencia' : be.v < 59.4 ? 'elipse' : be.v <= 60.6 ? 'parábola' : 'hipérbola';
+      var colC = { circunferencia: '#3ee0b0', elipse: '#6fb6ff', 'parábola': '#ffb347', 'hipérbola': '#ff6f91', degenerada: '#ffffff' }[tipo];
+      g.save(); g.lineCap = 'round'; g.lineJoin = 'round'; g.shadowColor = colC; g.shadowBlur = 14;
+      tramos.forEach(function (tr) { g.strokeStyle = colC; g.lineWidth = 4; g.beginPath(); tr.forEach(function (o, k) { var pp = C.P(o.p3[0], o.p3[1], o.p3[2]); if (k) g.lineTo(pp[0], pp[1]); else g.moveTo(pp[0], pp[1]); }); g.stroke(); });
+      g.restore();
+      caras.forEach(function (cf) { if (cf.frente) pintaCara(cf, cf.lado > 0 ? 0.22 : 0.42); });
+      var vt = C.P(0, 0, 0); g.fillStyle = '#fff'; g.beginPath(); g.arc(vt[0], vt[1], 3, 0, 7); g.fill();
+      var ej1 = C.P(0, 0, -H - 0.15), ej2 = C.P(0, 0, H + 0.15); g.setLineDash([4, 5]); g.strokeStyle = 'rgba(255,255,255,.35)'; g.lineWidth = 1; g.beginPath(); g.moveTo(ej1[0], ej1[1]); g.lineTo(ej2[0], ej2[1]); g.stroke(); g.setLineDash([]);
+      /* la curva vista de frente, en su propio plano */
+      var bx = mov ? 14 : w * 0.66, by = mov ? h - 160 : 64, bw = mov ? w - 28 : w * 0.32, bh = mov ? 150 : h - 128;
+      g.fillStyle = 'rgba(255,255,255,.07)'; rr(g, bx, by, bw, bh, 14); g.fill(); g.strokeStyle = 'rgba(255,255,255,.15)'; g.stroke();
+      g.fillStyle = '#cfd8e3'; g.font = '600 12px system-ui'; g.textAlign = 'left'; g.fillText('así se ve el corte de frente', bx + 12, by + 20);
+      var mxA = 0.4; tramos.forEach(function (tr) { tr.forEach(function (o) { var d = [o.p3[0] - P0[0], o.p3[1] - P0[1], o.p3[2] - P0[2]]; mxA = Math.max(mxA, Math.abs(d[0]), Math.abs(d[1] * v2[1] + d[2] * v2[2])); }); }); var kk = Math.min(bw - 30, bh - 60) / 2 / mxA, ox = bx + bw / 2, oy = by + 20 + (bh - 20) / 2;
+      g.strokeStyle = 'rgba(255,255,255,.12)'; g.beginPath(); g.moveTo(bx + 8, oy); g.lineTo(bx + bw - 8, oy); g.moveTo(ox, by + 28); g.lineTo(ox, by + bh - 8); g.stroke();
+      g.save(); g.beginPath(); g.rect(bx, by + 26, bw, bh - 28); g.clip(); g.shadowColor = colC; g.shadowBlur = 10; g.strokeStyle = colC; g.lineWidth = 3; g.lineCap = 'round';
+      tramos.forEach(function (tr) { g.beginPath(); tr.forEach(function (o, k) { var d = [o.p3[0] - P0[0], o.p3[1] - P0[1], o.p3[2] - P0[2]], a = d[0], b2 = d[1] * v2[1] + d[2] * v2[2], X = ox + a * kk, Y = oy + b2 * kk; if (k) g.lineTo(X, Y); else g.moveTo(X, Y); }); g.stroke(); });
+      g.restore();
+      var nom = tipo.charAt(0).toUpperCase() + tipo.slice(1);
+      g.font = '700 ' + (mov ? 20 : 24) + 'px system-ui'; g.fillStyle = colC; g.textAlign = 'center'; g.save(); g.shadowColor = colC; g.shadowBlur = 12; g.fillText(nom, mov ? w / 2 : area.w / 2, 34); g.restore();
+      g.font = '12px system-ui'; g.fillStyle = 'rgba(255,255,255,.55)'; g.fillText('arrastra para girar el cono', mov ? w / 2 : area.w / 2, mov ? area.h - 6 : h - 14);
+      var expl = { circunferencia: 'El plano es perpendicular al eje: todos los puntos quedan a la misma distancia del eje.', elipse: 'El plano se inclina menos que las generatrices (menos de 60°): corta un solo manto y la curva se cierra.', 'parábola': 'El plano es paralelo a una generatriz (60°): la curva se abre y nunca se cierra.', 'hipérbola': 'El plano se inclina más que las generatrices: corta los dos mantos y salen dos ramas.', degenerada: 'El plano pasa por el vértice: sale un punto, una recta o dos rectas (cónica degenerada).' }[tipo];
+      lec.innerHTML = '<b>' + nom + '</b> · inclinación ' + f2(Math.round(be.v * 10) / 10) + '° (las generatrices están a 60°). ' + expl;
+    }
+    [be, z0].forEach(function (s) { s.inp.addEventListener('input', dib); }); L.redibuja = dib; dib();
+  };
+
+  W.parabolica = function (c, D) {
+    var L = lienzoPx(c, function (w) { return w < 560 ? 430 : 400; }), ct = fila(c), C = camara3(L, { yaw: -0.9, pitch: 0.22 });
+    var modo = D.modo || 'antena', rad = 0.3;               /* metros */
+    var pr = U.deslizador(ct, 'profundidad del plato', 0.04, 0.18, 0.005, 0.1, function (v) { return Math.round(v * 100) + ' cm'; });
+    var ct2 = fila(c), bts = {};
+    [['antena', '📡 Antena'], ['faro', '🚗 Faro de carro'], ['telescopio', '🔭 Telescopio']].forEach(function (m) { bts[m[0]] = boton(ct2, m[1], function () { modo = m[0]; marca(); fotones = []; }); });
+    function marca() { Object.keys(bts).forEach(function (k) { bts[k].style.outline = k === modo ? '2px solid #f5b82e' : ''; }); }
+    var lec = U.lectura(c), R = U.reto(c, 'El plato mide 60 cm de diámetro y 10 cm de profundidad. ¿A cuántos cm del fondo va el receptor? (pista: x² = 4py)', true, function (v) { return Math.abs(v - 22.5) < 0.1; },
+      '¡Perfecto! En el borde x = 30 y y = 10: 900 = 4p·10, así que p = 22,5 cm. Ahí, en el foco, se juntan todas las señales.'); R.el.__fin = c.__fin;
+    var fotones = [], rnd = azar(5), ult = performance.now(), vivo = false;
+    function nuevo(p) {
+      var a = rnd() * 6.2832, r0 = Math.sqrt(0.15 + rnd() * 0.85) * rad * 0.93, x = r0 * Math.cos(a), y = r0 * Math.sin(a), zb = (x * x + y * y) / (4 * p);
+      return { x: x, y: y, zb: zb, t: 0, v: 0.55 + rnd() * 0.25 };
+    }
+    function dib(now) {
+      now = now || performance.now(); var dt = Math.min(0.05, (now - ult) / 1000); ult = now;
+      var g = L.g, w = L.w, h = L.h, d = pr.v, p = rad * rad / (4 * d), F = [0, 0, p];
+      fondoEstudio(g, w, h); if (modo === 'faro') { var fg = g.createLinearGradient(0, 0, w, 0); fg.addColorStop(0, 'rgba(255,240,190,0)'); fg.addColorStop(1, 'rgba(255,240,190,.08)'); g.fillStyle = fg; g.fillRect(0, 0, w, h); }
+      C.cx = w * 0.5; C.cy = h * 0.62; C.esc = Math.min(w, h) * 1.45;
+      if (modo === 'antena') { var sx = w * 0.16, sy = 46; g.save(); g.translate(sx, sy); g.rotate(-0.4); var pn = g.createLinearGradient(-40, 0, 40, 0); pn.addColorStop(0, '#1d3f7a'); pn.addColorStop(1, '#3d6fc4'); g.fillStyle = pn; g.fillRect(-46, -7, 30, 14); g.fillRect(16, -7, 30, 14); g.strokeStyle = 'rgba(255,255,255,.3)'; for (var pq = -42; pq < 46; pq += 6) { if (pq > -16 && pq < 16) continue; g.beginPath(); g.moveTo(pq, -7); g.lineTo(pq, 7); g.stroke(); }
+        metalH(g, -12, -9, 24, 18, '#d4af37'); g.fillStyle = '#ddd'; g.beginPath(); g.arc(0, 12, 5, 0, Math.PI); g.fill(); g.restore(); rotulo(g, 'satélite', sx, sy + 26, '#cfe6ff', 'center', 11, false); }
+      if (modo === 'telescopio') { var st = g.createRadialGradient(w * 0.2, 40, 1, w * 0.2, 40, 22); st.addColorStop(0, 'rgba(255,255,255,1)'); st.addColorStop(0.2, 'rgba(200,220,255,.8)'); st.addColorStop(1, 'rgba(200,220,255,0)'); g.fillStyle = st; g.beginPath(); g.arc(w * 0.2, 40, 22, 0, 7); g.fill(); g.strokeStyle = 'rgba(255,255,255,.6)'; g.beginPath(); g.moveTo(w * 0.2 - 16, 40); g.lineTo(w * 0.2 + 16, 40); g.moveTo(w * 0.2, 24); g.lineTo(w * 0.2, 56); g.stroke(); rotulo(g, 'estrella lejana', w * 0.2, 72, '#dfe8ff', 'center', 11, false); }
+      var V = C.vista(), luz = [0.35, -0.55, 0.76];
+      /* el plato (paraboloide z = (x²+y²)/(4p)) como malla */
+      var caras = [], NR = 10, NF = 44;
+      for (var i = 0; i < NR; i++) for (var k = 0; k < NF; k++) {
+        var r1 = rad * i / NR, r2 = rad * (i + 1) / NR, f1 = k / NF * 6.2832, f2a = (k + 1) / NF * 6.2832, rm = (r1 + r2) / 2, fm = (f1 + f2a) / 2;
+        var pts = [[r1, f1], [r1, f2a], [r2, f2a], [r2, f1]].map(function (q) { return [q[0] * Math.cos(q[1]), q[0] * Math.sin(q[1]), q[0] * q[0] / (4 * p)]; });
+        var n = [-rm / (2 * p) * Math.cos(fm), -rm / (2 * p) * Math.sin(fm), 1], nn = Math.hypot(n[0], n[1], n[2]); n = n.map(function (q) { return q / nn; });
+        var cen = [rm * Math.cos(fm), rm * Math.sin(fm), rm * rm / (4 * p)], vis = n[0] * V[0] + n[1] * V[1] + n[2] * V[2] < 0;
+        var li = Math.abs(n[0] * luz[0] + n[1] * luz[1] + n[2] * luz[2]), esp = Math.pow(Math.max(0, li), 18);
+        caras.push({ pr: pts.map(function (q) { return C.P(q[0], q[1], q[2]); }), prof: C.P(cen[0], cen[1], cen[2])[2], li: li, esp: esp, dentro: vis });
+      }
+      caras.sort(function (a, b) { return b.prof - a.prof; });
+      var tono = modo === 'faro' ? [235, 238, 245] : modo === 'telescopio' ? [205, 215, 230] : [200, 205, 212];
+      var ped = C.P(0, 0, -0.02), suelo = C.P(0, 0, -0.42);
+      if (modo === 'antena') { g.strokeStyle = '#5b636c'; g.lineWidth = 7; g.beginPath(); g.moveTo(ped[0], ped[1]); g.lineTo(suelo[0], suelo[1]); g.stroke(); g.fillStyle = 'rgba(0,0,0,.35)'; g.beginPath(); g.ellipse(suelo[0], suelo[1] + 2, 40, 9, 0, 0, 7); g.fill(); }
+      caras.forEach(function (cf) { var t = 0.32 + 0.68 * cf.li + (cf.dentro ? 0.08 : -0.1), c0 = tono.map(function (q) { return Math.min(255, q * t + 255 * cf.esp * 0.8) | 0; });
+        poli3(g, cf.pr, 'rgb(' + c0[0] + ',' + c0[1] + ',' + c0[2] + ')', 'rgba(0,0,0,.12)', 0.6); });
+      var bo = []; for (var k2 = 0; k2 <= 60; k2++) { var a = k2 / 60 * 6.2832; bo.push(C.P(rad * Math.cos(a), rad * Math.sin(a), d)); } g.strokeStyle = '#3d454e'; g.lineWidth = 2.5; g.beginPath(); bo.forEach(function (q, k) { if (k) g.lineTo(q[0], q[1]); else g.moveTo(q[0], q[1]); }); g.stroke();
+      /* brazo y receptor o bombilla en el foco */
+      var Fp = C.P(F[0], F[1], F[2]);
+      if (modo !== 'faro') { [0, 2.094, 4.189].forEach(function (a) { var b = C.P(rad * 0.98 * Math.cos(a), rad * 0.98 * Math.sin(a), d); g.strokeStyle = '#4a5159'; g.lineWidth = 2; g.beginPath(); g.moveTo(b[0], b[1]); g.lineTo(Fp[0], Fp[1]); g.stroke(); }); }
+      fotones.forEach(function (o) { o.t += dt * o.v; });
+      while (fotones.length < 80) { var nf = nuevo(p); nf.t = fotones.length > 0 && rnd() < 0.5 ? rnd() * 1.6 : 0; fotones.push(nf); }
+      fotones = fotones.filter(function (o) { return o.t < 1.75; });
+      var top = Math.max(d, p) + 0.35;
+      g.save(); g.globalCompositeOperation = 'lighter';
+      fotones.forEach(function (o) {
+        var B = [o.x, o.y, o.zb], dF = Math.hypot(B[0] - F[0], B[1] - F[1], B[2] - F[2]), L1 = top - o.zb, s = o.t * (L1 + dF), pos, cola;
+        var col = modo === 'faro' ? '255,236,160' : modo === 'telescopio' ? '190,210,255' : '120,255,190';
+        if (modo === 'faro') {                                  /* sale del foco, rebota y sale paralelo */
+          if (s < dF) { var u = s / dF; pos = [F[0] + (B[0] - F[0]) * u, F[1] + (B[1] - F[1]) * u, F[2] + (B[2] - F[2]) * u]; }
+          else pos = [B[0], B[1], B[2] + (s - dF)];
+        } else {                                                 /* llega paralelo, rebota y va al foco */
+          if (s < L1) pos = [B[0], B[1], top - s];
+          else { var u2 = Math.min(1, (s - L1) / dF); pos = [B[0] + (F[0] - B[0]) * u2, B[1] + (F[1] - B[1]) * u2, B[2] + (F[2] - B[2]) * u2]; }
+        }
+        var s2 = Math.max(0, s - 0.13), pos2;
+        if (modo === 'faro') pos2 = s2 < dF ? [F[0] + (B[0] - F[0]) * s2 / dF, F[1] + (B[1] - F[1]) * s2 / dF, F[2] + (B[2] - F[2]) * s2 / dF] : [B[0], B[1], B[2] + (s2 - dF)];
+        else pos2 = s2 < L1 ? [B[0], B[1], top - s2] : [B[0] + (F[0] - B[0]) * Math.min(1, (s2 - L1) / dF), B[1] + (F[1] - B[1]) * Math.min(1, (s2 - L1) / dF), B[2] + (F[2] - B[2]) * Math.min(1, (s2 - L1) / dF)];
+        var a = C.P(pos[0], pos[1], pos[2]), b = C.P(pos2[0], pos2[1], pos2[2]), fade = Math.min(1, o.t * 5) * Math.min(1, (1.75 - o.t) * 4);
+        var gr = g.createLinearGradient(b[0], b[1], a[0], a[1]); gr.addColorStop(0, 'rgba(' + col + ',0)'); gr.addColorStop(1, 'rgba(' + col + ',' + 0.9 * fade + ')');
+        g.strokeStyle = gr; g.lineWidth = 2.4; g.lineCap = 'round'; g.beginPath(); g.moveTo(b[0], b[1]); g.lineTo(a[0], a[1]); g.stroke();
+        g.fillStyle = 'rgba(' + col + ',' + fade + ')'; g.beginPath(); g.arc(a[0], a[1], 2.2, 0, 7); g.fill();
+      });
+      g.restore();
+      var brillo = modo === 'faro' ? 1 : 0.55 + 0.45 * Math.sin(now / 180);
+      var hal = g.createRadialGradient(Fp[0], Fp[1], 1, Fp[0], Fp[1], modo === 'faro' ? 46 : 26); var cf = modo === 'faro' ? '255,240,180' : modo === 'telescopio' ? '190,210,255' : '120,255,190';
+      hal.addColorStop(0, 'rgba(' + cf + ',' + 0.95 * brillo + ')'); hal.addColorStop(1, 'rgba(' + cf + ',0)'); g.fillStyle = hal; g.beginPath(); g.arc(Fp[0], Fp[1], 46, 0, 7); g.fill();
+      if (modo === 'antena') { g.fillStyle = '#2d333a'; rr(g, Fp[0] - 7, Fp[1] - 6, 14, 12, 3); g.fill(); g.fillStyle = '#c0392b'; g.beginPath(); g.arc(Fp[0], Fp[1] + 1, 2.3, 0, 7); g.fill(); }
+      else if (modo === 'telescopio') { g.fillStyle = '#d6dbe1'; g.beginPath(); g.ellipse(Fp[0], Fp[1], 8, 4, 0.5, 0, 7); g.fill(); }
+      else { g.fillStyle = '#fffbe8'; g.beginPath(); g.arc(Fp[0], Fp[1], 5, 0, 7); g.fill(); }
+      rotulo(g, 'F (foco) a ' + f2(Math.round(p * 1000) / 10) + ' cm del fondo', Fp[0] + 16, Fp[1] - 16, '#1f2a36', 'left', 12);
+      var txt = { antena: 'La señal del satélite llega en rayos paralelos y todos rebotan hacia el receptor del foco.', faro: 'La bombilla está en el foco: la luz rebota y sale en un haz paralelo que alumbra lejos.', telescopio: 'La luz de una estrella llega paralela y el espejo la junta en el foco, donde se forma la imagen.' }[modo];
+      g.font = '12px system-ui'; g.fillStyle = 'rgba(255,255,255,.6)'; g.textAlign = 'center'; g.fillText('arrastra para girar', w / 2, h - 10);
+      lec.innerHTML = txt + ' Con x² = 4py y el borde en (30, ' + Math.round(d * 100) + '): <b>p = 30²/(4·' + Math.round(d * 100) + ') = ' + f2(Math.round(p * 1000) / 10) + ' cm</b>.';
+    }
+    function loop(t) { if (!vivo) return; dib(t); requestAnimationFrame(loop); }
+    if ('IntersectionObserver' in window && !sinAnim()) new IntersectionObserver(function (e) { var v = e[0].isIntersecting; if (v && !vivo) { vivo = true; ult = performance.now(); requestAnimationFrame(loop); } else if (!v) vivo = false; }).observe(L.c);
+    pr.inp.addEventListener('input', function () { fotones = []; dib(); }); L.redibuja = function () { dib(); }; marca(); dib();
+  };
 })();
