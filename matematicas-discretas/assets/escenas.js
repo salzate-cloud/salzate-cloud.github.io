@@ -1657,4 +1657,185 @@
     if ('IntersectionObserver' in window && !sinAnim()) new IntersectionObserver(function (e) { var v = e[0].isIntersecting; if (v && !vivo) { vivo = true; ult = performance.now(); requestAnimationFrame(loop); } else if (!v) vivo = false; }).observe(L.c);
     pr.inp.addEventListener('input', function () { fotones = []; dib(); }); L.redibuja = function () { dib(); }; marca(); dib();
   };
+
+  /* =====================================================================
+     Elipse e hipérbola en 3D, con aparatos y lugares de la vida real
+     ===================================================================== */
+  function animador(L, dib) {                           /* bucle que solo corre cuando el lienzo se ve */
+    var vivo = false, ult = performance.now();
+    function loop(t) { if (!vivo) return; var dt = Math.min(0.05, (t - ult) / 1000); ult = t; dib(dt, t); requestAnimationFrame(loop); }
+    if ('IntersectionObserver' in window && !sinAnim()) new IntersectionObserver(function (e) { var v = e[0].isIntersecting; if (v && !vivo) { vivo = true; ult = performance.now(); requestAnimationFrame(loop); } else if (!v) vivo = false; }).observe(L.c);
+    L.redibuja = function () { dib(0, performance.now()); };
+  }
+  function linea3(g, C, a, b, col, lw) { var p = C.P(a[0], a[1], a[2]), q = C.P(b[0], b[1], b[2]); g.strokeStyle = col; g.lineWidth = lw || 1; g.beginPath(); g.moveTo(p[0], p[1]); g.lineTo(q[0], q[1]); g.stroke(); }
+  function brillo3(g, C, p, r, col, a) { var q = C.P(p[0], p[1], p[2]), gr = g.createRadialGradient(q[0], q[1], 0, q[0], q[1], r); gr.addColorStop(0, 'rgba(' + col + ',' + (a == null ? 1 : a) + ')'); gr.addColorStop(1, 'rgba(' + col + ',0)'); g.fillStyle = gr; g.beginPath(); g.arc(q[0], q[1], r, 0, 7); g.fill(); return q; }
+  function botonesModo(c, lista, ini, fn) {
+    var ct = fila(c), bts = {}, actual = ini;
+    function marca() { Object.keys(bts).forEach(function (k) { bts[k].style.outline = k === actual ? '2px solid #f5b82e' : ''; }); }
+    lista.forEach(function (m) { bts[m[0]] = boton(ct, m[1], function () { actual = m[0]; marca(); fn(m[0]); }); }); marca(); return ct;
+  }
+
+  /* ---------------------------------------------------------------------
+     La elipse: sala de los susurros, litotricia y órbita de un planeta
+     --------------------------------------------------------------------- */
+  W.elipse3d = function (c, D) {
+    var L = lienzoPx(c, function (w) { return w < 560 ? 440 : 420; }), C = camara3(L, { yaw: -0.5, pitch: 0.42 }), modo = 'susurros';
+    botonesModo(c, [['susurros', '🗣️ Sala de los susurros'], ['lito', '💎 Romper cálculos (litotricia)'], ['planeta', '🪐 Órbita de un planeta']], modo, function (m) { modo = m; part = []; frag = 0; tiempo = 0; rastro = []; });
+    var ct = fila(c), ex = U.deslizador(ct, 'excentricidad e', 0.2, 0.9, 0.01, 0.6, function (v) { return f2(v); });
+    var lec = U.lectura(c), R = U.reto(c, 'Una sala elíptica mide 30 m de largo y 18 m de ancho. ¿A cuántos metros del centro deben pararse los dos amigos para oírse en secreto?', true, function (v) { return Math.abs(v - 12) < 0.05; },
+      '¡Así es! a = 15, b = 9 y c = √(15² − 9²) = 12 m: cada uno en un foco, y todo lo que uno susurre rebota en la pared y llega al otro.'); R.el.__fin = c.__fin;
+    var part = [], rnd = azar(9), frag = 0, tiempo = 0, rastro = [], llega = 0;
+    function dib(dt, now) {
+      var g = L.g, w = L.w, h = L.h, e = ex.v, a = 1, b = Math.sqrt(1 - e * e), cc = e, F1 = [-cc, 0, 0], F2 = [cc, 0, 0];
+      fondoEstudio(g, w, h); tiempo += dt;
+      C.cx = w / 2; C.cy = h * (modo === 'planeta' ? 0.52 : modo === 'lito' ? 0.42 : 0.6); C.esc = Math.min(w * (w < 560 ? 0.46 : 0.38), h * 0.62);
+      var V = C.vista(), luz = [0.3, -0.5, 0.8];
+      if (modo === 'planeta') { planeta(g, w, h, a, b, cc, e, dt, now); return; }
+      var arriba = modo === 'susurros';                                  /* sala: cúpula arriba · litotricia: tazón abajo */
+      var sg = arriba ? 1 : -1, caras = [], NU = 26, NV = 12, v0 = arriba ? -0.62 : 0, v1x = arriba ? Math.PI + 0.62 : Math.PI;
+      for (var i = 0; i < NU; i++) for (var j = 0; j < NV; j++) {
+        var u1 = i / NU * Math.PI, u2 = (i + 1) / NU * Math.PI, v1 = v0 + j / NV * (v1x - v0), v2 = v0 + (j + 1) / NV * (v1x - v0), um = (u1 + u2) / 2, vm = (v1 + v2) / 2;
+        var S = function (u, v) { return [a * Math.cos(u), b * Math.sin(u) * Math.cos(v), sg * b * Math.sin(u) * Math.sin(v)]; };
+        var pts = [S(u1, v1), S(u2, v1), S(u2, v2), S(u1, v2)], cen = S(um, vm), n = [cen[0] / (a * a), cen[1] / (b * b), cen[2] / (b * b)], nn = Math.hypot(n[0], n[1], n[2]); n = n.map(function (q) { return q / nn; });
+        caras.push({ pr: pts.map(function (q) { return C.P(q[0], q[1], q[2]); }), prof: C.P(cen[0], cen[1], cen[2])[2], li: Math.abs(n[0] * luz[0] + n[1] * luz[1] + n[2] * luz[2]), frente: n[0] * V[0] + n[1] * V[1] + n[2] * V[2] < 0 });
+      }
+      caras.sort(function (p, q) { return q.prof - p.prof; });
+      /* piso de la sala (o colchón de agua de la litotricia) */
+      var piso = [], sv = Math.sin(-0.62), cv = Math.cos(-0.62); for (var k = 0; k <= 64; k++) { var t = k / 64 * 6.2832; piso.push(arriba ? C.P(a * Math.cos(t), b * Math.sin(t) * cv, b * Math.abs(Math.sin(t)) * sv) : C.P(a * Math.cos(t), b * Math.sin(t), 0)); }
+      var pg = g.createLinearGradient(piso[16][0], piso[16][1], piso[48][0], piso[48][1]);
+      if (arriba) { pg.addColorStop(0, '#8a6a4a'); pg.addColorStop(1, '#c9a477'); } else { pg.addColorStop(0, 'rgba(90,170,220,.45)'); pg.addColorStop(1, 'rgba(160,215,245,.35)'); }
+      poli3(g, piso, pg, arriba ? '#5d4630' : 'rgba(200,235,255,.6)', 1.5);
+      if (arriba) { g.save(); g.beginPath(); piso.forEach(function (q, k) { if (k) g.lineTo(q[0], q[1]); else g.moveTo(q[0], q[1]); }); g.clip(); g.strokeStyle = 'rgba(60,40,20,.25)'; g.lineWidth = 1; for (var x = -1; x <= 1; x += 0.1) linea3(g, C, [x, -1, 0], [x, 1, 0], 'rgba(60,40,20,.22)', 1); g.restore(); }
+      var tono = arriba ? [230, 222, 205] : [205, 212, 222], al = arriba ? 0.35 : 0.9;
+      function pinta(cf) { var t = 0.45 + 0.55 * cf.li; poli3(g, cf.pr, 'rgba(' + (tono[0] * t | 0) + ',' + (tono[1] * t | 0) + ',' + (tono[2] * t | 0) + ',' + (cf.frente ? al * 0.55 : al) + ')', 'rgba(120,100,80,' + (arriba ? 0.25 : 0.15) + ')', 0.6); }
+      caras.forEach(function (cf) { if (!cf.frente) pinta(cf); });
+      /* las ondas: de F1 rebotan en la pared y llegan a F2 */
+      if (part.length < 90 && rnd() < 0.9) { for (var q = 0; q < 3; q++) {
+        var th = rnd() * 6.2832, ph = Math.acos(rnd()) , d = [Math.sin(ph) * Math.cos(th), Math.sin(ph) * Math.sin(th), sg * Math.cos(ph)];
+        var A2 = d[0] * d[0] / (a * a) + (d[1] * d[1] + d[2] * d[2]) / (b * b), B2 = 2 * F1[0] * d[0] / (a * a), C2 = F1[0] * F1[0] / (a * a) - 1, tt = (-B2 + Math.sqrt(B2 * B2 - 4 * A2 * C2)) / (2 * A2);
+        var P = [F1[0] + d[0] * tt, d[1] * tt, d[2] * tt]; part.push({ P: P, l1: tt, l2: Math.hypot(F2[0] - P[0], P[1], P[2]), s: 0 }); } }
+      g.save(); g.globalCompositeOperation = 'lighter'; var col = arriba ? '255,220,120' : '120,220,255';
+      part.forEach(function (o) { o.s += dt * 1.3; var s = o.s, pos, tot = o.l1 + o.l2;
+        function en(s) { return s < o.l1 ? [F1[0] + (o.P[0] - F1[0]) * s / o.l1, o.P[1] * s / o.l1, o.P[2] * s / o.l1] : [o.P[0] + (F2[0] - o.P[0]) * Math.min(1, (s - o.l1) / o.l2), o.P[1] * (1 - Math.min(1, (s - o.l1) / o.l2)), o.P[2] * (1 - Math.min(1, (s - o.l1) / o.l2))]; }
+        pos = en(s); var pos2 = en(Math.max(0, s - 0.16)), p1 = C.P(pos[0], pos[1], pos[2]), p2 = C.P(pos2[0], pos2[1], pos2[2]), fa = Math.min(1, s * 6) * (s > tot ? 0 : 1);
+        var gr = g.createLinearGradient(p2[0], p2[1], p1[0], p1[1]); gr.addColorStop(0, 'rgba(' + col + ',0)'); gr.addColorStop(1, 'rgba(' + col + ',' + 0.85 * fa + ')'); g.strokeStyle = gr; g.lineWidth = 2.2; g.lineCap = 'round'; g.beginPath(); g.moveTo(p2[0], p2[1]); g.lineTo(p1[0], p1[1]); g.stroke();
+        if (s >= tot && !o.cuenta) { o.cuenta = 1; llega++; } });
+      part = part.filter(function (o) { return o.s < o.l1 + o.l2 + 0.05; });
+      g.restore();
+      caras.forEach(function (cf) { if (cf.frente) pinta(cf); });
+      var pul = 0.6 + 0.4 * Math.sin(now / 160);
+      if (arriba) {
+        [[F1, '#c0392b', 'habla'], [F2, '#2f6fa3', 'oye']].forEach(function (f, k) { var p = C.P(f[0][0], 0, 0), pie = C.P(f[0][0], 0, -0.58 * b * Math.sin(Math.acos(Math.min(1, Math.abs(f[0][0]) / a)))), alto = Math.max(20, (pie[1] - p[1]) * 1.08); persona(g, pie[0], pie[1], alto, f[1], 0.3); brillo3(g, C, f[0], 22 * (k ? pul : 1), k ? '120,200,255' : '255,190,90', 0.8); rotulo(g, (k ? 'F₂ · ' : 'F₁ · ') + f[2], pie[0], pie[1] + 14, '#1f2a36', 'center', 12); });
+        var tx = 'El susurro sale de F₁ en todas las direcciones, rebota en la cúpula y llega completo a F₂. Los de la mitad no oyen nada.';
+      } else {
+        var e1 = C.P(F1[0], 0, 0); g.fillStyle = '#3a4048'; rr(g, e1[0] - 9, e1[1] - 6, 18, 12, 3); g.fill(); brillo3(g, C, F1, 26 * pul, '160,230,255', 0.95);
+        frag = Math.min(1, frag + dt * 0.04); var p2 = C.P(F2[0], 0, 0), rr0 = 9 * (1 - frag * 0.6), rk = azar(3);
+        brillo3(g, C, F2, 30 * pul, '255,255,255', 0.5);
+        if (frag < 0.98) { g.fillStyle = '#d9b44a'; g.beginPath(); for (var q2 = 0; q2 < 9; q2++) { var an = q2 / 9 * 6.2832, rq = rr0 * (0.75 + rk() * 0.4); g.lineTo(p2[0] + Math.cos(an) * rq, p2[1] + Math.sin(an) * rq); } g.closePath(); g.fill(); g.strokeStyle = '#8a6a1a'; g.lineWidth = 1; g.stroke(); }
+        g.fillStyle = '#e8c75a'; for (var q3 = 0; q3 < Math.round(frag * 30); q3++) { var an2 = rk() * 6.2832, dd = (6 + rk() * 22) * frag; g.beginPath(); g.arc(p2[0] + Math.cos(an2) * dd, p2[1] + Math.sin(an2) * dd, 1.2 + rk() * 1.5, 0, 7); g.fill(); }
+        rotulo(g, 'F₁ · emisor de ondas', e1[0], e1[1] + 20, '#1f2a36', 'center', 12); rotulo(g, 'F₂ · cálculo renal ' + (frag < 0.98 ? '(' + Math.round(frag * 100) + ' % roto)' : '¡pulverizado!'), p2[0], p2[1] - 22, '#1f2a36', 'center', 12);
+        if (frag >= 1) frag = 0;
+        var tx = 'El aparato tiene forma de media elipsoide: las ondas de choque nacen en F₁, rebotan y se concentran en F₂, justo donde está el cálculo. Así se rompe sin cirugía.';
+      }
+      g.font = '12px system-ui'; g.fillStyle = 'rgba(255,255,255,.55)'; g.textAlign = 'center'; g.fillText('arrastra para girar', w / 2, h - 10);
+      lec.innerHTML = tx + ' Aquí a = 1, b = √(1 − e²) = ' + f2(Math.round(b * 1000) / 1000) + ' y los focos están en ±c = ±' + f2(Math.round(cc * 1000) / 1000) + ' (c = a·e).';
+    }
+    function planeta(g, w, h, a, b, cc, e, dt, now) {
+      var T = 9, Pf = [cc, 0, 0];                                   /* el Sol en el foco derecho */
+      tiempo = tiempo % T; var M = 6.2832 * tiempo / T, E = M; for (var k = 0; k < 8; k++) E = E - (E - e * Math.sin(E) - M) / (1 - e * Math.cos(E));
+      var pos = function (EE) { return [a * Math.cos(EE), b * Math.sin(EE), 0]; }, p = pos(E);
+      var orb = []; for (var q = 0; q <= 120; q++) orb.push(pos(q / 120 * 6.2832));
+      /* barridos de áreas iguales en tiempos iguales */
+      var nS = 6; for (var s2 = 0; s2 < nS; s2++) { var M1 = 6.2832 * s2 / nS, M2 = 6.2832 * (s2 + 0.5) / nS, E1 = M1, E2 = M2; for (var k2 = 0; k2 < 8; k2++) { E1 = E1 - (E1 - e * Math.sin(E1) - M1) / (1 - e * Math.cos(E1)); E2 = E2 - (E2 - e * Math.sin(E2) - M2) / (1 - e * Math.cos(E2)); }
+        var sec = [C.P(Pf[0], 0, 0)]; for (var q2 = 0; q2 <= 16; q2++) { var pp = pos(E1 + (E2 - E1) * q2 / 16); sec.push(C.P(pp[0], pp[1], 0)); } poli3(g, sec, 'rgba(120,180,255,.13)', 'rgba(120,180,255,.25)', 0.8); }
+      g.strokeStyle = 'rgba(255,255,255,.45)'; g.lineWidth = 1.4; g.setLineDash([5, 5]); g.beginPath(); orb.forEach(function (o, k) { var q3 = C.P(o[0], o[1], 0); if (k) g.lineTo(q3[0], q3[1]); else g.moveTo(q3[0], q3[1]); }); g.stroke(); g.setLineDash([]);
+      var F1p = C.P(-cc, 0, 0); g.strokeStyle = 'rgba(255,255,255,.35)'; g.beginPath(); g.arc(F1p[0], F1p[1], 3, 0, 7); g.stroke(); rotulo(g, 'otro foco (vacío)', F1p[0], F1p[1] + 16, '#cfd8e3', 'center', 11, false);
+      rastro.push(p); if (rastro.length > 40) rastro.shift();
+      rastro.forEach(function (r, k) { var q4 = C.P(r[0], r[1], 0); g.fillStyle = 'rgba(140,200,255,' + (k / 40 * 0.5) + ')'; g.beginPath(); g.arc(q4[0], q4[1], 2.2, 0, 7); g.fill(); });
+      var sp = brillo3(g, C, Pf, 60, '255,200,80', 0.9); var sg = g.createRadialGradient(sp[0] - 4, sp[1] - 4, 2, sp[0], sp[1], 16); sg.addColorStop(0, '#fffbe0'); sg.addColorStop(1, '#ffb020'); g.fillStyle = sg; g.beginPath(); g.arc(sp[0], sp[1], 14, 0, 7); g.fill();
+      var pl = C.P(p[0], p[1], 0); var lg = g.createRadialGradient(pl[0] - (pl[0] - sp[0]) * 0.03 - 3, pl[1] - 3, 1, pl[0], pl[1], 10); lg.addColorStop(0, '#bfe3ff'); lg.addColorStop(0.6, '#2f7fd0'); lg.addColorStop(1, '#0b2a50'); g.fillStyle = lg; g.beginPath(); g.arc(pl[0], pl[1], 9, 0, 7); g.fill();
+      var r = Math.hypot(p[0] - cc, p[1]), v = Math.sqrt(2 / r - 1 / a), vmin = Math.sqrt(2 / (a + cc) - 1 / a);
+      rotulo(g, 'velocidad × ' + f2(Math.round(v / vmin * 100) / 100), pl[0] + 14, pl[1] - 14, '#1f2a36', 'left', 12); rotulo(g, 'Sol (foco)', sp[0], sp[1] + 26, '#1f2a36', 'center', 12);
+      tiempo += 0;
+      g.font = '12px system-ui'; g.fillStyle = 'rgba(255,255,255,.55)'; g.textAlign = 'center'; g.fillText(w < 560 ? 'cada gajo azul: mismo tiempo' : 'arrastra para girar · cada gajo azul se barre en el mismo tiempo', w / 2, h - 10);
+      lec.innerHTML = 'Kepler: los planetas giran en elipses con el Sol en un foco. Cerca del Sol (perihelio) van más rápido y lejos más despacio: los gajos azules tienen la misma área porque se barren en el mismo tiempo. La Tierra tiene e ≈ 0,017 (casi un círculo); el cometa Halley, e ≈ 0,97.';
+    }
+    ex.inp.addEventListener('input', function () { part = []; L.redibuja(); }); animador(L, dib); L.redibuja();
+  };
+
+  /* ---------------------------------------------------------------------
+     La hipérbola: torres de enfriamiento y ubicar un celular con dos antenas
+     --------------------------------------------------------------------- */
+  W.hiperbola3d = function (c, D) {
+    var L = lienzoPx(c, function (w) { return w < 560 ? 460 : 420; }), C = camara3(L, { yaw: -0.4, pitch: 0.25 }), modo = 'torre';
+    var ctTorre, ctGps;
+    botonesModo(c, [['torre', '🏭 Torre de enfriamiento'], ['gps', '📱 Ubicar un celular']], modo, function (m) { modo = m; C.pitch = m === 'gps' ? 0.75 : 0.25; ctTorre.style.display = m === 'torre' ? '' : 'none'; ctGps.style.display = m === 'gps' ? '' : 'none'; puntos = []; ondaT = 0; });
+    ctTorre = fila(c); var gi = U.deslizador(ctTorre, 'giro de las varillas', 0, 160, 1, 110, function (v) { return Math.round(v) + '°'; });
+    var bConstr = boton(ctTorre, '▶ Construirla varilla por varilla', function () { cuantas = 0; construyendo = true; });
+    ctGps = fila(c); ctGps.style.display = 'none'; var dd = U.deslizador(ctGps, 'la señal llega antes a A por', -8, 8, 0.1, 6, function (v) { return f2(v) + ' km'; });
+    var lec = U.lectura(c), R = U.reto(c, 'Las antenas A y B están a 10 km. La señal del celular llega a A 6 km «antes» que a B (|PB − PA| = 6). En x²/a² − y²/b² = 1, ¿cuánto vale b?', true, function (v) { return Math.abs(v - 4) < 0.01; },
+      '¡Perfecto! 2a = 6 y 2c = 10, así que a = 3, c = 5 y b = √(25 − 9) = 4. El celular está sobre la hipérbola x²/9 − y²/16 = 1; con una tercera antena se cruzan dos hipérbolas y queda ubicado.'); R.el.__fin = c.__fin;
+    var cuantas = 60, construyendo = false, vapor = [], rnd = azar(4), puntos = [], ondaT = 0;
+    function dib(dt, now) {
+      var g = L.g, w = L.w, h = L.h; fondoEstudio(g, w, h);
+      if (modo === 'gps') return gps(g, w, h, dt, now);
+      var cie = g.createLinearGradient(0, 0, 0, h); cie.addColorStop(0, '#6fa8d6'); cie.addColorStop(0.7, '#dbe9f0'); cie.addColorStop(1, '#e9e2cf'); g.fillStyle = cie; g.fillRect(0, 0, w, h);
+      C.cx = w / 2; C.cy = h * 0.56; C.esc = Math.min(w * 0.42, h * 0.38);
+      var Rb = 1, Hh = 1.15, phi = gi.v * Math.PI / 180, r0 = Rb * Math.cos(phi / 2), N = 60;
+      var suelo = []; for (var k = 0; k <= 48; k++) { var t = k / 48 * 6.2832; suelo.push(C.P(2.4 * Math.cos(t), 2.4 * Math.sin(t), -Hh)); } var sgd = g.createRadialGradient(C.cx, C.cy + C.esc * 0.8, 10, C.cx, C.cy + C.esc * 0.8, C.esc * 2.2); sgd.addColorStop(0, '#9bbf7d'); sgd.addColorStop(1, '#6f9a58'); poli3(g, suelo, sgd);
+      var sh = C.P(0.25, 0.25, -Hh); g.fillStyle = 'rgba(0,0,0,.25)'; g.beginPath(); g.ellipse(sh[0], sh[1], C.esc * 1.05, C.esc * 0.3, 0, 0, 7); g.fill();
+      if (construyendo) { cuantas = Math.min(N, cuantas + dt * 14); if (cuantas >= N) construyendo = false; }
+      var V = C.vista(), luz = [0.5, -0.6, 0.6];
+      /* superficie (concreto) cuando ya está construida */
+      var lleno = Math.max(0, Math.min(1, (cuantas - N * 0.8) / (N * 0.2)));
+      var caras = [], NZ = 14, NF = 40;
+      for (var i = 0; i < NZ; i++) for (var j = 0; j < NF; j++) {
+        var z1 = -Hh + 2 * Hh * i / NZ, z2 = -Hh + 2 * Hh * (i + 1) / NZ, f1 = j / NF * 6.2832, f2a = (j + 1) / NF * 6.2832, rad = function (z) { return r0 * Math.sqrt(1 + z * z * Math.tan(phi / 2) * Math.tan(phi / 2) / (Hh * Hh)); };
+        var pts = [[z1, f1], [z1, f2a], [z2, f2a], [z2, f1]].map(function (q) { var r = rad(q[0]); return [r * Math.cos(q[1]), r * Math.sin(q[1]), q[0]]; }), zm = (z1 + z2) / 2, fm = (f1 + f2a) / 2, rm = rad(zm);
+        var n = [Math.cos(fm), Math.sin(fm), -zm * Math.tan(phi / 2) * Math.tan(phi / 2) * r0 * r0 / (Hh * Hh * rm)], nn = Math.hypot(n[0], n[1], n[2]); n = n.map(function (q) { return q / nn; });
+        caras.push({ pr: pts.map(function (q) { return C.P(q[0], q[1], q[2]); }), prof: C.P(rm * Math.cos(fm), rm * Math.sin(fm), zm)[2], li: Math.max(0, n[0] * luz[0] + n[1] * luz[1] + n[2] * luz[2]), frente: n[0] * V[0] + n[1] * V[1] + n[2] * V[2] < 0 });
+      }
+      caras.sort(function (p, q) { return q.prof - p.prof; });
+      function cara(cf) { var t = 0.42 + 0.58 * cf.li + (cf.frente ? 0 : -0.15); poli3(g, cf.pr, 'rgba(' + (205 * t | 0) + ',' + (200 * t | 0) + ',' + (190 * t | 0) + ',' + (cf.frente ? 0.92 : 0.6) * lleno + ')', 'rgba(0,0,0,' + 0.08 * lleno + ')', 0.5); }
+      if (lleno > 0) caras.forEach(function (cf) { if (!cf.frente) cara(cf); });
+      /* las varillas: rectas que unen la base con el borde de arriba girado phi */
+      var vars = []; for (var k2 = 0; k2 < Math.floor(cuantas); k2++) { var th = k2 / N * 6.2832, A = [Rb * Math.cos(th - phi / 2), Rb * Math.sin(th - phi / 2), -Hh], B = [Rb * Math.cos(th + phi / 2), Rb * Math.sin(th + phi / 2), Hh];
+        vars.push({ A: A, B: B, prof: C.P((A[0] + B[0]) / 2, (A[1] + B[1]) / 2, 0)[2] }); }
+      vars.sort(function (p, q) { return q.prof - p.prof; });
+      vars.forEach(function (v) { linea3(g, C, v.A, v.B, 'rgba(90,60,30,' + (0.85 - 0.6 * lleno) + ')', 1.6); });
+      if (lleno > 0) caras.forEach(function (cf) { if (cf.frente) cara(cf); });
+      [[-Hh, '#6b6a66'], [Hh, '#8d8a84']].forEach(function (z) { var anillo = []; for (var k3 = 0; k3 <= 60; k3++) { var t3 = k3 / 60 * 6.2832; anillo.push(C.P(Rb * Math.cos(t3), Rb * Math.sin(t3), z[0])); } g.strokeStyle = z[1]; g.lineWidth = 3; g.beginPath(); anillo.forEach(function (q, k) { if (k) g.lineTo(q[0], q[1]); else g.moveTo(q[0], q[1]); }); g.stroke(); });
+      var cint = []; for (var k4 = 0; k4 <= 60; k4++) { var t4 = k4 / 60 * 6.2832; cint.push(C.P(r0 * Math.cos(t4), r0 * Math.sin(t4), 0)); } g.strokeStyle = '#e67e22'; g.lineWidth = 2.5; g.setLineDash([6, 4]); g.beginPath(); cint.forEach(function (q, k) { if (k) g.lineTo(q[0], q[1]); else g.moveTo(q[0], q[1]); }); g.stroke(); g.setLineDash([]);
+      /* vapor que sale por arriba */
+      if (lleno > 0.5 && vapor.length < 40) vapor.push({ x: (rnd() - 0.5) * Rb, y: (rnd() - 0.5) * Rb, z: Hh, s: 0.15 + rnd() * 0.1, v: 0.3 + rnd() * 0.3 });
+      vapor.forEach(function (o) { o.z += o.v * dt; o.s += dt * 0.25; o.x += dt * 0.12; }); vapor = vapor.filter(function (o) { return o.z < Hh + 1.6; });
+      vapor.forEach(function (o) { var q = C.P(o.x, o.y, o.z), al = Math.max(0, 0.55 - (o.z - Hh) / 3); var vg = g.createRadialGradient(q[0], q[1], 1, q[0], q[1], o.s * C.esc); vg.addColorStop(0, 'rgba(255,255,255,' + al + ')'); vg.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = vg; g.beginPath(); g.arc(q[0], q[1], o.s * C.esc, 0, 7); g.fill(); });
+      var cp = C.P(r0, 0, 0); rotulo(g, 'cintura: ' + f2(Math.round(r0 * 100) / 100) + ' (radio de la base 1)', cp[0] + 10, cp[1], '#8a4a10', 'left', 12);
+      g.font = '12px system-ui'; g.fillStyle = 'rgba(30,40,50,.6)'; g.textAlign = 'center'; g.fillText('arrastra para girar', w / 2, h - 10);
+      lec.innerHTML = '¡La torre curva está hecha solo de varillas rectas! Cada varilla une la base con el borde de arriba girado ' + Math.round(gi.v) + '°. Al cortarla con un plano vertical por el eje sale una <b>hipérbola</b>: es un hiperboloide de una hoja. Así se construyen las torres de las plantas de energía: fuertes, con poco material y el aire caliente sube solo. Cintura = cos(giro/2) = <b>' + f2(Math.round(r0 * 1000) / 1000) + '</b>.';
+    }
+    function gps(g, w, h, dt, now) {
+      var cie = g.createLinearGradient(0, 0, 0, h); cie.addColorStop(0, '#16263a'); cie.addColorStop(1, '#22384f'); g.fillStyle = cie; g.fillRect(0, 0, w, h);
+      C.cx = w / 2; C.cy = h * 0.52; C.esc = Math.min(w, h * 1.4) / 26;
+      var cc = 5, d = dd.v, A = [-cc, 0, 0], B = [cc, 0, 0], a = Math.abs(d) / 2, bb = Math.sqrt(Math.max(0, cc * cc - a * a));
+      var mapa = [[-11, -8], [11, -8], [11, 8], [-11, 8]].map(function (q) { return C.P(q[0], q[1], 0); }); var mg = g.createLinearGradient(mapa[0][0], mapa[0][1], mapa[2][0], mapa[2][1]); mg.addColorStop(0, '#3c6e4a'); mg.addColorStop(1, '#5b8c5a'); poli3(g, mapa, mg);
+      g.strokeStyle = 'rgba(255,255,255,.08)'; for (var x = -11; x <= 11; x++) linea3(g, C, [x, -8, 0], [x, 8, 0], 'rgba(255,255,255,.08)', 1); for (var y = -8; y <= 8; y++) linea3(g, C, [-11, y, 0], [11, y, 0], 'rgba(255,255,255,.08)', 1);
+      [[-8, 4, 2.2], [3, -5, 1.6], [7, 5, 2.6], [-4, -6, 1.2]].forEach(function (b) { var cs = [[0, 0], [1.4, 0], [1.4, 1.2], [0, 1.2]].map(function (q) { return C.P(b[0] + q[0], b[1] + q[1], 0); }), ct = [[0, 0], [1.4, 0], [1.4, 1.2], [0, 1.2]].map(function (q) { return C.P(b[0] + q[0], b[1] + q[1], b[2] * 0.5); }); poli3(g, cs.slice(0, 2).concat([ct[1], ct[0]]), '#8f98a3'); poli3(g, ct, '#c9ced4'); });
+      ondaT += dt * 3.2; var Rmax = 16; if (ondaT > Rmax + Math.abs(d)) ondaT = 0;
+      /* las ondas: la de A con radio r y la de B con radio r + d (o r − d) */
+      var rA = ondaT, rB = ondaT + d;
+      [[A, rA, '120,220,255'], [B, rB, '255,190,110']].forEach(function (o) { if (o[1] <= 0) return; for (var k = 0; k < 3; k++) { var rr2 = o[1] - k * 0.5; if (rr2 <= 0) continue; var cir = []; for (var q = 0; q <= 80; q++) { var t = q / 80 * 6.2832; cir.push(C.P(o[0][0] + rr2 * Math.cos(t), rr2 * Math.sin(t), 0)); } g.strokeStyle = 'rgba(' + o[2] + ',' + (0.7 - k * 0.22) + ')'; g.lineWidth = 2 - k * 0.5; g.beginPath(); cir.forEach(function (p, i) { if (i) g.lineTo(p[0], p[1]); else g.moveTo(p[0], p[1]); }); g.stroke(); } });
+      if (rA > 0 && rB > 0) { var xx = (rA * rA - rB * rB) / (4 * cc), yy2 = rA * rA - (xx + cc) * (xx + cc); if (yy2 >= 0) { var yy = Math.sqrt(yy2); puntos.push([xx, yy], [xx, -yy]); } }
+      if (puntos.length > 800) puntos.splice(0, puntos.length - 800);
+      g.save(); g.globalCompositeOperation = 'lighter'; puntos.forEach(function (p) { var q = C.P(p[0], p[1], 0); g.fillStyle = 'rgba(255,240,150,.9)'; g.beginPath(); g.arc(q[0], q[1], 1.8, 0, 7); g.fill(); }); g.restore();
+      if (a > 0.05 && a < cc) { g.strokeStyle = 'rgba(255,240,150,.35)'; g.lineWidth = 1.5; g.setLineDash([4, 4]); g.beginPath(); for (var t2 = -2.2; t2 <= 2.2; t2 += 0.05) { var X = (d > 0 ? -1 : 1) * a * Math.cosh(t2), Y = bb * Math.sinh(t2); if (Math.abs(Y) > 8) continue; var q2 = C.P(X, Y, 0); g.lineTo(q2[0], q2[1]); } g.stroke(); g.setLineDash([]); }
+      [[A, 'A', '120,220,255'], [B, 'B', '255,190,110']].forEach(function (o) { var b0 = C.P(o[0][0], 0, 0), b1 = C.P(o[0][0], 0, 2.6); g.strokeStyle = '#d6dbe1'; g.lineWidth = 3; g.beginPath(); g.moveTo(b0[0], b0[1]); g.lineTo(b1[0], b1[1]); g.stroke(); for (var k = 0.5; k < 2.6; k += 0.5) { var p1 = C.P(o[0][0] - 0.3, 0, k), p2 = C.P(o[0][0] + 0.3, 0, k); g.lineWidth = 1; g.beginPath(); g.moveTo(p1[0], p1[1]); g.lineTo(p2[0], p2[1]); g.stroke(); }
+        brillo3(g, C, [o[0][0], 0, 2.6], 14 + 4 * Math.sin(now / 150), o[2], 0.95); rotulo(g, 'antena ' + o[1], b0[0], b0[1] + 16, '#1f2a36', 'center', 12); });
+      var Pv = a > 0.05 && a < cc ? [(d > 0 ? -1 : 1) * a * Math.cosh(0.9), bb * Math.sinh(0.9), 0] : null;
+      if (Pv) { var pp = C.P(Pv[0], Pv[1], 0); g.fillStyle = '#111'; rr(g, pp[0] - 6, pp[1] - 11, 12, 20, 3); g.fill(); g.fillStyle = '#7fd3ff'; g.fillRect(pp[0] - 4.5, pp[1] - 8.5, 9, 13); rotulo(g, '📱 posible lugar', pp[0] + 12, pp[1] - 12, '#1f2a36', 'left', 11); }
+      g.font = '12px system-ui'; g.fillStyle = 'rgba(255,255,255,.6)'; g.textAlign = 'center'; g.fillText(w < 560 ? 'los puntos amarillos dibujan la hipérbola' : 'los puntos amarillos son donde se cruzan dos ondas con la misma diferencia: ¡dibujan la hipérbola!', w / 2, h - 10);
+      lec.innerHTML = 'Las antenas están a 2c = 10 km. Si la señal tarda en llegar a una lo equivalente a ' + f2(Math.abs(d)) + ' km más que a la otra, el celular cumple |PA − PB| = ' + f2(Math.abs(d)) + ' = 2a: está sobre una <b>hipérbola</b> con focos en las antenas (a = ' + f2(Math.round(a * 100) / 100) + ', b = ' + f2(Math.round(bb * 100) / 100) + '). Con una tercera antena sale otra hipérbola y el cruce dice dónde está. Así funcionaban el LORAN y así ubica la red a un celular.';
+    }
+    gi.inp.addEventListener('input', function () { L.redibuja(); }); dd.inp.addEventListener('input', function () { puntos = []; ondaT = 0; L.redibuja(); }); animador(L, dib); L.redibuja();
+  };
 })();
