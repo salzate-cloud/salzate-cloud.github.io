@@ -2197,4 +2197,85 @@
     }
     [th, lv, ph, lu].forEach(function (s) { if (s) s.inp.addEventListener('input', function () { auto = false; bGira.textContent = '▶ Mover el vector'; L.redibuja(); }); }); animador(L, dib); L.redibuja();
   };
+
+  /* ---------------------------------------------------------------------
+     La proyección en la vida real: la maleta del aeropuerto y el patinador en la rampa
+     --------------------------------------------------------------------- */
+  function flecha2(g, x1, y1, x2, y2, col, w, et, al) {
+    if (Math.hypot(x2 - x1, y2 - y1) < 3) return; g.save(); g.shadowColor = 'rgba(0,0,0,.3)'; g.shadowBlur = 3; flecha(g, x1, y1, x2, y2, col, w || 4, 12); g.restore();
+    if (et) rotulo(g, et, x2 + (al === 'right' ? -8 : 8), y2 - 12, col, al || 'left', 12);
+  }
+  W.fuerzautil = function (c, D) {
+    var modo = D.modo || 'maleta', L = lienzoPx(c, function (w) { return w < 560 ? 360 : 330; });
+    var ct = fila(c), an = U.deslizador(ct, modo === 'maleta' ? 'ángulo de la manija' : 'inclinación de la rampa', modo === 'maleta' ? 0 : 5, modo === 'maleta' ? 90 : 60, 1, modo === 'maleta' ? 45 : 25, function (v) { return Math.round(v) + '°'; });
+    var Fs = U.deslizador(ct, modo === 'maleta' ? 'fuerza con que jalas' : 'peso del patinador', modo === 'maleta' ? 20 : 300, modo === 'maleta' ? 100 : 900, modo === 'maleta' ? 1 : 10, modo === 'maleta' ? 60 : 600, function (v) { return Math.round(v) + ' N'; });
+    var ct2 = fila(c), corre = true, pos = 0, vel = 0; var bP = boton(ct2, '⏸ Pausa', function () { corre = !corre; bP.textContent = corre ? '⏸ Pausa' : '▶ Seguir'; }); boton(ct2, '↺ Empezar de nuevo', function () { pos = 0; vel = 0; });
+    var lec = U.lectura(c), R = modo === 'maleta'
+      ? U.reto(c, 'Jalas la maleta con 60 N y la manija forma 60° con el piso. ¿Cuántos newtons sirven de verdad para avanzar?', true, function (v) { return Math.abs(v - 30) < 0.05; }, '¡Eso! La parte útil es la proyección de la fuerza sobre el piso: 60·cos 60° = 30 N. Los otros 60·sen 60° ≈ 52 N solo levantan la maleta.')
+      : U.reto(c, 'Un patinador de 600 N está en una rampa de 30°. ¿Cuántos newtons de su peso lo empujan rampa abajo?', true, function (v) { return Math.abs(v - 300) < 0.5; }, '¡Correcto! Es la proyección del peso sobre la rampa: 600·sen 30° = 300 N. La otra parte, 600·cos 30° ≈ 520 N, lo aprieta contra la rampa.');
+    R.el.__fin = c.__fin;
+    var rnd = azar(6), viajeros = []; for (var i = 0; i < 5; i++) viajeros.push([rnd(), 0.5 + rnd() * 0.5, ['#5d6d7e', '#a04000', '#1f618d', '#7d3c98', '#117a65'][i]]);
+    function dib(dt, now) {
+      var g = L.g, w = L.w, h = L.h, a = an.v * Math.PI / 180, F = Fs.v;
+      if (modo === 'maleta') {
+        var util = F * Math.cos(a), sube = F * Math.sin(a);
+        if (corre) { vel += (util / 40 - vel * 0.9) * dt; pos += vel * dt * 60; }
+        /* aeropuerto: ventanal, avión, piso de baldosas que se mueve */
+        var piso = h * 0.78, cie = g.createLinearGradient(0, 0, 0, piso); cie.addColorStop(0, '#9fd0ef'); cie.addColorStop(1, '#e3f1f8'); g.fillStyle = cie; g.fillRect(0, 0, w, piso);
+        var desp = -(pos * 0.25) % 160; for (var x = desp - 160; x < w + 160; x += 160) { metalV(g, x, 0, 10, piso, '#9aa4ae'); }
+        g.save(); var ax = ((w * 0.7 - pos * 0.12) % (w + 300) + w + 300) % (w + 300) - 150, ay = piso * 0.5; g.translate(ax, ay);
+        var fu = g.createLinearGradient(0, -12, 0, 12); fu.addColorStop(0, '#ffffff'); fu.addColorStop(1, '#b9c4cf'); g.fillStyle = fu; g.beginPath(); g.ellipse(0, 0, 90, 13, 0, 0, 7); g.fill(); g.fillStyle = '#c0392b'; g.beginPath(); g.moveTo(-80, -5); g.lineTo(-96, -40); g.lineTo(-66, -8); g.fill();
+        g.fillStyle = '#d6dde4'; g.beginPath(); g.moveTo(-10, 4); g.lineTo(-40, 30); g.lineTo(10, 6); g.fill(); g.fillStyle = '#3d6f9a'; for (var v2 = -60; v2 < 70; v2 += 10) { g.beginPath(); g.arc(v2, -3, 2.2, 0, 7); g.fill(); } g.restore();
+        g.fillStyle = 'rgba(255,255,255,.35)'; g.fillRect(0, piso - 40, w, 4);
+        var dsp = -(pos % 60); for (var bx = dsp - 60; bx < w + 60; bx += 60) { var tg = g.createLinearGradient(bx, piso, bx + 60, h); tg.addColorStop(0, '#d9d4cb'); tg.addColorStop(1, '#bdb5a8'); g.fillStyle = tg; g.fillRect(bx, piso, 59, h - piso); }
+        g.fillStyle = 'rgba(255,255,255,.25)'; g.fillRect(0, piso, w, 2);
+        viajeros.forEach(function (vj, k) { var vx = ((vj[0] * w * 1.4 - pos * 0.5 * vj[1]) % (w * 1.4) + w * 1.4) % (w * 1.4) - w * 0.2; g.globalAlpha = 0.35; persona(g, vx, piso - 2, 52, vj[2], now / 300 + k); g.globalAlpha = 1; });
+        /* la persona y la maleta */
+        var mov = w < 560, mx = mov ? w * 0.05 : w * 0.3, my = piso, mw = 40, mh = 52, ex = mx + mw - 6, ey = my - mh - 4, Lm = mov ? 66 : 96, hx = ex + Lm * Math.cos(a), hy = ey - Lm * Math.sin(a);
+        var pie = piso, ph = Math.max(112, (piso - hy) / 0.68), px = hx + 30, sho = pie - ph * 0.74;
+        persona(g, px, pie, ph, '#2d3640', now / 250 * Math.min(1, vel * 3));
+        g.fillStyle = 'rgba(0,0,0,.25)'; g.beginPath(); g.ellipse(mx + mw / 2, my + 2, 32, 5, 0, 0, 7); g.fill();
+        var sg = g.createLinearGradient(mx, 0, mx + mw, 0); sg.addColorStop(0, '#2f6fa3'); sg.addColorStop(0.5, '#5aa0e0'); sg.addColorStop(1, '#1f4f7a'); g.fillStyle = sg; rr(g, mx, my - mh - 6, mw, mh, 8); g.fill();
+        g.strokeStyle = 'rgba(255,255,255,.35)'; g.lineWidth = 1.5; for (var q = 1; q < 4; q++) { g.beginPath(); g.moveTo(mx + q * mw / 4, my - mh - 2); g.lineTo(mx + q * mw / 4, my - 10); g.stroke(); }
+        [mx + 8, mx + mw - 8].forEach(function (rx) { g.fillStyle = '#222'; g.beginPath(); g.arc(rx, my - 4, 5, 0, 7); g.fill(); g.fillStyle = '#888'; g.beginPath(); g.arc(rx, my - 4, 2, 0, 7); g.fill(); });
+        g.strokeStyle = '#3d454e'; g.lineWidth = 4; g.lineCap = 'round'; g.beginPath(); g.moveTo(ex, ey + 4); g.lineTo(hx, hy); g.stroke();
+        g.strokeStyle = '#2d3640'; g.lineWidth = 4; g.lineCap = 'round'; g.beginPath(); g.moveTo(px, sho); g.lineTo(hx + 3, hy); g.stroke(); g.fillStyle = '#c98e64'; g.beginPath(); g.arc(hx + 2, hy, 3.5, 0, 7); g.fill();
+        /* los vectores: F, su sombra sobre el piso (parte útil) y la parte que levanta */
+        var k = 1.3, Fx = F * Math.cos(a) * k, Fy = F * Math.sin(a) * k, ox = mov ? w - 150 : w * 0.62, oy = mov ? 218 : piso - 40;
+        g.fillStyle = 'rgba(255,255,255,.72)'; rr(g, ox - 20, oy - 145, mov ? 166 : 240, 165, 12); g.fill(); rotulo(g, 'diagrama de fuerzas', ox - 8, oy - 130, '#2c3e50', 'left', 11, false);
+        g.setLineDash([3, 4]); g.strokeStyle = 'rgba(44,62,80,.35)'; g.beginPath(); g.moveTo((ex + hx) / 2, (ey + hy) / 2); g.lineTo(ox, oy); g.stroke(); g.setLineDash([]);
+        g.setLineDash([4, 4]); g.strokeStyle = 'rgba(80,60,140,.7)'; g.lineWidth = 1.5; g.beginPath(); g.moveTo(ox + Fx, oy - Fy); g.lineTo(ox + Fx, oy); g.stroke(); g.setLineDash([]);
+        flecha2(g, ox, oy, ox + Fx, oy, '#e67e22', 5, 'avanza: ' + Math.round(util) + ' N'); flecha2(g, ox + Fx, oy, ox + Fx, oy - Fy, '#7d3c98', 3, sube > 1 ? 'levanta: ' + Math.round(sube) + ' N' : '');
+        flecha2(g, ox, oy, ox + Fx, oy - Fy, '#c0392b', 4.5); rotulo(g, 'F = ' + Math.round(F) + ' N', ox + Fx * 0.45 - 12, oy - Fy * 0.45 - 14, '#c0392b', 'right', 12);
+        g.strokeStyle = '#c0392b'; g.lineWidth = 1.5; g.beginPath(); g.arc(ox, oy, 26, -a, 0); g.stroke(); rotulo(g, Math.round(an.v) + '°', ox + 34, oy - 12, '#c0392b', 'left', 11, false);
+        panel(g, ['velocidad: ' + f2(Math.round(vel * 3.6 * 10) / 10) + ' km/h', 'parte útil = F cos θ = ' + Math.round(util) + ' N'], 10, 10);
+        lec.innerHTML = 'Jalas con F = ' + Math.round(F) + ' N, pero la maleta solo puede moverse por el piso: lo que la hace avanzar es la <b>proyección de F sobre el piso</b>, F cos θ = <b>' + Math.round(util) + ' N</b> (la «sombra» de F). Lo demás, F sen θ = ' + Math.round(sube) + ' N, la levanta y no la adelanta. Por eso cansa más jalar con la manija muy parada. En 10 m haces un trabajo útil de ' + Math.round(util * 10) + ' J.';
+      } else {
+        var bajaF = F * Math.sin(a), aprieta = F * Math.cos(a);
+        if (corre) { vel += (bajaF / F * 9.8 * 0.35) * dt; pos += vel * dt * 40; if (pos > 1) { pos = 0; vel = 0; } }
+        var cie2 = g.createLinearGradient(0, 0, 0, h); cie2.addColorStop(0, '#f6b26b'); cie2.addColorStop(1, '#fde3c0'); g.fillStyle = cie2; g.fillRect(0, 0, w, h);
+        nube(g, w * 0.7, 40, 0.8); nube(g, w * 0.2, 60, 0.6);
+        var base = h - 30, x0 = w * 0.08, x1 = w * 0.92, alto = Math.min(base - 110, (x1 - x0) * Math.tan(a)), xr = x0 + alto / Math.tan(a); if (xr > x1) xr = x1;
+        concreto(g, 0, base, w, h - base, '#b9b4aa', '#8d887e', 3);
+        g.save(); g.beginPath(); g.moveTo(x0, base); g.lineTo(xr, base); g.lineTo(x0, base - alto); g.closePath(); g.clip(); concreto(g, 0, 0, w, h, '#cfc9be', '#9c968b', 9); g.restore();
+        g.strokeStyle = '#6b665d'; g.lineWidth = 3; g.beginPath(); g.moveTo(x0, base - alto); g.lineTo(xr, base); g.stroke();
+        metalH(g, x0 - 4, base - alto - 6, 6, 6, '#9aa4ae');
+        g.fillStyle = '#c94f3b'; g.font = '600 13px system-ui'; g.textAlign = 'center';
+        var s = 0.12 + 0.8 * pos, sx = x0 + (xr - x0) * s, sy = base - alto * (1 - s), ux = Math.cos(a), uy = Math.sin(a);
+        g.save(); g.translate(sx, sy); g.rotate(a);
+        g.fillStyle = '#3d2a1a'; rr(g, -28, -10, 56, 6, 3); g.fill(); g.fillStyle = '#e74c3c'; g.fillRect(-26, -10, 52, 2);
+        [-18, 18].forEach(function (rx) { g.fillStyle = '#f5f5f5'; g.beginPath(); g.arc(rx, -2, 4, 0, 7); g.fill(); });
+        persona(g, 0, -10, 70, '#1f3a5f', 0.6); g.restore();
+        var cx = x0 + (xr - x0) * 0.72, cy = base - alto * 0.28 - (w < 560 ? 150 : 120), kk = 0.13, Wl = F * kk; g.fillStyle = 'rgba(255,255,255,.55)'; rr(g, cx - 70, cy - 22, 190, Wl + 40, 12); g.fill(); rotulo(g, 'diagrama de fuerzas', cx + 25, cy - 10, '#2c3e50', 'center', 11, false); g.setLineDash([3, 4]); g.strokeStyle = 'rgba(44,62,80,.35)'; g.beginPath(); g.moveTo(sx - Math.sin(a) * 40, sy - Math.cos(a) * 40); g.lineTo(cx, cy); g.stroke(); g.setLineDash([]);
+        flecha2(g, cx, cy, cx, cy + Wl, '#2c3e50', 4); rotulo(g, 'peso ' + Math.round(F) + ' N', cx - 8, cy + Wl * 0.6, '#2c3e50', 'right', 12);
+        var bx2 = cx + ux * bajaF * kk, by2 = cy + uy * bajaF * kk; flecha2(g, cx, cy, bx2, by2, '#e67e22', 5, 'rampa abajo: ' + Math.round(bajaF) + ' N');
+        g.setLineDash([4, 4]); g.strokeStyle = 'rgba(80,60,140,.7)'; g.lineWidth = 1.5; g.beginPath(); g.moveTo(bx2, by2); g.lineTo(cx, cy + Wl); g.stroke(); g.setLineDash([]);
+        flecha2(g, bx2, by2, cx, cy + Wl, '#7d3c98', 3, 'aprieta: ' + Math.round(aprieta) + ' N');
+        g.strokeStyle = '#2c3e50'; g.lineWidth = 1.5; g.beginPath(); g.arc(xr, base, 34, Math.PI, Math.PI + a); g.stroke(); rotulo(g, Math.round(an.v) + '°', xr - 44, base - 12, '#2c3e50', 'right', 11, false);
+        panel(g, ['velocidad: ' + f2(Math.round(vel * 3.6 * 10) / 10) + ' km/h', 'parte que baja = P sen β = ' + Math.round(bajaF) + ' N'], Math.max(10, w - 250), 10);
+        lec.innerHTML = 'El peso apunta hacia abajo, pero el patinador solo puede moverse a lo largo de la rampa: lo que lo acelera es la <b>proyección del peso sobre la rampa</b>, P sen β = <b>' + Math.round(bajaF) + ' N</b>. La otra parte, P cos β = ' + Math.round(aprieta) + ' N, es perpendicular a la rampa y solo lo aprieta contra ella. Más inclinada la rampa, más larga la «sombra» del peso sobre ella y más rápido baja.';
+      }
+    }
+    [an, Fs].forEach(function (s) { s.inp.addEventListener('input', function () { L.redibuja(); }); }); animador(L, dib); L.redibuja();
+  };
 })();
