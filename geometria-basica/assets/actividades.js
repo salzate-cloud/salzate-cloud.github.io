@@ -297,10 +297,10 @@
         var evalua = function () {
           if (hecho) return;
           var txt = inp.value.trim().replace(',', '.'), v = NaN;
-          try { if (/^[-+*/().\d\s^sqrtpi]+$/.test(txt)) v = Function('"use strict";var sqrt=Math.sqrt,pi=Math.PI;return (' + txt.replace(/\^/g, '**') + ')')(); } catch (er) {}
+          try { if (/^[-+*/().\d\s^sqrtpie]+$/.test(txt)) v = Function('"use strict";var sqrt=Math.sqrt,pi=Math.PI;return (' + txt.replace(/\^/g, '**') + ')')(); } catch (er) {}
           var r = parseFloat(inp.getAttribute('data-r')), tol = parseFloat(inp.getAttribute('data-tol') || '0.01');
           if (!isFinite(v)) { if (fb) { fb.classList.add('si'); if (ver) ver.innerHTML = '<b>Escribe un número o una expresión como 3/2.</b> '; } return; }
-          var ok = Math.abs(v - r) <= tol * Math.max(1, Math.abs(r));
+          var ok = Math.abs(v - r) <= tol * (r === 0 || Math.abs(r) >= 0.01 ? Math.max(1, Math.abs(r)) : Math.abs(r) * 20);
           hecho = true; inp.classList.add(ok ? 'bien' : 'mal'); califica(ok);
         };
         if (bt) bt.addEventListener('click', evalua);
@@ -752,10 +752,10 @@
         if (inp) {
           inp.value = ''; var ev = function () {
             var txt = inp.value.trim().replace(',', '.'), v = NaN;
-            try { if (/^[-+*/().\d\s^sqrtpi]+$/.test(txt)) v = Function('"use strict";var sqrt=Math.sqrt,pi=Math.PI;return (' + txt.replace(/\^/g, '**') + ')')(); } catch (er) {}
+            try { if (/^[-+*/().\d\s^sqrtpie]+$/.test(txt)) v = Function('"use strict";var sqrt=Math.sqrt,pi=Math.PI;return (' + txt.replace(/\^/g, '**') + ')')(); } catch (er) {}
             if (!isFinite(v)) return;
             var r = parseFloat(inp.getAttribute('data-r')), tol = parseFloat(inp.getAttribute('data-tol') || '0.01');
-            sigue(Math.abs(v - r) <= tol * Math.max(1, Math.abs(r)), inp.value);
+            sigue(Math.abs(v - r) <= tol * (r === 0 || Math.abs(r) >= 0.01 ? Math.max(1, Math.abs(r)) : Math.abs(r) * 20), inp.value);
           };
           var bt = qd.querySelector('.comprobar'); if (bt) { bt.textContent = 'Responder'; bt.addEventListener('click', ev); }
           inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') ev(); });
@@ -846,7 +846,7 @@
       aviso(q, '<b>🔁 Revisa tu cuenta e inténtalo otra vez.</b>' + (sol ? '<details><summary>Me rindo: ver la solución</summary><div class="qantes">' + sol + '</div></details>' : ''));
       inp.select(); return;
     }
-    if (ops.length && ops.length < 3) {                 /* verdadero/falso: un solo intento, y se ve la explicación */
+    if (ops.length && ops.length < 3 && !conDatos) {    /* verdadero/falso sin variantes: un solo intento, y se ve la explicación */
       ops.forEach(function (o) { o.disabled = true; if (o.getAttribute('data-c') === '1') o.classList.add('bien'); }); return;
     }
     q.classList.add('q-bloq'); ops.forEach(function (o) { o.disabled = true; }); if (inp) { inp.disabled = true; var bt = q.querySelector('.comprobar'); if (bt) bt.disabled = true; }
