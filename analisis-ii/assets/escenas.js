@@ -2403,4 +2403,267 @@
       if (window.PATIN3D) return listo(); var sc = document.createElement('script'); sc.src = dirAssets + 'patin3d.min.js' + verAssets; sc.onload = listo; sc.onerror = plan2D; document.head.appendChild(sc); }
     if ('IntersectionObserver' in window) new IntersectionObserver(function (e, o) { if (e[0].isIntersecting) { o.disconnect(); arranca(); } }, { rootMargin: '300px' }).observe(caja); else arranca();
   };
+  /* =====================================================================
+     Geometría vectorial en la vida real: planes de celular, la foto que se estira,
+     la lancha que cruza el río, el carrito del supermercado y la finca con GPS
+     ===================================================================== */
+  function pesos(x) { return '$' + miles(x); }
+  function arrastre(L, puntos, radio, alMover) {      /* deja arrastrar puntos {x,y} en píxeles del lienzo */
+    var act = null;
+    function pos(e) { var r = L.c.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
+    L.c.style.touchAction = 'none';
+    L.c.addEventListener('pointerdown', function (e) { var p = pos(e), mejor = radio * radio;
+      puntos().forEach(function (q, i) { var d = (q.x - p[0]) * (q.x - p[0]) + (q.y - p[1]) * (q.y - p[1]); if (d < mejor) { mejor = d; act = i; } });
+      if (act !== null) { L.c.setPointerCapture(e.pointerId); e.preventDefault(); } });
+    L.c.addEventListener('pointermove', function (e) { if (act === null) return; var p = pos(e); alMover(act, Math.max(4, Math.min(L.w - 4, p[0])), Math.max(4, Math.min(L.h - 4, p[1]))); e.preventDefault(); });
+    ['pointerup', 'pointercancel'].forEach(function (t) { L.c.addEventListener(t, function () { act = null; }); });
+  }
+
+  /* ---------- 1 · ¿Qué plan de celular me conviene? (sistema 2×2) ---------- */
+  function celular(g, x, y, w, h, col, titulo, gb, costo, gana, now) {
+    g.save(); g.shadowColor = 'rgba(0,0,0,.35)'; g.shadowBlur = 16; g.shadowOffsetY = 6; g.fillStyle = '#15181c'; rr(g, x, y, w, h, 18); g.fill(); g.restore();
+    var bz = g.createLinearGradient(x, y, x + w, y + h); bz.addColorStop(0, '#3b4148'); bz.addColorStop(0.5, '#15181c'); bz.addColorStop(1, '#2b3036'); g.strokeStyle = bz; g.lineWidth = 3; rr(g, x + 1.5, y + 1.5, w - 3, h - 3, 17); g.stroke();
+    var sx = x + 7, sy = y + 9, sw = w - 14, sh = h - 18, pg = g.createLinearGradient(0, sy, 0, sy + sh); pg.addColorStop(0, col[0]); pg.addColorStop(1, col[1]);
+    g.fillStyle = pg; rr(g, sx, sy, sw, sh, 13); g.fill(); g.fillStyle = '#0d0f12'; rr(g, x + w / 2 - 14, y + 12, 28, 7, 4); g.fill();
+    g.fillStyle = 'rgba(255,255,255,.9)'; g.font = '600 9px system-ui'; g.textAlign = 'left'; g.fillText('10:24', sx + 10, sy + 14); g.textAlign = 'right'; g.fillText('▮▮▮ 5G', sx + sw - 8, sy + 14);
+    g.textAlign = 'center'; g.font = '700 ' + Math.min(14, sw / 9) + 'px system-ui'; g.fillText(titulo, x + w / 2, sy + 38);
+    g.font = Math.min(11, sw / 11) + 'px system-ui'; g.fillStyle = 'rgba(255,255,255,.8)'; g.fillText('factura del mes', x + w / 2, sy + 58);
+    g.font = '800 ' + Math.min(22, sw / 6) + 'px system-ui'; g.fillStyle = '#fff'; g.fillText(pesos(costo), x + w / 2, sy + 86);
+    var bx = sx + 12, bw = sw - 24, by = sy + 104; g.fillStyle = 'rgba(255,255,255,.25)'; rr(g, bx, by, bw, 9, 5); g.fill(); g.fillStyle = '#fff'; rr(g, bx, by, bw * Math.min(1, gb / 30), 9, 5); g.fill();
+    g.font = Math.min(11, sw / 11) + 'px system-ui'; g.fillStyle = 'rgba(255,255,255,.9)'; g.fillText(Math.round(gb) + ' GB usadas', x + w / 2, by + 26);
+    if (gana) { var p = 0.5 + 0.5 * Math.sin(now / 250); g.fillStyle = 'rgba(255,255,255,' + (0.85 + 0.15 * p) + ')'; rr(g, sx + 14, sy + sh - 34, sw - 28, 22, 11); g.fill(); g.fillStyle = col[1]; g.font = '700 ' + Math.min(10.5, sw / 12) + 'px system-ui'; g.fillText('✓ más barato', x + w / 2, sy + sh - 19); }
+  }
+  W.planes = function (c, D) {
+    var L = lienzoPx(c, function (w) { return w < 560 ? 430 : 330; });
+    var ct = fila(c), GB = U.deslizador(ct, 'gigas que usas al mes', 0, 30, 1, 8, function (v) { return Math.round(v) + ' GB'; }),
+      FJ = U.deslizador(ct, 'cargo fijo del plan Ilimitado', 10000, 50000, 2000, 30000, function (v) { return pesos(v); });
+    var lec = U.lectura(c), R = U.reto(c, 'Con el cargo fijo en $30.000, ¿con cuántas gigas al mes los dos planes cuestan exactamente lo mismo?', true, function (v) { return Math.abs(v - 15) < 0.01; },
+      '¡Exacto! Es la solución del sistema y = 3000x, y = 30000 + 1000x: x = 15 GB y los dos cobran $45.000. Con más gigas conviene el Ilimitado; con menos, el Prepago.');
+    R.el.__fin = c.__fin;
+    function dib(dt, now) {
+      var g = L.g, w = L.w, h = L.h, x = GB.v, F = FJ.v, cA = 3000 * x, cB = F + 1000 * x, xe = F / 2000, ye = 3000 * xe, mov = w < 560;
+      paredEstuco(g, w, h, '#eef2f6', '#dbe2ea', 4); mesaMadera(g, w, mov ? h - 38 : h - 30, h);
+      var pw = mov ? Math.min(118, w * 0.3) : 118, ph = mov ? 200 : 236, py = mov ? 12 : (h - 30 - ph - 12);
+      celular(g, 10, py, pw, ph, ['#ff7a59', '#d8432a'], 'Prepago', x, cA, cA < cB - 1, now);
+      celular(g, 22 + pw, py, pw, ph, ['#4f8df7', '#2a5bd8'], 'Ilimitado', x, cB, cB < cA - 1, now);
+      /* la gráfica: dos rectas y su punto de corte */
+      var gx = mov ? 14 : 2 * pw + 50, gy = mov ? ph + 26 : 14, gw = w - gx - 12, gh = mov ? h - ph - 74 : h - 60;
+      g.save(); g.shadowColor = 'rgba(0,0,0,.18)'; g.shadowBlur = 10; g.fillStyle = 'rgba(255,255,255,.93)'; rr(g, gx, gy, gw, gh, 12); g.fill(); g.restore();
+      var m = { i: 52, d: 14, a: 22, b: 24 }, Ymax = 100000, X = function (v) { return gx + m.i + (gw - m.i - m.d) * v / 30; }, Y = function (v) { return gy + gh - m.b - (gh - m.a - m.b) * Math.min(v, Ymax) / Ymax; };
+      g.strokeStyle = '#e6e9ee'; g.lineWidth = 1; g.fillStyle = '#6b7480'; g.font = '10px system-ui'; g.textAlign = 'right';
+      for (var j = 0; j <= 4; j++) { var yy = Y(Ymax * j / 4); g.beginPath(); g.moveTo(X(0), yy); g.lineTo(X(30), yy); g.stroke(); g.fillText((Ymax * j / 4 / 1000) + ' mil', X(0) - 4, yy + 3); }
+      g.textAlign = 'center'; for (j = 0; j <= 30; j += 5) g.fillText(j + (j === 30 ? ' GB' : ''), X(j), gy + gh - 8);
+      g.lineWidth = 3; g.strokeStyle = '#d8432a'; g.beginPath(); g.moveTo(X(0), Y(0)); g.lineTo(X(Ymax / 3000), Y(Ymax)); g.stroke();
+      g.strokeStyle = '#2a5bd8'; g.beginPath(); g.moveTo(X(0), Y(F)); g.lineTo(X(30), Y(F + 30000)); g.stroke();
+      rotulo(g, 'y = 3000x', X(Math.min(25, Ymax / 3000 * 0.8)) - 6, Y(3000 * Math.min(25, Ymax / 3000 * 0.8)) - 4, '#d8432a', 'right', 11);
+      rotulo(g, 'y = ' + miles(F) + ' + 1000x', X(0.6), Y(F + 600) - 14, '#2a5bd8', 'left', 11);
+      g.setLineDash([4, 4]); g.strokeStyle = 'rgba(40,40,40,.45)'; g.lineWidth = 1.2; g.beginPath(); g.moveTo(X(x), Y(0)); g.lineTo(X(x), Y(Math.max(cA, cB))); g.stroke(); g.setLineDash([]);
+      [[cA, '#d8432a'], [cB, '#2a5bd8']].forEach(function (q) { g.fillStyle = q[1]; g.beginPath(); g.arc(X(x), Y(q[0]), 4.5, 0, 7); g.fill(); });
+      if (xe <= 30) { var pul = 7 + 3 * Math.sin(now / 300); g.fillStyle = 'rgba(245,184,46,.35)'; g.beginPath(); g.arc(X(xe), Y(ye), pul + 6, 0, 7); g.fill(); g.fillStyle = '#f5b82e'; g.strokeStyle = '#7a5a00'; g.lineWidth = 2; g.beginPath(); g.arc(X(xe), Y(ye), 6, 0, 7); g.fill(); g.stroke();
+        rotulo(g, 'empatan: (' + f2(Math.round(xe * 10) / 10) + ' GB, ' + pesos(ye) + ')', X(xe) + (xe > 18 ? -10 : 10), Y(ye) + 18, '#7a5a00', xe > 18 ? 'right' : 'left', 11); }
+      var dif = Math.abs(cA - cB), mejor = cA < cB ? 'Prepago' : cB < cA ? 'Ilimitado' : 'cualquiera de los dos';
+      lec.innerHTML = 'Prepago: <b>y = 3000x</b>. Ilimitado: <b>y = ' + miles(F) + ' + 1000x</b>. Dos ecuaciones, dos incógnitas: un sistema 2×2. Su solución es el punto donde se cortan las rectas, <b>x = ' + f2(Math.round(xe * 100) / 100) + ' GB</b>, donde los dos planes cuestan ' + pesos(ye) + '. Con ' + Math.round(x) + ' GB te conviene <b>' + mejor + '</b>' + (dif > 0 ? ' (ahorras ' + pesos(dif) + ' al mes).' : '.');
+    }
+    [GB, FJ].forEach(function (s) { s.inp.addEventListener('input', function () { L.redibuja(); }); }); animador(L, dib); L.redibuja();
+  };
+
+  /* ---------- 2 · La foto que se estira (determinante = factor de área) ---------- */
+  function fotoPaisaje(n) {
+    var oc = document.createElement('canvas'); oc.width = oc.height = n; var g = oc.getContext('2d');
+    var ci = g.createLinearGradient(0, 0, 0, n * 0.6); ci.addColorStop(0, '#2f7fc8'); ci.addColorStop(1, '#bfe2f5'); g.fillStyle = ci; g.fillRect(0, 0, n, n);
+    var so = g.createRadialGradient(n * 0.75, n * 0.22, 2, n * 0.75, n * 0.22, n * 0.2); so.addColorStop(0, '#fffbe0'); so.addColorStop(0.35, '#ffd54a'); so.addColorStop(1, 'rgba(255,213,74,0)'); g.fillStyle = so; g.fillRect(0, 0, n, n);
+    g.fillStyle = '#5f8fa8'; g.beginPath(); g.moveTo(0, n * 0.55); g.lineTo(n * 0.25, n * 0.3); g.lineTo(n * 0.45, n * 0.5); g.lineTo(n * 0.65, n * 0.33); g.lineTo(n, n * 0.58); g.lineTo(n, n); g.lineTo(0, n); g.fill();
+    g.fillStyle = '#f1f6f8'; g.beginPath(); g.moveTo(n * 0.25, n * 0.3); g.lineTo(n * 0.2, n * 0.36); g.lineTo(n * 0.3, n * 0.36); g.fill(); g.beginPath(); g.moveTo(n * 0.65, n * 0.33); g.lineTo(n * 0.6, n * 0.39); g.lineTo(n * 0.7, n * 0.39); g.fill();
+    var pr = g.createLinearGradient(0, n * 0.55, 0, n); pr.addColorStop(0, '#78b94f'); pr.addColorStop(1, '#3e7a2e'); g.fillStyle = pr; g.beginPath(); g.moveTo(0, n * 0.62); g.quadraticCurveTo(n * 0.5, n * 0.52, n, n * 0.64); g.lineTo(n, n); g.lineTo(0, n); g.fill();
+    g.fillStyle = '#e9dcc0'; g.fillRect(n * 0.18, n * 0.6, n * 0.24, n * 0.18); g.fillStyle = '#c0392b'; g.beginPath(); g.moveTo(n * 0.15, n * 0.61); g.lineTo(n * 0.3, n * 0.5); g.lineTo(n * 0.45, n * 0.61); g.fill();
+    g.fillStyle = '#6b4226'; g.fillRect(n * 0.27, n * 0.68, n * 0.06, n * 0.1); g.fillStyle = '#9fd3f2'; g.fillRect(n * 0.2, n * 0.64, n * 0.05, n * 0.04); g.fillRect(n * 0.35, n * 0.64, n * 0.05, n * 0.04);
+    g.fillStyle = '#5a3b22'; g.fillRect(n * 0.7, n * 0.6, n * 0.03, n * 0.16); g.fillStyle = '#f6c90e'; g.beginPath(); g.arc(n * 0.715, n * 0.56, n * 0.08, 0, 7); g.fill();
+    g.fillStyle = '#fff'; g.font = '700 ' + n * 0.09 + 'px system-ui'; g.fillText('F', n * 0.06, n * 0.14);
+    g.strokeStyle = '#fff'; g.lineWidth = n * 0.03; g.strokeRect(0, 0, n, n); return oc;
+  }
+  W.fotodet = function (c, D) {
+    var L = lienzoPx(c, function (w) { return w < 560 ? 420 : 360; }), foto = fotoPaisaje(240);
+    var ct = fila(c), A = U.deslizador(ct, 'a', -2, 2, 0.1, 1.5), B = U.deslizador(ct, 'b', -2, 2, 0.1, 0.5), ct2 = fila(c), C = U.deslizador(ct2, 'c', -2, 2, 0.1, 0), Dd = U.deslizador(ct2, 'd', -2, 2, 0.1, 1);
+    var ct3 = fila(c);
+    [['↺ Original', [1, 0, 0, 1]], ['🪞 Espejo', [-1, 0, 0, 1]], ['↗ Inclinar', [1, 0.8, 0, 1]], ['🔄 Girar 90°', [0, -1, 1, 0]], ['📏 Aplastar', [1, 2, 0.5, 1]]].forEach(function (b) {
+      boton(ct3, b[0], function () { [A, B, C, Dd].forEach(function (s, i) { s.v = b[1][i]; s.inp.value = b[1][i]; s.inp.dispatchEvent(new Event('input')); }); }); });
+    var lec = U.lectura(c), R = U.reto(c, 'Deja la foto <b>en espejo</b> (volteada) y con el <b>doble del área</b> original.', false, function (v) { return Math.abs(v + 2) < 0.051 ? true : null; },
+      '¡Lo lograste! det = −2: el valor absoluto dice que el área se duplicó y el signo negativo dice que la foto quedó volteada, como en un espejo.');
+    R.el.__fin = c.__fin;
+    function dib(dt, now) {
+      var g = L.g, w = L.w, h = L.h, a = A.v, b = B.v, cc = C.v, d = Dd.v, det = a * d - b * cc, mov = w < 560;
+      var fondo = g.createLinearGradient(0, 0, 0, h); fondo.addColorStop(0, '#1d2330'); fondo.addColorStop(1, '#0f131a'); g.fillStyle = fondo; g.fillRect(0, 0, w, h);
+      /* pantalla del editor de fotos */
+      var sx = 10, sy = 34, sw = w - 20, sh = h - 74; g.fillStyle = '#272e3b'; rr(g, sx, sy, sw, sh, 12); g.fill();
+      g.fillStyle = '#e9edf3'; g.font = '600 13px system-ui'; g.textAlign = 'left'; g.fillText('📷 Editor · transformar', 16, 22); g.textAlign = 'right'; g.fillStyle = '#9fb0c6'; g.font = '12px system-ui'; g.fillText('M = [ ' + f2(a) + '  ' + f2(b) + ' ; ' + f2(cc) + '  ' + f2(d) + ' ]', w - 14, 22);
+      var s = Math.min(sw, sh) / (mov ? 4.6 : 4.4), Ox = sx + sw / 2 - s * 0.5, Oy = sy + sh / 2 + s * 0.5;
+      g.save(); g.beginPath(); rr(g, sx, sy, sw, sh, 12); g.clip();
+      g.strokeStyle = 'rgba(255,255,255,.06)'; g.lineWidth = 1; for (var i = -8; i <= 8; i++) { g.beginPath(); g.moveTo(Ox + i * s, sy); g.lineTo(Ox + i * s, sy + sh); g.stroke(); g.beginPath(); g.moveTo(sx, Oy - i * s); g.lineTo(sx + sw, Oy - i * s); g.stroke(); }
+      g.strokeStyle = 'rgba(255,255,255,.18)'; g.beginPath(); g.moveTo(Ox, sy); g.lineTo(Ox, sy + sh); g.moveTo(sx, Oy); g.lineTo(sx + sw, Oy); g.stroke();
+      /* la foto original, tenue */
+      g.globalAlpha = 0.22; g.drawImage(foto, Ox, Oy - s, s, s); g.globalAlpha = 1; g.setLineDash([5, 4]); g.strokeStyle = 'rgba(255,255,255,.5)'; g.strokeRect(Ox, Oy - s, s, s); g.setLineDash([]);
+      /* la foto transformada */
+      var n = 240; g.save(); g.shadowColor = 'rgba(0,0,0,.55)'; g.shadowBlur = 18; g.shadowOffsetY = 6;
+      g.transform(s * a / n, -s * cc / n, -s * b / n, s * d / n, Ox + s * b, Oy - s * d);
+      if (Math.abs(det) > 0.02) g.drawImage(foto, 0, 0); g.restore();
+      var P = function (u, v) { return [Ox + s * (a * u + b * v), Oy - s * (cc * u + d * v)]; }, q = [P(0, 0), P(1, 0), P(1, 1), P(0, 1)];
+      g.strokeStyle = det < 0 ? '#ff6b8b' : '#5ee0a0'; g.lineWidth = 2.5; g.beginPath(); q.forEach(function (p, k) { k ? g.lineTo(p[0], p[1]) : g.moveTo(p[0], p[1]); }); g.closePath(); g.stroke();
+      g.save(); flecha(g, Ox, Oy, P(1, 0)[0], P(1, 0)[1], '#ffb74d', 3, 11); flecha(g, Ox, Oy, P(0, 1)[0], P(0, 1)[1], '#64b5f6', 3, 11); g.restore();
+      rotulo(g, '(' + f2(a) + ', ' + f2(cc) + ')', P(1, 0)[0] + 6, P(1, 0)[1] + 12, '#ffb74d', 'left', 11, 'rgba(20,24,32,.75)');
+      rotulo(g, '(' + f2(b) + ', ' + f2(d) + ')', P(0, 1)[0] + 6, P(0, 1)[1] - 12, '#64b5f6', 'left', 11, 'rgba(20,24,32,.75)');
+      g.restore();
+      /* barra inferior */
+      var est = Math.abs(det) < 0.02 ? '¡aplastada en una línea!' : det < 0 ? 'volteada (espejo)' : 'derecha';
+      g.fillStyle = '#e9edf3'; g.font = '600 13px system-ui'; g.textAlign = 'left'; g.fillText('det M = ' + f2(Math.round(det * 100) / 100) + '   ·   área × ' + f2(Math.round(Math.abs(det) * 100) / 100), 16, h - 16);
+      g.textAlign = 'right'; g.fillStyle = Math.abs(det) < 0.02 ? '#ffd54a' : det < 0 ? '#ff6b8b' : '#5ee0a0'; g.fillText(est, w - 14, h - 16);
+      lec.innerHTML = 'Cada app de fotos estira, gira o voltea imágenes con una matriz 2×2. Las columnas de M dicen a dónde van los lados de la foto: <span style="color:#e08a00">(' + f2(a) + ', ' + f2(cc) + ')</span> y <span style="color:#1e88e5">(' + f2(b) + ', ' + f2(d) + ')</span>. El <b>determinante</b> ad − bc = <b>' + f2(Math.round(det * 100) / 100) + '</b> dice cuánto cambia el área (|det| = ' + f2(Math.round(Math.abs(det) * 100) / 100) + ' veces) y su signo dice si la foto quedó volteada. Con det = 0 la foto se aplasta: la matriz no tiene inversa y ya no se puede «deshacer».';
+      if (L.pend) { L.pend = false; R.evalua(det); }
+    }
+    [A, B, C, Dd].forEach(function (s) { s.inp.addEventListener('input', function () { L.pend = true; L.redibuja(); }); }); L.redibuja = function () { dib(0, performance.now()); }; L.redibuja();
+  };
+
+  /* ---------- 3 · La lancha que cruza el río (suma de vectores) ---------- */
+  W.lancha = function (c, D) {
+    var L = lienzoPx(c, function (w) { return w < 560 ? 420 : 360; });
+    var ct = fila(c), AN = U.deslizador(ct, 'rumbo de la lancha (contra la corriente)', -60, 75, 1, 0, function (v) { return Math.round(v) + '°'; }),
+      VL = U.deslizador(ct, 'velocidad de la lancha', 2, 8, 0.5, 5, function (v) { return f2(v) + ' m/s'; }), ct2 = fila(c), VC = U.deslizador(ct2, 'corriente del río', 0, 5, 0.5, 3, function (v) { return f2(v) + ' m/s'; });
+    var t = 0, estela = [], bS = boton(ct2, '🚤 Zarpar', function () { t = 0; estela = []; corre = true; }), corre = true;
+    var lec = U.lectura(c), R = U.reto(c, 'La lancha va a 5 m/s y la corriente a 3 m/s. ¿Con qué ángulo contra la corriente (en grados) debes apuntar para llegar justo al muelle de enfrente?', true, function (v) { return Math.abs(v - 36.87) < 1.2; },
+      '¡Perfecto! Necesitas que la parte de la velocidad contra la corriente cancele la corriente: 5 sen θ = 3, θ ≈ 36,9°. Entonces cruzas a 5 cos θ = 4 m/s.');
+    R.el.__fin = c.__fin;
+    function dib(dt, now) {
+      var g = L.g, w = L.w, h = L.h, th = AN.v * Math.PI / 180, vl = VL.v, vc = VC.v, ancho = 120;  /* metros */
+      var vx = -vl * Math.sin(th) + vc, vy = vl * Math.cos(th);           /* x: río abajo (a la derecha), y: hacia la otra orilla */
+      var o1 = h * 0.78, o2 = h * 0.2, s = (o1 - o2) / ancho, X0 = w * 0.38;
+      if (corre) { t += dt * 3; } var y = vy * t, x = vx * t; if (y >= ancho) { y = ancho; corre = false; }
+      /* orillas con pasto, río con olas que corren */
+      pasto(g, 0, 0, w, o2, 12, true); pasto(g, 0, o1, w, h - o1, 13, true);
+      aguaArriba(g, 0, o2, w, o1 - o2, 7, '#3f97c9', '#24688f');
+      var cor = (now / 1000 * vc * s * 0.9) % 60; g.strokeStyle = 'rgba(255,255,255,.28)'; g.lineWidth = 1.4; g.lineCap = 'round';
+      for (var yy = o2 + 14; yy < o1 - 8; yy += 22) for (var xx = -60 + cor + (yy % 44 ? 30 : 0); xx < w + 60; xx += 60) { g.beginPath(); g.moveTo(xx, yy); g.quadraticCurveTo(xx + 10, yy - 3, xx + 20, yy); g.stroke(); }
+      g.fillStyle = 'rgba(120,90,50,.55)'; g.fillRect(0, o2 - 4, w, 6); g.fillRect(0, o1 - 2, w, 6);
+      for (var k = 0; k < 6; k++) { arbol(g, w * (0.08 + k * 0.18), o2 - 22, 0.7, 1); }
+      /* muelles */
+      function muelle(mx, my, arriba) { madera(g, mx - 16, arriba ? my - 30 : my - 4, 32, 34, '#8a5a2b', '#b7844e', 9, true); g.fillStyle = 'rgba(0,0,0,.25)'; g.fillRect(mx - 16, arriba ? my + 3 : my - 4, 32, 3); }
+      muelle(X0, o1, false); muelle(X0, o2, true); rotulo(g, '⚓ muelle', X0 + 22, o2 - 14, '#2c3e50', 'left', 11);
+      /* estela y lancha (vista de arriba) */
+      var bx = X0 + x * s, by = o1 - y * s; if (corre && dt > 0) { estela.push([bx, by]); if (estela.length > 160) estela.shift(); }
+      g.strokeStyle = 'rgba(255,255,255,.55)'; g.lineWidth = 3; g.beginPath(); estela.forEach(function (p, i) { i ? g.lineTo(p[0], p[1]) : g.moveTo(p[0], p[1]); }); g.stroke();
+      g.save(); g.translate(bx, by); g.rotate(-th);
+      g.fillStyle = 'rgba(0,0,0,.25)'; g.beginPath(); g.ellipse(3, 3, 9, 20, 0, 0, 7); g.fill();
+      var cas = g.createLinearGradient(-9, 0, 9, 0); cas.addColorStop(0, '#c0392b'); cas.addColorStop(0.5, '#ff6f5e'); cas.addColorStop(1, '#a93226'); g.fillStyle = cas;
+      g.beginPath(); g.moveTo(0, -22); g.quadraticCurveTo(10, -8, 9, 14); g.lineTo(-9, 14); g.quadraticCurveTo(-10, -8, 0, -22); g.fill();
+      g.fillStyle = '#f4f1ea'; rr(g, -6, -4, 12, 12, 3); g.fill(); g.fillStyle = '#7fb3d9'; g.fillRect(-5, -8, 10, 4); g.fillStyle = '#333'; g.fillRect(-3, 14, 6, 4); g.restore();
+      /* triángulo de velocidades */
+      var k2 = Math.min(14, w / 50), ox = mov(w) ? w - 70 : w * 0.78, oy = mov(w) ? 122 : o1 - 30, lx = -vl * Math.sin(th) * k2, ly = -vl * Math.cos(th) * k2, cx2 = vc * k2;
+      var pw2 = mov(w) ? 130 : 182; g.fillStyle = 'rgba(255,255,255,.85)'; rr(g, ox - pw2 / 2 - 1, oy - 112, pw2, 126, 10); g.fill(); rotulo(g, 'regla del triángulo', ox - pw2 / 2 + 9, oy - 98, '#2c3e50', 'left', 11, false);
+      flecha(g, ox, oy, ox + lx, oy + ly, '#1565c0', 3.5, 11); flecha(g, ox + lx, oy + ly, ox + lx + cx2, oy + ly, '#00838f', 3.5, 11); flecha(g, ox, oy, ox + lx + cx2, oy + ly, '#c62828', 4, 12);
+      rotulo(g, 'lancha', ox + lx - 4, oy + ly - 10, '#1565c0', 'right', 11, false); rotulo(g, 'corriente', ox + lx + cx2 + 4, oy + ly - 10, '#00838f', 'left', 11, false);
+      var vr = Math.hypot(vx, vy); panel(g, ['velocidad real: ' + f2(Math.round(vr * 10) / 10) + ' m/s', 'deriva: ' + f2(Math.round(Math.abs(vx) * 10) / 10) + ' m/s ' + (vx > 0.05 ? 'río abajo' : vx < -0.05 ? 'río arriba' : '(¡ninguna!)')], 10, h - 64);
+      var cae = vy > 0 ? vx * ancho / vy : 0;
+      lec.innerHTML = 'Lo que ves desde la orilla es la <b>suma</b> de dos vectores: la velocidad de la lancha respecto al agua y la de la corriente. El vector rojo (la suma) es la ruta real. Con este rumbo llegas a la otra orilla en ' + (vy > 0 ? Math.round(ancho / vy) + ' s, ' + Math.round(Math.abs(cae)) + ' m ' + (cae > 0.5 ? 'río abajo' : cae < -0.5 ? 'río arriba' : '') + ' del muelle' : 'nunca: la corriente te arrastra') + '. Para llegar derecho, la componente contra la corriente debe cancelar la corriente: v sen θ = corriente.';
+    }
+    function mov(w) { return w < 560; }
+    [AN, VL, VC].forEach(function (s) { s.inp.addEventListener('input', function () { t = 0; estela = []; corre = true; L.redibuja(); }); }); animador(L, dib); L.redibuja();
+  };
+
+  /* ---------- 4 · El carrito del supermercado (trabajo = producto escalar) ---------- */
+  function estante(g, x, y, w, h, sem) {
+    metalV(g, x, y, 5, h, '#aab3bd'); metalV(g, x + w - 5, y, 5, h, '#aab3bd'); var r = azar(sem), pis = 4, ph = h / pis;
+    var cols = [['#e53935', '#fff'], ['#fdd835', '#c62828'], ['#1e88e5', '#fff'], ['#43a047', '#fff'], ['#fb8c00', '#fff'], ['#8e24aa', '#fff'], ['#f5f5f5', '#1565c0']];
+    for (var p = 0; p < pis; p++) { var py = y + p * ph; metalH(g, x, py + ph - 6, w, 6, '#c3cad2');
+      for (var px = x + 7; px < x + w - 12;) { var c = cols[Math.floor(r() * cols.length)], bw = 8 + r() * 10, bh = ph * (0.45 + r() * 0.4); if (px + bw > x + w - 6) break;
+        var pg = g.createLinearGradient(px, 0, px + bw, 0); pg.addColorStop(0, c[0]); pg.addColorStop(0.35, '#ffffff'); pg.addColorStop(0.45, c[0]); pg.addColorStop(1, 'rgba(0,0,0,.35)');
+        g.fillStyle = c[0]; g.fillRect(px, py + ph - 6 - bh, bw, bh); g.globalAlpha = 0.35; g.fillStyle = pg; g.fillRect(px, py + ph - 6 - bh, bw, bh); g.globalAlpha = 1;
+        g.fillStyle = c[1]; g.fillRect(px + 1.5, py + ph - 6 - bh * 0.6, bw - 3, bh * 0.18); px += bw + 1.5; } }
+  }
+  W.carrito = function (c, D) {
+    var L = lienzoPx(c, function (w) { return w < 560 ? 380 : 340; });
+    var ct = fila(c), AN = U.deslizador(ct, 'ángulo de los brazos bajo la horizontal', 0, 80, 1, 30, function (v) { return Math.round(v) + '°'; }), FS = U.deslizador(ct, 'fuerza con que empujas', 20, 120, 1, 60, function (v) { return Math.round(v) + ' N'; });
+    var pos = 0, vel = 0, Wac = 0, ct2 = fila(c); boton(ct2, '↺ Volver al inicio', function () { pos = 0; vel = 0; Wac = 0; });
+    var lec = U.lectura(c), R = U.reto(c, 'Empujas el carrito con 80 N, con los brazos inclinados 60° hacia abajo, y avanzas 10 m por el pasillo. ¿Cuánto trabajo (en julios) haces?', true, function (v) { return Math.abs(v - 400) < 0.5; },
+      '¡Bien! W = F · d = |F| |d| cos θ = 80 · 10 · cos 60° = 400 J. La parte de la fuerza que apunta al piso no hace trabajo: solo aprieta las ruedas.');
+    R.el.__fin = c.__fin;
+    function dib(dt, now) {
+      var g = L.g, w = L.w, h = L.h, a = AN.v * Math.PI / 180, F = FS.v, Fx = F * Math.cos(a), Fy = F * Math.sin(a), piso = h * 0.74, mov = w < 560;
+      vel += (Fx / 25 - vel * 0.8 - 0.4 * Math.sign(vel)) * dt; if (vel < 0) vel = 0; var dx = vel * dt; pos += dx; Wac += Fx * dx;
+      if (pos > 40) { pos = 0; Wac = 0; }
+      /* pasillo: pared, estantes que pasan, piso de baldosas brillante */
+      var pw = g.createLinearGradient(0, 0, 0, piso); pw.addColorStop(0, '#f5f2ea'); pw.addColorStop(1, '#e2ddd0'); g.fillStyle = pw; g.fillRect(0, 0, w, piso);
+      g.fillStyle = '#c62828'; g.fillRect(0, 10, w, 18); g.fillStyle = '#fff'; g.font = '700 11px system-ui'; g.textAlign = 'left';
+      var off = -(pos * 28) % 260; for (var lx = off - 260; lx < w + 260; lx += 260) g.fillText('PASILLO 4 · ASEO Y BEBIDAS', lx + 8, 23);
+      for (var lu = off; lu < w + 260; lu += 130) { var lg = g.createRadialGradient(lu + 75, 0, 2, lu + 75, 0, 70); lg.addColorStop(0, 'rgba(255,255,240,.8)'); lg.addColorStop(1, 'rgba(255,255,240,0)'); g.fillStyle = lg; g.fillRect(lu, 0, 150, 70); }
+      var eo = -(pos * 28) % 170; for (var ex = eo - 170; ex < w + 170; ex += 170) estante(g, ex + 6, 38, 160, piso - 40, 7 + Math.round((ex - eo) / 170) * 0 + 3);
+      var bd = -(pos * 28) % 46; for (var bx = bd - 46; bx < w + 46; bx += 46) { var tg = g.createLinearGradient(bx, piso, bx + 46, h); tg.addColorStop(0, '#eceae4'); tg.addColorStop(1, '#cfccc3'); g.fillStyle = tg; g.fillRect(bx, piso, 45, h - piso); }
+      var br = g.createLinearGradient(0, piso, 0, h); br.addColorStop(0, 'rgba(255,255,255,.45)'); br.addColorStop(0.3, 'rgba(255,255,255,0)'); g.fillStyle = br; g.fillRect(0, piso, w, h - piso);
+      /* el carrito */
+      var cx = mov ? w * 0.36 : w * 0.42, cw = mov ? 92 : 120, ch = cw * 0.62, cy = piso - 16;
+      sombraPiso(g, cx + cw * 0.5, piso + 4, cw * 0.7, 6, 0.35);
+      g.strokeStyle = '#8f99a3'; g.lineWidth = 2; for (var i = 0; i <= 8; i++) { g.beginPath(); g.moveTo(cx + i * cw / 8, cy - ch); g.lineTo(cx + cw * 0.08 + i * cw * 0.84 / 8, cy - 6); g.stroke(); }
+      for (i = 0; i <= 4; i++) { g.beginPath(); g.moveTo(cx + i * cw * 0.02, cy - ch + i * ch / 4.5); g.lineTo(cx + cw - i * cw * 0.02, cy - ch + i * ch / 4.5); g.stroke(); }
+      metalH(g, cx - 4, cy - ch - 4, cw + 8, 5, '#c3cad2'); metalH(g, cx + cw * 0.05, cy - 6, cw * 0.9, 4, '#c3cad2');
+      [['#43a047', 0.15, 0.5], ['#fdd835', 0.4, 0.62], ['#e53935', 0.62, 0.42], ['#1e88e5', 0.28, 0.35]].forEach(function (p) { g.fillStyle = p[0]; rr(g, cx + cw * p[1], cy - ch - ch * p[2] * 0.4 + 4, cw * 0.2, ch * p[2] * 0.5, 3); g.fill(); });
+      g.strokeStyle = '#6d7680'; g.lineWidth = 3; g.beginPath(); g.moveTo(cx + cw * 0.12, cy - 4); g.lineTo(cx + cw * 0.12, piso - 6); g.moveTo(cx + cw * 0.85, cy - 4); g.lineTo(cx + cw * 0.85, piso - 6); g.stroke();
+      [cx + cw * 0.12, cx + cw * 0.85].forEach(function (rx) { g.save(); g.translate(rx, piso - 5); g.rotate(pos * 6); g.fillStyle = '#222'; g.beginPath(); g.arc(0, 0, 6, 0, 7); g.fill(); g.fillStyle = '#999'; g.fillRect(-1, -5, 2, 10); g.restore(); });
+      var mxh = cx - 6, myh = cy - ch - 2; g.strokeStyle = '#6d7680'; g.lineWidth = 3.5; g.beginPath(); g.moveTo(cx, cy - ch); g.lineTo(mxh - 18, myh - 18); g.stroke(); metalH(g, mxh - 24, myh - 22, 10, 6, '#e53935');
+      /* la persona: los brazos siguen el ángulo */
+      var hh = mov ? 120 : 140, k = hh / 60, hx = mxh - 20, hy = myh - 18, sx = hx - 26 * k * Math.cos(a) * 0.9, sy = hy - 26 * k * Math.sin(a) * 0.9;
+      var px = sx - 2 * k, pie = piso; sombraPiso(g, px, pie + 2, 18 * k, 3 * k, 0.3);
+      var paso = Math.sin(pos * 3) * Math.min(1, vel); g.lineCap = 'round';
+      [[paso, '#37474f'], [-paso, '#455a64']].forEach(function (q) { g.strokeStyle = q[1]; g.lineWidth = 6 * k; g.beginPath(); g.moveTo(px, pie - 28 * k); g.lineTo(px + q[0] * 6 * k, pie - 14 * k); g.lineTo(px + q[0] * 9 * k, pie - 2); g.stroke(); g.fillStyle = '#222'; rr(g, px + q[0] * 9 * k - 2 * k, pie - 4 * k, 9 * k, 4 * k, 2 * k); g.fill(); });
+      var tc = g.createLinearGradient(px - 6 * k, 0, px + 6 * k, 0); tc.addColorStop(0, '#f9a825'); tc.addColorStop(1, '#fbc02d'); g.strokeStyle = tc; g.lineWidth = 12 * k; g.beginPath(); g.moveTo(px, pie - 28 * k); g.lineTo(sx, sy); g.stroke();
+      g.strokeStyle = '#f9a825'; g.lineWidth = 4.2 * k; g.beginPath(); g.moveTo(sx, sy); g.lineTo(hx, hy); g.stroke(); g.fillStyle = '#d9a27a'; g.beginPath(); g.arc(hx, hy, 2.6 * k, 0, 7); g.fill();
+      var cb = g.createRadialGradient(sx - 1 * k, sy - 10 * k, 1, sx, sy - 8 * k, 7 * k); cb.addColorStop(0, '#f0c39e'); cb.addColorStop(1, '#b77a52'); g.fillStyle = cb; g.beginPath(); g.arc(sx + 2 * k, sy - 9 * k, 6.2 * k, 0, 7); g.fill();
+      g.fillStyle = '#3e2723'; g.beginPath(); g.arc(sx + 1 * k, sy - 11 * k, 6.4 * k, Math.PI * 0.95, Math.PI * 2.05); g.fill();
+      /* vectores sobre el manubrio */
+      var kk = mov ? 0.75 : 0.95, Ax = hx, Ay = hy;
+      flecha(g, Ax, Ay, Ax + Fx * kk, Ay, '#e67e22', 5, 12); flecha(g, Ax + Fx * kk, Ay, Ax + Fx * kk, Ay + Fy * kk, '#7d3c98', 3, 10); flecha(g, Ax, Ay, Ax + Fx * kk, Ay + Fy * kk, '#c0392b', 4, 12);
+      rotulo(g, 'F', Ax + Fx * kk * 0.5 - 6, Ay + Fy * kk * 0.5 + 12, '#c0392b', 'right', 13);
+      rotulo(g, 'avanza: ' + Math.round(Fx) + ' N', Ax + Fx * kk + 4, Ay - 12, '#e67e22', 'left', 11);
+      if (Fy > 5) rotulo(g, 'aprieta: ' + Math.round(Fy) + ' N', Ax + Fx * kk + 6, Ay + Fy * kk * 0.6, '#7d3c98', 'left', 11);
+      flecha(g, cx + cw * 0.15, piso + 18, cx + cw * 0.85, piso + 18, '#1565c0', 3, 10); rotulo(g, 'd (el carrito solo se mueve por el piso)', cx + cw * 0.5, piso + 34, '#1565c0', 'center', 11);
+      panel(g, ['trabajo hecho: ' + miles(Wac) + ' J', 'recorrido: ' + f2(Math.round(pos * 10) / 10) + ' m', 'W en 10 m = F·d = ' + miles(Fx * 10) + ' J'], w - (mov ? 196 : 222), 36);
+      lec.innerHTML = 'El trabajo es el <b>producto escalar</b> de la fuerza por el desplazamiento: W = F · d = |F| |d| cos θ. Empujas con ' + Math.round(F) + ' N, pero con los brazos a ' + Math.round(AN.v) + '° solo <b>' + Math.round(Fx) + ' N</b> apuntan en la dirección en que se mueve el carrito; esa es la parte que cuenta. En 10 m haces <b>' + miles(Fx * 10) + ' J</b>. Si empujaras casi hacia el piso (θ cerca de 90°), cos θ ≈ 0 y casi todo tu esfuerzo se perdería.';
+    }
+    [AN, FS].forEach(function (s) { s.inp.addEventListener('input', function () { L.redibuja(); }); }); animador(L, dib); L.redibuja();
+  };
+
+  /* ---------- 5 · La finca: área con el producto vectorial ---------- */
+  W.finca = function (c, D) {
+    var L = lienzoPx(c, function (w) { return w < 560 ? 400 : 380; }), M = 5;          /* 1 cuadro = 10 m */
+    var P = [[1.5, 1.5], [7, 2.2], [3.2, 6.5]], s = 1, ox = 0, oy = 0;
+    function aPx(p) { return [ox + p[0] * s, oy - p[1] * s]; }
+    arrastre(L, function () { return P.map(function (p) { var q = aPx(p); return { x: q[0], y: q[1] }; }); }, 30, function (i, x, y) {
+      P[i] = [Math.max(0, Math.min(10, Math.round((x - ox) / s * 10) / 10)), Math.max(0, Math.min(10, Math.round((oy - y) / s * 10) / 10))]; L.pend = true; L.redibuja(); });
+    var lec = U.lectura(c), R = U.reto(c, 'Arrastra los postes para encerrar un potrero triangular de <b>1 200 m²</b> exactos (con un margen de 20 m²).', false, function (v) { return Math.abs(v - 1200) <= 20 ? true : null; },
+      '¡Potrero listo! El área del triángulo es la mitad de la norma de AB × AC: así calculan los GPS y las apps de topografía el área de un lote con solo las coordenadas de sus esquinas.');
+    R.el.__fin = c.__fin;
+    function dib(dt, now) {
+      var g = L.g, w = L.w, h = L.h, n = 10; s = Math.min((w - 30) / n, (h - 46) / n * 1.0); ox = (w - s * n) / 2; oy = h - 30;
+      if (!L.fondo || L.fondo.w !== w || L.fondo.h !== h) { var oc = document.createElement('canvas'), dpr = window.devicePixelRatio || 1; oc.width = w * dpr; oc.height = h * dpr; var og = oc.getContext('2d'); og.setTransform(dpr, 0, 0, dpr, 0, 0);
+        pasto(og, 0, 0, w, h, 44, false); var rq = og.createLinearGradient(w * 0.82, 0, w, 0); rq.addColorStop(0, 'rgba(0,0,0,0)'); og.fillStyle = rq;
+        og.save(); og.beginPath(); og.moveTo(w * 0.9, 0); og.bezierCurveTo(w * 0.8, h * 0.3, w * 1.0, h * 0.6, w * 0.86, h); og.lineTo(w, h); og.lineTo(w, 0); og.closePath(); og.clip(); aguaArriba(og, w * 0.75, 0, w * 0.25, h, 9, '#5aa9d6', '#2b77a8'); og.restore();
+        var ra = azar(6); for (var k = 0; k < 9; k++) { var ax = ra() * w * 0.8, ay = ra() * h; var cg = og.createRadialGradient(ax - 4, ay - 4, 1, ax, ay, 14); cg.addColorStop(0, '#5fa04a'); cg.addColorStop(1, '#245c22'); og.fillStyle = 'rgba(0,0,0,.25)'; og.beginPath(); og.arc(ax + 5, ay + 5, 13, 0, 7); og.fill(); og.fillStyle = cg; og.beginPath(); og.arc(ax, ay, 13, 0, 7); og.fill(); }
+        og.fillStyle = '#c9b48a'; og.fillRect(0, h - 18, w, 18); moteado(og, 0, h - 18, w, 18, 300, ['rgba(0,0,0,.12)', 'rgba(255,255,255,.2)'], 1.6, 3);
+        L.fondo = { w: w, h: h, c: oc }; }
+      g.drawImage(L.fondo.c, 0, 0, w, h);
+      g.strokeStyle = 'rgba(255,255,255,.22)'; g.lineWidth = 1; for (var i = 0; i <= n; i++) { g.beginPath(); g.moveTo(ox + i * s, oy); g.lineTo(ox + i * s, oy - n * s); g.stroke(); g.beginPath(); g.moveTo(ox, oy - i * s); g.lineTo(ox + n * s, oy - i * s); g.stroke(); }
+      g.fillStyle = 'rgba(255,255,255,.9)'; g.font = '10px system-ui'; g.textAlign = 'center'; for (i = 0; i <= n; i += 2) g.fillText(i * 10 + ' m', ox + i * s, oy + 13);
+      var q = P.map(aPx), ABx = P[1][0] - P[0][0], ABy = P[1][1] - P[0][1], ACx = P[2][0] - P[0][0], ACy = P[2][1] - P[0][1], z = (ABx * ACy - ABy * ACx) * 100, area = Math.abs(z) / 2;
+      g.fillStyle = 'rgba(255,236,120,.28)'; g.beginPath(); q.forEach(function (p, k) { k ? g.lineTo(p[0], p[1]) : g.moveTo(p[0], p[1]); }); g.closePath(); g.fill();
+      /* cerca de alambre de púas */
+      for (var e = 0; e < 3; e++) { var a = q[e], b = q[(e + 1) % 3], lg = Math.hypot(b[0] - a[0], b[1] - a[1]);
+        g.strokeStyle = 'rgba(60,60,60,.85)'; g.lineWidth = 1.3; g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.stroke(); g.beginPath(); g.moveTo(a[0], a[1] + 3); g.lineTo(b[0], b[1] + 3); g.stroke();
+        for (var tt = 12; tt < lg; tt += 12) { var px = a[0] + (b[0] - a[0]) * tt / lg, py = a[1] + (b[1] - a[1]) * tt / lg; g.beginPath(); g.moveTo(px - 2, py - 2); g.lineTo(px + 2, py + 2); g.moveTo(px + 2, py - 2); g.lineTo(px - 2, py + 2); g.stroke(); } }
+      flecha(g, q[0][0], q[0][1], q[1][0], q[1][1], '#e65100', 3, 11); flecha(g, q[0][0], q[0][1], q[2][0], q[2][1], '#1565c0', 3, 11);
+      /* vacas pastando adentro */
+      var cxm = (q[0][0] + q[1][0] + q[2][0]) / 3, cym = (q[0][1] + q[1][1] + q[2][1]) / 3; if (area > 300) { icoVaca(g, cxm - 10, cym + 4 + Math.sin(now / 900) * 1.5, 1.1, 0); if (area > 1500) icoVaca(g, cxm + 18, cym - 12, 0.95, 1); }
+      ['A', 'B', 'C'].forEach(function (nm, k) { var p = q[k]; sombraPiso(g, p[0] + 3, p[1] + 3, 9, 3, 0.4); var pg = g.createLinearGradient(p[0] - 4, 0, p[0] + 4, 0); pg.addColorStop(0, '#5d4027'); pg.addColorStop(1, '#a0703f'); g.fillStyle = pg; g.beginPath(); g.arc(p[0], p[1], 7, 0, 7); g.fill(); g.strokeStyle = '#fff'; g.lineWidth = 2; g.stroke();
+        rotulo(g, nm + '(' + Math.round(P[k][0] * 10) + ', ' + Math.round(P[k][1] * 10) + ')', p[0] + 10, p[1] - 14, '#2c3e50', 'left', 11); });
+      panel(g, ['área = ½ |AB × AC| = ' + miles(area) + ' m²', 'AB × AC = (0, 0, ' + miles(z) + ')'], 8, 8);
+      lec.innerHTML = 'Con un GPS tomas las coordenadas de tres postes. Ponlos en el plano z = 0: <span style="color:#e65100">AB = (' + Math.round(ABx * 10) + ', ' + Math.round(ABy * 10) + ', 0)</span> y <span style="color:#1565c0">AC = (' + Math.round(ACx * 10) + ', ' + Math.round(ACy * 10) + ', 0)</span>. Su producto vectorial apunta hacia arriba, (0, 0, ' + miles(z) + '), y su norma es el área del paralelogramo; la mitad es el potrero: <b>' + miles(area) + ' m²</b> (' + f2(Math.round(area / 100) / 100) + ' hectáreas).';
+      if (L.pend) { L.pend = false; R.evalua(area); }
+    }
+    L.redibuja = function () { dib(0, performance.now()); }; animador(L, dib); L.redibuja();
+  };
 })();
