@@ -2253,14 +2253,31 @@
       } else {
         var bajaF = F * Math.sin(a), aprieta = F * Math.cos(a);
         if (corre) { if (pos < 1) { vel += (bajaF / F * 9.8 * 0.5) * dt; pos = Math.min(1, pos + vel * dt / 6); } else { espera = (espera || 0) + dt; if (espera > 1.2) { pos = 0; vel = 0; espera = 0; } } }
-        /* atardecer en el parque: cielo, sol, ciudad a lo lejos, árboles */
-        var cie2 = g.createLinearGradient(0, 0, 0, h); cie2.addColorStop(0, '#4a6fa5'); cie2.addColorStop(0.45, '#f39c6b'); cie2.addColorStop(0.8, '#fbd38d'); g.fillStyle = cie2; g.fillRect(0, 0, w, h);
-        var so = g.createRadialGradient(w * 0.82, h * 0.42, 4, w * 0.82, h * 0.42, 110); so.addColorStop(0, 'rgba(255,250,215,1)'); so.addColorStop(0.18, 'rgba(255,214,140,.85)'); so.addColorStop(1, 'rgba(255,214,140,0)'); g.fillStyle = so; g.fillRect(0, 0, w, h);
-        var base = h - 34, rc = azar(17); g.fillStyle = 'rgba(70,55,90,.55)';
-        for (var bx3 = 0; bx3 < w; bx3 += 14 + rc() * 22) { var bw3 = 12 + rc() * 26, bh3 = 30 + rc() * 70; g.fillRect(bx3, base - 30 - bh3, bw3, bh3 + 30); if (rc() < 0.5) { g.fillStyle = 'rgba(255,220,140,.6)'; for (var wy = base - 30 - bh3 + 6; wy < base - 34; wy += 9) if (rc() < 0.4) g.fillRect(bx3 + 3, wy, 3, 3); g.fillStyle = 'rgba(70,55,90,.55)'; } }
-        [[0.9, 1.1], [0.97, 0.8], [0.05, 0.9]].forEach(function (t) { arbol(g, w * t[0], base - 2, t[1], 0.25); });
-        nube(g, w * 0.3, 34, 0.7); nube(g, w * 0.62, 22, 0.5);
+        /* Medellín: parque Juanes de la Paz, montañas del Valle de Aburrá con casitas de ladrillo y el Metrocable */
+        var cie2 = g.createLinearGradient(0, 0, 0, h); cie2.addColorStop(0, '#5fa8e0'); cie2.addColorStop(0.7, '#cfe8f5'); g.fillStyle = cie2; g.fillRect(0, 0, w, h);
+        var so = g.createRadialGradient(w * 0.15, h * 0.12, 4, w * 0.15, h * 0.12, 90); so.addColorStop(0, 'rgba(255,252,225,1)'); so.addColorStop(0.2, 'rgba(255,240,180,.7)'); so.addColorStop(1, 'rgba(255,240,180,0)'); g.fillStyle = so; g.fillRect(0, 0, w, h);
+        nube(g, w * 0.45, 26, 0.8); nube(g, w * 0.78, 40, 0.6);
+        var base = h - 34, rc = azar(17);
+        function monte(y0, amp, f, c1, c2, fase) { var gr = g.createLinearGradient(0, y0 - amp, 0, base); gr.addColorStop(0, c1); gr.addColorStop(1, c2); g.fillStyle = gr; g.beginPath(); g.moveTo(0, base); for (var x = 0; x <= w; x += 8) g.lineTo(x, y0 - amp * Math.sin(x / w * f + fase) - amp * 0.3 * Math.sin(x / 37 + fase)); g.lineTo(w, base); g.closePath(); g.fill(); }
+        monte(h * 0.3, 26, 2.6, '#6f9e8a', '#88b49c', 0.7);
+        monte(h * 0.42, 30, 3.3, '#5f9a5a', '#7fae63', 1.9);
+        /* casitas de ladrillo en la ladera */
+        var rk = azar(31); for (var q = 0; q < 420; q++) { var hx = rk() * w, hy0 = h * 0.42 - 30 * Math.sin(hx / w * 3.3 + 1.9) - 9 * Math.sin(hx / 37 + 1.9), hy = hy0 + 6 + Math.pow(rk(), 1.6) * (base - 70 - hy0) * 0.75; if (hy > base - 50) continue;
+          var bw = 5 + rk() * 6, bh = 4 + rk() * 5, col = ['#b5563a', '#c46a45', '#a8492f', '#d98a5c', '#e7d3b0', '#8fb3d9'][Math.floor(rk() * 6)];
+          g.fillStyle = col; g.fillRect(hx, hy - bh, bw, bh); g.fillStyle = 'rgba(0,0,0,.18)'; g.fillRect(hx + bw * 0.6, hy - bh, bw * 0.4, bh); g.fillStyle = 'rgba(60,40,30,.7)'; g.fillRect(hx - 0.5, hy - bh - 1.2, bw + 1, 1.4); if (rk() < 0.4) { g.fillStyle = 'rgba(40,30,30,.7)'; g.fillRect(hx + 2, hy - bh * 0.6, 1.6, 1.6); } }
+        /* Metrocable: cable y cabinas */
+        var c1x = -20, c1y = h * 0.16, c2x = w + 20, c2y = h * 0.4; g.strokeStyle = 'rgba(40,45,55,.7)'; g.lineWidth = 1.2; g.beginPath(); g.moveTo(c1x, c1y); g.lineTo(c2x, c2y); g.moveTo(c1x, c1y + 6); g.lineTo(c2x, c2y + 6); g.stroke();
+        [0.18, 0.52, 0.85].forEach(function (t0, k) { var t = ((t0 + now / 60000 * (k % 2 ? -1 : 1)) % 1 + 1) % 1, cx3 = c1x + (c2x - c1x) * t, cy3 = c1y + (c2y - c1y) * t + (k % 2 ? 6 : 0); g.strokeStyle = '#333'; g.lineWidth = 1.2; g.beginPath(); g.moveTo(cx3, cy3); g.lineTo(cx3, cy3 + 8); g.stroke();
+          var cg = g.createLinearGradient(cx3 - 7, 0, cx3 + 7, 0); cg.addColorStop(0, '#d9dde2'); cg.addColorStop(1, '#9aa3ad'); g.fillStyle = cg; rr(g, cx3 - 7, cy3 + 8, 14, 11, 3); g.fill(); g.fillStyle = '#7fb3d9'; g.fillRect(cx3 - 5, cy3 + 10, 10, 4); g.fillStyle = '#e2b93b'; g.fillRect(cx3 - 7, cy3 + 16, 14, 2); });
+        /* el parque: palmas, guayacán amarillo y valla */
+        function palma(x, y, k) { g.strokeStyle = '#8a6a48'; g.lineWidth = 4 * k; g.beginPath(); g.moveTo(x, y); g.quadraticCurveTo(x + 6 * k, y - 30 * k, x + 2 * k, y - 60 * k); g.stroke(); g.strokeStyle = '#2f7d3a'; g.lineWidth = 3 * k; for (var a2 = 0; a2 < 7; a2++) { var an2 = -Math.PI / 2 + (a2 - 3) * 0.45; g.beginPath(); g.moveTo(x + 2 * k, y - 60 * k); g.quadraticCurveTo(x + 2 * k + Math.cos(an2) * 16 * k, y - 60 * k + Math.sin(an2) * 10 * k - 4 * k, x + 2 * k + Math.cos(an2) * 26 * k, y - 60 * k + Math.sin(an2) * 12 * k + 10 * k); g.stroke(); } }
+        var X0 = w * 0.06, ALTO = Math.min(base - 120, (w * 0.84) * Math.tan(a)), XR = Math.min(w * 0.9, X0 + ALTO / Math.tan(a)), libre = w - XR;
+        palma(w * 0.985, base - 2, 0.85); if (libre > 150) palma(XR + libre * 0.72, base - 2, 1.05);
+        var gx = libre > 110 ? XR + libre * 0.35 : -999, gy = base - 4; g.strokeStyle = '#6b4a2e'; g.lineWidth = 4; g.beginPath(); g.moveTo(gx, gy); g.lineTo(gx, gy - 36); g.stroke(); var gk = azar(5); for (var f3 = 0; f3 < 30; f3++) { g.fillStyle = ['#f6c90e', '#ffd93b', '#e8b400'][f3 % 3]; g.beginPath(); g.arc(gx + (gk() - 0.5) * 40, gy - 44 + (gk() - 0.5) * 24, 5 + gk() * 4, 0, 7); g.fill(); }
         asfalto(g, 0, base, w, h - base, 5); g.fillStyle = 'rgba(255,255,255,.12)'; g.fillRect(0, base, w, 2);
+        var vx = libre > 190 ? XR + libre * 0.48 : -999, vy = base - 4; metalV(g, vx, vy - 34, 3, 34, '#9aa4ae'); metalV(g, vx + 74, vy - 34, 3, 34, '#9aa4ae');
+        var vg = g.createLinearGradient(0, vy - 54, 0, vy - 30); vg.addColorStop(0, '#1e8449'); vg.addColorStop(1, '#145a32'); g.fillStyle = vg; rr(g, vx - 6, vy - 56, 90, 26, 5); g.fill(); g.strokeStyle = '#fff'; g.lineWidth = 1.5; rr(g, vx - 4, vy - 54, 86, 22, 4); g.stroke();
+        g.fillStyle = '#fff'; g.font = '700 8.5px system-ui'; g.textAlign = 'center'; g.fillText('PARQUE JUANES', vx + 39, vy - 45); g.fillText('DE LA PAZ', vx + 39, vy - 35);
         var x0 = w * 0.06, x1 = w * 0.9, alto = Math.min(base - 120, (x1 - x0) * Math.tan(a)), xr = x0 + alto / Math.tan(a); if (xr > x1) xr = x1;
         /* la rampa: plataforma de madera con estructura metálica y superficie de skatelite */
         g.save(); g.beginPath(); g.moveTo(x0, base); g.lineTo(xr, base); g.lineTo(x0, base - alto); g.closePath(); g.clip();
@@ -2284,7 +2301,7 @@
         patinador(g, 0, -12, hP); g.restore();
         if (vel > 0.2) { g.fillStyle = 'rgba(255,240,200,.7)'; for (var sp = 0; sp < 5; sp++) { var t2 = rc(); g.beginPath(); g.arc(sx - ux * (10 + t2 * 26) + nxr * 2, sy - uy * (10 + t2 * 26) - t2 * 6, 1.3, 0, 7); g.fill(); } }
         /* diagrama de fuerzas en un recuadro */
-        var cx = w < 560 ? w * 0.6 : w * 0.66, cy = w < 560 ? 110 : 96, kk = (w < 560 ? 0.11 : 0.12), Wl = F * kk;
+        var cx = w < 560 ? w * 0.6 : w * 0.62, cy = w < 560 ? 130 : 110, kk = (w < 560 ? 0.11 : 0.12), Wl = F * kk;
         g.save(); g.shadowColor = 'rgba(0,0,0,.25)'; g.shadowBlur = 10; g.fillStyle = 'rgba(255,255,255,.86)'; rr(g, cx - 78, cy - 30, w < 560 ? 168 : 214, Wl + 54, 12); g.fill(); g.restore();
         rotulo(g, 'diagrama de fuerzas', cx - 66, cy - 16, '#2c3e50', 'left', 11, false);
         g.setLineDash([3, 4]); g.strokeStyle = 'rgba(255,255,255,.7)'; g.lineWidth = 1.2; g.beginPath(); g.moveTo(sx, sy - hP * 0.6); g.lineTo(cx, cy + Wl * 0.5); g.stroke(); g.setLineDash([]);
@@ -2293,7 +2310,7 @@
         g.setLineDash([4, 4]); g.strokeStyle = 'rgba(80,60,140,.7)'; g.lineWidth = 1.5; g.beginPath(); g.moveTo(bx2, by2); g.lineTo(cx, cy + Wl); g.stroke(); g.setLineDash([]);
         flecha2(g, bx2, by2, cx, cy + Wl, '#7d3c98', 3, 'aprieta: ' + Math.round(aprieta) + ' N');
         g.strokeStyle = '#fff'; g.lineWidth = 2; g.beginPath(); g.arc(xr, base, 38, Math.PI, Math.PI + a); g.stroke(); rotulo(g, Math.round(an.v) + '°', xr - 50, base - 14, '#2c3e50', 'right', 12);
-        panel(g, ['velocidad: ' + f2(Math.round(vel * 3.6 * 10) / 10) + ' km/h', 'parte que baja = P sen β = ' + Math.round(bajaF) + ' N'], 10, 10);
+        panel(g, ['velocidad: ' + f2(Math.round(vel * 3.6 * 10) / 10) + ' km/h', 'parte que baja = P sen β = ' + Math.round(bajaF) + ' N', '📍 Parque Juanes de la Paz, Medellín'], 10, 10);
         lec.innerHTML = 'El peso apunta hacia abajo, pero el patinador solo puede moverse a lo largo de la rampa: lo que lo acelera es la <b>proyección del peso sobre la rampa</b>, P sen β = <b>' + Math.round(bajaF) + ' N</b>. La otra parte, P cos β = ' + Math.round(aprieta) + ' N, es perpendicular a la rampa y solo lo aprieta contra ella. Más inclinada la rampa, más larga la «sombra» del peso sobre ella y más rápido baja.';
       }
     }
