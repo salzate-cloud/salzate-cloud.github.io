@@ -2119,4 +2119,82 @@
     }
     nd.inp.addEventListener('input', function () { L.redibuja(); }); animador(L, dib); L.redibuja();
   };
+
+  /* ---------------------------------------------------------------------
+     La proyección ortogonal como una sombra: una linterna alumbra el vector
+     --------------------------------------------------------------------- */
+  W.sombra3d = function (c, D) {
+    var plano = D.modo === 'plano';
+    var L = lienzoPx(c, function (w) { return w < 560 ? 440 : 420; }), C = camara3(L, { yaw: plano ? -0.75 : -0.35, pitch: 0.42 });
+    var ct = fila(c), th = U.deslizador(ct, plano ? 'inclinación de v sobre el piso' : 'ángulo entre u y v', plano ? 5 : 0, plano ? 90 : 180, 1, plano ? 40 : 50, function (v) { return Math.round(v) + '°'; }),
+      lv = U.deslizador(ct, '|v|', 1, 3.5, 0.05, 3, function (v) { return f2(v); });
+    var ph = plano ? U.deslizador(ct, 'hacia dónde apunta v', -180, 180, 1, 35, function (v) { return Math.round(v) + '°'; }) : null;
+    var lu = plano ? null : U.deslizador(ct, '|u| (largo de la regla)', 1, 4, 0.05, 2.5, function (v) { return f2(v); });
+    var ct2 = fila(c), luz = 1, encendiendo = false;
+    boton(ct2, '🔦 Apagar y encender la linterna', function () { luz = 0; encendiendo = true; });
+    var bGira = boton(ct2, '▶ Mover el vector', function () { auto = !auto; bGira.textContent = auto ? '⏸ Pausa' : '▶ Mover el vector'; }), auto = false, fase = 0;
+    var lec = U.lectura(c), R = plano
+      ? U.reto(c, 'El sol cae vertical sobre el piso (el plano z = 0) y el vector es v = (2, 3, 4). ¿Cuánto mide su sombra? (2 decimales)', true, function (v) { return Math.abs(v - Math.sqrt(13)) < 0.01; }, '¡Bien! La sombra es (2, 3, 0): se borra la componente perpendicular al piso. Mide √(4 + 9) = √13 ≈ 3,61.')
+      : U.reto(c, 'Con u = (1, 2, 2) y v = (3, 0, 3), ¿cuánto mide la sombra de v sobre u, es decir |proy_u v|?', true, function (v) { return Math.abs(v - 3) < 0.01; }, '¡Exacto! u·v = 9 y |u|² = 9, así que proy_u v = (9/9)(1, 2, 2) = (1, 2, 2), que mide 3.');
+    R.el.__fin = c.__fin;
+    function dib(dt, now) {
+      var g = L.g, w = L.w, h = L.h;
+      if (encendiendo) { luz = Math.min(1, luz + dt * 0.9); if (luz >= 1) encendiendo = false; }
+      if (auto) { fase += dt * 0.6; if (plano) { ph.v = ((fase * 40) % 360) - 180; th.v = 40 + 30 * Math.sin(fase * 0.8); } else th.v = 90 + 80 * Math.sin(fase); }
+      var a = th.v * Math.PI / 180, b = plano ? ph.v * Math.PI / 180 : 0, m = lv.v, ulen = plano ? 0 : lu.v;
+      var v = plano ? [m * Math.cos(a) * Math.cos(b), m * Math.cos(a) * Math.sin(b), m * Math.sin(a)] : [m * Math.cos(a), 0, m * Math.sin(a)];
+      if (!plano && v[2] < 0) v[2] = -v[2];
+      var s = plano ? [v[0], v[1], 0] : [v[0], 0, 0], perp = [v[0] - s[0], v[1] - s[1], v[2] - s[2]];
+      /* fondo: cuarto oscuro con piso de madera */
+      var cie = g.createLinearGradient(0, 0, 0, h); cie.addColorStop(0, '#141b26'); cie.addColorStop(1, '#2a3340'); g.fillStyle = cie; g.fillRect(0, 0, w, h);
+      C.cx = w / 2; C.cy = h * 0.74; C.esc = Math.min(w / 9, h / 6.6);
+      var P = 4.2, piso = [[-P, -P * 0.75], [P, -P * 0.75], [P, P * 0.75], [-P, P * 0.75]].map(function (q) { return C.P(q[0], q[1], 0); });
+      var pg = g.createLinearGradient(piso[0][0], piso[0][1], piso[2][0], piso[2][1]); pg.addColorStop(0, '#5b3c22'); pg.addColorStop(1, '#8a5f38'); poli3(g, piso, pg);
+      for (var k = -P; k <= P; k += 0.5) linea3(g, C, [k, -P * 0.75, 0], [k, P * 0.75, 0], 'rgba(30,15,5,.35)', 1);
+      /* charco de luz de la linterna sobre el piso */
+      var Lx = s[0] * 0.5, Ly = s[1] * 0.5, H = 3.9, rr0 = 2.3, charco = [];
+      for (var q = 0; q <= 48; q++) { var t = q / 48 * 6.2832; charco.push(C.P(Lx + rr0 * Math.cos(t), Ly + rr0 * 0.85 * Math.sin(t), 0.002)); }
+      var cc = C.P(Lx, Ly, 0), rg = g.createRadialGradient(cc[0], cc[1], 4, cc[0], cc[1], rr0 * C.esc * 1.1); rg.addColorStop(0, 'rgba(255,236,170,' + 0.55 * luz + ')'); rg.addColorStop(1, 'rgba(255,236,170,' + 0.05 * luz + ')'); poli3(g, charco, rg);
+      /* la regla u (sobre la recta) o el piso como plano */
+      if (!plano) {
+        linea3(g, C, [-P, 0, 0.003], [P, 0, 0.003], 'rgba(255,255,255,.25)', 1.5);
+        var rA = [0, -0.12, 0.004], rB = [ulen, -0.12, 0.004], rC = [ulen, 0.12, 0.004], rD = [0, 0.12, 0.004];
+        poli3(g, [rA, rB, rC, rD].map(function (p) { return C.P(p[0], p[1], p[2]); }), '#e8d28a', '#8a6a1a', 1);
+        for (var mk = 0; mk <= ulen + 1e-6; mk += 0.25) linea3(g, C, [mk, -0.12, 0.005], [mk, mk % 1 < 0.01 ? 0.05 : -0.04, 0.005], 'rgba(60,40,10,.8)', 1);
+        flecha3(g, C, [0, 0, 0.01], [ulen, 0, 0.01], '#22c3a6', 4); var pu = C.P(ulen, 0, 0); rotulo(g, 'u', pu[0] + 10, pu[1] + 10, '#0f6e5e', 'left', 14);
+      }
+      /* la sombra (proyección) en el piso */
+      var sh1 = C.P(0, 0, 0.006), sh2 = C.P(s[0], s[1], 0.006);
+      g.save(); g.globalAlpha = luz; g.strokeStyle = 'rgba(0,0,0,.55)'; g.lineWidth = 11; g.lineCap = 'round'; g.shadowColor = 'rgba(0,0,0,.7)'; g.shadowBlur = 8; g.beginPath(); g.moveTo(sh1[0], sh1[1]); g.lineTo(sh2[0], sh2[1]); g.stroke(); g.restore();
+      if (luz > 0.3) flecha3(g, C, [0, 0, 0.012], [s[0], s[1], 0.012], '#ff9f43', 4.5);
+      /* rayos de luz: bajan perpendiculares desde el vector hasta su sombra */
+      g.save(); g.globalCompositeOperation = 'lighter';
+      for (var r = 1; r <= 9; r++) { var f = r / 9, Pv = [v[0] * f, v[1] * f, v[2] * f], Ps = [s[0] * f, s[1] * f, 0], tope = [Pv[0], Pv[1], H];
+        linea3(g, C, tope, Pv, 'rgba(255,236,170,' + 0.12 * luz + ')', 2); var baja = Math.min(1, luz * 1.3 - f * 0.2); if (baja > 0) linea3(g, C, Pv, [Pv[0] + (Ps[0] - Pv[0]) * baja, Pv[1] + (Ps[1] - Pv[1]) * baja, Pv[2] * (1 - baja)], 'rgba(255,236,170,' + 0.45 * luz + ')', 1.6); }
+      g.restore();
+      /* la componente perpendicular y el ángulo recto */
+      g.setLineDash([5, 5]); linea3(g, C, s, v, '#c792ff', 2); g.setLineDash([]);
+      var nperp = Math.hypot(perp[0], perp[1], perp[2]), ns = Math.hypot(s[0], s[1]);
+      if (nperp > 0.05 && ns > 0.05) { var e = 0.22, us = [s[0] / ns, s[1] / ns, 0], up = [perp[0] / nperp, perp[1] / nperp, perp[2] / nperp], A1 = [s[0] - us[0] * e * Math.sign(s[0] * 1 + s[1] * 0 || 1), s[1] - us[1] * e, 0];
+        var q1 = [s[0] - us[0] * e, s[1] - us[1] * e, 0], q2 = [q1[0] + up[0] * e, q1[1] + up[1] * e, up[2] * e], q3 = [s[0] + up[0] * e, s[1] + up[1] * e, up[2] * e]; g.strokeStyle = '#fff'; g.lineWidth = 1.4; var a1 = C.P(q1[0], q1[1], q1[2]), a2 = C.P(q2[0], q2[1], q2[2]), a3 = C.P(q3[0], q3[1], q3[2]); g.beginPath(); g.moveTo(a1[0], a1[1]); g.lineTo(a2[0], a2[1]); g.lineTo(a3[0], a3[1]); g.stroke(); }
+      /* el vector v (una varilla iluminada) */
+      flecha3(g, C, [0, 0, 0.015], v, '#4ea8ff', 5); var pv = C.P(v[0], v[1], v[2]); rotulo(g, 'v', pv[0] + 10, pv[1] - 8, '#1f5f9e', 'left', 14);
+      /* la linterna */
+      var Lp = [Lx, Ly, H], lp = C.P(Lp[0], Lp[1], Lp[2]), sz = Math.max(10, C.esc * 0.32);
+      var cono = g.createLinearGradient(lp[0], lp[1], lp[0], cc[1]); cono.addColorStop(0, 'rgba(255,240,190,' + 0.35 * luz + ')'); cono.addColorStop(1, 'rgba(255,240,190,0)');
+      g.fillStyle = cono; g.beginPath(); g.moveTo(lp[0] - sz * 0.6, lp[1] + sz * 0.4); g.lineTo(charco[24][0], charco[24][1]); g.lineTo(charco[0][0], charco[0][1]); g.closePath(); g.fill();
+      var bg = g.createLinearGradient(lp[0] - sz * 0.5, 0, lp[0] + sz * 0.5, 0); bg.addColorStop(0, '#2b2f36'); bg.addColorStop(0.45, '#8f99a3'); bg.addColorStop(1, '#22262b'); g.fillStyle = bg; rr(g, lp[0] - sz * 0.42, lp[1] - sz * 2.1, sz * 0.84, sz * 1.9, 4); g.fill();
+      g.fillStyle = '#c0392b'; g.fillRect(lp[0] - sz * 0.15, lp[1] - sz * 1.5, sz * 0.3, sz * 0.35);
+      var cab = g.createLinearGradient(lp[0] - sz * 0.6, 0, lp[0] + sz * 0.6, 0); cab.addColorStop(0, '#3d454e'); cab.addColorStop(0.5, '#c9ced4'); cab.addColorStop(1, '#3d454e'); g.fillStyle = cab; g.beginPath(); g.moveTo(lp[0] - sz * 0.42, lp[1] - sz * 0.25); g.lineTo(lp[0] + sz * 0.42, lp[1] - sz * 0.25); g.lineTo(lp[0] + sz * 0.62, lp[1] + sz * 0.35); g.lineTo(lp[0] - sz * 0.62, lp[1] + sz * 0.35); g.closePath(); g.fill();
+      brillo3(g, C, Lp, sz * 1.6 * luz + 1, '255,245,200', 0.9 * luz);
+      /* textos */
+      var ps = C.P(s[0] / 2, s[1] / 2, 0); rotulo(g, plano ? 'sombra = proyección sobre el piso' : 'sombra = proy_u v', ps[0], ps[1] + 22, '#8a4a10', 'center', 12);
+      var pm = C.P((s[0] + v[0]) / 2, (s[1] + v[1]) / 2, v[2] / 2); rotulo(g, 'v − sombra (⊥)', pm[0] + 10, pm[1], '#6b3fa0', 'left', 11);
+      g.font = '12px system-ui'; g.fillStyle = 'rgba(255,255,255,.55)'; g.textAlign = 'center'; g.fillText('arrastra para girar', w / 2, h - 10);
+      var r2 = function (x) { return f2(Math.round(x * 100) / 100); };
+      if (plano) lec.innerHTML = 'La luz cae <b>perpendicular al piso</b>, así que la sombra de v = (' + r2(v[0]) + ', ' + r2(v[1]) + ', ' + r2(v[2]) + ') es <b>(' + r2(s[0]) + ', ' + r2(s[1]) + ', 0)</b>: se borra justo la parte de v que es perpendicular al plano (la morada). Sombra + parte perpendicular = v. Mientras más parado esté v, más corta es su sombra.';
+      else { var cmp = m * Math.cos(a); lec.innerHTML = 'La linterna alumbra <b>perpendicular a la regla u</b>: la sombra de v es <b>proy_u v = (u·v/|u|²) u</b>, de largo |v| cos θ = ' + r2(m) + '·cos ' + Math.round(th.v) + '° = <b>' + r2(cmp) + '</b>. ' + (th.v > 90.5 ? 'Con θ > 90° la sombra cae <b>al otro lado</b>: la proyección apunta contra u (el coeficiente es negativo).' : Math.abs(th.v - 90) < 0.6 ? 'Con θ = 90° la sombra es un punto: v ⊥ u y la proyección es 0.' : 'Fíjate: si cambias el largo de la regla |u|, la sombra no cambia; solo importa la dirección de u.') + ' La parte morada, v − proy_u v, siempre es perpendicular a u.'; }
+    }
+    [th, lv, ph, lu].forEach(function (s) { if (s) s.inp.addEventListener('input', function () { auto = false; bGira.textContent = '▶ Mover el vector'; L.redibuja(); }); }); animador(L, dib); L.redibuja();
+  };
 })();
