@@ -2381,4 +2381,26 @@
     var cs = g.createLinearGradient(0, hom - 16 * k, 0, hom - 8 * k); cs.addColorStop(0, '#7fd3ff'); cs.addColorStop(1, '#1f6fae'); g.fillStyle = cs; g.beginPath(); g.ellipse(x + 3 * k, hom - 10 * k, 7 * k, 5.5 * k, 0, Math.PI, 0); g.fill(); g.fillStyle = 'rgba(255,255,255,.5)'; g.fillRect(x - 1 * k, hom - 14 * k, 4 * k, 1.2 * k);
     g.restore();
   }
+
+  /* ---------------------------------------------------------------------
+     El patinador en 3D de verdad (three.js): se descarga solo cuando la escena aparece
+     --------------------------------------------------------------------- */
+  var dirAssets = (function () { var s = document.querySelector('script[src*="escenas.js"]'); return s ? s.getAttribute('src').replace(/escenas\.js.*$/, '') : 'assets/'; })(), verAssets = (function () { var s = document.querySelector('script[src*="escenas.js"]'), m = s && s.getAttribute('src').match(/\?.*$/); return m ? m[0] : ''; })();
+  W.patin3d = function (c, D) {
+    var caja = document.createElement('div'); caja.style.position = 'relative'; caja.style.minHeight = '300px'; c.appendChild(caja);
+    var aviso = document.createElement('div'); aviso.textContent = '⏳ Cargando el parque en 3D…'; aviso.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(#5fa8e0,#cfe6f2);border-radius:12px;color:#123;font:600 15px system-ui'; caja.appendChild(aviso);
+    var ct = fila(c), be = U.deslizador(ct, 'inclinación de la rampa', 10, 45, 1, 25, function (v) { return Math.round(v) + '°'; }), pe = U.deslizador(ct, 'peso del patinador', 300, 900, 10, 600, function (v) { return Math.round(v) + ' N'; });
+    var ct2 = fila(c), corre = true, reini = false; var bP = boton(ct2, '⏸ Pausa', function () { corre = !corre; bP.textContent = corre ? '⏸ Pausa' : '▶ Seguir'; }); boton(ct2, '↺ Desde arriba', function () { reini = true; });
+    var lec = U.lectura(c), R = U.reto(c, 'Un patinador de 600 N está en una rampa de 30°. ¿Cuántos newtons de su peso lo empujan rampa abajo?', true, function (v) { return Math.abs(v - 300) < 0.5; }, '¡Correcto! Es la proyección del peso sobre la rampa: 600·sen 30° = 300 N. La otra parte, 600·cos 30° ≈ 520 N, lo aprieta contra la rampa.'); R.el.__fin = c.__fin;
+    function texto(est, b, P) { lec.innerHTML = 'El peso (' + Math.round(P) + ' N) apunta hacia abajo, pero el patinador solo puede moverse por la rampa: lo que lo acelera es la <b>proyección del peso sobre la rampa</b>, P sen β = <b>' + Math.round(P * Math.sin(b)) + ' N</b> (naranja). La parte morada, P cos β = ' + Math.round(P * Math.cos(b)) + ' N, es perpendicular a la rampa y solo lo aprieta contra ella. Velocidad: ' + f2(Math.round(est.v * 3.6 * 10) / 10) + ' km/h. Arrastra de lado para darle la vuelta al parque.'; }
+    function plan2D() { aviso.remove(); caja.remove(); [ct, ct2, lec, R.el].forEach(function (e) { if (e && e.parentNode) e.parentNode.removeChild(e); }); W.fuerzautil(c, { modo: 'rampa' }); }
+    var ok = (function () { try { var t = document.createElement('canvas'); return !!(t.getContext('webgl2') || t.getContext('webgl')); } catch (e) { return false; } })();
+    if (!ok) { plan2D(); return; }
+    var empezado = false;
+    function arranca() { if (empezado) return; empezado = true;
+      function listo() { try { var ultTxt = 0; window.PATIN3D(caja, { alto: function (w) { return w < 560 ? 420 : 430; }, beta: function () { return be.v; }, peso: function () { return pe.v; }, corre: function () { return corre; }, reinicio: function () { var r = reini; reini = false; return r; },
+          cuadro: function (est, b, P) { var t = performance.now(); if (t - ultTxt > 250) { ultTxt = t; texto(est, b, P); } } }); aviso.remove(); } catch (e) { plan2D(); } }
+      if (window.PATIN3D) return listo(); var sc = document.createElement('script'); sc.src = dirAssets + 'patin3d.min.js' + verAssets; sc.onload = listo; sc.onerror = plan2D; document.head.appendChild(sc); }
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (e, o) { if (e[0].isIntersecting) { o.disconnect(); arranca(); } }, { rootMargin: '300px' }).observe(caja); else arranca();
+  };
 })();
