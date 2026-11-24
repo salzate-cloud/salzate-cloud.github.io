@@ -2285,7 +2285,20 @@
         g.strokeStyle = 'rgba(60,64,70,.85)'; g.lineWidth = 4; for (var px2 = x0 + 30; px2 < xr; px2 += 46) { g.beginPath(); g.moveTo(px2, base); g.lineTo(px2, base - alto * (1 - (px2 - x0) / (xr - x0))); g.stroke(); }
         g.lineWidth = 3; g.beginPath(); for (var px3 = x0 + 30; px3 + 46 < xr; px3 += 46) { var y1 = base - 4, y2 = base - alto * (1 - (px3 + 46 - x0) / (xr - x0)) + 4; g.moveTo(px3, y1); g.lineTo(px3 + 46, Math.max(y2, base - alto * (1 - (px3 - x0) / (xr - x0)) * 0.5)); } g.stroke();
         g.fillStyle = 'rgba(0,0,0,.18)'; g.fillRect(x0, base - alto, 6, alto);
-        g.globalAlpha = 0.8; [['#ff4fa3', 0.28, 0.82, 22], ['#2ad4ff', 0.42, 0.9, 18], ['#ffe14f', 0.16, 0.7, 16]].forEach(function (q) { g.fillStyle = q[0]; g.beginPath(); g.ellipse(x0 + (xr - x0) * q[1], base - alto * (1 - q[2]) * 0.7 - 10, q[3], q[3] * 0.5, -0.3, 0, 7); g.fill(); }); g.globalAlpha = 1;
+        /* letrero pintado como grafiti en el costado de la rampa */
+        var anchoEn = function (y) { return (xr - x0) * (1 - (base - y) / alto); };
+        var y2l = base - 12, y1l = base - 12 - Math.min(40, alto * 0.2), fs = Math.max(11, Math.min(34, anchoEn(y1l - 10) / 8.5, alto * 0.16));
+        y1l = base - 14 - fs * 1.15; fs = Math.max(11, Math.min(fs, anchoEn(y1l - fs * 0.8) / 9.2));
+        var tx = x0 + 10;
+        g.save(); g.lineJoin = 'round'; g.textAlign = 'left'; g.textBaseline = 'alphabetic';
+        var cols3 = ['#ff3b7f', '#ffb000', '#2ad4ff', '#7dff5a', '#b86bff'];
+        function grafiti(txt, x, y, f) { g.font = '900 ' + f + 'px system-ui, sans-serif'; var cx2 = x; for (var k = 0; k < txt.length; k++) { var ch = txt[k], ww = g.measureText(ch).width; if (ch !== ' ') { var yy = y + Math.sin(k * 1.3) * f * 0.06;
+          g.lineWidth = f * 0.32; g.strokeStyle = '#1b1b1b'; g.strokeText(ch, cx2, yy); g.lineWidth = f * 0.14; g.strokeStyle = '#ffffff'; g.strokeText(ch, cx2, yy);
+          var lg = g.createLinearGradient(0, yy - f, 0, yy); lg.addColorStop(0, cols3[k % 5]); lg.addColorStop(1, cols3[(k + 2) % 5]); g.fillStyle = lg; g.fillText(ch, cx2, yy);
+          g.fillStyle = 'rgba(255,255,255,.55)'; g.fillRect(cx2 + ww * 0.2, yy - f * 0.62, ww * 0.18, f * 0.08); } cx2 += ww * 1.02 + (ch === ' ' ? f * 0.3 : 0); } }
+        grafiti('PARQUE JUANES', tx, y1l, fs); grafiti('DE LA PAZ', tx + fs * 0.6, y2l, fs * 1.08);
+        g.font = '700 ' + Math.max(9, fs * 0.38) + 'px system-ui'; g.fillStyle = '#fff'; g.strokeStyle = '#1b1b1b'; g.lineWidth = 3; g.strokeText('★ Medellín ★', tx + fs * 0.6, y2l - fs * 1.08 * 0.0 - fs * 2.35); g.fillText('★ Medellín ★', tx + fs * 0.6, y2l - fs * 2.35);
+        g.restore();
         g.restore();
         var Lr = Math.hypot(xr - x0, alto), ux = (xr - x0) / Lr, uy = alto / Lr, nxr = uy, nyr = -ux;
         g.save(); var sk = g.createLinearGradient(x0 + nxr * 8, base - alto + nyr * 8, x0, base - alto); sk.addColorStop(0, '#3a3f46'); sk.addColorStop(1, '#5c636c');
