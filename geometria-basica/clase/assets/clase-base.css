@@ -212,3 +212,4 @@ body.pizarra-on .pizarra{display:block}
 .pi-intro .lead{margin:0 0 18px}
 .pi-intro ul{margin:0;padding-left:26px;display:grid;gap:8px}
 .slide.pi .dentro{height:100%}
+.slide.oscura .derechos-d{font-family:var(--sans);font-size:14px;opacity:.75;max-width:760px;margin-top:40px}
