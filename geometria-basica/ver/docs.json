@@ -1,0 +1,205 @@
+{
+ "taller01-metodo-directo": {
+  "titulo": "Taller 1 · Métodos de demostración: el método directo",
+  "paginas": 5,
+  "w": 1275,
+  "h": 1650,
+  "v": "fcf93e05"
+ },
+ "taller02-contrarreciproco-absurdo-casos": {
+  "titulo": "Taller 2 · Contrarrecíproco, absurdo y casos",
+  "paginas": 8,
+  "w": 1275,
+  "h": 1650,
+  "v": "a264a8d5"
+ },
+ "taller03-nociones-geometria": {
+  "titulo": "Taller 3 · Nociones básicas de geometría euclidiana",
+  "paginas": 9,
+  "w": 1275,
+  "h": 1650,
+  "v": "8eaa942c"
+ },
+ "taller04-triangulos": {
+  "titulo": "Taller 4 · Triángulos y congruencia",
+  "paginas": 10,
+  "w": 1275,
+  "h": 1650,
+  "v": "1012fb67"
+ },
+ "taller05-perpendiculares-paralelas": {
+  "titulo": "Taller 5 · Perpendicularidad y paralelismo",
+  "paginas": 8,
+  "w": 1275,
+  "h": 1650,
+  "v": "79b499fd"
+ },
+ "taller06-aplicaciones-paralelismo": {
+  "titulo": "Taller 6 · Aplicaciones del paralelismo",
+  "paginas": 7,
+  "w": 1275,
+  "h": 1650,
+  "v": "d4c9d561"
+ },
+ "taller07-paralelogramos": {
+  "titulo": "Taller 7 · Polígonos y paralelogramos",
+  "paginas": 9,
+  "w": 1275,
+  "h": 1650,
+  "v": "1f9887c4"
+ },
+ "taller08-base-media": {
+  "titulo": "Taller 8 · La base media",
+  "paginas": 7,
+  "w": 1275,
+  "h": 1650,
+  "v": "4abec891"
+ },
+ "taller09-areas": {
+  "titulo": "Taller 9 · Áreas y perímetros",
+  "paginas": 7,
+  "w": 1275,
+  "h": 1650,
+  "v": "6778b4cd"
+ },
+ "taller10-semejanza": {
+  "titulo": "Taller 10 · Semejanza de triángulos",
+  "paginas": 8,
+  "w": 1275,
+  "h": 1650,
+  "v": "56e91546"
+ },
+ "taller11-circunferencia": {
+  "titulo": "Taller 11 · La circunferencia: cuerdas, arcos y tangentes",
+  "paginas": 6,
+  "w": 1275,
+  "h": 1650,
+  "v": "e1291dcc"
+ },
+ "taller12-circunferencia-problemas": {
+  "titulo": "Taller 12 · Circunferencias: ángulos, relaciones métricas, áreas",
+  "paginas": 11,
+  "w": 1275,
+  "h": 1650,
+  "v": "37ea4bbc"
+ },
+ "taller13-volumenes": {
+  "titulo": "Taller 13 · Áreas y volúmenes de sólidos",
+  "paginas": 8,
+  "w": 1275,
+  "h": 1650,
+  "v": "3f117313"
+ },
+ "taller14-coordenadas": {
+  "titulo": "Taller 14 · Coordenadas en la recta y en el plano",
+  "paginas": 6,
+  "w": 1275,
+  "h": 1650,
+  "v": "95946b45"
+ },
+ "taller15-eleccion-coordenadas": {
+  "titulo": "Taller 15 · Elección adecuada de coordenadas",
+  "paginas": 4,
+  "w": 1275,
+  "h": 1650,
+  "v": "ca00c164"
+ },
+ "taller16-ecuaciones-recta": {
+  "titulo": "Taller 16 · Ecuaciones de la recta",
+  "paginas": 5,
+  "w": 1275,
+  "h": 1650,
+  "v": "9992bf29"
+ },
+ "taller17-ecuacion-general": {
+  "titulo": "Taller 17 · Ecuación general de la recta y distancias",
+  "paginas": 5,
+  "w": 1275,
+  "h": 1650,
+  "v": "8bd32745"
+ },
+ "taller18-rectas-espacio": {
+  "titulo": "Taller 18 · Rectas y planos en el espacio",
+  "paginas": 6,
+  "w": 1275,
+  "h": 1650,
+  "v": "df37acdf"
+ },
+ "taller19-vectores-plano": {
+  "titulo": "Taller 19 · Vectores en el plano",
+  "paginas": 5,
+  "w": 1275,
+  "h": 1650,
+  "v": "d192ea92"
+ },
+ "taller20-colinealidad-bases": {
+  "titulo": "Taller 20 · Colinealidad, independencia lineal y bases",
+  "paginas": 4,
+  "w": 1275,
+  "h": 1650,
+  "v": "b6b3ca2e"
+ },
+ "taller21-vectores-espacio": {
+  "titulo": "Taller 21 · Vectores en el espacio",
+  "paginas": 6,
+  "w": 1275,
+  "h": 1650,
+  "v": "d6da4d00"
+ },
+ "taller22-producto-interno": {
+  "titulo": "Taller 22 · El producto interno",
+  "paginas": 6,
+  "w": 1275,
+  "h": 1650,
+  "v": "6a0b6aab"
+ },
+ "clase-taller-parcial3-solucion": {
+  "titulo": "Clase-taller de preparación del Parcial 3 · Solución",
+  "paginas": 9,
+  "w": 1275,
+  "h": 1650,
+  "v": "51b0ce6c"
+ },
+ "parcial1-solucion": {
+  "titulo": "Parcial 1 · Solución",
+  "paginas": 4,
+  "w": 1275,
+  "h": 1650,
+  "v": "77178eb3"
+ },
+ "parcial2-solucion": {
+  "titulo": "Parcial 2 · Solución",
+  "paginas": 7,
+  "w": 1275,
+  "h": 1650,
+  "v": "0d1284d6"
+ },
+ "parcial3-solucion": {
+  "titulo": "Parcial 3 · Solución",
+  "paginas": 7,
+  "w": 1275,
+  "h": 1650,
+  "v": "9e9abef5"
+ },
+ "supletorio-parcial1-solucion": {
+  "titulo": "Supletorio del Parcial 1 · Solución",
+  "paginas": 5,
+  "w": 1275,
+  "h": 1650,
+  "v": "4880b3cf"
+ },
+ "supletorio-parcial2-solucion": {
+  "titulo": "Supletorio del Parcial 2 · Solución",
+  "paginas": 7,
+  "w": 1275,
+  "h": 1650,
+  "v": "dfd30c1d"
+ },
+ "supletorio2-parcial2-solucion": {
+  "titulo": "Segundo supletorio del Parcial 2 · Solución",
+  "paginas": 7,
+  "w": 1275,
+  "h": 1650,
+  "v": "39ded188"
+ }
+}

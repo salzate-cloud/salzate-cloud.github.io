@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Geometría Básica</title><meta name="robots" content="noindex">
+<link rel="icon" href="../imagenes/icono.svg" type="image/svg+xml">
+<style>
+:root{--verde:#006633;--verdeO:#00482a;--verdeC:#e8f3ec;--tinta:#1d2420;--papel:#fcfcfa;--gris:#5d6a63;
+ --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--serif:"Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif}
+*{box-sizing:border-box}
+html,body{margin:0;background:#e9ece9;color:var(--tinta);font-family:var(--sans)}
+body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.barra{position:sticky;top:0;z-index:5;background:var(--verde);color:#fff;display:flex;align-items:center;gap:14px;padding:10px 18px;box-shadow:0 1px 0 rgba(0,0,0,.15)}
+.barra a{color:#fff;text-decoration:none;font-size:15px;opacity:.92}
+.barra a:hover{opacity:1;text-decoration:underline}
+.barra h1{font-family:var(--serif);font-weight:600;font-size:19px;margin:0;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.barra .ctl{display:flex;align-items:center;gap:6px;font-size:14px;white-space:nowrap}
+.barra button{font:inherit;background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:6px;width:34px;height:30px;cursor:pointer;font-size:17px}
+.barra button:hover{background:rgba(255,255,255,.26)}
+.barra button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.nota{max-width:var(--ancho,900px);margin:18px auto 0;padding:0 14px;font-size:13.5px;color:var(--gris)}
+main{display:flex;flex-direction:column;align-items:center;gap:18px;padding:16px 14px 60px}
+.pag{position:relative;width:100%;max-width:var(--ancho,900px);background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.12),0 6px 22px rgba(0,0,0,.07)}
+.pag img{display:block;width:100%;height:auto;pointer-events:none;-webkit-user-drag:none}
+.pag::after{content:"";position:absolute;inset:0}
+.pag .n{position:absolute;left:-46px;top:6px;font-size:12px;color:var(--gris)}
+@media (max-width:1000px){.pag .n{display:none}}
+.error{max-width:600px;margin:80px auto;text-align:center;font-family:var(--serif);font-size:20px}
+@media print{body>*{display:none!important}body::after{content:"Este material solo se puede ver en santiagoalzates.com.";display:block;padding:40px;font:16px/1.5 sans-serif}}
+</style></head><body>
+<div class="barra"><a id="volver" href="../../cursos.html">‹ Volver</a><h1 id="tit">Geometría Básica</h1>
+<div class="ctl"><button id="menos" title="Reducir" aria-label="Reducir">−</button><button id="mas" title="Ampliar" aria-label="Ampliar">+</button><span id="cont"></span></div></div>
+<p class="nota">Material del curso para leer en la página.</p>
+<main id="hojas"></main>
+<script>
+(function(){
+  var q = new URLSearchParams(location.search), d = q.get('d'), vuelta = q.get('v');
+  if (vuelta && /^[\w\-./#]+$/.test(vuelta) && vuelta.indexOf('//') < 0) document.getElementById('volver').href = vuelta;
+  document.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+  document.addEventListener('dragstart', function (e) { e.preventDefault(); });
+  document.addEventListener('keydown', function (e) { if ((e.ctrlKey || e.metaKey) && /^[sp]$/i.test(e.key)) e.preventDefault(); });
+  var ancho = 900;
+  try { ancho = +localStorage.getItem('gb-visor-ancho') || 900; } catch (e) {}
+  function aplica() { document.documentElement.style.setProperty('--ancho', ancho + 'px'); try { localStorage.setItem('gb-visor-ancho', ancho); } catch (e) {} }
+  document.getElementById('mas').onclick = function () { ancho = Math.min(1600, ancho + 120); aplica(); };
+  document.getElementById('menos').onclick = function () { ancho = Math.max(520, ancho - 120); aplica(); };
+  aplica();
+  fetch('docs.json?' + Date.now()).then(function (r) { return r.json(); }).then(function (D) {
+    var x = D[d], main = document.getElementById('hojas');
+    if (!x) { main.innerHTML = '<div class="error">No encontramos ese documento. Vuelva a <a href="../../cursos.html">Cursos</a>.</div>'; return; }
+    document.title = x.titulo + ' · Geometría Básica';
+    document.getElementById('tit').textContent = x.titulo;
+    document.getElementById('cont').textContent = x.paginas + (x.paginas === 1 ? ' página' : ' páginas');
+    var h = '';
+    for (var k = 1; k <= x.paginas; k++) {
+      var n = ('00' + k).slice(-3);
+      h += '<div class="pag" style="aspect-ratio:' + x.w + '/' + x.h + '"><span class="n">' + k + '</span><img alt="Página ' + k + '" width="' + x.w + '" height="' + x.h + '" loading="' + (k < 3 ? 'eager' : 'lazy') + '" draggable="false" src="' + d + '/' + n + '.webp?v=' + x.v + '"></div>';
+    }
+    main.innerHTML = h;
+  });
+})();
+</script>
+</body></html>
