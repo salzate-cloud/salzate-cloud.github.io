@@ -53,15 +53,17 @@ main{display:flex;flex-direction:column;align-items:center;gap:18px;padding:16px
     var h1 = document.getElementById('tit'); h1.textContent = x.titulo;
     if (x.curso) { var sm = document.createElement('small'); sm.textContent = x.curso; h1.appendChild(sm); }
     document.getElementById('cont').textContent = x.paginas + (x.paginas === 1 ? ' página' : ' páginas');
-    ACCESO.llave().then(function () {
+    (x.abierto ? Promise.resolve() : ACCESO.llave()).then(function () {
+      if (x.abierto) document.getElementById('salir').hidden = true;
       var h = '';
       for (var k = 1; k <= x.paginas; k++) h += '<div class="pag" data-k="' + k + '" style="aspect-ratio:' + x.w + '/' + x.h + '"><span class="n">' + k + '</span></div>';
       main.innerHTML = h;
       function carga(el) {
         if (el.dataset.ok) return; el.dataset.ok = 1;
         var n = ('00' + el.dataset.k).slice(-3);
+        var im = new Image(); im.alt = 'Página ' + el.dataset.k; im.draggable = false;
+        if (x.abierto) { im.src = d + '/' + n + '.webp?v=' + x.v; el.appendChild(im); return; }
         ACCESO.descifra(d + '/' + n + '.cif?v=' + x.v).then(function (buf) {
-          var im = new Image(); im.alt = 'Página ' + el.dataset.k; im.draggable = false;
           im.src = URL.createObjectURL(new Blob([buf], { type: 'image/webp' }));
           el.appendChild(im);
         }).catch(function () { el.dataset.ok = ''; });

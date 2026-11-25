@@ -1148,7 +1148,7 @@
         gs.forEach(function(g,i){g._i=i;});
         gs.sort(function(a,b){var ta=(a.className.match(/ng-(\w+)/)||[])[1],tb=(b.className.match(/ng-(\w+)/)||[])[1];return ((ORD[ta]==null?9:ORD[ta])-(ORD[tb]==null?9:ORD[tb]))||(a._i-b._i);});
         gs.forEach(function(g){cats.appendChild(g);
-          var ls=g.querySelectorAll(".notes-links a"), pr=Array.prototype.filter.call(ls,function(a){return /^material\//.test(a.getAttribute("href")||"");}),
+          var ls=g.querySelectorAll(".notes-links a"), pr=Array.prototype.filter.call(ls,function(a){return /^material\//.test(a.getAttribute("href")||"")&&!a.hasAttribute("data-abierto");}),
             web2=Array.prototype.filter.call(ls,function(a){var h=a.getAttribute("href")||""; return !/\.pdf/i.test(h)&&!/^https?:/i.test(h)&&h.indexOf("#")<0&&!/^material\//.test(h)&&!/\/ver\//.test(h);});
           if(pr.length&&pr.length===ls.length-web2.length){g.classList.add("ng-clave"); var s=g.querySelector(".ng-title"), c=document.createElement("span");
             c.className="ng-clave-ico"; c.title="Se abre con la contraseña del curso"; c.setAttribute("aria-label",c.title);

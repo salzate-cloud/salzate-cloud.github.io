@@ -13,7 +13,8 @@
   "paginas": 14,
   "w": 1190,
   "h": 1540,
-  "v": "5cafa2a9"
+  "v": "5cafa2a9",
+  "abierto": true
  },
  "unidad3-parte2-hamilton-arboles-recorridos": {
   "titulo": "Unidad 3 · Parte 2: Hamilton, árboles y recorridos",
@@ -21,7 +22,8 @@
   "paginas": 14,
   "w": 1190,
   "h": 1540,
-  "v": "f40c2182"
+  "v": "f40c2182",
+  "abierto": true
  },
  "algebra-lineal-libro-completo": {
   "titulo": "Libro completo del curso",
@@ -37,7 +39,8 @@
   "paginas": 5,
   "w": 1190,
   "h": 1540,
-  "v": "cc426379"
+  "v": "cc426379",
+  "abierto": true
  },
  "analisis-ii-notas-parcial1": {
   "titulo": "Notas Parcial 1",
@@ -45,7 +48,8 @@
   "paginas": 28,
   "w": 1190,
   "h": 1540,
-  "v": "f2e1c46f"
+  "v": "f2e1c46f",
+  "abierto": true
  },
  "analisis-ii-notas-parcial2": {
   "titulo": "Notas Parcial 2",
@@ -53,7 +57,8 @@
   "paginas": 47,
   "w": 1190,
   "h": 1540,
-  "v": "9cdbefa0"
+  "v": "9cdbefa0",
+  "abierto": true
  },
  "analisis-ii-notas-parcial3": {
   "titulo": "Notas Parcial 3",
@@ -61,7 +66,8 @@
   "paginas": 26,
   "w": 1190,
   "h": 1540,
-  "v": "b07ffba7"
+  "v": "b07ffba7",
+  "abierto": true
  },
  "analisis-ii-notas-parcial4": {
   "titulo": "Notas Parcial 4 (final)",
@@ -69,7 +75,8 @@
   "paginas": 29,
   "w": 1190,
   "h": 1540,
-  "v": "7fb3eee2"
+  "v": "7fb3eee2",
+  "abierto": true
  },
  "analisis-ii-parcial2-solucion": {
   "titulo": "Parcial 2 · Solución",
@@ -77,7 +84,8 @@
   "paginas": 4,
   "w": 1190,
   "h": 1540,
-  "v": "f99f6ad4"
+  "v": "f99f6ad4",
+  "abierto": true
  },
  "analisis-ii-parcial3-solucion": {
   "titulo": "Parcial 3 · Solución",
@@ -85,7 +93,8 @@
   "paginas": 4,
   "w": 1190,
   "h": 1540,
-  "v": "cb7f6d5c"
+  "v": "cb7f6d5c",
+  "abierto": true
  },
  "analisis-ii-supletorio-parcial2-solucion": {
   "titulo": "Supletorio Parcial 2 · Solución",
@@ -93,7 +102,8 @@
   "paginas": 4,
   "w": 1190,
   "h": 1540,
-  "v": "bb296b59"
+  "v": "bb296b59",
+  "abierto": true
  },
  "analisis-ii-taller-parcial1": {
   "titulo": "Taller para el Parcial 1",
@@ -133,7 +143,8 @@
   "paginas": 6,
   "w": 1190,
   "h": 1540,
-  "v": "7b1cb329"
+  "v": "7b1cb329",
+  "abierto": true
  },
  "analisis-numerico-clase-10": {
   "titulo": "Clase 10",
@@ -141,7 +152,8 @@
   "paginas": 5,
   "w": 1190,
   "h": 1540,
-  "v": "2d8e96e8"
+  "v": "2d8e96e8",
+  "abierto": true
  },
  "calculo-diferencial-taller01-desigualdades": {
   "titulo": "Taller 1 · Números reales, desigualdades e intervalos",
@@ -277,7 +289,8 @@
   "paginas": 9,
   "w": 1190,
   "h": 1540,
-  "v": "08e08f06"
+  "v": "08e08f06",
+  "abierto": true
  },
  "analisis-numerico-clase-12": {
   "titulo": "Clase 12",
@@ -285,7 +298,8 @@
   "paginas": 7,
   "w": 1190,
   "h": 1540,
-  "v": "4fa983af"
+  "v": "4fa983af",
+  "abierto": true
  },
  "analisis-numerico-clase-2": {
   "titulo": "Clase 2",
@@ -293,7 +307,8 @@
   "paginas": 6,
   "w": 1190,
   "h": 1540,
-  "v": "1047667f"
+  "v": "1047667f",
+  "abierto": true
  },
  "analisis-numerico-clase-3": {
   "titulo": "Clase 3",
@@ -301,7 +316,8 @@
   "paginas": 8,
   "w": 1190,
   "h": 1540,
-  "v": "a3ec1a7b"
+  "v": "a3ec1a7b",
+  "abierto": true
  },
  "analisis-numerico-clase-4": {
   "titulo": "Clase 4",
@@ -309,7 +325,8 @@
   "paginas": 6,
   "w": 1190,
   "h": 1540,
-  "v": "809c8942"
+  "v": "809c8942",
+  "abierto": true
  },
  "analisis-numerico-clase-5": {
   "titulo": "Clase 5",
@@ -317,7 +334,8 @@
   "paginas": 7,
   "w": 1190,
   "h": 1540,
-  "v": "95f3ba75"
+  "v": "95f3ba75",
+  "abierto": true
  },
  "analisis-numerico-clase-6": {
   "titulo": "Clase 6",
@@ -325,7 +343,8 @@
   "paginas": 7,
   "w": 1190,
   "h": 1540,
-  "v": "eda428a7"
+  "v": "eda428a7",
+  "abierto": true
  },
  "analisis-numerico-clase-7": {
   "titulo": "Clase 7",
@@ -333,7 +352,8 @@
   "paginas": 8,
   "w": 1190,
   "h": 1540,
-  "v": "b10fbd2d"
+  "v": "b10fbd2d",
+  "abierto": true
  },
  "analisis-numerico-clase-8": {
   "titulo": "Clase 8",
@@ -341,7 +361,8 @@
   "paginas": 10,
   "w": 1190,
   "h": 1540,
-  "v": "fea6c6ff"
+  "v": "fea6c6ff",
+  "abierto": true
  },
  "analisis-numerico-clase-9": {
   "titulo": "Clase 9",
@@ -349,7 +370,8 @@
   "paginas": 10,
   "w": 1190,
   "h": 1540,
-  "v": "01d06d24"
+  "v": "01d06d24",
+  "abierto": true
  },
  "analisis-numerico-clase-taller-parcial2-solucion": {
   "titulo": "Taller para el Parcial 2",
@@ -373,7 +395,8 @@
   "paginas": 5,
   "w": 1158,
   "h": 1638,
-  "v": "5a38e0b5"
+  "v": "5a38e0b5",
+  "abierto": true
  },
  "analisis-numerico-parcial2-solucion": {
   "titulo": "Parcial 2 · Solución",
@@ -381,7 +404,8 @@
   "paginas": 7,
   "w": 1190,
   "h": 1540,
-  "v": "fdf28e52"
+  "v": "fdf28e52",
+  "abierto": true
  },
  "analisis-numerico-supletorio-parcial1-solucion": {
   "titulo": "Supletorio Parcial 1 · Solución",
@@ -389,7 +413,8 @@
   "paginas": 5,
   "w": 1158,
   "h": 1638,
-  "v": "36670e97"
+  "v": "36670e97",
+  "abierto": true
  },
  "analisis-numerico-supletorio-parcial2-solucion": {
   "titulo": "Supletorio Parcial 2 · Solución",
@@ -397,7 +422,8 @@
   "paginas": 6,
   "w": 1190,
   "h": 1540,
-  "v": "9a96af65"
+  "v": "9a96af65",
+  "abierto": true
  },
  "analisis-numerico-taller-parcial1": {
   "titulo": "Taller para el Parcial 1",
@@ -421,7 +447,8 @@
   "paginas": 4,
   "w": 1158,
   "h": 1638,
-  "v": "9abe9a90"
+  "v": "9abe9a90",
+  "abierto": true
  },
  "calculo-diferencial-parcial2-solucion": {
   "titulo": "Parcial 2 · Solución",
@@ -429,7 +456,8 @@
   "paginas": 6,
   "w": 1190,
   "h": 1540,
-  "v": "cf7fdb32"
+  "v": "cf7fdb32",
+  "abierto": true
  },
  "calculo-diferencial-parcial3-solucionario": {
   "titulo": "Parcial 3 · Solución",
@@ -437,7 +465,8 @@
   "paginas": 6,
   "w": 1190,
   "h": 1540,
-  "v": "8656688c"
+  "v": "8656688c",
+  "abierto": true
  },
  "calculo-diferencial-resumen-parcial1": {
   "titulo": "Resumen Parcial 1",
@@ -477,7 +506,8 @@
   "paginas": 13,
   "w": 1158,
   "h": 1638,
-  "v": "aa3a8d84"
+  "v": "aa3a8d84",
+  "abierto": true
  },
  "calculo-i-taller1-solucion": {
   "titulo": "Taller colaborativo 1 · Solución",
@@ -501,7 +531,8 @@
   "paginas": 45,
   "w": 1190,
   "h": 1540,
-  "v": "41760bf1"
+  "v": "41760bf1",
+  "abierto": true
  },
  "geometria-vectorial-parcial2-solucion": {
   "titulo": "Parcial 2 · Solución",
@@ -509,7 +540,8 @@
   "paginas": 5,
   "w": 1190,
   "h": 1540,
-  "v": "2c63fffe"
+  "v": "2c63fffe",
+  "abierto": true
  },
  "geometria-vectorial-parcial3-solucionario": {
   "titulo": "Parcial 3 · Solución",
@@ -517,7 +549,8 @@
   "paginas": 6,
   "w": 1190,
   "h": 1540,
-  "v": "b9a17056"
+  "v": "b9a17056",
+  "abierto": true
  },
  "geometria-vectorial-resumen-parcial1": {
   "titulo": "Resumen Parcial 1",
@@ -557,7 +590,8 @@
   "paginas": 54,
   "w": 1190,
   "h": 1540,
-  "v": "17386456"
+  "v": "17386456",
+  "abierto": true
  },
  "matematicas-discretas-922-notas": {
   "titulo": "Notas del curso",
@@ -565,7 +599,8 @@
   "paginas": 55,
   "w": 1190,
   "h": 1540,
-  "v": "49c9f8c6"
+  "v": "49c9f8c6",
+  "abierto": true
  },
  "matematicas-discretas-923-notas": {
   "titulo": "Notas del curso",
@@ -573,7 +608,8 @@
   "paginas": 17,
   "w": 1190,
   "h": 1540,
-  "v": "2cb7e2e5"
+  "v": "2cb7e2e5",
+  "abierto": true
  },
  "matematicas-discretas-aprender-haciendo": {
   "titulo": "Libro del curso",
@@ -597,7 +633,8 @@
   "paginas": 14,
   "w": 1158,
   "h": 1638,
-  "v": "24e9a358"
+  "v": "24e9a358",
+  "abierto": true
  },
  "matematicas-discretas-quiz1-solucion": {
   "titulo": "Quiz I · Solución",
@@ -629,7 +666,8 @@
   "paginas": 18,
   "w": 1190,
   "h": 1540,
-  "v": "d3107ff0"
+  "v": "d3107ff0",
+  "abierto": true
  },
  "math147-notas": {
   "titulo": "Notas del curso",
@@ -637,7 +675,8 @@
   "paginas": 77,
   "w": 1158,
   "h": 1638,
-  "v": "1e5c997c"
+  "v": "1e5c997c",
+  "abierto": true
  },
  "math224-clase-01": {
   "titulo": "Clase 1",
@@ -645,7 +684,8 @@
   "paginas": 7,
   "w": 1190,
   "h": 1540,
-  "v": "96e47fce"
+  "v": "96e47fce",
+  "abierto": true
  },
  "math224-clase-02": {
   "titulo": "Clase 2",
@@ -653,7 +693,8 @@
   "paginas": 9,
   "w": 1190,
   "h": 1540,
-  "v": "4f9e27b0"
+  "v": "4f9e27b0",
+  "abierto": true
  },
  "math224-clase-03": {
   "titulo": "Clase 3",
@@ -661,7 +702,8 @@
   "paginas": 8,
   "w": 1190,
   "h": 1540,
-  "v": "ba807c8c"
+  "v": "ba807c8c",
+  "abierto": true
  },
  "math224-clase-04": {
   "titulo": "Clase 4",
@@ -669,7 +711,8 @@
   "paginas": 8,
   "w": 1190,
   "h": 1540,
-  "v": "ef1b1fa3"
+  "v": "ef1b1fa3",
+  "abierto": true
  },
  "math224-clase-05": {
   "titulo": "Clase 5",
@@ -677,7 +720,8 @@
   "paginas": 10,
   "w": 1190,
   "h": 1540,
-  "v": "6961f14a"
+  "v": "6961f14a",
+  "abierto": true
  },
  "math224-clase-06": {
   "titulo": "Clase 6",
@@ -685,7 +729,8 @@
   "paginas": 11,
   "w": 1190,
   "h": 1540,
-  "v": "a374d307"
+  "v": "a374d307",
+  "abierto": true
  },
  "math224-clase-07": {
   "titulo": "Clase 7",
@@ -693,7 +738,8 @@
   "paginas": 4,
   "w": 1190,
   "h": 1540,
-  "v": "0a369a83"
+  "v": "0a369a83",
+  "abierto": true
  },
  "math224-clase-08": {
   "titulo": "Clase 8",
@@ -701,7 +747,8 @@
   "paginas": 10,
   "w": 1190,
   "h": 1540,
-  "v": "02bf5586"
+  "v": "02bf5586",
+  "abierto": true
  },
  "math224-clase-09": {
   "titulo": "Clase 9",
@@ -709,7 +756,8 @@
   "paginas": 6,
   "w": 1190,
   "h": 1540,
-  "v": "aacb77b9"
+  "v": "aacb77b9",
+  "abierto": true
  },
  "math224-clase-10": {
   "titulo": "Clase 10",
@@ -717,7 +765,8 @@
   "paginas": 9,
   "w": 1190,
   "h": 1540,
-  "v": "764c4187"
+  "v": "764c4187",
+  "abierto": true
  },
  "math224-clase-11": {
   "titulo": "Clase 11",
@@ -725,7 +774,8 @@
   "paginas": 9,
   "w": 1190,
   "h": 1540,
-  "v": "7a194dbd"
+  "v": "7a194dbd",
+  "abierto": true
  },
  "math225-clase-01": {
   "titulo": "Clase 1",
@@ -733,7 +783,8 @@
   "paginas": 2,
   "w": 1190,
   "h": 1540,
-  "v": "040fbb3e"
+  "v": "040fbb3e",
+  "abierto": true
  },
  "math225-clase-02": {
   "titulo": "Clase 2",
@@ -741,7 +792,8 @@
   "paginas": 4,
   "w": 1190,
   "h": 1540,
-  "v": "e354c2d3"
+  "v": "e354c2d3",
+  "abierto": true
  },
  "math225-clase-03": {
   "titulo": "Clase 3",
@@ -749,7 +801,8 @@
   "paginas": 4,
   "w": 1190,
   "h": 1540,
-  "v": "d0132f8b"
+  "v": "d0132f8b",
+  "abierto": true
  },
  "math225-clase-04": {
   "titulo": "Clase 4",
@@ -757,7 +810,8 @@
   "paginas": 3,
   "w": 1190,
   "h": 1540,
-  "v": "535ffb32"
+  "v": "535ffb32",
+  "abierto": true
  },
  "math225-clase-05": {
   "titulo": "Clase 5",
@@ -765,7 +819,8 @@
   "paginas": 7,
   "w": 1190,
   "h": 1540,
-  "v": "5e2d90f8"
+  "v": "5e2d90f8",
+  "abierto": true
  },
  "math225-clase-06": {
   "titulo": "Clase 6",
@@ -773,7 +828,8 @@
   "paginas": 7,
   "w": 1190,
   "h": 1540,
-  "v": "4f7c7606"
+  "v": "4f7c7606",
+  "abierto": true
  },
  "math225-clase-07": {
   "titulo": "Clase 7",
@@ -781,7 +837,8 @@
   "paginas": 7,
   "w": 1190,
   "h": 1540,
-  "v": "c5556ec5"
+  "v": "c5556ec5",
+  "abierto": true
  },
  "math225-clase-08": {
   "titulo": "Clase 8",
@@ -789,7 +846,8 @@
   "paginas": 3,
   "w": 1190,
   "h": 1540,
-  "v": "fb2c610c"
+  "v": "fb2c610c",
+  "abierto": true
  },
  "math225-clase-09": {
   "titulo": "Clase 9",
@@ -797,7 +855,8 @@
   "paginas": 5,
   "w": 1190,
   "h": 1540,
-  "v": "4a8d645e"
+  "v": "4a8d645e",
+  "abierto": true
  },
  "math225-clase-10": {
   "titulo": "Clase 10",
@@ -805,7 +864,8 @@
   "paginas": 6,
   "w": 1190,
   "h": 1540,
-  "v": "94aaa2a0"
+  "v": "94aaa2a0",
+  "abierto": true
  },
  "math225-clase-11": {
   "titulo": "Clase 11",
@@ -813,7 +873,8 @@
   "paginas": 6,
   "w": 1190,
   "h": 1540,
-  "v": "39b70dbf"
+  "v": "39b70dbf",
+  "abierto": true
  },
  "math225-clase-12": {
   "titulo": "Clase 12",
@@ -821,7 +882,8 @@
   "paginas": 6,
   "w": 1190,
   "h": 1540,
-  "v": "6f3a8d70"
+  "v": "6f3a8d70",
+  "abierto": true
  },
  "math225-clase-13": {
   "titulo": "Clase 13",
@@ -829,7 +891,8 @@
   "paginas": 4,
   "w": 1190,
   "h": 1540,
-  "v": "124ef5b0"
+  "v": "124ef5b0",
+  "abierto": true
  },
  "math225-clase-14": {
   "titulo": "Clase 14",
@@ -837,7 +900,8 @@
   "paginas": 3,
   "w": 1190,
   "h": 1540,
-  "v": "59f5f4eb"
+  "v": "59f5f4eb",
+  "abierto": true
  },
  "math225-clase-15": {
   "titulo": "Clase 15",
@@ -845,7 +909,8 @@
   "paginas": 3,
   "w": 1190,
   "h": 1540,
-  "v": "298def24"
+  "v": "298def24",
+  "abierto": true
  },
  "math226-clase-01": {
   "titulo": "Clase 1",
@@ -853,7 +918,8 @@
   "paginas": 6,
   "w": 1190,
   "h": 1540,
-  "v": "8a7ba92f"
+  "v": "8a7ba92f",
+  "abierto": true
  },
  "math226-clase-02": {
   "titulo": "Clase 2",
@@ -861,7 +927,8 @@
   "paginas": 5,
   "w": 1190,
   "h": 1540,
-  "v": "c56d2d28"
+  "v": "c56d2d28",
+  "abierto": true
  },
  "math226-clase-03": {
   "titulo": "Clase 3",
@@ -869,7 +936,8 @@
   "paginas": 7,
   "w": 1190,
   "h": 1540,
-  "v": "a54d0c67"
+  "v": "a54d0c67",
+  "abierto": true
  },
  "math226-clase-04": {
   "titulo": "Clase 4",
@@ -877,7 +945,8 @@
   "paginas": 6,
   "w": 1190,
   "h": 1540,
-  "v": "de81591b"
+  "v": "de81591b",
+  "abierto": true
  },
  "math226-clase-05": {
   "titulo": "Clase 5",
@@ -885,7 +954,8 @@
   "paginas": 4,
   "w": 1190,
   "h": 1540,
-  "v": "a4107bc3"
+  "v": "a4107bc3",
+  "abierto": true
  },
  "math226-clase-06": {
   "titulo": "Clase 6",
@@ -893,7 +963,8 @@
   "paginas": 7,
   "w": 1190,
   "h": 1540,
-  "v": "99a99cb0"
+  "v": "99a99cb0",
+  "abierto": true
  },
  "math226-clase-07": {
   "titulo": "Clase 7",
@@ -901,7 +972,8 @@
   "paginas": 5,
   "w": 1190,
   "h": 1540,
-  "v": "278ca565"
+  "v": "278ca565",
+  "abierto": true
  },
  "math226-clase-08": {
   "titulo": "Clase 8",
@@ -909,7 +981,8 @@
   "paginas": 4,
   "w": 1190,
   "h": 1540,
-  "v": "babe330a"
+  "v": "babe330a",
+  "abierto": true
  },
  "math226-clase-09": {
   "titulo": "Clase 9",
@@ -917,7 +990,8 @@
   "paginas": 5,
   "w": 1190,
   "h": 1540,
-  "v": "4df8dcf0"
+  "v": "4df8dcf0",
+  "abierto": true
  },
  "math226-clase-10": {
   "titulo": "Clase 10",
@@ -925,7 +999,8 @@
   "paginas": 5,
   "w": 1190,
   "h": 1540,
-  "v": "1c3a9bde"
+  "v": "1c3a9bde",
+  "abierto": true
  },
  "math226-clase-11": {
   "titulo": "Clase 11",
@@ -933,7 +1008,8 @@
   "paginas": 7,
   "w": 1190,
   "h": 1540,
-  "v": "99f6ff13"
+  "v": "99f6ff13",
+  "abierto": true
  },
  "math226-clase-12": {
   "titulo": "Clase 12",
@@ -941,7 +1017,8 @@
   "paginas": 4,
   "w": 1190,
   "h": 1540,
-  "v": "5654e003"
+  "v": "5654e003",
+  "abierto": true
  },
  "math226-clase-13": {
   "titulo": "Clase 13",
@@ -949,7 +1026,8 @@
   "paginas": 3,
   "w": 1190,
   "h": 1540,
-  "v": "e84a1e2a"
+  "v": "e84a1e2a",
+  "abierto": true
  },
  "math226-clase-15": {
   "titulo": "Clase 15",
@@ -957,7 +1035,8 @@
   "paginas": 6,
   "w": 1190,
   "h": 1540,
-  "v": "ecfa0361"
+  "v": "ecfa0361",
+  "abierto": true
  },
  "math226-clase-16": {
   "titulo": "Clase 16",
@@ -965,7 +1044,8 @@
   "paginas": 2,
   "w": 1190,
   "h": 1540,
-  "v": "8b00a7bb"
+  "v": "8b00a7bb",
+  "abierto": true
  },
  "math226-clase-17": {
   "titulo": "Clase 17",
@@ -973,7 +1053,8 @@
   "paginas": 5,
   "w": 1190,
   "h": 1540,
-  "v": "ee7f8b48"
+  "v": "ee7f8b48",
+  "abierto": true
  },
  "math226-clase-18": {
   "titulo": "Clase 18",
@@ -981,7 +1062,8 @@
   "paginas": 4,
   "w": 1190,
   "h": 1540,
-  "v": "d2a82a7b"
+  "v": "d2a82a7b",
+  "abierto": true
  },
  "math227-clase-01": {
   "titulo": "Clase 1",
@@ -989,7 +1071,8 @@
   "paginas": 4,
   "w": 1190,
   "h": 1540,
-  "v": "dce25c1d"
+  "v": "dce25c1d",
+  "abierto": true
  },
  "math227-clase-02": {
   "titulo": "Clase 2",
@@ -997,7 +1080,8 @@
   "paginas": 3,
   "w": 1190,
   "h": 1540,
-  "v": "fd867f1f"
+  "v": "fd867f1f",
+  "abierto": true
  },
  "math227-clase-03": {
   "titulo": "Clase 3",
@@ -1005,7 +1089,8 @@
   "paginas": 4,
   "w": 1190,
   "h": 1540,
-  "v": "89d12a6a"
+  "v": "89d12a6a",
+  "abierto": true
  },
  "math227-clase-04": {
   "titulo": "Clase 4",
@@ -1013,7 +1098,8 @@
   "paginas": 5,
   "w": 1190,
   "h": 1540,
-  "v": "2466f5d8"
+  "v": "2466f5d8",
+  "abierto": true
  },
  "math227-clase-05": {
   "titulo": "Clase 5",
@@ -1021,7 +1107,8 @@
   "paginas": 6,
   "w": 1190,
   "h": 1540,
-  "v": "d2c2656f"
+  "v": "d2c2656f",
+  "abierto": true
  },
  "math227-clase-08": {
   "titulo": "Clase 8",
@@ -1029,7 +1116,8 @@
   "paginas": 3,
   "w": 1190,
   "h": 1540,
-  "v": "ee12c37d"
+  "v": "ee12c37d",
+  "abierto": true
  },
  "math227-clase-09": {
   "titulo": "Clase 9",
@@ -1037,7 +1125,8 @@
   "paginas": 4,
   "w": 1190,
   "h": 1540,
-  "v": "9f7c9ac5"
+  "v": "9f7c9ac5",
+  "abierto": true
  },
  "math227-clase-10": {
   "titulo": "Clase 10",
@@ -1045,7 +1134,8 @@
   "paginas": 4,
   "w": 1190,
   "h": 1540,
-  "v": "b432d55f"
+  "v": "b432d55f",
+  "abierto": true
  },
  "math227-clase-11": {
   "titulo": "Clase 11",
@@ -1053,7 +1143,8 @@
   "paginas": 4,
   "w": 1190,
   "h": 1540,
-  "v": "b0b97c0f"
+  "v": "b0b97c0f",
+  "abierto": true
  },
  "math227-clase-13": {
   "titulo": "Clase 13",
@@ -1061,7 +1152,8 @@
   "paginas": 4,
   "w": 1190,
   "h": 1540,
-  "v": "6d1a258f"
+  "v": "6d1a258f",
+  "abierto": true
  },
  "math227-clase-14": {
   "titulo": "Clase 14",
@@ -1069,7 +1161,8 @@
   "paginas": 5,
   "w": 1190,
   "h": 1540,
-  "v": "fb9763a1"
+  "v": "fb9763a1",
+  "abierto": true
  },
  "math227-clase-16": {
   "titulo": "Clase 16",
@@ -1077,7 +1170,8 @@
   "paginas": 3,
   "w": 1190,
   "h": 1540,
-  "v": "0744dee3"
+  "v": "0744dee3",
+  "abierto": true
  },
  "math227-clase-17": {
   "titulo": "Clase 17",
@@ -1085,7 +1179,8 @@
   "paginas": 4,
   "w": 1190,
   "h": 1540,
-  "v": "5e5a768f"
+  "v": "5e5a768f",
+  "abierto": true
  },
  "razonamiento-logico-clases-1-4": {
   "titulo": "Notas del curso",
@@ -1093,7 +1188,8 @@
   "paginas": 37,
   "w": 1190,
   "h": 1540,
-  "v": "c1308531"
+  "v": "c1308531",
+  "abierto": true
  },
  "razonamiento-logico-parcial1-solucion": {
   "titulo": "Parcial 1 · Solución",
@@ -1101,7 +1197,8 @@
   "paginas": 13,
   "w": 1158,
   "h": 1638,
-  "v": "e4a7b67d"
+  "v": "e4a7b67d",
+  "abierto": true
  },
  "razonamiento-logico-resumen-unidad3": {
   "titulo": "Unidad 3 · Proporcionalidad y regla de tres",
@@ -1109,7 +1206,8 @@
   "paginas": 9,
   "w": 1158,
   "h": 1638,
-  "v": "ab10453e"
+  "v": "ab10453e",
+  "abierto": true
  },
  "razonamiento-logico-taller1-solucion": {
   "titulo": "Taller colaborativo 1 · Solución",
