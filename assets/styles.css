@@ -1391,3 +1391,32 @@ html[lang="en"] .cursos-v2 .nl-desc{display:none}
 .cursos-v3 .r-ico.con-svg{--paper:var(--tono)}
 .cursos-v3 .course-row.es-anterior .course-ico.con-svg svg{width:26px;height:26px}
 @media(max-width:720px){.cursos-v2 .course-ico.con-svg svg{width:28px;height:28px}}
+
+/* ===================== Cursos v4: destacados sobrios y materiales en rejilla ordenada ===================== */
+.cursos-v2 .course-destacados{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-top:16px}
+.cursos-v2 .course-destacados .dest{display:flex;align-items:center;gap:11px;padding:10px 14px 10px 10px;border-radius:12px;
+  background:var(--paper);color:var(--ink);border:1px solid color-mix(in srgb,var(--tono) 45%,var(--rule));font-weight:500;min-height:58px}
+.cursos-v2 .course-destacados .dest:hover{filter:none;border-color:var(--tono-ink);box-shadow:var(--shadow-s)}
+.cursos-v2 .course-destacados .dest:focus-visible{outline:2px solid var(--tono-ink);outline-offset:2px}
+.cursos-v2 .course-destacados .d-ico{flex:none;display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:var(--tono-ink);color:var(--paper)}
+.cursos-v2 .course-destacados .d-ico svg{width:18px;height:18px}
+.cursos-v2 .course-destacados .d-txt{display:flex;flex-direction:column;min-width:0;gap:1px}
+.cursos-v2 .course-destacados .d-tit{font-size:.84rem;font-weight:650;color:var(--tono-ink);line-height:1.25}
+.cursos-v2 .course-destacados .d-sub{font-size:.7rem;font-weight:400;color:var(--subtext);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cursos-v2 .course-destacados .d-sub:empty{display:none}
+:root.cursos-v2[data-theme="dark"] .course-destacados .dest{color:var(--ink)}
+@media (prefers-color-scheme:dark){:root.cursos-v2:not([data-theme="light"]) .course-destacados .dest{color:var(--ink)}}
+.cursos-v2 .course-categories{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:8px}
+.cursos-v2 .course-row .notes-group.ng-vacio{display:none}
+.cursos-v2 .course-row .ng-title{font-weight:550}
+.cursos-v2 .course-row .notes-group:not([open]) .ng-title{height:100%}
+.cursos-v2 .course-row .ng-title .ng-count{margin-left:auto}
+.cursos-v2 .course-row .notes-group[open]{grid-column:1/-1;margin:2px 0}
+.cursos-v2 .course-row .notes-group[open] .ng-title .ng-count{margin-left:0}
+.cursos-v2 .ng-clave-ico{display:inline-grid;place-items:center;color:var(--subtext);margin-left:auto;margin-right:-2px}
+.cursos-v2 .ng-clave-ico svg{width:13px;height:13px}
+.cursos-v2 .course-row .ng-title .ng-clave-ico + .ng-count{margin-left:0}
+.cursos-v2 .course-row .notes-group[open] .ng-clave-ico{margin-left:0}
+.cursos-v3 .course-row.es-anterior .course-destacados .dest{padding:6px 10px 6px 6px;min-height:0}
+.cursos-v3 .course-row.es-anterior .course-destacados .d-ico{width:28px;height:28px;border-radius:8px}
+@media(max-width:720px){.cursos-v2 .course-destacados,.cursos-v2 .course-categories{grid-template-columns:1fr}}

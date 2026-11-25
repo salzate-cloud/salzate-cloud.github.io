@@ -93,6 +93,7 @@
     "courses.group.resumenes": "Summaries",
     "courses.group.soluciones": "Midterms",
     "courses.group.talleres": "Workshops",
+    "courses.group.diaposCD": "Interactive classes and workshops",
     "courses.group.iueTalleresPrep": "Preparation workshops",
     "courses.group.iueColab": "Collaborative workshop solutions",
     "courses.group.iueQuizzes": "Quiz solutions",    "courses.group.iueSoluciones": "Partial exam solutions",
@@ -1135,11 +1136,27 @@
         if(n){var c=document.createElement("span"); c.className="ng-count"; c.setAttribute("aria-hidden","true"); c.textContent=n; s.appendChild(c);}
         Array.prototype.forEach.call(g.querySelectorAll(".notes-links a"),function(a){
           var t=a.getAttribute("title"); if(!t||a.querySelector(".nl-desc"))return;
-          var d=document.createElement("small"); d.className="nl-desc"; d.textContent=corta(t.replace(/^[^:]*:\s*/,function(m){return m.length<45?"":m;}),92);
+          var d=document.createElement("small"); d.className="nl-desc"; d.textContent=corta(t.replace(/\s*\([^()]*(PDF|contraseña|descargable|visor)[^()]*\)\s*\.?\s*$/i,"").replace(/^[^:]*:\s*/,function(m){return m.length<45?"":m;}),92);
           a.appendChild(d);
           if(/\.pdf(\?|#|$)/i.test(a.getAttribute("href")||""))a.classList.add("es-pdf"); else a.classList.add("es-web");
         });
       });
+      var cats=fila.querySelector(".course-categories");
+      if(cats){
+        var ORD={libro:0,diapos:1,notas:2,taller:3,quiz:4,sol:5,resumen:6};
+        var gs=Array.prototype.slice.call(cats.querySelectorAll(":scope > .notes-group"));
+        gs.forEach(function(g,i){g._i=i;});
+        gs.sort(function(a,b){var ta=(a.className.match(/ng-(\w+)/)||[])[1],tb=(b.className.match(/ng-(\w+)/)||[])[1];return ((ORD[ta]==null?9:ORD[ta])-(ORD[tb]==null?9:ORD[tb]))||(a._i-b._i);});
+        gs.forEach(function(g){cats.appendChild(g);
+          var ls=g.querySelectorAll(".notes-links a"), pr=Array.prototype.filter.call(ls,function(a){return /^material\//.test(a.getAttribute("href")||"");}),
+            web2=Array.prototype.filter.call(ls,function(a){var h=a.getAttribute("href")||""; return !/\.pdf/i.test(h)&&!/^https?:/i.test(h)&&h.indexOf("#")<0&&!/^material\//.test(h)&&!/\/ver\//.test(h);});
+          if(pr.length&&pr.length===ls.length-web2.length){g.classList.add("ng-clave"); var s=g.querySelector(".ng-title"), c=document.createElement("span");
+            c.className="ng-clave-ico"; c.title="Se abre con la contraseña del curso"; c.setAttribute("aria-label",c.title);
+            c.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+            var n=s.querySelector(".ng-count"); s.insertBefore(c,n||null);}
+          Array.prototype.forEach.call(g.querySelectorAll(".nl-desc"),function(d){var t=d.textContent; d.textContent=t.charAt(0).toUpperCase()+t.slice(1);});
+        });
+      }
       if(total){
         var t=document.createElement("span"); t.className="course-total";
         t.innerHTML='<b>'+total+'</b> <span data-es="materiales" data-en="materials">'+(document.documentElement.lang==="en"?"materials":"materiales")+'</span>';
@@ -1147,17 +1164,23 @@
       }
       /* accesos destacados: lo interactivo (libros web, diapositivas, quiz) */
       var web=Array.prototype.filter.call(fila.querySelectorAll(".notes-links a"),function(a){
-        var h=a.getAttribute("href")||""; return !/\.pdf(\?|#|$)/i.test(h)&&!/^https?:/i.test(h)&&h.indexOf("#")<0;
+        var h=a.getAttribute("href")||""; return !/\.pdf(\?|#|$)/i.test(h)&&!/^https?:/i.test(h)&&h.indexOf("#")<0&&!/^material\//.test(h)&&!/\/ver\//.test(h);
       });
+      var rango=function(a){var h=(a.getAttribute("href")||"")+((a.querySelector("span[data-i18n]")||{}).getAttribute?a.querySelector("span[data-i18n]").getAttribute("data-i18n"):"");
+        return /quiz/i.test(h)?2:/diapos|clase\//.test(h)?1:0;};
+      web=web.map(function(a,i){return [a,i];}).sort(function(x,y){return (rango(x[0])-rango(y[0]))||(x[1]-y[1]);}).map(function(x){return x[0];});
       if(web.length){
         var dest=document.createElement("div"); dest.className="course-destacados";
         web.slice(0,4).forEach(function(a){
           var b=document.createElement("a"); b.href=a.getAttribute("href"); b.className="dest";
-          var lab=a.querySelector("span[data-i18n]"); var txt=lab?lab.textContent:a.textContent;
-          var k=(lab&&lab.getAttribute("data-i18n"))||"";
-          b.innerHTML=svg(/quiz/.test(k)?ICO.quiz:/diapos/.test(k)?ICO.diapos:ICO.libro)+'<span></span>';
-          b.lastChild.textContent=txt.trim();
-          if(lab){b.lastChild.setAttribute("data-i18n",k);}
+          var lab=a.querySelector("span[data-i18n]")||a.querySelector("span"); var txt=lab?lab.textContent:a.textContent;
+          var k=(lab&&lab.getAttribute("data-i18n"))||"", h=a.getAttribute("href")||"";
+          var ic=/quiz/i.test(k+h)?ICO.quiz:/diapos|clase\//.test(k+h)?ICO.diapos:ICO.libro;
+          b.innerHTML='<span class="d-ico">'+svg(ic)+'</span><span class="d-txt"><span class="d-tit"></span><small class="d-sub"></small></span>';
+          b.querySelector(".d-tit").textContent=txt.trim();
+          if(lab&&lab.getAttribute("data-i18n")){b.querySelector(".d-tit").setAttribute("data-i18n",k);}
+          var sub=(a.getAttribute("title")||"").replace(/\s*\([^)]*\)\s*$/,"").replace(/^[^:]{0,40}:\s*/,"").split(/:\s/)[0];
+          if(sub){sub=corta(sub,70); b.querySelector(".d-sub").textContent=sub.charAt(0).toUpperCase()+sub.slice(1); b.title=a.getAttribute("title");}
           dest.appendChild(b);
         });
         info.appendChild(dest);
