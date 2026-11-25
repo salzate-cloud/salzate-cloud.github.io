@@ -46,7 +46,7 @@ main{display:flex;flex-direction:column;align-items:center;gap:18px;padding:16px
   fetch('docs.json?' + Date.now()).then(function (r) { return r.json(); }).then(function (D) {
     var x = D[d], main = document.getElementById('hojas');
     if (!x) { main.innerHTML = '<div class="error">No encontramos ese documento. Vuelva a <a href="../../cursos.html">Cursos</a>.</div>'; return; }
-    document.title = x.titulo + ' · Geometría Básica';
+    document.title = x.titulo + ' · ' + (x.curso || 'Geometría Básica');
     document.getElementById('tit').textContent = x.titulo;
     document.getElementById('cont').textContent = x.paginas + (x.paginas === 1 ? ' página' : ' páginas');
     var h = '';

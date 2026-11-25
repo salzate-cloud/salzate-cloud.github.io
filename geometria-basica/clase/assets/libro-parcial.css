@@ -145,3 +145,6 @@ figure.fig img{max-width:100%;height:auto;cursor:zoom-in;transition:transform .2
 .ctl2d label{display:flex;align-items:center;gap:8px}
 .ctl2d input[type=range]{width:140px}
 .ctl2d b{color:var(--verdeO);min-width:2.5em;font-variant-numeric:tabular-nums}
+.chip{font:inherit;font-size:13px;border:1.5px solid #bcd9c7;background:#fff;color:var(--verdeO);border-radius:999px;padding:5px 12px;cursor:pointer;min-height:32px;transition:all .15s}
+.chip:hover{border-color:var(--verde)}
+.chip.on{background:var(--verde);border-color:var(--verde);color:#fff}

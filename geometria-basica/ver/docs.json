@@ -201,5 +201,133 @@
   "w": 1275,
   "h": 1650,
   "v": "39ded188"
+ },
+ "calculo-diferencial-taller01-desigualdades": {
+  "titulo": "Taller 1 · Números reales, desigualdades e intervalos",
+  "curso": "Cálculo Diferencial",
+  "paginas": 5,
+  "w": 1275,
+  "h": 1650,
+  "v": "f6a843b3"
+ },
+ "calculo-diferencial-taller02-valor-absoluto-rectas": {
+  "titulo": "Taller 2 · Valor absoluto, plano cartesiano y rectas",
+  "curso": "Cálculo Diferencial",
+  "paginas": 5,
+  "w": 1275,
+  "h": 1650,
+  "v": "143711ff"
+ },
+ "calculo-diferencial-taller03-funciones": {
+  "titulo": "Taller 3 · Funciones y sus gráficas",
+  "curso": "Cálculo Diferencial",
+  "paginas": 5,
+  "w": 1275,
+  "h": 1650,
+  "v": "244a45dd"
+ },
+ "calculo-diferencial-taller04-transformaciones": {
+  "titulo": "Taller 4 · Transformaciones, operaciones y composición",
+  "curso": "Cálculo Diferencial",
+  "paginas": 5,
+  "w": 1275,
+  "h": 1650,
+  "v": "c6113c0b"
+ },
+ "calculo-diferencial-taller05-inversa-exp-log": {
+  "titulo": "Taller 5 · Función inversa, exponencial y logarítmica",
+  "curso": "Cálculo Diferencial",
+  "paginas": 5,
+  "w": 1275,
+  "h": 1650,
+  "v": "58b66833"
+ },
+ "calculo-diferencial-taller06-trigonometricas-limites": {
+  "titulo": "Taller 6 · Funciones trigonométricas y la idea de límite",
+  "curso": "Cálculo Diferencial",
+  "paginas": 5,
+  "w": 1275,
+  "h": 1650,
+  "v": "b2d1c3fe"
+ },
+ "calculo-diferencial-taller07-calculo-limites": {
+  "titulo": "Taller 7 · Cálculo de límites",
+  "curso": "Cálculo Diferencial",
+  "paginas": 5,
+  "w": 1275,
+  "h": 1650,
+  "v": "899b787c"
+ },
+ "calculo-diferencial-taller08-asintotas-continuidad": {
+  "titulo": "Taller 8 · Límites infinitos, asíntotas y continuidad",
+  "curso": "Cálculo Diferencial",
+  "paginas": 5,
+  "w": 1275,
+  "h": 1650,
+  "v": "27c47dea"
+ },
+ "calculo-diferencial-taller09-derivada": {
+  "titulo": "Taller 9 · La derivada",
+  "curso": "Cálculo Diferencial",
+  "paginas": 4,
+  "w": 1275,
+  "h": 1650,
+  "v": "9d3565f0"
+ },
+ "calculo-diferencial-taller10-reglas-cadena": {
+  "titulo": "Taller 10 · Reglas de derivación y regla de la cadena",
+  "curso": "Cálculo Diferencial",
+  "paginas": 4,
+  "w": 1275,
+  "h": 1650,
+  "v": "566a945b"
+ },
+ "calculo-diferencial-taller11-orden-superior-implicita": {
+  "titulo": "Taller 11 · Derivación implícita y derivadas de orden superior",
+  "curso": "Cálculo Diferencial",
+  "paginas": 4,
+  "w": 1275,
+  "h": 1650,
+  "v": "f93c7e14"
+ },
+ "calculo-diferencial-taller12-logaritmica-razones": {
+  "titulo": "Taller 12 · Derivación logarítmica y razones de cambio",
+  "curso": "Cálculo Diferencial",
+  "paginas": 4,
+  "w": 1275,
+  "h": 1650,
+  "v": "dd1289c9"
+ },
+ "calculo-diferencial-taller13-crecimiento-extremos": {
+  "titulo": "Taller 13 · Crecimiento y valores extremos",
+  "curso": "Cálculo Diferencial",
+  "paginas": 4,
+  "w": 1275,
+  "h": 1650,
+  "v": "a5a7ab7d"
+ },
+ "calculo-diferencial-taller14-concavidad-lhopital": {
+  "titulo": "Taller 14 · Concavidad y regla de L'Hôpital",
+  "curso": "Cálculo Diferencial",
+  "paginas": 4,
+  "w": 1275,
+  "h": 1650,
+  "v": "34ec1c4c"
+ },
+ "calculo-diferencial-taller15-trazado-curvas": {
+  "titulo": "Taller 15 · Trazado de curvas",
+  "curso": "Cálculo Diferencial",
+  "paginas": 3,
+  "w": 1275,
+  "h": 1650,
+  "v": "30200456"
+ },
+ "calculo-diferencial-taller16-optimizacion": {
+  "titulo": "Taller 16 · Optimización",
+  "curso": "Cálculo Diferencial",
+  "paginas": 4,
+  "w": 1275,
+  "h": 1650,
+  "v": "0ebcb0c8"
  }
 }
