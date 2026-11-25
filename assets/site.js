@@ -87,6 +87,7 @@
     "courses.notes.geo.diapos3": "Midterm 3 · Weeks 9–12",
     "courses.notes.geo.diapos4": "Midterm 4 · Weeks 13–16",
     "courses.notes.geo.quiz": "In-class quiz",
+    "courses.notes.geo.talleres22": "All 22 worksheets by week",
     "courses.group.notas": "Class notes",
     "courses.notes.math147.notas": "Course notes",
     "courses.group.resumenes": "Summaries",
