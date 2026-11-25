@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>π en la naturaleza · Geometría Básica</title>
+<meta name="description" content="Cinco experimentos interactivos para encontrar el número π sin límites ni cálculo: la aguja de Buffon, el argumento de Barbier, la lluvia, Arquímedes y los ríos.">
+<link rel="icon" href="../imagenes/icono.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/libro-parcial.css?v=94efc5dd">
+<link rel="stylesheet" href="assets/pi-experimentos.css?v=94efc5dd">
+<style>
+body{margin:0;background:var(--papel,#fcfcfa);color:var(--tinta,#1d2420);font-family:var(--serif,"Palatino Linotype",Palatino,Georgia,serif)}
+.barra{background:var(--verde,#006633);color:#fff;display:flex;gap:18px;align-items:center;padding:12px 24px;font-family:var(--sans,system-ui,sans-serif);font-size:15px}
+.barra a{color:#fff;text-decoration:none}.barra a:hover{text-decoration:underline}.barra .esp{flex:1}.barra .marca{font-weight:600}
+header.pi{max-width:1180px;margin:0 auto;padding:46px 24px 10px;display:grid;grid-template-columns:auto 1fr;gap:34px;align-items:end}
+header.pi .simbolo{font-size:190px;line-height:.78;color:var(--verde,#006633);font-style:italic}
+header.pi h1{font-size:46px;line-height:1.1;margin:0 0 12px;color:var(--verdeO,#00482a);font-weight:600}
+header.pi p{font-size:20px;line-height:1.55;margin:0;max-width:62ch}
+nav.exp{max-width:1180px;margin:26px auto 0;padding:0 24px;display:flex;flex-wrap:wrap;gap:8px;font-family:var(--sans,system-ui,sans-serif);font-size:14.5px}
+nav.exp a{color:var(--verdeO,#00482a);text-decoration:none;border:1.5px solid #cfe0d6;border-radius:999px;padding:6px 14px;background:#fff}
+nav.exp a:hover{border-color:var(--verde,#006633)}
+section.exp{max-width:1180px;margin:0 auto;padding:44px 24px 10px;border-bottom:1px solid #e3e9e5}
+section.exp h2{font-size:31px;margin:0 0 8px;color:var(--verdeO,#00482a);font-weight:600}
+section.exp h2 small{font-family:var(--sans,system-ui,sans-serif);font-size:15px;color:var(--gris,#5d6a63);font-weight:400;margin-left:10px}
+section.exp > p{font-size:18.5px;line-height:1.6;max-width:72ch;margin:0 0 20px}
+footer{max-width:1180px;margin:0 auto;padding:30px 24px 50px;font-family:var(--sans,system-ui,sans-serif);font-size:14px;color:var(--gris,#5d6a63)}
+@media (max-width:700px){header.pi{grid-template-columns:1fr}header.pi .simbolo{font-size:110px}header.pi h1{font-size:34px}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style></head><body>
+<div class="barra"><a class="marca" href="../../cursos.html">Santiago Alzate</a><span class="esp"></span><a href="../diapositivas/index.html#semana-10">‹ Diapositivas</a><a href="semana10.html#17">Presentación de la semana 10</a></div>
+<header class="pi"><div class="simbolo" aria-hidden="true">π</div><div><h1>π en la naturaleza</h1>
+<p>π es la razón entre la longitud de una circunferencia y su diámetro. Pero también aparece donde no se ve ninguna circunferencia: en agujas que caen sobre un piso, en la lluvia, en los ríos. Cinco experimentos para encontrarlo contando, midiendo y razonando, sin límites ni cálculo.</p></div></header>
+<nav class="exp"><a href="#buffon">La aguja de Buffon</a><a href="#barbier">¿Por qué 2/π?</a><a href="#lluvia">Lluvia sobre una baldosa</a><a href="#arquimedes">Arquímedes</a><a href="#rio">Los ríos</a></nav>
+<section class="exp" id="buffon"><h2>La aguja de Buffon <small>Georges-Louis Leclerc, conde de Buffon, 1777</small></h2>
+<p>Un piso de tablas tiene rayas paralelas a la misma distancia <i>d</i>. Se lanzan agujas (o palillos) de largo <i>d</i> al azar y se cuenta cuántas cruzan una raya. La fracción se acerca a 2/π. Se puede hacer en el salón con palillos y las juntas de las baldosas.</p>
+<div class="widget" data-w="pi-buffon"></div></section>
+<section class="exp" id="barbier"><h2>¿Por qué 2/π? <small>el argumento de Joseph-Émile Barbier, 1860</small></h2>
+<p>Doblar una aguja no cambia el promedio de cruces de cada pedazo, así que el promedio solo depende del largo. Una circunferencia de diámetro <i>d</i> siempre cruza exactamente dos rayas y mide π<i>d</i>. Con esas dos ideas sale 2/π, sin integrales.</p>
+<div class="widget" data-w="pi-barbier"></div></section>
+<section class="exp" id="lluvia"><h2>Lluvia sobre una baldosa</h2>
+<p>Un plato redondo sobre una baldosa cuadrada en la que cabe justo. Si la lluvia cae pareja, la fracción de gotas que caen en el plato es la razón de las áreas, π/4. Y si en vez de gotas se cuentan cuadritos de una cuadrícula, se obtiene lo mismo sin azar.</p>
+<div class="widget" data-w="pi-lluvia"></div></section>
+<section class="exp" id="arquimedes"><h2>Arquímedes encierra a π <small>hacia el 250 a. C.</small></h2>
+<p>Un polígono regular dentro de la circunferencia tiene menos perímetro que ella; uno por fuera, más. Duplicando los lados con el teorema de Pitágoras, de 6 a 96, Arquímedes demostró que 3<sup>10</sup>⁄<sub>71</sub> &lt; π &lt; 3<sup>1</sup>⁄<sub>7</sub>.</p>
+<div class="widget" data-w="pi-arquimedes"></div></section>
+<section class="exp" id="rio"><h2>Ríos que serpentean</h2>
+<p>La sinuosidad de un río es el largo de su cauce dividido por la distancia en línea recta entre la fuente y la desembocadura. El geólogo Hans-Henrik Stølum propuso en 1996 que, por el juego entre curvas que crecen y atajos que las cortan, esa razón oscila alrededor de π. Es una hipótesis discutida, no un teorema; aquí se puede ver un modelo sencillo y dibujar ríos propios.</p>
+<div class="widget" data-w="pi-rio"></div></section>
+<footer>Geometría Básica · Instituto de Matemáticas, Universidad de Antioquia · Santiago Alzate Suárez, 2026-2</footer>
+<script src="assets/pi-experimentos.js?v=94efc5dd"></script>
+</body></html>

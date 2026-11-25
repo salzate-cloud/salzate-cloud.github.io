@@ -206,3 +206,9 @@ body.pizarra-on .pizarra{display:block}
 
 /* las presentaciones se ven en la página; no se imprimen */
 @media print{body>*{display:none!important}body::after{content:"Esta presentación solo se puede ver en santiagoalzates.com.";display:block;font:16px/1.5 system-ui,sans-serif;padding:40px}}
+
+/* π en la naturaleza */
+.pi-intro{max-width:980px;font-family:var(--serif);font-size:25px;line-height:1.5}
+.pi-intro .lead{margin:0 0 18px}
+.pi-intro ul{margin:0;padding-left:26px;display:grid;gap:8px}
+.slide.pi .dentro{height:100%}
