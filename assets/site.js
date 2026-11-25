@@ -94,6 +94,7 @@
     "courses.group.soluciones": "Midterms",
     "courses.group.talleres": "Workshops",
     "courses.group.diaposCD": "Interactive classes and workshops",
+    "courses.group.clases": "Interactive classes",
     "courses.group.iueTalleresPrep": "Preparation workshops",
     "courses.group.iueColab": "Collaborative workshop solutions",
     "courses.group.iueQuizzes": "Quiz solutions",    "courses.group.iueSoluciones": "Partial exam solutions",
@@ -1110,7 +1111,7 @@
     diapos:'<rect x="2" y="3" width="20" height="13" rx="2"/><path d="M12 16v4M8 20h8"/><path d="M7 12l3-3 3 2 4-4"/>'
   };
   function tipo(k){
-    if(/diapos/.test(k))return"diapos"; if(/libro/.test(k))return"libro"; if(/notas/.test(k))return"notas";
+    if(/diapos|group\.clases/.test(k))return"diapos"; if(/libro/.test(k))return"libro"; if(/notas/.test(k))return"notas";
     if(/Quizzes/.test(k))return"quiz"; if(/resumen/.test(k))return"resumen"; if(/[Tt]aller|Colab/.test(k)&&!/Soluc/.test(k))return"taller";
     return"sol";
   }
