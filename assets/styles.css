@@ -1386,3 +1386,8 @@ html[lang="en"] .cursos-v2 .nl-desc{display:none}
 @media(max-width:860px){.cursos-v3 .cursos-zona{grid-template-columns:minmax(0,1fr)}}
 .cursos-v3 .cursos-zona>*{min-width:0}
 @media(max-width:720px){.cursos-v3 .recientes-fila{display:flex;grid-template-columns:none}}
+.cursos-v2 .course-ico.con-svg svg{width:34px;height:34px}
+.cursos-v3 .r-ico.con-svg svg{width:26px;height:26px}
+.cursos-v3 .r-ico.con-svg{--paper:var(--tono)}
+.cursos-v3 .course-row.es-anterior .course-ico.con-svg svg{width:26px;height:26px}
+@media(max-width:720px){.cursos-v2 .course-ico.con-svg svg{width:28px;height:28px}}
