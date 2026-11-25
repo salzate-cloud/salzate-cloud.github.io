@@ -458,3 +458,124 @@
   window.CALC = { A: A, compila: compila };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', inicia); else inicia();
 })();
+
+/* ---------- fórmulas en LaTeX dentro de las figuras interactivas ----------
+   Los botones de ejemplo, los selectores y la vista previa del campo f(x) se muestran con KaTeX.
+   © 2026 Santiago Alzate Suárez. Todos los derechos reservados. */
+(function () {
+  'use strict';
+  var yo = document.currentScript && document.currentScript.src;
+  /* expresión del graficador -> LaTeX (misma gramática que compila) */
+  function aLatex(src) {
+    var s = String(src).toLowerCase().replace(/\s+/g, '').replace(/sen/g, 'sin').replace(/tg(?=\()/g, 'tan').replace(/√/g, 'sqrt').replace(/π/g, 'pi').replace(/·|×/g, '*').replace(/−/g, '-').replace(/,/g, '.');
+    var i = 0;
+    var FN = { sin: '\\sin', cos: '\\cos', tan: '\\tan', sec: '\\sec', csc: '\\csc', cot: '\\cot', ln: '\\ln', log: '\\log', asin: '\\arcsin', acos: '\\arccos', atan: '\\arctan' };
+    function sinPar(t) { return t.p ? t.s.replace(/^\\left\(/, '').replace(/\\right\)$/, '') : t.s; }
+    function expr() {
+      var a = term();
+      while (s[i] === '+' || s[i] === '-') { var o = s[i++], b = term(); a = { s: a.s + ' ' + o + ' ' + b.s, k: 'suma' }; }
+      return a;
+    }
+    function term() {
+      var a = unario();
+      while (true) {
+        var c = s[i];
+        if (c === '/') { i++; var b = unario(); a = { s: '\\dfrac{' + sinPar(a) + '}{' + sinPar(b) + '}', k: 'frac' }; }
+        else if (c === '*') { i++; var b2 = unario(); a = (b2.k === 'num' && a.k !== 'num') ? { s: b2.s + '\\,' + a.s, k: 'prod' } : { s: a.s + (/\d$/.test(a.s) && /^\d/.test(b2.s) ? '\\cdot ' : '\\,') + b2.s, k: 'prod' }; }
+        else if (c && /[a-z(0-9.]/.test(c)) { var b3 = unario(); a = { s: a.s + (/\d$/.test(a.s) && /^\d/.test(b3.s) ? '\\cdot ' : '') + b3.s, k: 'prod' }; }
+        else return a;
+      }
+    }
+    function unario() {
+      if (s[i] === '-') { i++; var a = unario(); return { s: '-' + (a.k === 'suma' ? '\\left(' + a.s + '\\right)' : a.s), k: 'neg' }; }
+      if (s[i] === '+') { i++; return unario(); }
+      return pot();
+    }
+    function pot() {
+      var a = at();
+      if (s[i] === '^') { i++; var b = unario(); var base = (a.k === 'num' || a.k === 'var' || a.p || a.k === 'raiz' || a.k === 'abs') ? a.s : '\\left(' + a.s + '\\right)';
+        if (a.k === 'fun') return { s: a.s.replace(/^(\\[a-z]+)/, '$1^{' + sinPar(b) + '}'), k: 'pot' };
+        return { s: base + '^{' + sinPar(b) + '}', k: 'pot' }; }
+      return a;
+    }
+    function at() {
+      var c = s[i];
+      if (c === '(') { i++; var a = expr(); if (s[i] === ')') i++; return { s: '\\left(' + a.s + '\\right)', p: 1, k: a.k }; }
+      var m = /^\d*\.?\d+(e[+-]?\d+)?/.exec(s.slice(i));
+      if (m && m[0]) { i += m[0].length; return { s: m[0].replace('.', '{,}'), k: 'num' }; }
+      m = /^[a-z]+/.exec(s.slice(i));
+      if (m) {
+        var w = m[0];
+        if (w === 'x') { i++; return { s: 'x', k: 'var' }; }
+        if (w === 'pi') { i += 2; return { s: '\\pi', k: 'num' }; }
+        if (w === 'e' && s[i + 1] !== 'x') { i++; return { s: 'e', k: 'var' }; }
+        for (var L = w.length; L > 0; L--) {
+          var f = w.slice(0, L);
+          if (f === 'sqrt' || f === 'abs' || f === 'exp' || FN[f]) {
+            i += L;
+            var arg = s[i] === '(' ? at() : pot();
+            var inn = sinPar(arg);
+            if (f === 'sqrt') return { s: '\\sqrt{' + inn + '}', k: 'raiz' };
+            if (f === 'abs') return { s: '\\left|' + inn + '\\right|', k: 'abs' };
+            if (f === 'exp') return { s: 'e^{' + inn + '}', k: 'pot' };
+            var simple = /^(x|\d+|\\pi|\d*x)$/.test(inn);
+            return { s: FN[f] + (simple ? ' ' + inn : '\\left(' + inn + '\\right)'), k: 'fun' };
+          }
+        }
+        if (w[0] === 'x') { i++; return { s: 'x', k: 'var' }; }
+        throw new Error('?');
+      }
+      throw new Error('?');
+    }
+    var r = expr(); if (i < s.length) throw new Error('?'); return r.s;
+  }
+  var MAPA = { 'x²': 'x^2', '√x': '\\sqrt{x}', '|x|': '|x|', 'x³': 'x^3', '1/x': '\\tfrac1x', 'sen x': '\\sin x', 'eˣ': 'e^x', 'x': 'x', 'x²': 'x^2',
+    'eˣ y ln x': 'e^x \\text{ y } \\ln x', 'x³ y ∛x': 'x^3 \\text{ y } \\sqrt[3]{x}', 'x² (x ≥ 0) y √x': 'x^2\\ (x\\ge0) \\text{ y } \\sqrt{x}', '2ˣ y log₂ x': '2^x \\text{ y } \\log_2 x',
+    'sen x y arcsen x': '\\sin x \\text{ y } \\arcsin x', 'eˣ − 1': 'e^x-1', 'ln(1 + x)': '\\ln(1+x)', '1 − cos x': '1-\\cos x' };
+  function tx(t) {
+    t = t.trim();
+    if (MAPA[t] !== undefined) return MAPA[t];
+    var m = /^\|x − a\| (.) r$/.exec(t); if (m) return '|x-a| ' + ({ '<': '<', '≤': '\\le', '>': '>', '≥': '\\ge' }[m[1]] || m[1]) + ' r';
+    m = /^f\(x\) = (.*)$/.exec(t); if (m && MAPA[m[1]] !== undefined) return 'f(x)=' + MAPA[m[1]];
+    m = /^(.*), x → (.*)$/.exec(t); if (m) return '\\lim_{x\\to ' + m[2].replace('-', '-') + '} ' + aLatex(m[1]);
+    m = /^(.*) \/ (.*)$/.exec(t); if (m && MAPA[m[1]] !== undefined && MAPA[m[2]] !== undefined) return '\\dfrac{' + MAPA[m[1]] + '}{' + MAPA[m[2]] + '}';
+    return null;
+  }
+  function pinta(el, tex, display) { try { el.innerHTML = katex.renderToString(tex, { throwOnError: true, displayMode: !!display }); return true; } catch (e) { return false; } }
+  function aplica() {
+    if (!document.getElementById('calc-tex-css')) { var st = document.createElement('style'); st.id = 'calc-tex-css';
+      st.textContent = '.applet .katex svg,.lib .applet .katex svg,.slide .applet .katex svg{height:inherit!important;width:100%!important;background:none!important;position:absolute;display:block}';
+      document.head.appendChild(st); }
+    if (!window.katex) return;
+    document.querySelectorAll('.applet .formula').forEach(function (f) {
+      if (f._tex) return; f._tex = 1;
+      var inp = f.querySelector('input'), ej = f.querySelector('.ejemplos');
+      if (ej) {
+        ej.querySelectorAll('button').forEach(function (b) { var e = b.getAttribute('data-expr') || b.textContent; b.setAttribute('data-expr', e); try { pinta(b, aLatex(e)); } catch (er) {} });
+        ej.addEventListener('click', function (ev) {
+          var b = ev.target.closest('button'); if (!b) return;
+          ev.stopPropagation(); ev.preventDefault();
+          inp.value = b.getAttribute('data-expr'); inp.dispatchEvent(new Event('input', { bubbles: true }));
+        }, true);
+      }
+      if (inp) {
+        var pv = document.createElement('div'); pv.className = 'vista-tex'; pv.style.cssText = 'font-size:18px;min-height:30px;margin:4px 0 0;color:#1d2233';
+        inp.insertAdjacentElement('afterend', pv);
+        var act = function () { var ok = false; try { ok = pinta(pv, 'f(x)=' + aLatex(inp.value), false); } catch (er) {} if (!ok) pv.innerHTML = '<span style="font:13px system-ui,sans-serif;color:#9F1239">Revise la fórmula</span>'; };
+        inp.addEventListener('input', act); act();
+      }
+    });
+    document.querySelectorAll('.applet .chip').forEach(function (b) {
+      if (b._tex) return; b._tex = 1; var t = tx(b.textContent); if (t) { try { pinta(b, t); } catch (er) {} }
+    });
+  }
+  function carga() {
+    if (window.katex) { aplica(); return; }
+    if (!yo) return;
+    var s = document.createElement('script');
+    s.src = new URL(/\/clase\/assets\//.test(yo) ? '../../katex/katex.min.js' : '../katex/katex.min.js', yo).href;
+    s.onload = aplica; document.head.appendChild(s);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', carga); else carga();
+  window.CALC_TEX = { aLatex: aLatex, aplica: aplica };
+})();
