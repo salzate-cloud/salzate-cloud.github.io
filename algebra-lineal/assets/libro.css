@@ -290,3 +290,8 @@ a.knowl.abierto{background:var(--tealC)}
   .hero:not(:has(> canvas.arbol)) .portada-ctl .pc-fila{justify-content:flex-start!important}
   .hero:not(:has(> canvas.arbol)) .ctrl{position:relative;z-index:3}
 }
+
+/* incisos en renglones separados */
+ol.incisos{list-style:none;margin:.35em 0 .8em;padding-left:1.1em}
+ol.incisos>li{margin:.3em 0;padding-left:0}
+ol.incisos>li>strong:first-child{margin-right:.25em}

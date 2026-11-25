@@ -218,3 +218,8 @@ body.pizarra-on .pizarra{display:block}
 body.calc .portada .lado,body.calc .slide.oscura{background:radial-gradient(700px 360px at 80% 30%,rgba(90,200,180,.18),transparent 62%),linear-gradient(150deg,#111a45,#22357E 55%,#2f4aa8)}
 body.calc .talleres-d a{border-color:var(--c1m);color:var(--c1o)}
 body.calc .ojo-d .bien{background:var(--c2c);border-left-color:var(--c2)}
+
+/* incisos en renglones separados */
+ol.incisos{list-style:none;margin:.35em 0 .8em;padding-left:1.1em}
+ol.incisos>li{margin:.3em 0;padding-left:0}
+ol.incisos>li>strong:first-child{margin-right:.25em}
