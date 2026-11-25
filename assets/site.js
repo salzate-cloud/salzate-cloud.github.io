@@ -95,6 +95,7 @@
     "courses.group.talleres": "Workshops",
     "courses.group.diaposCD": "Interactive classes and workshops",
     "courses.group.clases": "Interactive classes",
+    "courses.group.librosim": "Book and practice exams",
     "courses.group.iueTalleresPrep": "Preparation workshops",
     "courses.group.iueColab": "Collaborative workshop solutions",
     "courses.group.iueQuizzes": "Quiz solutions",    "courses.group.iueSoluciones": "Partial exam solutions",
@@ -288,6 +289,10 @@
     "courses.calcdif": "Differential Calculus",
     "courses.geovec": "Vector and Analytic Geometry",
     "courses.calcint": "Integral Calculus",
+    "courses.calcvec": "Vector Calculus",
+    "courses.status.new": "New",
+    "courses.notes.calcvec.interactivo": "Interactive book",
+    "courses.material.date.20261125": "Nov 25, 2026",
     "courses.algebra": "Linear Algebra",
     "courses.notes.algebra.libro": "Full course book",
     "courses.calc-combo": "Multivariable Calculus",
@@ -1099,7 +1104,7 @@
   "use strict";
   var SIMB={"courses.calc1":"∫","courses.discrete1":"∑","courses.discrete2":"⊕","courses.discrete3":"∀","courses.logic":"∴",
     "courses.numerical":"≈","courses.analysis2":"ℱ","courses.geometry":"△","courses.calcdif":"f′","courses.geovec":"→",
-    "courses.calcint":"∫","courses.algebra":"⊗","courses.calc-combo":"∇","courses.math226":"∫","courses.math227":"Σ",
+    "courses.calcint":"∫","courses.calcvec":"∇","courses.algebra":"⊗","courses.calc-combo":"∇","courses.math226":"∫","courses.math227":"Σ",
     "courses.math224":"∂","courses.math147":"x̄"};
   var ICO={
     libro:'<path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v17H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 19.5V4.5"/><path d="M9 7h7"/>',
@@ -1150,7 +1155,7 @@
         gs.sort(function(a,b){var ta=(a.className.match(/ng-(\w+)/)||[])[1],tb=(b.className.match(/ng-(\w+)/)||[])[1];return ((ORD[ta]==null?9:ORD[ta])-(ORD[tb]==null?9:ORD[tb]))||(a._i-b._i);});
         gs.forEach(function(g){cats.appendChild(g);
           var ls=g.querySelectorAll(".notes-links a"), pr=Array.prototype.filter.call(ls,function(a){return /^material\//.test(a.getAttribute("href")||"")&&!a.hasAttribute("data-abierto");}),
-            web2=Array.prototype.filter.call(ls,function(a){var h=a.getAttribute("href")||""; return !/\.pdf/i.test(h)&&!/^https?:/i.test(h)&&h.indexOf("#")<0&&!/^material\//.test(h)&&!/\/ver\//.test(h);});
+            web2=Array.prototype.filter.call(ls,function(a){var h=a.getAttribute("href")||""; return !/\.pdf/i.test(h)&&!/^https?:/i.test(h)&&h.indexOf("#")<0&&!/^material\//.test(h)&&!/\/ver\//.test(h)&&!/\/sim\d+\.html$/.test(h);});
           if(pr.length&&pr.length===ls.length-web2.length){g.classList.add("ng-clave"); var s=g.querySelector(".ng-title"), c=document.createElement("span");
             c.className="ng-clave-ico"; c.title="Se abre con la contraseña del curso"; c.setAttribute("aria-label",c.title);
             c.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
@@ -1165,7 +1170,7 @@
       }
       /* accesos destacados: lo interactivo (libros web, diapositivas, quiz) */
       var web=Array.prototype.filter.call(fila.querySelectorAll(".notes-links a"),function(a){
-        var h=a.getAttribute("href")||""; return !/\.pdf(\?|#|$)/i.test(h)&&!/^https?:/i.test(h)&&h.indexOf("#")<0&&!/^material\//.test(h)&&!/\/ver\//.test(h);
+        var h=a.getAttribute("href")||""; return !/\.pdf(\?|#|$)/i.test(h)&&!/^https?:/i.test(h)&&h.indexOf("#")<0&&!/^material\//.test(h)&&!/\/ver\//.test(h)&&!/\/sim\d+\.html$/.test(h);
       });
       var rango=function(a){var h=(a.getAttribute("href")||"")+((a.querySelector("span[data-i18n]")||{}).getAttribute?a.querySelector("span[data-i18n]").getAttribute("data-i18n"):"");
         return /quiz/i.test(h)?2:/diapos|clase\//.test(h)?1:0;};
@@ -1289,6 +1294,7 @@
     "courses.geometry":'<path d="M16 4L4 26h24z" '+F+'/><path d="M16 4L4 26h24z"/><circle cx="16" cy="18.4" r="6.6"/><path d="M16 26V4" stroke-dasharray="1.5 2" stroke-opacity=".6"/><circle cx="16" cy="18.4" r="1.3" fill="currentColor" stroke="none"/>',
     "courses.calcdif":'<path d="M4 27h24M6 29V4"/><path d="M7 24c6-1 9-12 13-14 3-1.5 5 0 7 2"/><path d="M9 22L29 6" stroke-opacity=".7"/><circle cx="19" cy="10.4" r="2" fill="currentColor" stroke="none"/>',
     "courses.geovec":'<path d="M8 22V5M8 22l17 0M8 22l-5 6" stroke-opacity=".55"/><path d="M8 22l14-11"/><path d="M22 11l-5.2.6M22 11l-2.2 4.8"/><path d="M22 11v11M22 22h-14" stroke-dasharray="1.4 1.8" stroke-opacity=".6"/><circle cx="22" cy="11" r="1.6" fill="currentColor" stroke="none"/>',
+    "courses.calcvec":'<path d="M5 26c3-8 8-12 13-13s8-5 9-9"/><path d="M5 18c3-4 6-6 10-6"/><circle cx="20" cy="20" r="5"/><path d="M20 15v2M25 20h-2M20 25v-2M15 20h2"/>',
     "courses.calcint":'<path d="M4 27h24"/><path d="M7 27v-9h4v-5h4v-3h4v1h4v4h3v12z" '+F+'/><path d="M7 27v-9h4v-5h4v-3h4v1h4v4h3v12" stroke-opacity=".55"/><path d="M5 21c5-12 12-14 16-11s5 6 7 8"/>',
     "courses.algebra":'<path d="M6 6l20 4-4 16-20-4z" '+F+'/><path d="M6 6l20 4-4 16-20-4zM16 8l-4 16M4 14l20 4"/><path d="M9 4H6v24h3M23 4h3v24h-3" stroke-opacity="0"/>',
     "courses.calc-combo":'<ellipse cx="16" cy="16" rx="12" ry="8"/><ellipse cx="16" cy="16" rx="8" ry="5" stroke-opacity=".75"/><ellipse cx="16" cy="16" rx="4" ry="2.4" '+F+'/><ellipse cx="16" cy="16" rx="4" ry="2.4"/><path d="M16 16l9-9" stroke-opacity=".8"/><path d="M25 7l-4.6.6M25 7l-.6 4.6"/>',
