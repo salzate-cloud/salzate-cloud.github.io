@@ -203,3 +203,6 @@ body.pizarra-on .pizarra{display:block}
 
 .slide.actividad .act{font-size:23px;line-height:1.5;max-width:1060px}
 .slide.actividad .act .ahead{font-size:16px}
+
+/* las presentaciones se ven en la página; no se imprimen */
+@media print{body>*{display:none!important}body::after{content:"Esta presentación solo se puede ver en santiagoalzates.com.";display:block;font:16px/1.5 system-ui,sans-serif;padding:40px}}
