@@ -1,0 +1,88 @@
+/* Textos que generan los scripts de los libros, para las páginas en inglés.
+   idioma.js lo carga solo cuando la página tiene lang="en".
+   © 2026 Santiago Alzate Suárez. Todos los derechos reservados. */
+window.IDIOMA_EN = {
+  exacto: {
+    /* veredictos de los quizzes */
+    '¡Eso, crack! 🔥': 'Nailed it! 🔥', '¡Uy, qué nivel! 🧠': 'Wow, impressive! 🧠', '¡De una, eso es! ✅': 'Spot on! ✅', '¡Bieeen, parcero! 🎉': 'Great job! 🎉',
+    'Nuuu, por ahí no es 🚫': 'Nope, not that one 🚫', 'Nuuu, incorrecto. ¡Otra vez! 🔁': 'Not quite. Try again! 🔁',
+    'Cargando…': 'Loading…', 'Ir al enunciado ↗': 'Go to the statement ↗', 'No se encontró el enunciado.': 'The statement was not found.',
+    'Abra el enunciado aquí:': 'Open the statement here:', 'Resuelto (clic para desmarcar)': 'Solved (click to unmark)', 'Marcar como resuelto': 'Mark as solved',
+    'Cerrar': 'Close', 'Figura ampliada': 'Enlarged figure', 'Figura del texto': 'Figure from the text', 'Figura': 'Figure',
+    'Figura interactiva: usa el ratón, el dedo o los controles de al lado': 'Interactive figure: use the mouse, your finger or the controls beside it',
+    'Saltar al contenido': 'Skip to content', 'Su respuesta': 'Your answer', 'Tu respuesta': 'Your answer', 'Abrir el índice': 'Open the table of contents',
+    'Verdadero': 'True', 'Falso': 'False', 'Responder': 'Answer', 'Comprobar': 'Check',
+    /* ordena / encuentra el error */
+    'Bloques disponibles': 'Available blocks', 'Tu demostración': 'Your proof', 'Tu solución': 'Your solution', 'demostración': 'proof',
+    'Toca un bloque para pasarlo de una zona a la otra; arrástralo desde ⠿ para cambiarlo de posición.': 'Tap a block to move it from one area to the other; drag it by ⠿ to change its position.',
+    'La demostración quedó perfecta.': 'The proof is perfect.', 'No necesitas pista: ¡ya está!': 'You don’t need a hint: it’s done!',
+    'Pista: lo que llevas está en orden; sigue con el siguiente paso.': 'Hint: what you have so far is in order; go on with the next step.',
+    'Toca el paso que está mal.': 'Tap the step that is wrong.', '¡Lo pillaste!': 'You caught it!', 'Ese paso sí es válido. Busca otro.': 'That step is valid. Look for another one.',
+    'Pista': 'Hint', 'Verificar': 'Check', 'Reiniciar': 'Reset', 'Deshacer': 'Undo', 'Aplicar': 'Apply', '¿Qué sigue?': 'What comes next?',
+    'Ordena la demostración': 'Put the proof in order', '🧩 Ordena la demostración': '🧩 Put the proof in order', 'Encuentra el error': 'Find the mistake',
+    /* repaso */
+    'Buscando preguntas en los capítulos…': 'Looking for questions in the chapters…', 'No encontré preguntas para repasar.': 'I found no questions to review.',
+    'Hoy no tienes nada pendiente': 'Nothing due today', 'Escribe un número o una expresión como 3/2.': 'Type a number or an expression like 3/2.',
+    '¡Eso, crack! Sesión perfecta.': 'Nailed it! A perfect session.', '¡Uy, qué nivel! Muy buen repaso.': 'Wow! A very good review.',
+    'Bien, parcero. Lo que fallaste vuelve pronto.': 'Good job. What you missed will come back soon.',
+    'Nuuu, hoy costó… pero para eso es el repaso. ¡Mañana vuelves!': 'Tough one today… but that is what review is for. Come back tomorrow!',
+    'Las preguntas que aciertas suben de caja y vuelven cada vez más tarde (1, 3, 7, 16 y 35 días). Las que fallas vuelven a la caja 1.': 'Questions you get right move up a box and come back later and later (1, 3, 7, 16 and 35 days). The ones you miss go back to box 1.',
+    'Siguiente →': 'Next →', 'Terminar': 'Finish', 'Saltar': 'Skip', 'No sé, siguiente': 'I don’t know, next', 'Probar con otro': 'Try another one', 'Repetir': 'Repeat',
+    'Volver al menú': 'Back to the menu', 'Revisa tus respuestas': 'Check your answers', 'Así era:': 'Here is how it went:',
+    '🔁 Revisa tu cuenta e inténtalo otra vez.': '🔁 Check your work and try again.', 'Me rindo: ver la solución': 'I give up: show the solution',
+    'Ver cómo se resolvía la anterior': 'See how the previous one was solved', 'Intentar otra vez': 'Try again',
+    '📝 Esta ya no cuenta: te traigo el mismo problema con otros números. Vuelve a leerlo con calma y resuélvelo otra vez; nada de adivinar entre las que quedan.': '📝 This one no longer counts: here is the same problem with other numbers. Read it again calmly and solve it again; no guessing among the options left.',
+    '🔁 Vuelve a leer la pregunta despacio. Te cambio el orden de las opciones para que la pienses de nuevo, no por descarte.': '🔁 Read the question again slowly. I have shuffled the options so you think it through again rather than by elimination.',
+    /* diagnóstico */
+    '¿Por dónde empiezo?': 'Where do I start?', '🧭 ¿Por dónde empiezo?': '🧭 Where do I start?',
+    'Una pregunta de cada tema. Al final te digo qué dominas y qué capítulos repasar.': 'One question from each topic. At the end I tell you what you have mastered and which chapters to review.',
+    'Simulacro rápido': 'Quick practice test', '⏱️Simulacro rápido': '⏱️Quick practice test',
+    '¡Eso, crack! Estás listo.': 'Nailed it! You are ready.', '¡Uy, qué nivel! Ya casi.': 'Impressive! Almost there.',
+    'Vas bien, parcero: hay temas para repasar.': 'You are doing well: there are topics to review.',
+    'Nuuu, hay que ponerle juicio… pero para eso es esto. Aquí tienes tu ruta.': 'Time to put in some work… but that is what this is for. Here is your route.',
+    '🧭 Tu ruta de repaso': '🧭 Your review route', '✅ Lo que ya dominas': '✅ What you have mastered',
+    /* medallas */
+    '¡Medalla desbloqueada!': 'Medal unlocked!', 'Capítulo completo': 'Chapter complete', 'Mírala en tu colección, en la portada del libro.': 'See it in your collection, on the book’s cover page.',
+    'Tu colección de medallas': 'Your medal collection', 'Pilo de la clase 🧠': 'Top of the class 🧠', '¡Crack del curso! 🏆': 'Course champion! 🏆',
+    /* buscador y lectura */
+    'Buscar en el libro': 'Search the book', 'Cargando índice…': 'Loading the index…', 'Enter abre el primer resultado · Esc cierra': 'Enter opens the first result · Esc closes',
+    'Nada por aquí. Prueba con otra palabra o sin tildes.': 'Nothing here. Try another word.', 'No pude cargar el índice de búsqueda.': 'I could not load the search index.',
+    'Definición': 'Definition', 'Resultado': 'Result', 'Sección': 'Section', 'Capítulo': 'Chapter', 'Texto': 'Text', 'Página': 'Page',
+    'Opciones de lectura': 'Reading options', 'Letra grande': 'Large text', 'Alto contraste': 'High contrast', 'Sin animaciones ni stickers': 'No animations or stickers',
+    'Se guardan en este navegador.': 'They are saved in this browser.',
+    '📥 Guardar el libro para leer sin internet': '📥 Save the book to read offline', '✅ ¡Listo! El libro quedó guardado en este dispositivo': '✅ Done! The book is saved on this device',
+    /* comentarios */
+    '¿Qué viste?': 'What did you see?', 'Error en el texto o en una cuenta': 'A mistake in the text or in a computation', 'Algo no se entiende': 'Something is unclear',
+    'Una idea para mejorar': 'An idea for improvement', 'Otro': 'Other', 'Cuéntame (si es un error, di dónde está):': 'Tell me (if it is a mistake, say where it is):',
+    'Tu correo (opcional, solo si quieres que te responda)': 'Your email (optional, only if you want a reply)', 'Enviar': 'Send', 'Cancelar': 'Cancel',
+    'No te pido tu nombre; el correo es opcional. El comentario llega al buzón de Santiago (lo procesa Formspree, política de privacidad) y no se publica.': 'I do not ask for your name; the email is optional. The comment goes to Santiago’s inbox (processed by Formspree, privacy policy) and is not published.',
+    '¡Gracias, parcero! 🙌 Tu comentario le llegó a Santiago y ayuda a mejorar el libro.': 'Thank you! 🙌 Your comment reached Santiago and helps improve the book.',
+    'No pude enviarlo ahora. Inténtalo más tarde o': 'I could not send it now. Try again later or', 'mándalo por correo': 'send it by email',
+    'Tu progreso': 'Your progress', '🔄 Dame los datos nuevos': '🔄 Give me new data', '➡️ Otro problema': '➡️ Another problem', '🔁 Empezar de nuevo': '🔁 Start over',
+    'Pista:': 'Hint:', '📝 Esta ya no cuenta: te traigo el mismo problema con otros números.': '📝 This one no longer counts: here is the same problem with other numbers.',
+    'Vuelve a leerlo con calma y resuélvelo otra vez; nada de adivinar entre las que quedan.': 'Read it again calmly and solve it again; no guessing among the options left.',
+    'Mostrar': 'Show', 'Ocultar': 'Hide', 'intenta primero': 'try first', 'ver': 'see'
+  },
+  patrones: [
+    [/^lo que llevas está en orden; sigue con el siguiente paso\.(.*)$/, 'what you have so far is in order; go on with the next step.$1'],
+    [/^todo está bien hasta el paso (\d+); el paso (\d+) no va ahí\.(.*)$/, 'everything is fine up to step $1; step $2 does not go there.$3'],
+    [/^Vas bien, pero faltan pasos: llevas (\d+) de (\d+)\.$/, 'Good so far, but steps are missing: you have $1 of $2.'],
+    [/^Tienes (\d+) de (\d+) en su lugar\.( Además se te coló un bloque que no hace parte de la prueba\.)?$/, function (m, a, b, c) { return 'You have ' + a + ' of ' + b + ' in place.' + (c ? ' Also, a block that is not part of the proof slipped in.' : ''); }],
+    [/^Pista: todo está bien hasta el paso (\d+); el paso (\d+) no va ahí\.$/, 'Hint: everything is fine up to step $1; step $2 does not go there.'],
+    [/^El error estaba en el paso (\d+)\. /, 'The mistake was in step $1. '],
+    [/^· ¡ojo! sobran (\d+)$/, '· careful! $1 extra'],
+    [/^(\d+) \/ (\d+) correctas$/, '$1 / $2 correct'],
+    [/^(\d+) de (\d+)$/, '$1 of $2'],
+    [/^Paso (\d+) de (\d+) · intenta adivinar el siguiente antes de verlo$/, 'Step $1 of $2 · try to guess the next one before you see it'],
+    [/^Tu próximo repaso es el (.*)$/, 'Your next review is on $1'],
+    [/^a la primera\.$/, 'on the first try.'], [/^Acertaste$/, 'You got'],
+    [/^Pregunta (\d+) de (\d+)/, 'Question $1 of $2'],
+    [/^Completa los retos de cada capítulo \(quiz, ordena, error y laboratorio\) para ganar su medalla\. Llevas$/, 'Complete each chapter’s challenges (quiz, ordering, mistake and lab) to win its medal. You have'],
+    [/^ · Rango: $/, ' · Rank: '],
+    [/^Tu último intento \((.*)\): (\d+) de (\d+) en «(.*)»\.$/, 'Your last attempt ($1): $2 of $3 in “$4”.'],
+    [/^ · 12 preguntas, con informe por tema$/, ' · 12 questions, with a report by topic'],
+    [/^Lee el gancho y las cajas de definición, resuelve el $/, 'Read the hook and the definition boxes, solve the '],
+    [/^laboratorio y el $/, 'lab and the '],
+    [/^«Ordena» y vuelve a intentar el quiz del capítulo \((\d+)\/(\d+) aquí\)\.$/, '“Put in order” and try the chapter quiz again ($1/$2 here).']
+  ]
+};

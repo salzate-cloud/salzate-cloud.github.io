@@ -165,5 +165,5 @@
   window.addEventListener('load', reajusta);
   /* selector ES/EN del sitio */
   (function () { var me = document.querySelector('script[src*="clase.js"]'); if (!me || document.querySelector('script[src*="assets/idioma.js"]')) return;
-    var raiz = me.src.replace(/[^/]+\/clase\/assets\/clase\.js.*$/, ''); var sc = document.createElement('script'); sc.src = raiz + 'assets/idioma.js?v=1'; document.body.appendChild(sc); })();
+    var raiz = me.src.replace(/[^/]+\/clase\/assets\/clase\.js.*$/, ''); var sc = document.createElement('script'); sc.src = raiz + 'assets/idioma.js?v=2'; document.body.appendChild(sc); })();
 })();

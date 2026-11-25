@@ -45,10 +45,29 @@
   function traduceTexto(t) {
     var s = t.trim(); if (!s) return null;
     if (EXACTO[s]) return t.replace(s, EXACTO[s]);
+    var X = window.IDIOMA_EN;
+    if (actual === 'en' && X) {
+      if (X.exacto[s]) return t.replace(s, X.exacto[s]);
+      for (var j = 0; j < X.patrones.length; j++) if (X.patrones[j][0].test(s)) return t.replace(s, s.replace(X.patrones[j][0], X.patrones[j][1]));
+    }
     for (var i = 0; i < PREFIJO.length; i++) if (PREFIJO[i][0].test(s)) return t.replace(s, s.replace(PREFIJO[i][0], PREFIJO[i][1]));
     return null;
   }
+  /* en las páginas ya traducidas (lang="en") se revisa todo el texto que generan los scripts */
+  function todoEn() {
+    var w = document.createTreeWalker(document.body, 4, null), n, r;
+    while ((n = w.nextNode())) {
+      var p = n.parentNode;
+      if (!p || p.closest('.katex, script, style, .idioma-sel, textarea')) continue;
+      r = traduceTexto(n.nodeValue);
+      if (r !== null && r !== n.nodeValue) n.nodeValue = r;
+    }
+    document.querySelectorAll('[placeholder], [aria-label], [title]').forEach(function (e) {
+      ['placeholder', 'aria-label', 'title'].forEach(function (a) { var v = e.getAttribute(a), r2 = v && traduceTexto(v); if (r2 && r2 !== v) e.setAttribute(a, r2); });
+    });
+  }
   function interfaz(l) {
+    if (actual === 'en') { todoEn(); return; }
     if (l === 'es') { guardado.forEach(function (g) { g[0].nodeValue = g[1]; }); guardado = []; return; }
     document.querySelectorAll(SEL).forEach(function (e) {
       if (e.closest('.bbody, .pbody, .katex, .idioma-sel')) return;
@@ -77,6 +96,7 @@
     if (destino) { guarda(l); location.href = destino + location.hash; return; }
     if (desdeClic) guarda(l);
     if (actual === 'es') { interfaz(l); aviso(l === 'en'); }
+    else interfaz('en');
     marca(l);
   }
 
@@ -104,13 +124,17 @@
   (document.head || html).appendChild(css);
 
   function arranca() {
+    if (actual === 'en' && !window.IDIOMA_EN) {
+      var me = document.querySelector('script[src*="idioma.js"]');
+      if (me) { var d = document.createElement('script'); d.src = me.src.replace(/idioma\.js.*/, 'idioma-en.js?v=1'); d.onload = function () { interfaz('en'); }; document.head.appendChild(d); }
+    }
     selector();
     var p = pref();
     if (p && p !== actual) aplica(p, false); else marca(actual);
     /* las presentaciones construyen diapositivas y quizzes después: retraducir cuando cambie el DOM */
     if (window.MutationObserver) {
       var t = null;
-      new MutationObserver(function () { if ((pref() || actual) !== 'en' || actual === 'en') return; clearTimeout(t); t = setTimeout(function () { interfaz('en'); }, 150); }).observe(document.body, { childList: true, subtree: true });
+      new MutationObserver(function () { if (actual !== 'en' && (pref() || actual) !== 'en') return; clearTimeout(t); t = setTimeout(function () { interfaz('en'); }, 150); }).observe(document.body, { childList: true, subtree: true });
     }
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', arranca); else arranca();
