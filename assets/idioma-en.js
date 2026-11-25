@@ -104,10 +104,16 @@ window.IDIOMA_EN = {
     "El «o» matemático es incluyente: con p y q verdaderas también es verdadera.": "The mathematical “or” is inclusive: with p and q both true it is also true.",
     "Región sombreada:": "Shaded region:",
     "— compare las dos regiones.": "— compare the two regions.",
+    "¿Es primo n² + n + 41 para todo n natural?": "Is n² + n + 41 prime for every natural number n?",
+    "¡Contraejemplo!": "Counterexample!",
+    "Con n = 40: 40² + 40 + 41 = 1681 = 41². Un solo caso basta para refutar un «para todo».": "With n = 40: 40² + 40 + 41 = 1681 = 41². A single case is enough to disprove a “for all”.",
+    "Siga moviendo.": "Keep moving.",
+    "No.": "No.",
     'Mostrar': 'Show', 'Ocultar': 'Hide', 'intenta primero': 'try first', 'ver': 'see'
   },
   contexto: [['span.V, button.wbtn.v, .tv .V', 'V', 'T']],
   patrones: [
+    [/^Llevamos (\d+) casos y todos son primos… ¿ya está demostrado\?$/, 'We have $1 cases and they are all prime… is it proved now?'],
     [/^⇒ resultado:$/, '⇒ result:'], [/^Conectivo:$/, 'Connective:'],
     [/^lo que llevas está en orden; sigue con el siguiente paso\.(.*)$/, 'what you have so far is in order; go on with the next step.$1'],
     [/^todo está bien hasta el paso (\d+); el paso (\d+) no va ahí\.(.*)$/, 'everything is fine up to step $1; step $2 does not go there.$3'],
