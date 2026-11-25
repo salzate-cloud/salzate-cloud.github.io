@@ -1090,3 +1090,81 @@
   if(document.readyState!=="loading") inicia();
   else document.addEventListener("DOMContentLoaded",inicia);
 })();
+
+/* ---------- Cursos: tarjetas más ricas (ícono, conteo de materiales, accesos destacados) ---------- */
+(function(){
+  "use strict";
+  var SIMB={"courses.calc1":"∫","courses.discrete1":"∑","courses.discrete2":"⊕","courses.discrete3":"∀","courses.logic":"∴",
+    "courses.numerical":"≈","courses.analysis2":"ℱ","courses.geometry":"△","courses.calcdif":"f′","courses.geovec":"→",
+    "courses.calcint":"∫","courses.algebra":"⊗","courses.calc-combo":"∇","courses.math226":"∫","courses.math227":"Σ",
+    "courses.math224":"∂","courses.math147":"x̄"};
+  var ICO={
+    libro:'<path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v17H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 19.5V4.5"/><path d="M9 7h7"/>',
+    notas:'<path d="M6 2h9l3 3v17H6z"/><path d="M15 2v3h3"/><path d="M9 11h6M9 15h6"/>',
+    taller:'<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.4 2.4-2.6-.6-.6-2.6z"/>',
+    sol:'<circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16.5 9"/>',
+    quiz:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6"/><path d="M12 17h.01"/>',
+    resumen:'<path d="M4 6h16M4 12h10M4 18h13"/>',
+    diapos:'<rect x="2" y="3" width="20" height="13" rx="2"/><path d="M12 16v4M8 20h8"/><path d="M7 12l3-3 3 2 4-4"/>'
+  };
+  function tipo(k){
+    if(/diapos/.test(k))return"diapos"; if(/libro/.test(k))return"libro"; if(/notas/.test(k))return"notas";
+    if(/Quizzes/.test(k))return"quiz"; if(/resumen/.test(k))return"resumen"; if(/[Tt]aller|Colab/.test(k)&&!/Soluc/.test(k))return"taller";
+    return"sol";
+  }
+  function svg(p){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+p+'</svg>';}
+  function corta(t,n){t=(t||"").replace(/\s+/g," ").trim(); if(t.length<=n)return t; var c=t.slice(0,n); return c.slice(0,c.lastIndexOf(" "))+"…";}
+  function inicia(){
+    var filas=document.querySelectorAll(".course-row");
+    if(!filas.length)return;
+    document.documentElement.classList.add("cursos-v2");
+    Array.prototype.forEach.call(filas,function(fila){
+      var info=fila.querySelector(".course-info"), nom=fila.querySelector(".cname");
+      if(!info||!nom||fila.querySelector(".course-ico"))return;
+      var ico=document.createElement("span"); ico.className="course-ico"; ico.setAttribute("aria-hidden","true");
+      ico.textContent=SIMB[nom.getAttribute("data-i18n")]||(nom.textContent.trim()[0]||"·");
+      info.insertBefore(ico,info.firstChild);
+      var total=0;
+      Array.prototype.forEach.call(fila.querySelectorAll(".notes-group"),function(g){
+        var s=g.querySelector(".ng-title"), n=g.querySelectorAll(".notes-links a").length; total+=n;
+        if(!s)return;
+        g.classList.add("ng-"+tipo(s.getAttribute("data-i18n")||""));
+        var i=document.createElement("span"); i.className="ng-ico"; i.innerHTML=svg(ICO[tipo(s.getAttribute("data-i18n")||"")]);
+        s.insertBefore(i,s.firstChild);
+        if(n){var c=document.createElement("span"); c.className="ng-count"; c.setAttribute("aria-hidden","true"); c.textContent=n; s.appendChild(c);}
+        Array.prototype.forEach.call(g.querySelectorAll(".notes-links a"),function(a){
+          var t=a.getAttribute("title"); if(!t||a.querySelector(".nl-desc"))return;
+          var d=document.createElement("small"); d.className="nl-desc"; d.textContent=corta(t.replace(/^[^:]*:\s*/,function(m){return m.length<45?"":m;}),92);
+          a.appendChild(d);
+          if(/\.pdf(\?|#|$)/i.test(a.getAttribute("href")||""))a.classList.add("es-pdf"); else a.classList.add("es-web");
+        });
+      });
+      if(total){
+        var t=document.createElement("span"); t.className="course-total";
+        t.innerHTML='<b>'+total+'</b> <span data-es="materiales" data-en="materials">'+(document.documentElement.lang==="en"?"materials":"materiales")+'</span>';
+        info.appendChild(t);
+      }
+      /* accesos destacados: lo interactivo (libros web, diapositivas, quiz) */
+      var web=Array.prototype.filter.call(fila.querySelectorAll(".notes-links a"),function(a){
+        var h=a.getAttribute("href")||""; return !/\.pdf(\?|#|$)/i.test(h)&&!/^https?:/i.test(h)&&h.indexOf("#")<0;
+      });
+      if(web.length){
+        var dest=document.createElement("div"); dest.className="course-destacados";
+        web.slice(0,4).forEach(function(a){
+          var b=document.createElement("a"); b.href=a.getAttribute("href"); b.className="dest";
+          var lab=a.querySelector("span[data-i18n]"); var txt=lab?lab.textContent:a.textContent;
+          var k=(lab&&lab.getAttribute("data-i18n"))||"";
+          b.innerHTML=svg(/quiz/.test(k)?ICO.quiz:/diapos/.test(k)?ICO.diapos:ICO.libro)+'<span></span>';
+          b.lastChild.textContent=txt.trim();
+          if(lab){b.lastChild.setAttribute("data-i18n",k);}
+          dest.appendChild(b);
+        });
+        info.appendChild(dest);
+      }
+    });
+    document.querySelectorAll("[data-lang-btn]").forEach(function(btn){btn.addEventListener("click",function(){
+      setTimeout(function(){var en=document.documentElement.lang==="en";
+        document.querySelectorAll(".course-total span[data-es]").forEach(function(s){s.textContent=en?s.getAttribute("data-en"):s.getAttribute("data-es");});},30);});});
+  }
+  if(document.readyState!=="loading") inicia(); else document.addEventListener("DOMContentLoaded",inicia);
+})();
