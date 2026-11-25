@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Material del curso</title><meta name="robots" content="noindex"><meta name="author" content="Santiago Alzate Suárez"><meta name="copyright" content="© 2026 Santiago Alzate Suárez. Todos los derechos reservados.">
+<style>
+:root{--c:#23317a;--tinta:#1d2233;--gris:#5d637a;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--serif:"Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif}
+*{box-sizing:border-box}
+html,body{margin:0;background:#e8eaf0;color:var(--tinta);font-family:var(--sans)}
+body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.barra{position:sticky;top:0;z-index:5;background:var(--c);color:#fff;display:flex;align-items:center;gap:14px;padding:10px 18px;box-shadow:0 1px 0 rgba(0,0,0,.15)}
+.barra a,.barra .salir{color:#fff;text-decoration:none;font-size:15px;opacity:.92;background:none;border:0;width:auto;height:auto;cursor:pointer;font-family:inherit;padding:0}
+.barra a:hover,.barra .salir:hover{opacity:1;text-decoration:underline}
+.barra h1{font-family:var(--serif);font-weight:600;font-size:19px;margin:0;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.barra h1 small{font-family:var(--sans);font-weight:400;font-size:13px;opacity:.8;margin-left:8px}
+.barra .ctl{display:flex;align-items:center;gap:6px;font-size:14px;white-space:nowrap}
+.barra button.z{font:inherit;background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:6px;width:34px;height:30px;cursor:pointer;font-size:17px}
+.barra button.z:hover{background:rgba(255,255,255,.26)}
+.barra button:focus-visible,.barra a:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.nota{max-width:var(--ancho,900px);margin:18px auto 0;padding:0 14px;font-size:13.5px;color:var(--gris)}
+main{display:flex;flex-direction:column;align-items:center;gap:18px;padding:16px 14px 60px}
+.pag{position:relative;width:100%;max-width:var(--ancho,900px);background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.12),0 6px 22px rgba(0,0,0,.07)}
+.pag img{display:block;width:100%;height:100%;pointer-events:none;-webkit-user-drag:none}
+.pag::after{content:"";position:absolute;inset:0}
+.pag .n{position:absolute;left:-46px;top:6px;font-size:12px;color:var(--gris)}
+@media (max-width:1000px){.pag .n{display:none}}
+.error{max-width:600px;margin:80px auto;text-align:center;font-family:var(--serif);font-size:20px}
+@media print{body>*{display:none!important}body::after{content:"Este material solo se puede ver en santiagoalzates.com.";display:block;padding:40px;font:16px/1.5 sans-serif}}
+</style>
+<script src="../assets/acceso.js"></script>
+</head><body>
+<div class="barra"><a id="volver" href="../cursos.html">‹ Volver</a><h1 id="tit">Material del curso</h1>
+<div class="ctl"><button class="z" id="menos" title="Reducir" aria-label="Reducir">−</button><button class="z" id="mas" title="Ampliar" aria-label="Ampliar">+</button><span id="cont"></span>
+<button class="salir" id="salir" title="Olvidar la contraseña en este navegador">Salir</button></div></div>
+<p class="nota">Material del curso para leer en la página. © 2026 Santiago Alzate Suárez, autor de este material: todos los derechos reservados; se prohíbe su reproducción o distribución sin autorización, y todo uso debe citar al autor.</p>
+<main id="hojas"></main>
+<script>
+(function(){
+  var q = new URLSearchParams(location.search), d = q.get('d'), vuelta = q.get('v');
+  if (vuelta && /^[\w\-./#]+$/.test(vuelta) && vuelta.indexOf('//') < 0) document.getElementById('volver').href = vuelta;
+  document.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+  document.addEventListener('dragstart', function (e) { e.preventDefault(); });
+  document.addEventListener('keydown', function (e) { if ((e.ctrlKey || e.metaKey) && /^[sp]$/i.test(e.key)) e.preventDefault(); });
+  document.getElementById('salir').onclick = function () { ACCESO.salir(); };
+  var ancho = 900;
+  try { ancho = +localStorage.getItem('sa-visor-ancho') || 900; } catch (e) {}
+  function aplica() { document.documentElement.style.setProperty('--ancho', ancho + 'px'); try { localStorage.setItem('sa-visor-ancho', ancho); } catch (e) {} }
+  document.getElementById('mas').onclick = function () { ancho = Math.min(1600, ancho + 120); aplica(); };
+  document.getElementById('menos').onclick = function () { ancho = Math.max(520, ancho - 120); aplica(); };
+  aplica();
+  fetch('docs.json?' + Date.now()).then(function (r) { return r.json(); }).then(function (D) {
+    var x = D[d], main = document.getElementById('hojas');
+    if (!/^[a-z0-9-]+$/.test(d || '') || !x) { main.innerHTML = '<div class="error">No encontramos ese documento. Vuelva a <a href="../cursos.html">Cursos</a>.</div>'; return; }
+    document.title = x.titulo + (x.curso ? ' · ' + x.curso : '');
+    var h1 = document.getElementById('tit'); h1.textContent = x.titulo;
+    if (x.curso) { var sm = document.createElement('small'); sm.textContent = x.curso; h1.appendChild(sm); }
+    document.getElementById('cont').textContent = x.paginas + (x.paginas === 1 ? ' página' : ' páginas');
+    ACCESO.llave().then(function () {
+      var h = '';
+      for (var k = 1; k <= x.paginas; k++) h += '<div class="pag" data-k="' + k + '" style="aspect-ratio:' + x.w + '/' + x.h + '"><span class="n">' + k + '</span></div>';
+      main.innerHTML = h;
+      function carga(el) {
+        if (el.dataset.ok) return; el.dataset.ok = 1;
+        var n = ('00' + el.dataset.k).slice(-3);
+        ACCESO.descifra(d + '/' + n + '.cif?v=' + x.v).then(function (buf) {
+          var im = new Image(); im.alt = 'Página ' + el.dataset.k; im.draggable = false;
+          im.src = URL.createObjectURL(new Blob([buf], { type: 'image/webp' }));
+          el.appendChild(im);
+        }).catch(function () { el.dataset.ok = ''; });
+      }
+      var pags = main.querySelectorAll('.pag');
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { carga(e.target); io.unobserve(e.target); } }); }, { rootMargin: '1500px 0px' });
+        pags.forEach(function (p) { io.observe(p); });
+      } else pags.forEach(carga);
+    });
+  });
+})();
+</script>
+</body></html>

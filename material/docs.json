@@ -1,0 +1,1162 @@
+{
+ "calculo-i-quiz1-solucion": {
+  "titulo": "Quiz I · Solución",
+  "curso": "Cálculo I · Código 911",
+  "paginas": 7,
+  "w": 1190,
+  "h": 1540,
+  "v": "ad5239a8"
+ },
+ "notas-clase-13-analisis-numerico-optimizado": {
+  "titulo": "Clase 13",
+  "curso": "Análisis Numérico",
+  "paginas": 14,
+  "w": 1190,
+  "h": 1540,
+  "v": "5cafa2a9"
+ },
+ "unidad3-parte2-hamilton-arboles-recorridos": {
+  "titulo": "Unidad 3 · Parte 2: Hamilton, árboles y recorridos",
+  "curso": "Matemáticas Discretas · Código 920",
+  "paginas": 14,
+  "w": 1190,
+  "h": 1540,
+  "v": "f40c2182"
+ },
+ "algebra-lineal-libro-completo": {
+  "titulo": "Libro completo del curso",
+  "curso": "Álgebra Lineal",
+  "paginas": 283,
+  "w": 1158,
+  "h": 1638,
+  "v": "e918bad4"
+ },
+ "analisis-ii-clase-1": {
+  "titulo": "Clase 1",
+  "curso": "Análisis II",
+  "paginas": 5,
+  "w": 1190,
+  "h": 1540,
+  "v": "cc426379"
+ },
+ "analisis-ii-notas-parcial1": {
+  "titulo": "Notas Parcial 1",
+  "curso": "Análisis II",
+  "paginas": 28,
+  "w": 1190,
+  "h": 1540,
+  "v": "f2e1c46f"
+ },
+ "analisis-ii-notas-parcial2": {
+  "titulo": "Notas Parcial 2",
+  "curso": "Análisis II",
+  "paginas": 47,
+  "w": 1190,
+  "h": 1540,
+  "v": "9cdbefa0"
+ },
+ "analisis-ii-notas-parcial3": {
+  "titulo": "Notas Parcial 3",
+  "curso": "Análisis II",
+  "paginas": 26,
+  "w": 1190,
+  "h": 1540,
+  "v": "b07ffba7"
+ },
+ "analisis-ii-notas-parcial4": {
+  "titulo": "Notas Parcial 4 (final)",
+  "curso": "Análisis II",
+  "paginas": 29,
+  "w": 1190,
+  "h": 1540,
+  "v": "7fb3eee2"
+ },
+ "analisis-ii-parcial2-solucion": {
+  "titulo": "Parcial 2 · Solución",
+  "curso": "Análisis II",
+  "paginas": 4,
+  "w": 1190,
+  "h": 1540,
+  "v": "f99f6ad4"
+ },
+ "analisis-ii-parcial3-solucion": {
+  "titulo": "Parcial 3 · Solución",
+  "curso": "Análisis II",
+  "paginas": 4,
+  "w": 1190,
+  "h": 1540,
+  "v": "cb7f6d5c"
+ },
+ "analisis-ii-supletorio-parcial2-solucion": {
+  "titulo": "Supletorio Parcial 2 · Solución",
+  "curso": "Análisis II",
+  "paginas": 4,
+  "w": 1190,
+  "h": 1540,
+  "v": "bb296b59"
+ },
+ "analisis-ii-taller-parcial1": {
+  "titulo": "Taller para el Parcial 1",
+  "curso": "Análisis II",
+  "paginas": 1,
+  "w": 1190,
+  "h": 1540,
+  "v": "d6dcb695"
+ },
+ "analisis-ii-taller-parcial2": {
+  "titulo": "Taller para el Parcial 2",
+  "curso": "Análisis II",
+  "paginas": 2,
+  "w": 1190,
+  "h": 1540,
+  "v": "c6030ed2"
+ },
+ "analisis-ii-taller-parcial3-solucion": {
+  "titulo": "Taller para el Parcial 3",
+  "curso": "Análisis II",
+  "paginas": 11,
+  "w": 1190,
+  "h": 1540,
+  "v": "108f50e0"
+ },
+ "analisis-ii-taller-parcial4-solucion": {
+  "titulo": "Taller para el Parcial 4",
+  "curso": "Análisis II",
+  "paginas": 12,
+  "w": 1190,
+  "h": 1540,
+  "v": "ce36e330"
+ },
+ "analisis-numerico-clase-1": {
+  "titulo": "Clase 1",
+  "curso": "Análisis Numérico",
+  "paginas": 6,
+  "w": 1190,
+  "h": 1540,
+  "v": "7b1cb329"
+ },
+ "analisis-numerico-clase-10": {
+  "titulo": "Clase 10",
+  "curso": "Análisis Numérico",
+  "paginas": 5,
+  "w": 1190,
+  "h": 1540,
+  "v": "2d8e96e8"
+ },
+ "calculo-diferencial-taller01-desigualdades": {
+  "titulo": "Taller 1 · Números reales, desigualdades e intervalos",
+  "curso": "Cálculo Diferencial",
+  "paginas": 5,
+  "w": 1275,
+  "h": 1650,
+  "v": "f6a843b3"
+ },
+ "calculo-diferencial-taller02-valor-absoluto-rectas": {
+  "titulo": "Taller 2 · Valor absoluto, plano cartesiano y rectas",
+  "curso": "Cálculo Diferencial",
+  "paginas": 5,
+  "w": 1275,
+  "h": 1650,
+  "v": "143711ff"
+ },
+ "calculo-diferencial-taller03-funciones": {
+  "titulo": "Taller 3 · Funciones y sus gráficas",
+  "curso": "Cálculo Diferencial",
+  "paginas": 5,
+  "w": 1275,
+  "h": 1650,
+  "v": "244a45dd"
+ },
+ "calculo-diferencial-taller04-transformaciones": {
+  "titulo": "Taller 4 · Transformaciones, operaciones y composición",
+  "curso": "Cálculo Diferencial",
+  "paginas": 5,
+  "w": 1275,
+  "h": 1650,
+  "v": "c6113c0b"
+ },
+ "calculo-diferencial-taller05-inversa-exp-log": {
+  "titulo": "Taller 5 · Función inversa, exponencial y logarítmica",
+  "curso": "Cálculo Diferencial",
+  "paginas": 5,
+  "w": 1275,
+  "h": 1650,
+  "v": "58b66833"
+ },
+ "calculo-diferencial-taller06-trigonometricas-limites": {
+  "titulo": "Taller 6 · Funciones trigonométricas y la idea de límite",
+  "curso": "Cálculo Diferencial",
+  "paginas": 5,
+  "w": 1275,
+  "h": 1650,
+  "v": "b2d1c3fe"
+ },
+ "calculo-diferencial-taller07-calculo-limites": {
+  "titulo": "Taller 7 · Cálculo de límites",
+  "curso": "Cálculo Diferencial",
+  "paginas": 5,
+  "w": 1275,
+  "h": 1650,
+  "v": "899b787c"
+ },
+ "calculo-diferencial-taller08-asintotas-continuidad": {
+  "titulo": "Taller 8 · Límites infinitos, asíntotas y continuidad",
+  "curso": "Cálculo Diferencial",
+  "paginas": 5,
+  "w": 1275,
+  "h": 1650,
+  "v": "27c47dea"
+ },
+ "calculo-diferencial-taller09-derivada": {
+  "titulo": "Taller 9 · La derivada",
+  "curso": "Cálculo Diferencial",
+  "paginas": 4,
+  "w": 1275,
+  "h": 1650,
+  "v": "9d3565f0"
+ },
+ "calculo-diferencial-taller10-reglas-cadena": {
+  "titulo": "Taller 10 · Reglas de derivación y regla de la cadena",
+  "curso": "Cálculo Diferencial",
+  "paginas": 4,
+  "w": 1275,
+  "h": 1650,
+  "v": "566a945b"
+ },
+ "calculo-diferencial-taller11-orden-superior-implicita": {
+  "titulo": "Taller 11 · Derivación implícita y derivadas de orden superior",
+  "curso": "Cálculo Diferencial",
+  "paginas": 4,
+  "w": 1275,
+  "h": 1650,
+  "v": "f93c7e14"
+ },
+ "calculo-diferencial-taller12-logaritmica-razones": {
+  "titulo": "Taller 12 · Derivación logarítmica y razones de cambio",
+  "curso": "Cálculo Diferencial",
+  "paginas": 4,
+  "w": 1275,
+  "h": 1650,
+  "v": "dd1289c9"
+ },
+ "calculo-diferencial-taller13-crecimiento-extremos": {
+  "titulo": "Taller 13 · Crecimiento y valores extremos",
+  "curso": "Cálculo Diferencial",
+  "paginas": 4,
+  "w": 1275,
+  "h": 1650,
+  "v": "a5a7ab7d"
+ },
+ "calculo-diferencial-taller14-concavidad-lhopital": {
+  "titulo": "Taller 14 · Concavidad y regla de L'Hôpital",
+  "curso": "Cálculo Diferencial",
+  "paginas": 4,
+  "w": 1275,
+  "h": 1650,
+  "v": "34ec1c4c"
+ },
+ "calculo-diferencial-taller15-trazado-curvas": {
+  "titulo": "Taller 15 · Trazado de curvas",
+  "curso": "Cálculo Diferencial",
+  "paginas": 3,
+  "w": 1275,
+  "h": 1650,
+  "v": "30200456"
+ },
+ "calculo-diferencial-taller16-optimizacion": {
+  "titulo": "Taller 16 · Optimización",
+  "curso": "Cálculo Diferencial",
+  "paginas": 4,
+  "w": 1275,
+  "h": 1650,
+  "v": "0ebcb0c8"
+ },
+ "analisis-numerico-clase-11": {
+  "titulo": "Clase 11",
+  "curso": "Análisis Numérico",
+  "paginas": 9,
+  "w": 1190,
+  "h": 1540,
+  "v": "08e08f06"
+ },
+ "analisis-numerico-clase-12": {
+  "titulo": "Clase 12",
+  "curso": "Análisis Numérico",
+  "paginas": 7,
+  "w": 1190,
+  "h": 1540,
+  "v": "4fa983af"
+ },
+ "analisis-numerico-clase-2": {
+  "titulo": "Clase 2",
+  "curso": "Análisis Numérico",
+  "paginas": 6,
+  "w": 1190,
+  "h": 1540,
+  "v": "1047667f"
+ },
+ "analisis-numerico-clase-3": {
+  "titulo": "Clase 3",
+  "curso": "Análisis Numérico",
+  "paginas": 8,
+  "w": 1190,
+  "h": 1540,
+  "v": "a3ec1a7b"
+ },
+ "analisis-numerico-clase-4": {
+  "titulo": "Clase 4",
+  "curso": "Análisis Numérico",
+  "paginas": 6,
+  "w": 1190,
+  "h": 1540,
+  "v": "809c8942"
+ },
+ "analisis-numerico-clase-5": {
+  "titulo": "Clase 5",
+  "curso": "Análisis Numérico",
+  "paginas": 7,
+  "w": 1190,
+  "h": 1540,
+  "v": "95f3ba75"
+ },
+ "analisis-numerico-clase-6": {
+  "titulo": "Clase 6",
+  "curso": "Análisis Numérico",
+  "paginas": 7,
+  "w": 1190,
+  "h": 1540,
+  "v": "eda428a7"
+ },
+ "analisis-numerico-clase-7": {
+  "titulo": "Clase 7",
+  "curso": "Análisis Numérico",
+  "paginas": 8,
+  "w": 1190,
+  "h": 1540,
+  "v": "b10fbd2d"
+ },
+ "analisis-numerico-clase-8": {
+  "titulo": "Clase 8",
+  "curso": "Análisis Numérico",
+  "paginas": 10,
+  "w": 1190,
+  "h": 1540,
+  "v": "fea6c6ff"
+ },
+ "analisis-numerico-clase-9": {
+  "titulo": "Clase 9",
+  "curso": "Análisis Numérico",
+  "paginas": 10,
+  "w": 1190,
+  "h": 1540,
+  "v": "01d06d24"
+ },
+ "analisis-numerico-clase-taller-parcial2-solucion": {
+  "titulo": "Taller para el Parcial 2",
+  "curso": "Análisis Numérico",
+  "paginas": 19,
+  "w": 1158,
+  "h": 1638,
+  "v": "c93a7c09"
+ },
+ "analisis-numerico-clase-taller-parcial3-solucion": {
+  "titulo": "Taller para el Parcial 3",
+  "curso": "Análisis Numérico",
+  "paginas": 14,
+  "w": 1190,
+  "h": 1540,
+  "v": "80c40fb5"
+ },
+ "analisis-numerico-parcial1-solucion": {
+  "titulo": "Parcial 1 · Solución",
+  "curso": "Análisis Numérico",
+  "paginas": 5,
+  "w": 1158,
+  "h": 1638,
+  "v": "5a38e0b5"
+ },
+ "analisis-numerico-parcial2-solucion": {
+  "titulo": "Parcial 2 · Solución",
+  "curso": "Análisis Numérico",
+  "paginas": 7,
+  "w": 1190,
+  "h": 1540,
+  "v": "fdf28e52"
+ },
+ "analisis-numerico-supletorio-parcial1-solucion": {
+  "titulo": "Supletorio Parcial 1 · Solución",
+  "curso": "Análisis Numérico",
+  "paginas": 5,
+  "w": 1158,
+  "h": 1638,
+  "v": "36670e97"
+ },
+ "analisis-numerico-supletorio-parcial2-solucion": {
+  "titulo": "Supletorio Parcial 2 · Solución",
+  "curso": "Análisis Numérico",
+  "paginas": 6,
+  "w": 1190,
+  "h": 1540,
+  "v": "9a96af65"
+ },
+ "analisis-numerico-taller-parcial1": {
+  "titulo": "Taller para el Parcial 1",
+  "curso": "Análisis Numérico",
+  "paginas": 1,
+  "w": 1190,
+  "h": 1540,
+  "v": "db0ff224"
+ },
+ "analisis-numerico-taller-parcial3-parte1-solucion": {
+  "titulo": "Taller para el Parcial 3 · Parte 1",
+  "curso": "Análisis Numérico",
+  "paginas": 13,
+  "w": 1158,
+  "h": 1638,
+  "v": "ceb61692"
+ },
+ "analisis-numerico-temas-exposicion-examen-final": {
+  "titulo": "Temas de exposición del examen final",
+  "curso": "Análisis Numérico",
+  "paginas": 4,
+  "w": 1158,
+  "h": 1638,
+  "v": "9abe9a90"
+ },
+ "calculo-diferencial-parcial2-solucion": {
+  "titulo": "Parcial 2 · Solución",
+  "curso": "Cálculo Diferencial",
+  "paginas": 6,
+  "w": 1190,
+  "h": 1540,
+  "v": "cf7fdb32"
+ },
+ "calculo-diferencial-parcial3-solucionario": {
+  "titulo": "Parcial 3 · Solución",
+  "curso": "Cálculo Diferencial",
+  "paginas": 6,
+  "w": 1190,
+  "h": 1540,
+  "v": "8656688c"
+ },
+ "calculo-diferencial-resumen-parcial1": {
+  "titulo": "Resumen Parcial 1",
+  "curso": "Cálculo Diferencial",
+  "paginas": 46,
+  "w": 1158,
+  "h": 1638,
+  "v": "4d7b5473"
+ },
+ "calculo-diferencial-resumen-parcial2": {
+  "titulo": "Resumen Parcial 2",
+  "curso": "Cálculo Diferencial",
+  "paginas": 47,
+  "w": 1158,
+  "h": 1638,
+  "v": "aae46d4f"
+ },
+ "calculo-diferencial-resumen-parcial3": {
+  "titulo": "Resumen Parcial 3",
+  "curso": "Cálculo Diferencial",
+  "paginas": 70,
+  "w": 1158,
+  "h": 1638,
+  "v": "3d72ef9d"
+ },
+ "calculo-diferencial-resumen-parcial4": {
+  "titulo": "Resumen Parcial 4",
+  "curso": "Cálculo Diferencial",
+  "paginas": 53,
+  "w": 1158,
+  "h": 1638,
+  "v": "a2ddbb53"
+ },
+ "calculo-i-parcial1-solucion": {
+  "titulo": "Parcial 1 · Solución",
+  "curso": "Cálculo I · Código 911",
+  "paginas": 13,
+  "w": 1158,
+  "h": 1638,
+  "v": "aa3a8d84"
+ },
+ "calculo-i-taller1-solucion": {
+  "titulo": "Taller colaborativo 1 · Solución",
+  "curso": "Cálculo I · Código 911",
+  "paginas": 5,
+  "w": 1158,
+  "h": 1638,
+  "v": "fef20e02"
+ },
+ "calculo-integral-resumen-completo": {
+  "titulo": "Resumen completo del curso",
+  "curso": "Cálculo Integral",
+  "paginas": 57,
+  "w": 1158,
+  "h": 1638,
+  "v": "4f352c12"
+ },
+ "calculo1-clases-1-4-y-taller": {
+  "titulo": "Notas del curso",
+  "curso": "Cálculo I · Código 911",
+  "paginas": 45,
+  "w": 1190,
+  "h": 1540,
+  "v": "41760bf1"
+ },
+ "geometria-vectorial-parcial2-solucion": {
+  "titulo": "Parcial 2 · Solución",
+  "curso": "Geometría Vectorial y Analítica",
+  "paginas": 5,
+  "w": 1190,
+  "h": 1540,
+  "v": "2c63fffe"
+ },
+ "geometria-vectorial-parcial3-solucionario": {
+  "titulo": "Parcial 3 · Solución",
+  "curso": "Geometría Vectorial y Analítica",
+  "paginas": 6,
+  "w": 1190,
+  "h": 1540,
+  "v": "b9a17056"
+ },
+ "geometria-vectorial-resumen-parcial1": {
+  "titulo": "Resumen Parcial 1",
+  "curso": "Geometría Vectorial y Analítica",
+  "paginas": 81,
+  "w": 1158,
+  "h": 1638,
+  "v": "48ef4600"
+ },
+ "geometria-vectorial-resumen-parcial2": {
+  "titulo": "Resumen Parcial 2",
+  "curso": "Geometría Vectorial y Analítica",
+  "paginas": 77,
+  "w": 1158,
+  "h": 1638,
+  "v": "6b3f1621"
+ },
+ "geometria-vectorial-resumen-parcial3": {
+  "titulo": "Resumen Parcial 3",
+  "curso": "Geometría Vectorial y Analítica",
+  "paginas": 85,
+  "w": 1158,
+  "h": 1638,
+  "v": "2aec357e"
+ },
+ "geometria-vectorial-resumen-parcial4": {
+  "titulo": "Resumen Parcial 4",
+  "curso": "Geometría Vectorial y Analítica",
+  "paginas": 52,
+  "w": 1158,
+  "h": 1638,
+  "v": "efe06987"
+ },
+ "matematicas-discretas-920-notas": {
+  "titulo": "Notas del curso",
+  "curso": "Matemáticas Discretas · Código 920",
+  "paginas": 54,
+  "w": 1190,
+  "h": 1540,
+  "v": "17386456"
+ },
+ "matematicas-discretas-922-notas": {
+  "titulo": "Notas del curso",
+  "curso": "Matemáticas Discretas · Código 922",
+  "paginas": 55,
+  "w": 1190,
+  "h": 1540,
+  "v": "49c9f8c6"
+ },
+ "matematicas-discretas-923-notas": {
+  "titulo": "Notas del curso",
+  "curso": "Matemáticas Discretas · Código 923",
+  "paginas": 17,
+  "w": 1190,
+  "h": 1540,
+  "v": "2cb7e2e5"
+ },
+ "matematicas-discretas-aprender-haciendo": {
+  "titulo": "Libro del curso",
+  "curso": "Matemáticas Discretas · Código 920",
+  "paginas": 117,
+  "w": 1158,
+  "h": 1638,
+  "v": "f49115f9"
+ },
+ "matematicas-discretas-libro-completo": {
+  "titulo": "matematicas discretas libro completo",
+  "curso": "",
+  "paginas": 254,
+  "w": 1158,
+  "h": 1638,
+  "v": "d7a09224"
+ },
+ "matematicas-discretas-parcial1-solucion": {
+  "titulo": "Parcial 1 · Solución",
+  "curso": "Matemáticas Discretas · Código 920",
+  "paginas": 14,
+  "w": 1158,
+  "h": 1638,
+  "v": "24e9a358"
+ },
+ "matematicas-discretas-quiz1-solucion": {
+  "titulo": "Quiz I · Solución",
+  "curso": "Matemáticas Discretas · Código 920",
+  "paginas": 7,
+  "w": 1190,
+  "h": 1540,
+  "v": "ec25350d"
+ },
+ "matematicas-discretas-taller-grafos-solucion": {
+  "titulo": "Taller colaborativo 2 · Solución",
+  "curso": "Matemáticas Discretas · Código 920",
+  "paginas": 12,
+  "w": 1190,
+  "h": 1540,
+  "v": "8cb6c394"
+ },
+ "matematicas-discretas-taller1-solucion": {
+  "titulo": "Taller colaborativo 1 · Solución",
+  "curso": "Matemáticas Discretas · Código 920",
+  "paginas": 7,
+  "w": 1158,
+  "h": 1638,
+  "v": "083ca1cb"
+ },
+ "matematicas-discretas-unidad3-grafos": {
+  "titulo": "Unidad 3 · Grafos",
+  "curso": "Matemáticas Discretas · Código 920",
+  "paginas": 18,
+  "w": 1190,
+  "h": 1540,
+  "v": "d3107ff0"
+ },
+ "math147-notas": {
+  "titulo": "Notas del curso",
+  "curso": "Math 147 · Estadística Elemental",
+  "paginas": 77,
+  "w": 1158,
+  "h": 1638,
+  "v": "1e5c997c"
+ },
+ "math224-clase-01": {
+  "titulo": "Clase 1",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 7,
+  "w": 1190,
+  "h": 1540,
+  "v": "96e47fce"
+ },
+ "math224-clase-02": {
+  "titulo": "Clase 2",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 9,
+  "w": 1190,
+  "h": 1540,
+  "v": "4f9e27b0"
+ },
+ "math224-clase-03": {
+  "titulo": "Clase 3",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 8,
+  "w": 1190,
+  "h": 1540,
+  "v": "ba807c8c"
+ },
+ "math224-clase-04": {
+  "titulo": "Clase 4",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 8,
+  "w": 1190,
+  "h": 1540,
+  "v": "ef1b1fa3"
+ },
+ "math224-clase-05": {
+  "titulo": "Clase 5",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 10,
+  "w": 1190,
+  "h": 1540,
+  "v": "6961f14a"
+ },
+ "math224-clase-06": {
+  "titulo": "Clase 6",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 11,
+  "w": 1190,
+  "h": 1540,
+  "v": "a374d307"
+ },
+ "math224-clase-07": {
+  "titulo": "Clase 7",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 4,
+  "w": 1190,
+  "h": 1540,
+  "v": "0a369a83"
+ },
+ "math224-clase-08": {
+  "titulo": "Clase 8",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 10,
+  "w": 1190,
+  "h": 1540,
+  "v": "02bf5586"
+ },
+ "math224-clase-09": {
+  "titulo": "Clase 9",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 6,
+  "w": 1190,
+  "h": 1540,
+  "v": "aacb77b9"
+ },
+ "math224-clase-10": {
+  "titulo": "Clase 10",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 9,
+  "w": 1190,
+  "h": 1540,
+  "v": "764c4187"
+ },
+ "math224-clase-11": {
+  "titulo": "Clase 11",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 9,
+  "w": 1190,
+  "h": 1540,
+  "v": "7a194dbd"
+ },
+ "math225-clase-01": {
+  "titulo": "Clase 1",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 2,
+  "w": 1190,
+  "h": 1540,
+  "v": "040fbb3e"
+ },
+ "math225-clase-02": {
+  "titulo": "Clase 2",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 4,
+  "w": 1190,
+  "h": 1540,
+  "v": "e354c2d3"
+ },
+ "math225-clase-03": {
+  "titulo": "Clase 3",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 4,
+  "w": 1190,
+  "h": 1540,
+  "v": "d0132f8b"
+ },
+ "math225-clase-04": {
+  "titulo": "Clase 4",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 3,
+  "w": 1190,
+  "h": 1540,
+  "v": "535ffb32"
+ },
+ "math225-clase-05": {
+  "titulo": "Clase 5",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 7,
+  "w": 1190,
+  "h": 1540,
+  "v": "5e2d90f8"
+ },
+ "math225-clase-06": {
+  "titulo": "Clase 6",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 7,
+  "w": 1190,
+  "h": 1540,
+  "v": "4f7c7606"
+ },
+ "math225-clase-07": {
+  "titulo": "Clase 7",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 7,
+  "w": 1190,
+  "h": 1540,
+  "v": "c5556ec5"
+ },
+ "math225-clase-08": {
+  "titulo": "Clase 8",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 3,
+  "w": 1190,
+  "h": 1540,
+  "v": "fb2c610c"
+ },
+ "math225-clase-09": {
+  "titulo": "Clase 9",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 5,
+  "w": 1190,
+  "h": 1540,
+  "v": "4a8d645e"
+ },
+ "math225-clase-10": {
+  "titulo": "Clase 10",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 6,
+  "w": 1190,
+  "h": 1540,
+  "v": "94aaa2a0"
+ },
+ "math225-clase-11": {
+  "titulo": "Clase 11",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 6,
+  "w": 1190,
+  "h": 1540,
+  "v": "39b70dbf"
+ },
+ "math225-clase-12": {
+  "titulo": "Clase 12",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 6,
+  "w": 1190,
+  "h": 1540,
+  "v": "6f3a8d70"
+ },
+ "math225-clase-13": {
+  "titulo": "Clase 13",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 4,
+  "w": 1190,
+  "h": 1540,
+  "v": "124ef5b0"
+ },
+ "math225-clase-14": {
+  "titulo": "Clase 14",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 3,
+  "w": 1190,
+  "h": 1540,
+  "v": "59f5f4eb"
+ },
+ "math225-clase-15": {
+  "titulo": "Clase 15",
+  "curso": "Math 224–225 · Cálculo Diferencial e Integral",
+  "paginas": 3,
+  "w": 1190,
+  "h": 1540,
+  "v": "298def24"
+ },
+ "math226-clase-01": {
+  "titulo": "Clase 1",
+  "curso": "Math 226 · Técnicas de Integración y Ecuaciones Paramétricas",
+  "paginas": 6,
+  "w": 1190,
+  "h": 1540,
+  "v": "8a7ba92f"
+ },
+ "math226-clase-02": {
+  "titulo": "Clase 2",
+  "curso": "Math 226 · Técnicas de Integración y Ecuaciones Paramétricas",
+  "paginas": 5,
+  "w": 1190,
+  "h": 1540,
+  "v": "c56d2d28"
+ },
+ "math226-clase-03": {
+  "titulo": "Clase 3",
+  "curso": "Math 226 · Técnicas de Integración y Ecuaciones Paramétricas",
+  "paginas": 7,
+  "w": 1190,
+  "h": 1540,
+  "v": "a54d0c67"
+ },
+ "math226-clase-04": {
+  "titulo": "Clase 4",
+  "curso": "Math 226 · Técnicas de Integración y Ecuaciones Paramétricas",
+  "paginas": 6,
+  "w": 1190,
+  "h": 1540,
+  "v": "de81591b"
+ },
+ "math226-clase-05": {
+  "titulo": "Clase 5",
+  "curso": "Math 226 · Técnicas de Integración y Ecuaciones Paramétricas",
+  "paginas": 4,
+  "w": 1190,
+  "h": 1540,
+  "v": "a4107bc3"
+ },
+ "math226-clase-06": {
+  "titulo": "Clase 6",
+  "curso": "Math 226 · Técnicas de Integración y Ecuaciones Paramétricas",
+  "paginas": 7,
+  "w": 1190,
+  "h": 1540,
+  "v": "99a99cb0"
+ },
+ "math226-clase-07": {
+  "titulo": "Clase 7",
+  "curso": "Math 226 · Técnicas de Integración y Ecuaciones Paramétricas",
+  "paginas": 5,
+  "w": 1190,
+  "h": 1540,
+  "v": "278ca565"
+ },
+ "math226-clase-08": {
+  "titulo": "Clase 8",
+  "curso": "Math 226 · Técnicas de Integración y Ecuaciones Paramétricas",
+  "paginas": 4,
+  "w": 1190,
+  "h": 1540,
+  "v": "babe330a"
+ },
+ "math226-clase-09": {
+  "titulo": "Clase 9",
+  "curso": "Math 226 · Técnicas de Integración y Ecuaciones Paramétricas",
+  "paginas": 5,
+  "w": 1190,
+  "h": 1540,
+  "v": "4df8dcf0"
+ },
+ "math226-clase-10": {
+  "titulo": "Clase 10",
+  "curso": "Math 226 · Técnicas de Integración y Ecuaciones Paramétricas",
+  "paginas": 5,
+  "w": 1190,
+  "h": 1540,
+  "v": "1c3a9bde"
+ },
+ "math226-clase-11": {
+  "titulo": "Clase 11",
+  "curso": "Math 226 · Técnicas de Integración y Ecuaciones Paramétricas",
+  "paginas": 7,
+  "w": 1190,
+  "h": 1540,
+  "v": "99f6ff13"
+ },
+ "math226-clase-12": {
+  "titulo": "Clase 12",
+  "curso": "Math 226 · Técnicas de Integración y Ecuaciones Paramétricas",
+  "paginas": 4,
+  "w": 1190,
+  "h": 1540,
+  "v": "5654e003"
+ },
+ "math226-clase-13": {
+  "titulo": "Clase 13",
+  "curso": "Math 226 · Técnicas de Integración y Ecuaciones Paramétricas",
+  "paginas": 3,
+  "w": 1190,
+  "h": 1540,
+  "v": "e84a1e2a"
+ },
+ "math226-clase-15": {
+  "titulo": "Clase 15",
+  "curso": "Math 226 · Técnicas de Integración y Ecuaciones Paramétricas",
+  "paginas": 6,
+  "w": 1190,
+  "h": 1540,
+  "v": "ecfa0361"
+ },
+ "math226-clase-16": {
+  "titulo": "Clase 16",
+  "curso": "Math 226 · Técnicas de Integración y Ecuaciones Paramétricas",
+  "paginas": 2,
+  "w": 1190,
+  "h": 1540,
+  "v": "8b00a7bb"
+ },
+ "math226-clase-17": {
+  "titulo": "Clase 17",
+  "curso": "Math 226 · Técnicas de Integración y Ecuaciones Paramétricas",
+  "paginas": 5,
+  "w": 1190,
+  "h": 1540,
+  "v": "ee7f8b48"
+ },
+ "math226-clase-18": {
+  "titulo": "Clase 18",
+  "curso": "Math 226 · Técnicas de Integración y Ecuaciones Paramétricas",
+  "paginas": 4,
+  "w": 1190,
+  "h": 1540,
+  "v": "d2a82a7b"
+ },
+ "math227-clase-01": {
+  "titulo": "Clase 1",
+  "curso": "Math 227 · Coordenadas Polares, Sucesiones y Series",
+  "paginas": 4,
+  "w": 1190,
+  "h": 1540,
+  "v": "dce25c1d"
+ },
+ "math227-clase-02": {
+  "titulo": "Clase 2",
+  "curso": "Math 227 · Coordenadas Polares, Sucesiones y Series",
+  "paginas": 3,
+  "w": 1190,
+  "h": 1540,
+  "v": "fd867f1f"
+ },
+ "math227-clase-03": {
+  "titulo": "Clase 3",
+  "curso": "Math 227 · Coordenadas Polares, Sucesiones y Series",
+  "paginas": 4,
+  "w": 1190,
+  "h": 1540,
+  "v": "89d12a6a"
+ },
+ "math227-clase-04": {
+  "titulo": "Clase 4",
+  "curso": "Math 227 · Coordenadas Polares, Sucesiones y Series",
+  "paginas": 5,
+  "w": 1190,
+  "h": 1540,
+  "v": "2466f5d8"
+ },
+ "math227-clase-05": {
+  "titulo": "Clase 5",
+  "curso": "Math 227 · Coordenadas Polares, Sucesiones y Series",
+  "paginas": 6,
+  "w": 1190,
+  "h": 1540,
+  "v": "d2c2656f"
+ },
+ "math227-clase-08": {
+  "titulo": "Clase 8",
+  "curso": "Math 227 · Coordenadas Polares, Sucesiones y Series",
+  "paginas": 3,
+  "w": 1190,
+  "h": 1540,
+  "v": "ee12c37d"
+ },
+ "math227-clase-09": {
+  "titulo": "Clase 9",
+  "curso": "Math 227 · Coordenadas Polares, Sucesiones y Series",
+  "paginas": 4,
+  "w": 1190,
+  "h": 1540,
+  "v": "9f7c9ac5"
+ },
+ "math227-clase-10": {
+  "titulo": "Clase 10",
+  "curso": "Math 227 · Coordenadas Polares, Sucesiones y Series",
+  "paginas": 4,
+  "w": 1190,
+  "h": 1540,
+  "v": "b432d55f"
+ },
+ "math227-clase-11": {
+  "titulo": "Clase 11",
+  "curso": "Math 227 · Coordenadas Polares, Sucesiones y Series",
+  "paginas": 4,
+  "w": 1190,
+  "h": 1540,
+  "v": "b0b97c0f"
+ },
+ "math227-clase-13": {
+  "titulo": "Clase 13",
+  "curso": "Math 227 · Coordenadas Polares, Sucesiones y Series",
+  "paginas": 4,
+  "w": 1190,
+  "h": 1540,
+  "v": "6d1a258f"
+ },
+ "math227-clase-14": {
+  "titulo": "Clase 14",
+  "curso": "Math 227 · Coordenadas Polares, Sucesiones y Series",
+  "paginas": 5,
+  "w": 1190,
+  "h": 1540,
+  "v": "fb9763a1"
+ },
+ "math227-clase-16": {
+  "titulo": "Clase 16",
+  "curso": "Math 227 · Coordenadas Polares, Sucesiones y Series",
+  "paginas": 3,
+  "w": 1190,
+  "h": 1540,
+  "v": "0744dee3"
+ },
+ "math227-clase-17": {
+  "titulo": "Clase 17",
+  "curso": "Math 227 · Coordenadas Polares, Sucesiones y Series",
+  "paginas": 4,
+  "w": 1190,
+  "h": 1540,
+  "v": "5e5a768f"
+ },
+ "razonamiento-logico-clases-1-4": {
+  "titulo": "Notas del curso",
+  "curso": "Razonamiento Lógico · Código 806",
+  "paginas": 37,
+  "w": 1190,
+  "h": 1540,
+  "v": "c1308531"
+ },
+ "razonamiento-logico-parcial1-solucion": {
+  "titulo": "Parcial 1 · Solución",
+  "curso": "Razonamiento Lógico · Código 806",
+  "paginas": 13,
+  "w": 1158,
+  "h": 1638,
+  "v": "e4a7b67d"
+ },
+ "razonamiento-logico-resumen-unidad3": {
+  "titulo": "Unidad 3 · Proporcionalidad y regla de tres",
+  "curso": "Razonamiento Lógico · Código 806",
+  "paginas": 9,
+  "w": 1158,
+  "h": 1638,
+  "v": "ab10453e"
+ },
+ "razonamiento-logico-taller1-solucion": {
+  "titulo": "Taller colaborativo 1 · Solución",
+  "curso": "Razonamiento Lógico · Código 806",
+  "paginas": 6,
+  "w": 1158,
+  "h": 1638,
+  "v": "7635e2f8"
+ },
+ "razonamiento-logico-taller2-solucion": {
+  "titulo": "Taller colaborativo 2 · Solución",
+  "curso": "Razonamiento Lógico · Código 806",
+  "paginas": 7,
+  "w": 1190,
+  "h": 1540,
+  "v": "2e18cca4"
+ },
+ "solucion-taller-calculo1": {
+  "titulo": "Taller colaborativo 2 · Solución",
+  "curso": "Cálculo I · Código 911",
+  "paginas": 9,
+  "w": 1190,
+  "h": 1540,
+  "v": "39d8d026"
+ },
+ "taller-preparacion-calculo-i": {
+  "titulo": "Taller de preparación",
+  "curso": "Cálculo I · Código 911",
+  "paginas": 9,
+  "w": 1158,
+  "h": 1638,
+  "v": "71076fde"
+ },
+ "taller-preparacion-matematicas-discretas": {
+  "titulo": "Taller de preparación",
+  "curso": "Matemáticas Discretas · Código 920",
+  "paginas": 9,
+  "w": 1158,
+  "h": 1638,
+  "v": "3e796f34"
+ },
+ "taller-preparacion-razonamiento-logico": {
+  "titulo": "Taller de preparación",
+  "curso": "Razonamiento Lógico · Código 806",
+  "paginas": 9,
+  "w": 1158,
+  "h": 1638,
+  "v": "f316d3ff"
+ }
+}
