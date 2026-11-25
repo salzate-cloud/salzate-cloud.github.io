@@ -1168,3 +1168,83 @@
   }
   if(document.readyState!=="loading") inicia(); else document.addEventListener("DOMContentLoaded",inicia);
 })();
+
+/* ---------- Cursos v3: «Lo más reciente», cursos anteriores compactos, sin duplicados ---------- */
+(function(){
+  "use strict";
+  function en(){return document.documentElement.lang==="en";}
+  function hace(iso){
+    var d=Math.floor((Date.now()-new Date(iso).getTime())/864e5);
+    if(d<=0)return en()?"today":"hoy"; if(d===1)return en()?"yesterday":"ayer";
+    if(d<7)return en()?d+" days ago":"hace "+d+" días";
+    var s=Math.round(d/7); if(d<31)return en()?(s===1?"1 week ago":s+" weeks ago"):(s===1?"hace 1 semana":"hace "+s+" semanas");
+    var m=Math.round(d/30); return en()?(m===1?"1 month ago":m+" months ago"):(m===1?"hace 1 mes":"hace "+m+" meses");
+  }
+  function inicia(){
+    var zona=document.querySelector(".cursos-zona"); if(!zona||!document.querySelector(".course-row"))return;
+    document.documentElement.classList.add("cursos-v3");
+    /* 1. lo que ya está como botón destacado no se repite dentro del grupo */
+    Array.prototype.forEach.call(document.querySelectorAll(".course-row"),function(fila){
+      var dest=Array.prototype.map.call(fila.querySelectorAll(".course-destacados .dest"),function(b){return b.getAttribute("href");});
+      Array.prototype.forEach.call(fila.querySelectorAll(".notes-group"),function(g){
+        var n=0;
+        Array.prototype.forEach.call(g.querySelectorAll(".notes-links a"),function(a){
+          if(dest.indexOf(a.getAttribute("href"))>=0)a.classList.add("es-promovido"); else n++;
+        });
+        var c=g.querySelector(".ng-count"); if(c)c.textContent=n;
+        if(!n)g.classList.add("ng-vacio");
+      });
+    });
+    /* 2. cursos anteriores: compactos y plegados cuando hay cursos actuales */
+    Array.prototype.forEach.call(document.querySelectorAll(".course-card"),function(card){
+      var lista=card.querySelector(".course-list"); if(!lista)return;
+      var filas=Array.prototype.slice.call(lista.querySelectorAll(":scope > .course-row"));
+      var viejas=filas.filter(function(f){return f.querySelector(".course-status.is-archive");});
+      viejas.forEach(function(f){f.classList.add("es-anterior");});
+      if(!viejas.length||viejas.length===filas.length)return;
+      var d=document.createElement("details"); d.className="cursos-anteriores";
+      d.innerHTML='<summary><span data-es="Cursos anteriores" data-en="Previous courses">'+(en()?"Previous courses":"Cursos anteriores")+'</span> <b>'+viejas.length+'</b></summary>';
+      var cont=document.createElement("div"); cont.className="course-list"; d.appendChild(cont);
+      viejas.forEach(function(f){cont.appendChild(f);});
+      lista.parentNode.insertBefore(d,lista.nextSibling);
+    });
+    var input=document.getElementById("course-search");
+    if(input)input.addEventListener("input",function(){
+      var q=input.value.trim();
+      Array.prototype.forEach.call(document.querySelectorAll(".cursos-anteriores"),function(d){
+        var hay=d.querySelector(".course-row:not([hidden])"); d.open=!!q&&!!hay; d.hidden=!!q&&!hay;});
+    });
+    /* 3. la nota de los PDF pasa a un ícono de ayuda junto al buscador */
+    var nota=document.querySelector(".course-download-note"), lab=document.querySelector(".course-search label");
+    if(nota&&lab){var i=document.createElement("span");i.className="ayuda-pdf";i.tabIndex=0;i.textContent="i";
+      i.setAttribute("title",nota.textContent.replace(/^[^A-Za-zÁÉÍÓÚáéíóúÑñ]+/,"")); i.setAttribute("aria-label",i.getAttribute("title")); lab.appendChild(i);}
+    /* 4. «Lo más reciente» */
+    fetch("assets/recientes.json?v="+Date.now().toString().slice(0,7)).then(function(r){return r.json();}).then(function(L){
+      var tarjetas=[];
+      L.forEach(function(it){
+        var a=document.querySelector('.course-row .notes-links a[href="'+it.href+'"]'); if(!a)return;
+        var fila=a.closest(".course-row"), lab=a.querySelector("span[data-i18n]"), ico=fila.querySelector(".course-ico");
+        var card=fila.closest(".course-card");
+        var x=document.createElement("a"); x.className="reciente"; x.href=it.href;
+        if(/\.pdf/.test(it.href)){x.target="_blank";x.rel="noopener";}
+        x.setAttribute("style",fila.getAttribute("style")||"");
+        x.innerHTML='<span class="r-ico"></span><span class="r-txt"><b></b><small></small></span><time></time>';
+        x.querySelector(".r-ico").textContent=ico?ico.textContent:"·";
+        x.querySelector("b").textContent=(lab?lab.textContent:a.textContent).trim();
+        x.querySelector("small").textContent=fila.querySelector(".cname").textContent.replace(/\s*·\s*Código.*$/,"");
+        x.querySelector("time").textContent=hace(it.fecha); x.querySelector("time").setAttribute("datetime",it.fecha);
+        x.setAttribute("data-inst",card?card.id:"");
+        tarjetas.push(x);
+      });
+      if(!tarjetas.length)return;
+      var sec=document.createElement("section"); sec.className="recientes";
+      sec.innerHTML='<h2><span data-es="Lo más reciente" data-en="Latest materials">'+(en()?"Latest materials":"Lo más reciente")+'</span></h2><div class="recientes-fila"></div>';
+      tarjetas.forEach(function(t){sec.querySelector(".recientes-fila").appendChild(t);});
+      var grid=zona.querySelector(".course-grid"); zona.insertBefore(sec,grid);
+    }).catch(function(){});
+    document.querySelectorAll("[data-lang-btn]").forEach(function(btn){btn.addEventListener("click",function(){setTimeout(function(){
+      document.querySelectorAll(".cursos-v3 [data-es]").forEach(function(s){s.textContent=en()?s.getAttribute("data-en"):s.getAttribute("data-es");});
+      document.querySelectorAll(".reciente time").forEach(function(t){t.textContent=hace(t.getAttribute("datetime"));});},40);});});
+  }
+  if(document.readyState!=="loading") inicia(); else document.addEventListener("DOMContentLoaded",inicia);
+})();
