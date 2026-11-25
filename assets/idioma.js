@@ -59,6 +59,9 @@
     while ((n = w.nextNode())) {
       var p = n.parentNode;
       if (!p || p.closest('.katex, script, style, .idioma-sel, textarea')) continue;
+      var X = window.IDIOMA_EN, tt = n.nodeValue.trim(), hecho = false;
+      if (X && X.contexto) for (var c = 0; c < X.contexto.length; c++) if (tt === X.contexto[c][1] && p.matches(X.contexto[c][0])) { n.nodeValue = n.nodeValue.replace(tt, X.contexto[c][2]); hecho = true; break; }
+      if (hecho) continue;
       r = traduceTexto(n.nodeValue);
       if (r !== null && r !== n.nodeValue) n.nodeValue = r;
     }
