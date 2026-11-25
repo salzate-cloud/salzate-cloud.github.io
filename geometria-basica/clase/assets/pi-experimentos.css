@@ -35,3 +35,4 @@
 .slide .pix-panel{font-size:16px}
 .slide .pix-txt,.slide .pix-pasos{font-size:15px}
 @media (max-width:860px){.pix{grid-template-columns:1fr}}
+.pix-tabla td:first-child{white-space:nowrap}
