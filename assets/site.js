@@ -100,6 +100,7 @@
     "courses.group.iueColab": "Collaborative workshop solutions",
     "courses.group.iueQuizzes": "Quiz solutions",    "courses.group.iueSoluciones": "Partial exam solutions",
     "courses.notes.an2.p3sol": "Midterm 3 · Solution",
+    "courses.notes.an2.p4sol": "Midterm 4 · Solution",
     "courses.notes.geovec.p3sol": "Midterm 3 · Solution",
     "courses.notes.geovec.p2sol": "Midterm 2 · Solution",
     "courses.index.title": "Explore by university",
