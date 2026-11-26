@@ -1089,6 +1089,178 @@
     }
     return function () { document.querySelectorAll('canvas.mini3d').forEach(monta); };
   })();
+  /* ---------- Figuras de las soluciones: se arman paso a paso mientras se lee la solución ---------- */
+  var GRAF = (function () {
+    var MATH = 'var sin=Math.sin,cos=Math.cos,tan=Math.tan,exp=Math.exp,log=Math.log,ln=Math.log,sqrt=Math.sqrt,abs=Math.abs,atan=Math.atan,atan2=Math.atan2,asin=Math.asin,acos=Math.acos,sinh=Math.sinh,cosh=Math.cosh,tanh=Math.tanh,PI=Math.PI,pi=Math.PI,E=Math.E,max=Math.max,min=Math.min,sen=Math.sin,sign=Math.sign,cbrt=Math.cbrt,floor=Math.floor;';
+    /* traduce a JS: a^b -> Math.pow(a, b), con -x^2 = -(x^2) */
+    function aJS(src) {
+      var tk = String(src).match(/\d*\.?\d+(?:e[+-]?\d+)?|[A-Za-z_]\w*|\S/g) || [], i = 0;
+      function mira() { return tk[i]; } function toma() { return tk[i++]; }
+      function expr() { var a = term(); while (mira() === '+' || mira() === '-') { var o = toma(); a = a + o + term(); } return a; }
+      function term() { var a = unario(); while (mira() === '*' || mira() === '/') { var o = toma(); a = a + o + unario(); } return a; }
+      function unario() { if (mira() === '-') { toma(); return '(-' + unario() + ')'; } if (mira() === '+') { toma(); return unario(); } return potencia(); }
+      function potencia() { var b = atomo(); if (mira() === '^') { toma(); return 'Math.pow(' + b + ',' + unario() + ')'; } return b; }
+      function atomo() { var t = toma();
+        if (t === '(') { var e = expr(); toma(); return '(' + e + ')'; }
+        if (/^[A-Za-z_]/.test(t) && mira() === '(') { toma(); var a = []; if (mira() !== ')') { a.push(expr()); while (mira() === ',') { toma(); a.push(expr()); } } toma(); return t + '(' + a.join(',') + ')'; }
+        return t; }
+      var r = expr(); if (i < tk.length) throw new Error('sobra ' + tk.slice(i).join('')); return r;
+    }
+    function fn(expr, vars) {
+      if (typeof expr === 'number') return function () { return expr; };
+      try { return new Function(vars, MATH + 'return (' + aJS(expr) + ');'); } catch (e) { console.error('graf: expresión', expr); return function () { return NaN; }; }
+    }
+    function num(x) { return typeof x === 'number' ? x : fn(x, '')(); }
+    function vec(a) { return (Array.isArray(a) ? a : [a]).map(num); }
+    function rango(a) { return [num(a[0]), num(a[1])]; }
+    function f3(r, vars) { var F = r.map(function (e) { return fn(e, vars); }); return function (a, b) { return [F[0](a, b), F[1](a, b), F[2](a, b)]; }; }
+
+    /* cada constructor recibe el avance s ∈ (0, 1] para animar su aparición */
+    var HACE = {
+      graf: function (S, e, s, en) { var f = fn(e.f, 'x,y'), X = rango(e.x), Y = rango(e.y);
+        return S.grafica(f, [X[0], X[1], Y[0], Y[0] + (Y[1] - Y[0]) * s], { en: en, color: e.color || 'altura', opacidad: e.op || 0.88, zc: e.zc && rango(e.zc), n: e.n || 48, alambre: 6 }); },
+      sup: function (S, e, s, en) { var r = f3(e.r, 'u,v'), U = rango(e.u), V = rango(e.v);
+        return S.parametrica(r, [U[0], U[1], V[0], V[0] + (V[1] - V[0]) * s], { en: en, color: e.color || 'altura', opacidad: e.op || 0.82, n: e.n || 48, alambre: 6 }); },
+      curva: function (S, e, s, en) { var r = f3(e.r, 't'), T = rango(e.t);
+        return S.curva(function (t) { return r(t); }, [T[0], T[0] + (T[1] - T[0]) * Math.max(s, 0.01)], { en: en, color: e.color || K.c2, grosor: e.g || 0.045, n: 200 }); },
+      nivel: function (S, e, s, en) {
+        var f = fn(e.f, 'x,y'), X = rango(e.x), Y = rango(e.y), ks = vec(e.k), N = e.n || 90, segs = [], g = { children: [] };
+        var cs = ks.slice(0, Math.max(1, Math.ceil(ks.length * s)));
+        cs.forEach(function (k) {
+          var z = e.alt ? k : (e.z !== undefined ? num(e.z) : 0), hx = (X[1] - X[0]) / N, hy = (Y[1] - Y[0]) / N, V = [];
+          for (var i = 0; i <= N; i++) { V[i] = []; for (var j = 0; j <= N; j++) V[i][j] = f(X[0] + i * hx, Y[0] + j * hy) - k; }
+          for (i = 0; i < N; i++) for (j = 0; j < N; j++) {
+            var p = [], c = [[i, j], [i + 1, j], [i + 1, j + 1], [i, j + 1]];
+            for (var q = 0; q < 4; q++) { var a = c[q], b = c[(q + 1) % 4], va = V[a[0]][a[1]], vb = V[b[0]][b[1]];
+              if (isFinite(va) && isFinite(vb) && (va < 0) !== (vb < 0)) { var w = va / (va - vb); p.push([X[0] + (a[0] + w * (b[0] - a[0])) * hx, Y[0] + (a[1] + w * (b[1] - a[1])) * hy, z]); } }
+            if (p.length >= 2) segs.push([p[0], p[1]]); if (p.length === 4) segs.push([p[2], p[3]]);
+          }
+        });
+        // unir los segmentos en polilíneas y dibujarlas como tubos
+        var key = function (q) { return Math.round(q[0] * 1e4) + ',' + Math.round(q[1] * 1e4) + ',' + Math.round(q[2] * 1e4); }, ady = {}, usado = [];
+        segs.forEach(function (sg, i) { [0, 1].forEach(function (k) { var c = key(sg[k]); (ady[c] = ady[c] || []).push([i, k]); }); });
+        var grupo = S.capa(); if (en) { S.grupo.remove(grupo); en.add(grupo); }
+        function sigue(cad, i, k) { while (true) { usado[i] = 1; var q = segs[i][1 - k]; cad.push(q); var c = (ady[key(q)] || []).filter(function (x) { return !usado[x[0]]; }); if (!c.length) return; i = c[0][0]; k = c[0][1]; } }
+        segs.forEach(function (sg, i) {
+          if (usado[i]) return; var cad = [sg[0]]; sigue(cad, i, 0);
+          var ini = (ady[key(sg[0])] || []).filter(function (x) { return !usado[x[0]]; });
+          if (ini.length) { var otra = []; sigue(otra, ini[0][0], ini[0][1]); cad = otra.reverse().concat(cad); }
+          if (cad.length < 2) return;
+          var M = cad.length - 1;
+          S.curva(function (t) { var x = t * M, j = Math.min(M - 1, Math.floor(x)), w = x - j, a = cad[j], b = cad[j + 1]; return [a[0] + (b[0] - a[0]) * w, a[1] + (b[1] - a[1]) * w, a[2] + (b[2] - a[2]) * w]; }, [0, 1], { en: grupo, color: e.color || K.c2, grosor: e.g || 0.03, n: Math.min(400, M * 2 + 2) });
+        });
+        return grupo;
+      },
+      flecha: function (S, e, s, en) { var p = vec(e.p), v = vec(e.v).map(function (x) { return x * s; });
+        var f = S.flecha(p, v, { en: en, color: e.color || K.c1, grosor: e.g || 0.035 });
+        if (e.et && s >= 1) S.texto([p[0] + v[0] * 1.08, p[1] + v[1] * 1.08, p[2] + v[2] * 1.08 + 0.12], e.et, { en: en, color: e.color || K.c1, tam: 0.8 });
+        return f; },
+      punto: function (S, e, s, en) { var p = vec(e.p); var m = S.punto(p, { en: en, color: e.color || K.rojo, radio: (e.r ? num(e.r) : 0.08) * Math.min(1, 0.3 + s) });
+        if (e.et && s >= 1) S.texto([p[0] + 0.15, p[1] + 0.15, p[2] + 0.22], e.et, { en: en, color: e.color || K.rojo, tam: 0.8 });
+        return m; },
+      plano: function (S, e, s, en) { return S.plano(vec(e.p), vec(e.n), num(e.tam || 4) * Math.max(s, 0.05), { en: en, color: e.color || K.azul, opacidad: e.op || 0.3, tam2: e.tam2 ? num(e.tam2) * Math.max(s, 0.05) : undefined }); },
+      disco: function (S, e, s, en) { return S.disco(vec(e.p), vec(e.n), num(e.rad || 1) * Math.max(s, 0.05), { en: en, color: e.color || K.c2, opacidad: e.op || 0.45 }); },
+      campo: function (S, e, s, en) {
+        var F = f3(e.F, 'x,y,z'), X = vec(e.x), Y = vec(e.y), Z = e.z ? vec(e.z) : [0, 0, 1], L = [], esc = e.esc ? num(e.esc) : 0.3;
+        function pasos(R) { var n = R[2] || 1, o = []; for (var i = 0; i < n; i++) o.push(n === 1 ? R[0] : R[0] + (R[1] - R[0]) * i / (n - 1)); return o; }
+        pasos(X).forEach(function (x) { pasos(Y).forEach(function (y) { pasos(Z).forEach(function (z) { var v = F(x, y, z); if (v.every(isFinite)) L.push([[x, y, z], [v[0] * esc * s, v[1] * esc * s, v[2] * esc * s]]); }); }); });
+        return S.flechas(L, { en: en, color: e.color, paleta: 'altura' });
+      },
+      region: function (S, e, s, en) {
+        var z = e.z !== undefined && !Array.isArray(e.z) ? num(e.z) : 0, r;
+        if (Array.isArray(e.y) && typeof e.y[0] === 'string' && e.x && !Array.isArray(e.x[0])) { var A = rango(e.x), g1 = fn(e.y[0], 'x'), g2 = fn(e.y[1], 'x');
+          r = function (u, v) { var x = A[0] + (A[1] - A[0]) * u; return [x, g1(x) + (g2(x) - g1(x)) * v, z]; }; }
+        else { var B = rango(e.y), h1 = fn(e.x[0], 'y'), h2 = fn(e.x[1], 'y');
+          r = function (u, v) { var y = B[0] + (B[1] - B[0]) * u; return [h1(y) + (h2(y) - h1(y)) * v, y, z]; }; }
+        return S.parametrica(r, [0, Math.max(s, 0.02), 0, 1], { en: en, color: e.color || K.c4, opacidad: e.op || 0.55, n: 40, alambre: 8 });
+      },
+      solido: function (S, e, s, en) {
+        var A = rango(e.x), g1 = fn(e.y[0], 'x'), g2 = fn(e.y[1], 'x'), z1 = fn(e.z[0], 'x,y'), z2 = fn(e.z[1], 'x,y'), g = S.capa();
+        if (en) { S.grupo.remove(g); en.add(g); }
+        var op = { en: g, color: e.color || K.c4, opacidad: e.op || 0.6, n: 32, alambre: 8 };
+        function P(u, v) { var x = A[0] + (A[1] - A[0]) * u; return [x, g1(x) + (g2(x) - g1(x)) * v]; }
+        S.parametrica(function (u, v) { var q = P(u, v); return [q[0], q[1], z1(q[0], q[1]) + (z2(q[0], q[1]) - z1(q[0], q[1])) * 0]; }, [0, 1, 0, 1], op);
+        S.parametrica(function (u, v) { var q = P(u, v), a = z1(q[0], q[1]); return [q[0], q[1], a + (z2(q[0], q[1]) - a) * s]; }, [0, 1, 0, 1], op);
+        [0, 1].forEach(function (lado) { S.parametrica(function (u, w) { var q = P(u, lado), a = z1(q[0], q[1]); return [q[0], q[1], a + (z2(q[0], q[1]) - a) * w * s]; }, [0, 1, 0, 1], op);
+          S.parametrica(function (v, w) { var q = P(lado, v), a = z1(q[0], q[1]); return [q[0], q[1], a + (z2(q[0], q[1]) - a) * w * s]; }, [0, 1, 0, 1], op); });
+        return g;
+      },
+      seg: function (S, e, s, en) { var a = vec(e.a), b = vec(e.b); return S.segmentos([[a, [a[0] + (b[0] - a[0]) * s, a[1] + (b[1] - a[1]) * s, a[2] + (b[2] - a[2]) * s]]], { en: en, color: e.color || K.tinta }); },
+      texto: function (S, e, s, en) { return s >= 1 ? S.texto(vec(e.p), e.s, { en: en, color: e.color || K.tinta, tam: e.tam ? num(e.tam) : 0.8 }) : null; }
+    };
+
+    function monta(cu) {
+      if (cu._ok) return; cu._ok = 1;
+      var js = cu.querySelector('script[type="application/json"]'); if (!js) return;
+      var G = JSON.parse(js.textContent), TT = Array.prototype.map.call(cu.querySelectorAll('.gtits li'), function (l) { return l.innerHTML; }), N = G.pasos.length, actual = 0, S = null, capas = [], anima = null;
+      var vista = G.vista ? vec(G.vista) : (G.plano2d ? [-Math.PI / 2, 1.5, 9] : [-0.9, 0.42, 13]);
+      var barra = el('div', { class: 'gbar' });
+      var ant = el('button', { type: 'button', class: 'gb', 'aria-label': 'Paso anterior' }, '‹'), sig = el('button', { type: 'button', class: 'gb', 'aria-label': 'Paso siguiente' }, '›');
+      var lab = el('div', { class: 'glab' }), todo = el('button', { type: 'button', class: 'gb gtodo' }, 'Todo');
+      barra.appendChild(ant); barra.appendChild(lab); barra.appendChild(sig); barra.appendChild(todo);
+      var ok = false;
+      var enSlide = !!cu.closest('.slide');
+      lienzo3d(cu, { distancia: vista[2], az: vista[0], el: vista[1], proporcion: enSlide ? 0.82 : 0.6, altoMax: enSlide ? 470 : 330 }, function (SS) {
+        S = SS;
+        var L = G.ejes ? vec(G.ejes) : [3, 3, 3];
+        S.ejes(G.plano2d ? [L[0], L[1], 0.0001] : L, { nombres: G.plano2d ? ['x', 'y', ''] : ['x', 'y', 'z'], marcas: !!G.marcas });
+        if (G.mira) S.objetivo(vec(G.mira));
+        ok = true; var a0 = actual; actual = 0; ve(Math.max(a0, 1));
+      });
+      cu.appendChild(barra);
+      function pinta() {
+        lab.innerHTML = N > 1 ? '<b>Paso ' + actual + ' de ' + N + '</b> ' + (TT[actual - 1] || '') : (TT[0] || '');
+        ant.disabled = actual <= 1; sig.disabled = actual >= N; todo.style.display = N > 1 ? '' : 'none';
+        var sol = cu.closest('.pbody, .slide, details') || document;
+        sol.querySelectorAll('.gpaso').forEach(function (b) { b.classList.toggle('activo', +b.getAttribute('data-p') === actual); b.classList.toggle('visto', +b.getAttribute('data-p') <= actual); });
+      }
+      function construye(i, s) { var c = capas[i]; S.limpia(c); G.pasos[i].els.forEach(function (e) { try { HACE[e.tipo](S, e, s, c); } catch (err) { console.error('graf', e, err); } }); S.pinta(); }
+      function ve(n) {
+        n = Math.max(1, Math.min(N, n)); var prev = actual; actual = n; pinta();
+        if (!ok) return;
+        if (anima) { S.quita(anima); anima = null; }
+        for (var i = 0; i < N; i++) if (!capas[i]) capas[i] = S.capa();
+        for (i = n; i < N; i++) S.limpia(capas[i]);
+        for (i = 0; i < n - 1; i++) if (!capas[i].children.length) construye(i, 1);
+        var k = n - 1; if (capas[k].children.length && n <= prev) { S.pinta(); return; }
+        if (reducido) { construye(k, 1); return; }
+        var t0 = null, D = 900;
+        anima = S.cada(function () { var t = performance.now(); if (t0 === null) t0 = t; var s = Math.min(1, (t - t0) / D); construye(k, Math.max(0.03, 1 - Math.pow(1 - s, 3))); if (s >= 1) { S.quita(anima); anima = null; } });
+        S.pinta();
+      }
+      cu._ve = ve; cu._dbg = function () { return { ok: ok, actual: actual, capas: capas.map(function (c) { return c.children.length; }) }; };
+      ant.onclick = function () { ve(actual - 1); }; sig.onclick = function () { ve(actual + 1); };
+      todo.onclick = function () { if (!ok) return; if (anima) { S.quita(anima); anima = null; } for (var i = 0; i < N; i++) { if (!capas[i]) capas[i] = S.capa(); construye(i, 1); } actual = N; pinta(); };
+      actual = 1; pinta();
+      // los números de paso del texto llevan la figura a ese paso
+      var sol = cu.closest('.pbody, .slide, details');
+      if (sol) sol.querySelectorAll('.gpaso').forEach(function (b) { b.addEventListener('click', function () { ve(+b.getAttribute('data-p')); if (cu.getBoundingClientRect().bottom < 0) cu.scrollIntoView({ behavior: 'smooth', block: 'center' }); }); });
+      // en el libro sin «Siguiente paso»: la figura avanza sola a medida que se leen los párrafos marcados
+      if (sol && !cu.closest('.slide') && 'IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (es) { if (sol.querySelector('.revela')) return; es.forEach(function (x) { if (x.isIntersecting) { var p = +x.target.getAttribute('data-p'); if (p > actual) ve(p); } }); }, { rootMargin: '-35% 0px -35% 0px' });
+        sol.querySelectorAll('.gpaso').forEach(function (b) { io.observe(b); });
+      }
+    }
+    var reducido = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    /* la figura sigue al texto revelado: fragmentos en las presentaciones, «Siguiente paso» en el libro */
+    function sincroniza() {
+      document.querySelectorAll('.grafv').forEach(function (cu) {
+        if (!cu._ve) return;
+        var sl = cu.closest('.slide'), cont = sl || cu.closest('.pbody'); if (!cont) return;
+        if (!sl && !cont.querySelector('.revela')) return;
+        var ms = cont.querySelectorAll('.gpaso'); if (!ms.length) return;
+        var vis = 0, minimo = Infinity;
+        ms.forEach(function (b) { var p = +b.getAttribute('data-p'); minimo = Math.min(minimo, p);
+          var oculto = sl ? (b.closest('.f') && !b.closest('.f').classList.contains('vis')) : !!b.closest('.paso-oculto');
+          if (!oculto) vis = Math.max(vis, p); });
+        var obj = vis || Math.max(1, minimo - 1);
+        if (cu._obj !== obj) { cu._obj = obj; cu._ve(obj); }
+      });
+    }
+    var pend = false;
+    if (window.MutationObserver) new MutationObserver(function () { if (pend) return; pend = true; requestAnimationFrame(function () { pend = false; sincroniza(); }); }).observe(document.documentElement, { attributes: true, subtree: true, attributeFilter: ['class'] });
+    return function () { document.querySelectorAll('.grafv').forEach(monta); sincroniza(); };
+  })();
 
   /* ---------- portada: un campo vectorial que fluye ---------- */
   function portada() {
@@ -1131,7 +1303,7 @@
 
   /* ---------- arranque ---------- */
   function inicia() {
-    try { MINIS(); } catch (err) { console.error(err); }
+    try { MINIS(); GRAF(); } catch (err) { console.error(err); }
     document.querySelectorAll('.applet[data-ap]').forEach(function (e) { var f = A[e.getAttribute('data-ap')]; if (f && !e._ok) { e._ok = 1; try { f(e); } catch (err) { console.error(err); } } });
   }
   window.CVEC = { A: A, inicia: inicia };

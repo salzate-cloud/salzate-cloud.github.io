@@ -47,3 +47,25 @@ table.tabla-figs td:first-child{padding:.35em .6em .35em 0}
 }
 table.tabla-figs td:nth-child(3){white-space:nowrap}
 table.tabla-figs .katex{white-space:nowrap}
+
+/* Figuras de las soluciones: se arman paso a paso */
+figure.graf{margin:.3em 0 1em;padding:8px 8px 6px;border:1px solid var(--c3m);border-radius:12px;background:#fff}
+.grafv .v3d{position:relative;min-height:120px}
+.grafv .v3d canvas{display:block;width:100%;cursor:grab;touch-action:none;border-radius:9px;background:radial-gradient(circle at 50% 38%,#ffffff,#edf2f9)}
+.grafv .v3d canvas:active{cursor:grabbing}
+.grafv .v3d-carga{padding:90px 0;text-align:center;font:14px var(--sans);color:#7b8394}
+.grafv .ayuda3d{display:none}
+.gbar{display:flex;align-items:center;gap:8px;margin-top:6px;font:13px/1.35 var(--sans)}
+.gbar .glab{flex:1;color:#3b4252}
+.gbar .glab b{color:var(--c3);margin-right:4px}
+.gbar .gb{flex:none;min-width:34px;height:34px;border-radius:999px;border:1px solid var(--c3m);background:#fff;color:var(--c1o);font:600 18px/1 var(--sans);cursor:pointer}
+.gbar .gb.gtodo{font-size:12.5px;padding:0 12px}
+.gbar .gb:disabled{opacity:.35;cursor:default}
+.gbar .gb:not(:disabled):hover{background:var(--c3c)}
+.gbar .gb:focus-visible,.gpaso:focus-visible{outline:2px solid var(--c1);outline-offset:2px}
+button.gpaso{display:inline-grid;place-items:center;width:1.5em;height:1.5em;padding:0;margin:0 .3em 0 0;border-radius:50%;border:1.5px solid var(--c3);background:#fff;color:var(--c3);font:700 .7em/1 var(--sans);cursor:pointer;vertical-align:.18em;transition:background .25s,color .25s}
+button.gpaso.visto{background:var(--c3c)}
+button.gpaso.activo{background:var(--c3);color:#fff}
+@media (min-width:900px) and (min-height:860px){
+  details.prueba .pbody>figure.graf{position:sticky;top:58px;z-index:4;box-shadow:0 10px 24px -14px rgba(16,44,80,.45)}
+}

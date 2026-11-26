@@ -28,3 +28,44 @@ body.cvec{--c1:#1d4e89;--c1o:#102c50;--c1c:#e9f0f8;--c1m:#b8cde6;--c2:#c75b2a;--
 .cvec-hero .htxt a{pointer-events:auto}
 .cvec-hero .pc-ayuda{position:absolute;right:18px;bottom:14px;z-index:2;font:12px var(--sans);color:rgba(255,255,255,.55)}
 @media (prefers-reduced-motion:reduce){.cvec-hero canvas.portada-flujo{opacity:.7}}
+
+/* Tabla con figuras 3D girables (cuádricas) */
+canvas.mini3d{display:block;width:128px;height:118px;cursor:grab;touch-action:none;border-radius:10px;background:radial-gradient(circle at 50% 40%,#f4f8fc,#e6eef7)}
+canvas.mini3d.girando{cursor:grabbing}
+table.tabla-figs td{vertical-align:middle}
+table.tabla-figs td:first-child{padding:.35em .6em .35em 0}
+@media (max-width:640px){
+  table.tabla-figs,table.tabla-figs tbody{display:block;width:100%}
+  table.tabla-figs thead{display:none}
+  table.tabla-figs tr{display:grid;grid-template-columns:118px 1fr;column-gap:.8em;align-items:center;padding:.6em 0;border-bottom:1px solid var(--c1m)}
+  table.tabla-figs td{display:block;padding:.1em 0!important;border:0!important}
+  table.tabla-figs td:first-child{grid-row:1 / span 3}
+  table.tabla-figs td:nth-child(2){font-weight:600;color:var(--c1o)}
+  table.tabla-figs td:nth-child(4){font-size:.92em;color:#4a5468}
+  table.tabla-figs td:nth-child(4)::before{content:"Trazas: ";font-style:italic}
+  canvas.mini3d{width:118px;height:110px}
+}
+table.tabla-figs td:nth-child(3){white-space:nowrap}
+table.tabla-figs .katex{white-space:nowrap}
+
+/* Figuras de las soluciones: se arman paso a paso */
+figure.graf{margin:.3em 0 1em;padding:8px 8px 6px;border:1px solid var(--c3m);border-radius:12px;background:#fff}
+.grafv .v3d{position:relative;min-height:120px}
+.grafv .v3d canvas{display:block;width:100%;cursor:grab;touch-action:none;border-radius:9px;background:radial-gradient(circle at 50% 38%,#ffffff,#edf2f9)}
+.grafv .v3d canvas:active{cursor:grabbing}
+.grafv .v3d-carga{padding:90px 0;text-align:center;font:14px var(--sans);color:#7b8394}
+.grafv .ayuda3d{display:none}
+.gbar{display:flex;align-items:center;gap:8px;margin-top:6px;font:13px/1.35 var(--sans)}
+.gbar .glab{flex:1;color:#3b4252}
+.gbar .glab b{color:var(--c3);margin-right:4px}
+.gbar .gb{flex:none;min-width:34px;height:34px;border-radius:999px;border:1px solid var(--c3m);background:#fff;color:var(--c1o);font:600 18px/1 var(--sans);cursor:pointer}
+.gbar .gb.gtodo{font-size:12.5px;padding:0 12px}
+.gbar .gb:disabled{opacity:.35;cursor:default}
+.gbar .gb:not(:disabled):hover{background:var(--c3c)}
+.gbar .gb:focus-visible,.gpaso:focus-visible{outline:2px solid var(--c1);outline-offset:2px}
+button.gpaso{display:inline-grid;place-items:center;width:1.5em;height:1.5em;padding:0;margin:0 .3em 0 0;border-radius:50%;border:1.5px solid var(--c3);background:#fff;color:var(--c3);font:700 .7em/1 var(--sans);cursor:pointer;vertical-align:.18em;transition:background .25s,color .25s}
+button.gpaso.visto{background:var(--c3c)}
+button.gpaso.activo{background:var(--c3);color:#fff}
+@media (min-width:900px) and (min-height:860px){
+  details.prueba .pbody>figure.graf{position:sticky;top:58px;z-index:4;box-shadow:0 10px 24px -14px rgba(16,44,80,.45)}
+}
