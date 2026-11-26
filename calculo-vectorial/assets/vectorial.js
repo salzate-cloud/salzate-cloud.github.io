@@ -988,6 +988,107 @@
       dibuja();
     });
   };
+  /* Figuras 3D pequeñas para tablas (p. ej. la tabla de cuádricas): lienzo 2D, superficie sombreada
+     con las trazas horizontales en cobre; se giran arrastrando. <canvas class="mini3d" data-q="elipsoide"> */
+  var MINIS = (function () {
+    var PI = Math.PI;
+    function rev(rz, z0, z1) { // superficie de revolución r = rz(z)
+      return { u: [0, 2 * PI], v: [z0, z1], f: function (u, v) { var r = rz(v); return [r * Math.cos(u), r * Math.sin(u), v]; }, tr: function (v) { return true; } };
+    }
+    var Q = {
+      elipsoide: { u: [0, 2 * PI], v: [0.001, PI - 0.001], f: function (u, v) { return [1.25 * Math.cos(u) * Math.sin(v), 0.9 * Math.sin(u) * Math.sin(v), 0.75 * Math.cos(v)]; }, zt: [-0.55, -0.28, 0, 0.28, 0.55] },
+      cono: Object.assign(rev(function (z) { return Math.abs(z) * 0.95; }, -1.05, 1.05), { zt: [-0.8, -0.45, 0.45, 0.8], vertice: true }),
+      'paraboloide-eliptico': Object.assign(rev(function (z) { return Math.sqrt(Math.max(z, 0)) * 1.05; }, 0, 1.25), { z0: -0.55, zt: [0.25, 0.6, 1.0] }),
+      'paraboloide-hiperbolico': { u: [-1, 1], v: [-1, 1], f: function (u, v) { return [u, v, 0.9 * (u * u - v * v)]; }, zt: [-0.5, -0.2, 0.2, 0.5], silla: true },
+      'hiperboloide-una-hoja': Object.assign(rev(function (z) { return 0.55 * Math.sqrt(1 + 2.4 * z * z); }, -1, 1), { zt: [-0.7, -0.35, 0, 0.35, 0.7] }),
+      'hiperboloide-dos-hojas': { dos: true, u: [0, 2 * PI], v: [0, 1.05], f: function (u, r) { return [r * Math.cos(u), r * Math.sin(u), 0.38 * Math.sqrt(1 + 6 * r * r)]; }, zt: [0.62, 0.85, 1.05] }
+    };
+    function rot(p, az, el) {
+      var x = p[0] * Math.cos(az) - p[1] * Math.sin(az), y = p[0] * Math.sin(az) + p[1] * Math.cos(az), z = p[2];
+      return [x, y * Math.sin(el) + z * Math.cos(el), -y * Math.cos(el) + z * Math.sin(el)]; // [pantalla x, pantalla y, profundidad]
+    }
+    function malla(q) {
+      var N = 26, M = 18, caras = [], hojas = q.dos ? [1, -1] : [1];
+      hojas.forEach(function (sg) {
+        var P = [];
+        for (var i = 0; i <= N; i++) { P[i] = []; for (var j = 0; j <= M; j++) { var u = q.u[0] + (q.u[1] - q.u[0]) * i / N, v = q.v[0] + (q.v[1] - q.v[0]) * j / M, p = q.f(u, v); P[i][j] = [p[0], p[1], sg * p[2] + (q.z0 || 0)]; } }
+        for (i = 0; i < N; i++) for (j = 0; j < M; j++) caras.push([P[i][j], P[i + 1][j], P[i + 1][j + 1], P[i][j + 1]]);
+      });
+      return caras;
+    }
+    function trazas(q) { // curvas de nivel z = k sobre la malla, por interpolación en las aristas verticales
+      var out = [], hojas = q.dos ? [1, -1] : [1];
+      hojas.forEach(function (sg) {
+        q.zt.forEach(function (k) {
+          var c = [], N = 120;
+          if (q.silla) { // z = .9(x² − y²) = k: dos ramas de hipérbola
+            [1, -1].forEach(function (s) {
+              var r = [];
+              for (var i = 0; i <= N; i++) { var t = -1 + 2 * i / N, a, b; if (k > 0) { a = s * Math.sqrt(k / 0.9 + t * t); b = t; } else { b = s * Math.sqrt(-k / 0.9 + t * t); a = t; } if (Math.abs(a) <= 1 && Math.abs(b) <= 1) r.push([a, b, k]); else if (r.length) { out.push(r); r = []; } }
+              if (r.length) out.push(r);
+            });
+            return;
+          }
+          for (var i = 0; i <= N; i++) { // revolución o elipsoide: buscar el parámetro v con z(v) = k
+            var u = q.u[0] + (q.u[1] - q.u[0]) * i / N, lo = q.v[0], hi = q.v[1], zl = sg * q.f(u, lo)[2] + (q.z0 || 0) - k * sg, zh = sg * q.f(u, hi)[2] + (q.z0 || 0) - k * sg;
+            var kk = q.dos ? k : k;
+            zl = sg * q.f(u, lo)[2] + (q.z0 || 0) - sg * kk; zh = sg * q.f(u, hi)[2] + (q.z0 || 0) - sg * kk;
+            if (zl * zh > 0) continue;
+            for (var it = 0; it < 40; it++) { var m = (lo + hi) / 2, zm = sg * q.f(u, m)[2] + (q.z0 || 0) - sg * kk; if (zm * zl > 0) { lo = m; zl = zm; } else hi = m; }
+            var p = q.f(u, (lo + hi) / 2); c.push([p[0], p[1], sg * p[2] + (q.z0 || 0)]);
+          }
+          if (c.length > 2) out.push(c);
+        });
+      });
+      return out;
+    }
+    function monta(cv) {
+      var q = Q[cv.getAttribute('data-q')]; if (!q || cv._ok) return; cv._ok = 1;
+      var caras = malla(q), tr = trazas(q), az = -0.9, el = 0.42, dpr = Math.min(window.devicePixelRatio || 1, 2), ctx = cv.getContext('2d');
+      var luz = (function () { var l = [-0.4, -0.5, 0.75], n = Math.hypot(l[0], l[1], l[2]); return l.map(function (x) { return x / n; }); })();
+      function dibuja() {
+        var W = cv.clientWidth || 150, H = cv.clientHeight || W;
+        if (cv.width !== Math.round(W * dpr)) { cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); }
+        var s = W * 0.3, cx = W / 2, cy = H / 2;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+        function pr(p) { var r = rot(p, az, el); return [cx + s * r[0], cy - s * r[1], r[2]]; }
+        // ejes tenues
+        ctx.lineWidth = 0.8; ctx.strokeStyle = 'rgba(29,34,51,.28)';
+        [[1.55, 0, 0], [0, 1.55, 0], [0, 0, 1.45]].forEach(function (e) { var a = pr([-e[0] * 0.2, -e[1] * 0.2, -e[2] * 0.2]), b = pr(e); ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); });
+        var L = caras.map(function (c) {
+          var P = c.map(pr), zm = (P[0][2] + P[1][2] + P[2][2] + P[3][2]) / 4;
+          var a = [c[1][0] - c[0][0], c[1][1] - c[0][1], c[1][2] - c[0][2]], b = [c[3][0] - c[0][0], c[3][1] - c[0][1], c[3][2] - c[0][2]];
+          var n = [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]], nn = Math.hypot(n[0], n[1], n[2]) || 1;
+          n = rot([n[0] / nn, n[1] / nn, n[2] / nn], az, el);
+          return [P, zm, Math.abs(n[0] * luz[0] + n[1] * luz[1] + n[2] * luz[2])];
+        }).sort(function (x, y) { return x[1] - y[1]; });
+        L.forEach(function (c) {
+          var P = c[0], k = 0.35 + 0.65 * c[2];
+          ctx.beginPath(); ctx.moveTo(P[0][0], P[0][1]); for (var i = 1; i < 4; i++) ctx.lineTo(P[i][0], P[i][1]); ctx.closePath();
+          ctx.fillStyle = 'rgba(' + Math.round(42 + 90 * k) + ',' + Math.round(98 + 100 * k) + ',' + Math.round(150 + 90 * k) + ',.86)'; ctx.fill();
+          ctx.strokeStyle = 'rgba(16,44,80,.16)'; ctx.lineWidth = 0.5; ctx.stroke();
+        });
+        // trazas horizontales: la parte de atrás punteada
+        ctx.lineWidth = 1.7; ctx.strokeStyle = '#c75b2a';
+        tr.forEach(function (c) {
+          for (var i = 1; i < c.length; i++) {
+            var a = pr(c[i - 1]), b = pr(c[i]); ctx.setLineDash((a[2] + b[2]) / 2 < -0.05 ? [2, 3] : []);
+            ctx.globalAlpha = (a[2] + b[2]) / 2 < -0.05 ? 0.55 : 1; ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+          }
+          if (!q.silla && c.length > 2) { var a2 = pr(c[c.length - 1]), b2 = pr(c[0]); ctx.beginPath(); ctx.moveTo(a2[0], a2[1]); ctx.lineTo(b2[0], b2[1]); ctx.stroke(); }
+        });
+        ctx.setLineDash([]); ctx.globalAlpha = 1;
+        if (q.vertice) { var v = pr([0, 0, 0]); ctx.fillStyle = '#c75b2a'; ctx.beginPath(); ctx.arc(v[0], v[1], 2.6, 0, 2 * PI); ctx.fill(); }
+      }
+      var arr = null;
+      cv.addEventListener('pointerdown', function (e) { arr = [e.clientX, e.clientY, az, el]; cv.setPointerCapture(e.pointerId); cv.classList.add('girando'); });
+      cv.addEventListener('pointermove', function (e) { if (!arr) return; az = arr[2] - (e.clientX - arr[0]) * 0.012; el = Math.max(-0.2, Math.min(1.45, arr[3] + (e.clientY - arr[1]) * 0.01)); dibuja(); });
+      ['pointerup', 'pointercancel'].forEach(function (t) { cv.addEventListener(t, function () { arr = null; cv.classList.remove('girando'); }); });
+      window.addEventListener('resize', dibuja);
+      dibuja();
+    }
+    return function () { document.querySelectorAll('canvas.mini3d').forEach(monta); };
+  })();
 
   /* ---------- portada: un campo vectorial que fluye ---------- */
   function portada() {
@@ -1030,6 +1131,7 @@
 
   /* ---------- arranque ---------- */
   function inicia() {
+    try { MINIS(); } catch (err) { console.error(err); }
     document.querySelectorAll('.applet[data-ap]').forEach(function (e) { var f = A[e.getAttribute('data-ap')]; if (f && !e._ok) { e._ok = 1; try { f(e); } catch (err) { console.error(err); } } });
   }
   window.CVEC = { A: A, inicia: inicia };

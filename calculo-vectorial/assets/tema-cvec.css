@@ -28,3 +28,22 @@ body.cvec{--c1:#1d4e89;--c1o:#102c50;--c1c:#e9f0f8;--c1m:#b8cde6;--c2:#c75b2a;--
 .cvec-hero .htxt a{pointer-events:auto}
 .cvec-hero .pc-ayuda{position:absolute;right:18px;bottom:14px;z-index:2;font:12px var(--sans);color:rgba(255,255,255,.55)}
 @media (prefers-reduced-motion:reduce){.cvec-hero canvas.portada-flujo{opacity:.7}}
+
+/* Tabla con figuras 3D girables (cuádricas) */
+canvas.mini3d{display:block;width:128px;height:118px;cursor:grab;touch-action:none;border-radius:10px;background:radial-gradient(circle at 50% 40%,#f4f8fc,#e6eef7)}
+canvas.mini3d.girando{cursor:grabbing}
+table.tabla-figs td{vertical-align:middle}
+table.tabla-figs td:first-child{padding:.35em .6em .35em 0}
+@media (max-width:640px){
+  table.tabla-figs,table.tabla-figs tbody{display:block;width:100%}
+  table.tabla-figs thead{display:none}
+  table.tabla-figs tr{display:grid;grid-template-columns:118px 1fr;column-gap:.8em;align-items:center;padding:.6em 0;border-bottom:1px solid var(--c1m)}
+  table.tabla-figs td{display:block;padding:.1em 0!important;border:0!important}
+  table.tabla-figs td:first-child{grid-row:1 / span 3}
+  table.tabla-figs td:nth-child(2){font-weight:600;color:var(--c1o)}
+  table.tabla-figs td:nth-child(4){font-size:.92em;color:#4a5468}
+  table.tabla-figs td:nth-child(4)::before{content:"Trazas: ";font-style:italic}
+  canvas.mini3d{width:118px;height:110px}
+}
+table.tabla-figs td:nth-child(3){white-space:nowrap}
+table.tabla-figs .katex{white-space:nowrap}
