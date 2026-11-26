@@ -407,6 +407,15 @@
   "v": "fdf28e52",
   "abierto": true
  },
+ "analisis-numerico-parcial3-solucion": {
+  "titulo": "Parcial 3 · Solución",
+  "curso": "Análisis Numérico",
+  "paginas": 9,
+  "w": 1190,
+  "h": 1540,
+  "v": "20261126",
+  "abierto": true
+ },
  "analisis-numerico-supletorio-parcial1-solucion": {
   "titulo": "Supletorio Parcial 1 · Solución",
   "curso": "Análisis Numérico",
@@ -423,6 +432,15 @@
   "w": 1190,
   "h": 1540,
   "v": "9a96af65",
+  "abierto": true
+ },
+ "analisis-numerico-supletorio-parcial3-solucion": {
+  "titulo": "Supletorio Parcial 3 · Solución",
+  "curso": "Análisis Numérico",
+  "paginas": 9,
+  "w": 1190,
+  "h": 1540,
+  "v": "20261126",
   "abierto": true
  },
  "analisis-numerico-taller-parcial1": {
